@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { CatalogButtonStyles } from './CatalogButton.Styles';
+import { CatalogButtonStyles } from './GranitCatalogButton.Styles';
 import ShoppingCartIcon from '@/icons/shoppingCart';
 import Typography from '@mui/material/Typography';
 

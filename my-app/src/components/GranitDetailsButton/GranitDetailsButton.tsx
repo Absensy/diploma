@@ -1,5 +1,5 @@
 import * as React from 'react';
-import DetailsButtonStyles from './DetailsButton.Styles';
+import DetailsButtonStyles from './GranitDetailsButton.Styles';
 
 const DetailsButton = () => {
     return (

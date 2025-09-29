@@ -1,9 +1,6 @@
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import FilterButton from '@/components/GranitFilterButton/FilterButton';
-import DetailsButtonStyles from "@/components/GranitDetailsButton/DetailsButton.Styles";
-import LogoGranitPrimaryIcon from "@/icons/logoGranitPrimary2";
 
 
 export default function Home() {

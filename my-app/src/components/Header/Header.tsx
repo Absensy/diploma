@@ -5,7 +5,7 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Stack from '@mui/material/Stack';
-import CatalogButton from '../GranitCatalogButton/CatalogButton';
+import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Badge from '@mui/material/Badge';
@@ -22,14 +22,14 @@ import ClocksIcon from '@/icons/clocks';
 
 const Header = () => {
   return (
-    <Box component="header">
-    {/* Верхняя часть Header */}
+    <Box component="header" suppressHydrationWarning>
+      {/* Верхняя часть Header */}
     <Box bgcolor="FFFFFF" borderBottom="1px solid #e6e6e7" padding="10px 80px">
       <Container maxWidth={false} disableGutters >
-         <Stack direction="row" justifyContent="space-between" spacing={2}>
+         <Stack direction="row" justifyContent="space-between" spacing="2">
            <Stack direction="row" alignItems="center">
              <LogoGranitPrimary1Icon />
-             <Stack spacing={1} alignItems="flex-start" marginLeft={0} justifyContent="center" paddingLeft="17px">
+             <Stack spacing={1} alignItems="flex-start" marginLeft="0" justifyContent="center" paddingLeft="17px">
                <Stack direction="row" spacing={1} alignItems="center">
                  <GpsIcon />
                  <Typography variant="body2" color="text.primary">
@@ -56,7 +56,7 @@ const Header = () => {
                <ClocksIcon />
              </Box>
              <Stack textAlign="left">
-               <Typography variant="subtitle2" fontWeight={600} fontSize="18px" color="text.primary">Режим работы</Typography>
+               <Typography variant="subtitle2" fontWeight="600" fontSize="18px" color="text.primary">Режим работы</Typography>
                <Typography variant="body2" color="text.secondary">Пн-Пт: 9:00 - 18:00</Typography>
                <Typography variant="body2" color="text.secondary">Сб-Вс: 10:00 - 16:00</Typography>
              </Stack>
