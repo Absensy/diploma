@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import * as React from 'react';
 import Box from '@mui/material/Box';
@@ -22,11 +22,11 @@ import ClocksIcon from '@/icons/clocks';
 
 const Header = () => {
   return (
-    <Box component="header" suppressHydrationWarning>
+    <Box>
       {/* Верхняя часть Header */}
     <Box bgcolor="FFFFFF" borderBottom="1px solid #e6e6e7" padding="10px 80px">
       <Container maxWidth={false} disableGutters >
-         <Stack direction="row" justifyContent="space-between" spacing="2">
+         <Stack direction="row" justifyContent="space-between">
            <Stack direction="row" alignItems="center">
              <LogoGranitPrimary1Icon />
              <Stack spacing={1} alignItems="flex-start" marginLeft="0" justifyContent="center" paddingLeft="17px">
@@ -51,7 +51,7 @@ const Header = () => {
              </Stack>
            </Stack>
 
-           <Stack direction="row" spacing={2} alignItems="flex-start" paddingRight="15%">
+           <Stack direction="row" spacing={2} alignItems="flex-start" paddingRight="10%">
              <Box paddingTop="3px">
                <ClocksIcon />
              </Box>
