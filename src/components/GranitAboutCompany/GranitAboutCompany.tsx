@@ -1,62 +1,55 @@
-'use client'
+import * as React from 'react';
+import { Box, Typography, Stack, Grid } from '@mui/material';
+import Image from 'next/image';
 
-import React from 'react';
-import { 
-  Container, 
-  Box, 
-  Typography 
-} from '@mui/material';
+// Данные для отображения статистики
+const statistics = [
+  { value: '10+', label: 'лет опыта' },
+  { value: '2000+', label: 'памятников' },
+  { value: '100%', label: 'гарантия' },
+];
 
-interface AboutCompanyProps {
-  craftsmanImage?: string;
-}
-
-export const AboutCompany: React.FC<AboutCompanyProps> = ({ 
-  craftsmanImage = '@/images/ded.png'
-}) => {
-  const stats = [
-    { number: '15+', label: 'лет опыта' },
-    { number: '2000+', label: 'памятников' },
-    { number: '100%', label: 'гарантия' },
-  ];
-
+const AboutCompany = () => {
   return (
-    <Container maxWidth={false} disableGutters sx={{ backgroundColor: 'background.default' }}>
-      <Container maxWidth="lg">
-        <Box display="flex" alignItems="center" gap={8} flexWrap="wrap" flexDirection="row">
-          {/* Текстовая секция */}
-          <Box flex="1" minWidth="300px" maxWidth="500px">
-            <Typography variant="h2" component="h2" fontSize="48" fontWeight= "bold" color="text.primary" lineHeight="1.2">
+    <Box bgcolor="#f4f4f4" py={8}>
+        {/* Левая колонка: Текст и Статистика */}
+        <Box display="flex" padding="0px 96px" justifyContent="space-between">
+          <Box width={700} height={400} paddingRight="80px">
+            <Typography variant="h4" component="h2" fontWeight="700" fontSize="36px" color="primary.main" paddingBottom="60px">
               О нашей компании
             </Typography>
-            
-            <Typography variant="body1" component="p" mb={2}>
-            Более 15 лет мы создаем памятники, которые хранят память о ваших близких. Наша мастерская оснащена современным оборудованием для обработки натурального камня
+            <Typography variant="body1" fontSize="18px" paddingBottom="10px">
+              Более 15 лет мы создаем памятники, которые хранят память о
+              ваших близких. Наша мастерская оснащена современным
+              оборудованием для обработки натурального камня.
             </Typography>
-            
-            <Typography variant="body1" component="p" mb={4}>
-             Мы работаем только с качественным гранитом и мрамором, предоставляем гарантию на все виды работ и осуществляем установку памятников на кладбищах Москвы и области.
+            <Typography variant="body1" paddingBottom="40px">
+              Мы работаем только с качественным гранитом и мрамором,
+              предоставляем гарантию на все виды работ и осуществляем
+              установку памятников на кладбищах Москвы и области.
             </Typography>
-
-            {/* Статистика */}
-            <Box display="flex" gap={5} flexDirection={{ xs: 'column', sm: 'row' }} mt={4}>
-              {stats.map((stat, index) => (
-                <Box key={index} display="flex" flexDirection="column">
-                  <Typography fontSize="32px" fontWeight="bold" color="text.primary" lineHeight={1}>{stat.number}</Typography>
-                  <Typography fontSize="14px" color="text.secondary" mt={0.5}>{stat.label}</Typography>
+            <Stack direction="row" spacing={3}>
+              {statistics.map((stat) => (
+                <Box key={stat.value}>
+                  <Typography variant="h5" component="p" fontWeight="700" fontSize="30px" color="primary.main" textAlign="center">
+                    {stat.value}
+                  </Typography>
+                  <Typography variant="body2" fontSize="16px" color="secondary" textAlign="center">
+                    {stat.label}
+                  </Typography>
                 </Box>
               ))}
-            </Box>
+            </Stack>
           </Box>
-
-          {/* Секция с изображением */}
-          <Box flex="1" minWidth="300px" maxWidth="500px">
-            <Box borderRadius="12px" overflow="hidden" boxShadow="0 4px 20px rgba(0, 0, 0, 0.1)" maxWidth="500px" mx="auto">
-              <Box component="img" src={craftsmanImage} alt="Мастер за работой в каменной мастерской" loading="lazy" width="100%" height="auto" display="block" />
-            </Box>
+        {/* Правая колонка: Изображение */}
+          <Box borderRadius={2} width="600px" height="384px">
+            <Image src="/images/ded.png" alt="Мастер за работой по камню" width={700} height={384}
+              style={{ width: '100%'}}
+            />
           </Box>
         </Box>
-      </Container>
-    </Container>
+    </Box>
   );
 };
+
+export default AboutCompany;

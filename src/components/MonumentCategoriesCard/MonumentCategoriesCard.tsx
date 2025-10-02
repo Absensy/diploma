@@ -10,7 +10,7 @@ export const MonumentCategoryCard: React.FC<MonumentCategoryCardProps> = ({ name
 
     return (
         <Card>
-            <Box width="100%" height={420} position="relative" display="block">
+            <Box height={420} position="relative" display="block">
                 {discount ? <DiscountBadge>-{discount}%</DiscountBadge> : null}
                 <Image src={image} alt={name} fill sizes="100%" style={{ objectFit: 'cover' }} />
             </Box>

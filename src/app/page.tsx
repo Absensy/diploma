@@ -2,7 +2,7 @@ import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import { DividerWithIcon } from '../components/GranitDividerWithIcon/GranitDividerWithIcon';
-import { AboutCompany } from '@/components/GranitAboutCompany/GranitAboutCompany';
+import AboutCompany  from '@/components/GranitAboutCompany/GranitAboutCompany';
 import GranitCategoriesCard from '@/components/GranitCategoriesCard/GranitCtaegoriesCard';
 
 
