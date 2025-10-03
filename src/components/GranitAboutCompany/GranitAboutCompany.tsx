@@ -2,18 +2,16 @@ import * as React from 'react';
 import { Box, Typography, Stack, Grid } from '@mui/material';
 import Image from 'next/image';
 
-// Данные для отображения статистики
 const statistics = [
   { value: '10+', label: 'лет опыта' },
   { value: '2000+', label: 'памятников' },
   { value: '100%', label: 'гарантия' },
 ];
 
-const AboutCompany = () => {
+const GranitAboutCompany = () => {
   return (
-    <Box bgcolor="#f4f4f4" py={8}>
-        {/* Левая колонка: Текст и Статистика */}
-        <Box display="flex" padding="0px 96px" justifyContent="space-between">
+    <Box bgcolor="background.paper" padding="80px">
+        <Box display="flex" justifyContent="space-between">
           <Box width={700} height={400} paddingRight="80px">
             <Typography variant="h4" component="h2" fontWeight="700" fontSize="36px" color="primary.main" paddingBottom="60px">
               О нашей компании
@@ -41,10 +39,9 @@ const AboutCompany = () => {
               ))}
             </Stack>
           </Box>
-        {/* Правая колонка: Изображение */}
-          <Box borderRadius={2} width="600px" height="384px">
-            <Image src="/images/ded.png" alt="Мастер за работой по камню" width={700} height={384}
-              style={{ width: '100%'}}
+          <Box borderRadius={2} width="600px" height="384px" justifyContent="flex-end">
+            <Image src="/images/ded.png" alt="Мастер за работой по камню" width={700} height={384} 
+              style={{ width: '100%'}} 
             />
           </Box>
         </Box>
@@ -52,4 +49,4 @@ const AboutCompany = () => {
   );
 };
 
-export default AboutCompany;
+export default GranitAboutCompany;

@@ -24,7 +24,7 @@ const Header = () => {
   return (
     <Box>
       {/* Верхняя часть Header */}
-    <Box bgcolor="FFFFFF" borderBottom="1px solid #e6e6e7" padding="10px 80px">
+    <Box bgcolor="background.default" borderBottom={theme => `1px solid ${theme.palette.secondary.main}`} padding="29px 80px">
       <Container maxWidth={false} disableGutters >
          <Stack direction="row" justifyContent="space-between">
            <Stack direction="row" alignItems="center">
@@ -32,19 +32,19 @@ const Header = () => {
              <Stack spacing={1} alignItems="flex-start" marginLeft="0" justifyContent="center" paddingLeft="17px">
                <Stack direction="row" spacing={1} alignItems="center">
                  <GpsIcon />
-                 <Typography variant="body2" color="text.primary">
+                 <Typography variant="body2" color="text.primary" fontWeight="500">
                    пр. Янки Купалы 22а, цокольный этаж
                  </Typography>
                </Stack>
                <Stack direction="row" spacing={1} alignItems="center">
                  <TelIcon />
-                 <Typography variant="body2" color="text.primary">
+                 <Typography variant="body2" color="text.primary" fontWeight="500">
                    +375 (29) 708-21-11
                  </Typography>
                </Stack>
                <Stack direction="row" spacing={1} alignItems="center">
                  <InstIcon />
-                 <Typography variant="body2" color="text.primary">
+                 <Typography variant="body2" color="text.primary" fontWeight="500">
                    granit.grodno
                  </Typography>
                </Stack>
@@ -56,7 +56,7 @@ const Header = () => {
                <ClocksIcon />
              </Box>
              <Stack textAlign="left">
-               <Typography variant="subtitle2" fontWeight="600" fontSize="18px" color="text.primary">Режим работы</Typography>
+               <Typography variant="subtitle2" fontWeight="600" fontSize="18px" color="text.primary" paddingBottom="4px">Режим работы</Typography>
                <Typography variant="body2" color="text.secondary">Пн-Пт: 9:00 - 18:00</Typography>
                <Typography variant="body2" color="text.secondary">Сб-Вс: 10:00 - 16:00</Typography>
              </Stack>

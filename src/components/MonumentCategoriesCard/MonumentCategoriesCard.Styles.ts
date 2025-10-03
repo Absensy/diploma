@@ -9,9 +9,10 @@ export interface MonumentCategoryCardProps {
     discount?: number;
 }
 
-export const Card = styled(Box)(({ theme }) => ({
+export const CategoryCard = styled(Box)(({ theme }) => ({
     justifySelf: 'center',
-    width: '500px',
+    width: '400px',
+    height: '516px',
     borderRadius: 16,
     backgroundColor: '#fff',
     boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
