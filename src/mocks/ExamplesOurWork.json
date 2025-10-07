@@ -1,0 +1,28 @@
+{
+    "examplesWork":[
+        {
+            "id": 1,
+            "image": "/images/memorialMonument.jpg",
+            "title": "Мемориальный памятник",
+            "material": "Черный гранит",
+            "dimensions": "24° × 12° × 4°",
+            "date": "Март 15, 2024"
+        },
+        {
+            "id": 2,
+            "image": "/images/memorialMonument.jpg",
+            "title": "Мемориальный памятник",
+            "material": "Черный гранит",
+            "dimensions": "24° × 12° × 4°",
+            "date": "Март 15, 2024"
+        },
+        {
+            "id": 3,
+            "image": "/images/memorialMonument.jpg",
+            "title": "Мемориальный памятник",
+            "material": "Черный гранит",
+            "dimensions": "24° × 12° × 4°",
+            "date": "Март 15, 2024"
+        }
+    ]
+}

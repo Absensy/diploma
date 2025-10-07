@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { CatalogButtonStyles } from './GranitCatalogButton.Styles';
-import ShoppingCartIcon from '@/icons/shoppingCart';
+import ShoppingCartIcon from '@/icons/ShoppingCart';
 import Typography from '@mui/material/Typography';
 
 const CatalogButton = () => {

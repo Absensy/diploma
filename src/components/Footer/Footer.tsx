@@ -7,7 +7,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
-import LogoGranitPrimary2Icon from '@/icons/logoGranitPrimary2';
+import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 
 const Footer = () => {
   return (

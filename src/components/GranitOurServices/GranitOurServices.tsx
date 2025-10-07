@@ -4,7 +4,7 @@ import data from '@/mocks/OurServices.json';
 
 const GranitOurServices = () => {
     return (
-        <Box padding="80px 0px">
+        <Box padding="80px">
             <Box>
                 <Typography variant="h2" fontSize="36px" fontWeight="700" textAlign="center" paddingBottom="60px" >Наши услуги</Typography>
             </Box>

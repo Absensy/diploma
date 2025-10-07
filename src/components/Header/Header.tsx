@@ -10,14 +10,14 @@ import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import Badge from '@mui/material/Badge';
 import { HeaderMenuButton } from './Header.styles';
-import LogoGranitPrimaryIcon from '@/icons/logoGranitPrimary2';
-import FavoriteShoppingIcon from '@/icons/favoriteShopping';
-import GpsIcon from '@/icons/gps';
-import TelIcon from '@/icons/tel';
-import InstIcon from '@/icons/inst';
-import GreenCheckIcon from '@/icons/greenCheck';
-import LogoGranitPrimary1Icon from '@/icons/logoGranitPrimary1';
-import ClocksIcon from '@/icons/clocks';
+import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
+import FavoriteShoppingIcon from '@/icons/FavoriteShopping';
+import GpsIcon from '@/icons/GPS';
+import TelIcon from '@/icons/Tel';
+import InstIcon from '@/icons/Inst';
+import GreenCheckIcon from '@/icons/GreenCheck';
+import LogoGranitPrimary1Icon from '@/icons/LogoGranitPrimary1';
+import ClocksIcon from '@/icons/Clocks';
 
 
 const Header = () => {
@@ -51,8 +51,8 @@ const Header = () => {
              </Stack>
            </Stack>
 
-           <Stack direction="row" spacing={2} alignItems="flex-start" paddingRight="10%">
-             <Box paddingTop="3px">
+           <Stack direction="row" spacing={1} alignItems="flex-start" paddingRight="14%">
+             <Box paddingTop="2px">
                <ClocksIcon />
              </Box>
              <Stack textAlign="left">
@@ -89,7 +89,7 @@ const Header = () => {
          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} width="100%">
           {/* Левая часть: Логотип */}
           <Box display='flex' alignItems= 'center'>
-            <LogoGranitPrimaryIcon />
+            <LogoGranitPrimary2Icon />
             <Typography variant="h6" component="div" fontWeight="700" fontSize="24px" paddingLeft = '10px'>
               Гранит памяти
             </Typography>

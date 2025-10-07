@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { StyledDivider, LineDivider, IconContainer } from './GranitDividerWithIcon.Styles';
-import ArrowDownIcon from '@/icons/arrowDown';
+import ArrowDownIcon from '@/icons/ArrowDown';
 
 
 export const DividerWithIcon = () => {
