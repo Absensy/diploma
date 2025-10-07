@@ -3,6 +3,7 @@ import GranitAboutCompany  from '@/components/GranitAboutCompany/GranitAboutComp
 import GranitCategoriesCard from '@/components/GranitCategoriesCard/GranitCategoriesCard';
 import GranitOurServices from '@/components/GranitOurServices/GranitOurServices';
 import GranitExamplesOurWork from '@/components/GranitExamplesOurWork/GrintExamplesOurWork';
+import GranitContacts from '@/components/GranitContacts/GranitContacts';
 
 export default function Home() {
   return (
@@ -11,6 +12,7 @@ export default function Home() {
         <GranitAboutCompany />
         <GranitOurServices />
         <GranitExamplesOurWork />
+        <GranitContacts />
       </Box>
   );
 }

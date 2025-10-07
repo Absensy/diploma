@@ -7,7 +7,7 @@ import { DividerWithIcon } from "../GranitDividerWithIcon/GranitDividerWithIcon"
 const GranitCategoriesCard = () => { 
     return (
         <Box paddingTop="80px">
-          <Typography component="h2" fontWeight="bold" fontSize="36px" textAlign="center">
+          <Typography component="h2" fontWeight="bold" fontSize="48px" textAlign="center">
             Наш каталог
           </Typography>
           <DividerWithIcon />
