@@ -1,15 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Stack from '@mui/material/Stack';
+import { Box, Container, Typography, Stack, AppBar, Badge } from '@mui/material';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Badge from '@mui/material/Badge';
-import { HeaderMenuButton } from './Header.styles';
+import { ButtonHeader, HeaderMenuButton, TopHeaderBox, BottomHeaderBox, TypographyTitle } from './Header.styles';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import FavoriteShoppingIcon from '@/icons/FavoriteShopping';
 import GpsIcon from '@/icons/GPS';
@@ -18,13 +12,14 @@ import InstIcon from '@/icons/Inst';
 import GreenCheckIcon from '@/icons/GreenCheck';
 import LogoGranitPrimary1Icon from '@/icons/LogoGranitPrimary1';
 import ClocksIcon from '@/icons/Clocks';
+import MenuIcon from '@/icons/MenuIcon';
 
 
 const Header = () => {
   return (
     <Box>
       {/* Верхняя часть Header */}
-    <Box bgcolor="background.default" borderBottom={theme => `1px solid ${theme.palette.secondary.main}`} padding="29px 80px">
+    <TopHeaderBox>
       <Container maxWidth={false} disableGutters >
          <Stack direction="row" justifyContent="space-between">
            <Stack direction="row" alignItems="center">
@@ -80,19 +75,18 @@ const Header = () => {
            </Box>
          </Stack>
        </Container>
-     </Box>
+     </TopHeaderBox>
      {/* Нижняя часть Header */}
-    <Box bgcolor="#ffffff" boxShadow="0 4px 6px 0 rgba(0, 0, 0, 0.08)" padding="0px 80px">
+    <BottomHeaderBox>
     <AppBar position="sticky" color="inherit" elevation={0}>
-      <Container maxWidth={false} disableGutters>
-         <Toolbar disableGutters>
+      <Box>
          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} width="100%">
           {/* Левая часть: Логотип */}
           <Box display='flex' alignItems= 'center'>
             <LogoGranitPrimary2Icon />
-            <Typography variant="h6" component="div" fontWeight="700" fontSize="24px" paddingLeft = '10px'>
+            <TypographyTitle>
               Гранит памяти
-            </Typography>
+            </TypographyTitle>
           </Box>
 
           {/* Центральная часть: Меню */}
@@ -105,20 +99,23 @@ const Header = () => {
 
           {/* Правая часть: Кнопка и иконки */}
           <Stack direction='row' spacing='1' alignItems='center'>
-            {/*Кнопка "Открыть каталог"*/}
-            <CatalogButton />
-            <Box display="flex" alignItems="center" justifyContent="center" paddingLeft='10px '>
-              <Badge color="secondary" badgeContent={0} overlap="circular">
-                <FavoriteShoppingIcon />
-              </Badge>
+            <ButtonHeader><CatalogButton /></ButtonHeader>
+            <Box display="flex" alignItems="center" paddingLeft="10px">
+              <Stack direction="row" alignItems="center">
+                <Badge color="secondary" badgeContent={0} overlap="circular">
+                  <FavoriteShoppingIcon />
+                </Badge>
+                <Box display="flex" marginLeft="12px">
+                  <MenuIcon />
+                </Box>
+              </Stack>
             </Box>
             
           </Stack>
          </Stack>
-         </Toolbar>
-      </Container>
+      </Box>
     </AppBar>
-    </Box>
+    </BottomHeaderBox>
     </Box>
   );
 };

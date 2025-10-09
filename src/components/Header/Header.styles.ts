@@ -1,7 +1,43 @@
 import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
+import {Button, Box, Typography} from '@mui/material';
 
-// Стилизация кнопок меню Header (цвета из customTheme через theme.palette)
+
+export const TopHeaderBox = styled(Box)(({ theme }) => ({
+  background: 'theme.palette.background.default',
+  borderBottom: '1px solid ${theme.palette.secondary.main}',
+  padding: '29px 80px',
+  [theme.breakpoints.down('lg')]: {
+    display: 'none',
+  },
+}));
+
+export const BottomHeaderBox = styled(Box)(({ theme }) => ({
+  backgroundColor: 'theme.palette.background.default',
+  boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
+   padding: '10px 80px',
+   [theme.breakpoints.down('lg')]: {
+    padding: '16px',
+  },
+}));
+
+export const TypographyTitle = styled(Typography)(({ theme }) => ({
+  variant: 'h6', 
+  component: 'div', 
+  fontWeight: '700', 
+  fontSize: '24px',
+  paddingLeft: '10px',
+  [theme.breakpoints.down('lg')]: {
+    fontSize: '18px',
+  },
+}))
+
+export const ButtonHeader = styled(Box)(({ theme }) => ({
+  [theme.breakpoints.down('lg')]: {
+    display: 'none',
+  },
+}));
+
+
 export const HeaderMenuButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',
   padding: 0,
@@ -26,9 +62,7 @@ export const HeaderMenuButton = styled(Button)(({ theme }) => ({
     color: theme.palette.primary.main,
     boxShadow: 'none',
   },
+  [theme.breakpoints.down('lg')]: {
+    display: 'none',
+  },
 }));
-
-
-
-
-export default HeaderMenuButton;
