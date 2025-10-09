@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Box, Container, Typography, Stack, AppBar, Badge } from '@mui/material';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
-import { ButtonHeader, HeaderMenuButton, TopHeaderBox, BottomHeaderBox, TypographyTitle } from './Header.styles';
+import { ButtonHeader, HeaderMenuButton, TopHeaderBox, BottomHeaderBox, TypographyTitle, BurgerMenu } from './Header.styles';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import FavoriteShoppingIcon from '@/icons/FavoriteShopping';
 import GpsIcon from '@/icons/GPS';
@@ -78,7 +78,7 @@ const Header = () => {
      </TopHeaderBox>
      {/* Нижняя часть Header */}
     <BottomHeaderBox>
-    <AppBar position="sticky" color="inherit" elevation={0}>
+    <AppBar position="sticky" elevation={0}>
       <Box>
          <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} width="100%">
           {/* Левая часть: Логотип */}
@@ -105,9 +105,9 @@ const Header = () => {
                 <Badge color="secondary" badgeContent={0} overlap="circular">
                   <FavoriteShoppingIcon />
                 </Badge>
-                <Box display="flex" marginLeft="12px">
+                <BurgerMenu>
                   <MenuIcon />
-                </Box>
+                </BurgerMenu>
               </Stack>
             </Box>
             
