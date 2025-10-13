@@ -9,14 +9,15 @@ import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import { Grid } from '@mui/material';
+import { GridFooter, StackFooter } from './Footer.Styles';
 
 const Footer = () => {
   return (
     <Box component="footer" bgcolor="common.black" padding="40px 80px">
       <Container maxWidth={false} disableGutters>
-        <Grid container>
-          <Grid display="flex" justifyContent="left" alignItems="center">
-            <Stack spacing="8px" width="395px">
+        <GridFooter container>
+          <GridFooter display="flex" justifyContent="left" alignItems="center" marginRight="28px">
+            <StackFooter width="395px">
               <Stack flexDirection="row" alignItems="center" marginBottom="16px">
               <LogoGranitPrimary2Icon />
               <Typography variant="h6" fontWeight="700" fontSize="24px" color="common.white" marginLeft="16px">Гранит памяти</Typography>
@@ -24,27 +25,27 @@ const Footer = () => {
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">
               Сохраняем память о ваших близких в граните на века
               </Typography>
-            </Stack>
-          </Grid>
+            </StackFooter>
+          </GridFooter>
 
-          <Grid display="flex" justifyContent="center" alignItems="center">
-            <Stack spacing="8px" width="400px" marginLeft="28px">
+          <GridFooter display="flex" justifyContent="center" alignItems="center">
+            <StackFooter width="400px">
               <Typography variant="subtitle2" fontWeight="600" fontSize="20px" color="common.white" marginBottom="16px">Контакты</Typography>
               <Link href="tel:+375297082111" underline="none" fontWeight="400" fontSize="16px" color="common.white">+375(29)708-21-11</Link>
               <Link href="mailto:info@granite-memory.by" underline="none" fontWeight="400" fontSize="16px" color="common.white">info@granite-memory.by</Link>
               <Typography variant="body2" fontWeight="400" color="common.white">пр.Янки Купалы 22а, цокольный этаж</Typography>
-            </Stack>          
-          </Grid>
+            </StackFooter>          
+          </GridFooter>
 
-          <Grid display="flex" justifyContent="right" alignItems="center" size="grow" >
-            <Stack spacing="8px" width="280px">
+          <GridFooter display="flex" justifyContent="flex-end" alignItems="center" marginLeft="auto">
+            <StackFooter width="280px">
               <Typography variant="subtitle2" fontWeight="600" fontSize="20px" color="common.white" marginBottom="16px">Правовая информация</Typography>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">ООО "Гранит Памяти"</Typography>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">ИНН: 1234567890</Typography>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">Лицензия на ритуальные услуги</Typography>
-            </Stack>
-          </Grid>
-        </Grid>
+            </StackFooter>
+          </GridFooter>
+        </GridFooter>
 
         <Box marginTop={4}>
           <Divider/>

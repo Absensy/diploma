@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Box, Container, Typography, Stack, AppBar, Badge } from '@mui/material';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
-import { ButtonHeader, HeaderMenuButton, TopHeaderBox, BottomHeaderBox, TypographyTitle, BurgerMenu } from './Header.styles';
+import { ButtonHeader, HeaderMenuButton, TopHeaderBox, BottomHeaderBox, TypographyTitle, BurgerMenu } from './Header.Styles';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import FavoriteShoppingIcon from '@/icons/FavoriteShopping';
 import GpsIcon from '@/icons/GPS';

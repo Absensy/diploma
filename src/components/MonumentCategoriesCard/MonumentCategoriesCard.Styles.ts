@@ -11,7 +11,9 @@ export interface MonumentCategoryCardProps {
 
 export const CategoryCard = styled(Box)(({ theme }) => ({
     justifySelf: 'center',
-    width: '400px',
+    minWidth: '400px',
+    minHeight:'516px',
+    maxWidth: 'auto',
     height: '516px',
     borderRadius: 16,
     backgroundColor: '#fff',
