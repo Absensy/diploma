@@ -10,7 +10,7 @@ const FavoriteShoppingIcon = ({size = 25, ...props}:CustomSVGProps) => {
             {...props}
         >
             <image
-                href="/images/favoriteShopping.svg"
+                href="/images/FavoriteShopping.svg"
                 width='24'
                 height='21'
             />

@@ -3,6 +3,7 @@ import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 
 export const DetailsButtonStyles = styled(Button)(({ theme }) => ({
+              height: "40px",
                backgroundColor: '#2c2c2c',
                color: '#ffffff',
                borderRadius: '8px',

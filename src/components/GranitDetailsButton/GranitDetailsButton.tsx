@@ -4,7 +4,7 @@ import DetailsButtonStyles from './GranitDetailsButton.Styles';
 const DetailsButton = () => {
     return (
         <DetailsButtonStyles variant="contained">
-        детали
+        Детали
         </DetailsButtonStyles>
     )
 }
