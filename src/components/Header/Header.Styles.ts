@@ -21,6 +21,7 @@ export const BottomHeaderBox = styled(Box)(({ theme }) => ({
 }));
 
 export const TypographyTitle = styled(Typography)(({ theme }) => ({
+  color: theme.palette.text.primary,
   variant: 'h6', 
   component: 'div', 
   fontWeight: '700', 

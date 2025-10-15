@@ -1,5 +1,5 @@
 import React from "react";
-import { OurServicesCardProps, ServicesCard } from "./OurServicesCard.Styles";
+import { OurServicesCardProps, ServicesCard } from "./OurServicesCard.styles";
 import { Box, Typography } from "@mui/material";
 import Image from "next/image";
 

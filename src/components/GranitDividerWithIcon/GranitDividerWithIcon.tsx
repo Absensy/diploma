@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { StyledDivider, LineDivider, IconContainer } from './GranitDividerWithIcon.Styles';
+import { StyledDivider, LineDivider, IconContainer } from './GranitDividerWithIcon.styles';
 import ArrowDownIcon from '@/icons/ArrowDown';
 
 

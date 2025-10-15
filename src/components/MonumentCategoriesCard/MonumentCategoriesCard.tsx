@@ -1,6 +1,6 @@
 import React from 'react';
-import { CategoryCard, DiscountBadge } from './MonumentCategoriesCard.Styles';
-import { MonumentCategoryCardProps } from './MonumentCategoriesCard.Styles';
+import { CategoryCard, DiscountBadge } from './MonumentCategoriesCard.styles';
+import { MonumentCategoryCardProps } from './MonumentCategoriesCard.styles';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
