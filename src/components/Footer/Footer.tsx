@@ -9,7 +9,7 @@ import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import { Grid } from '@mui/material';
-import { GridFooter, StackFooter } from './Footer.Styles';
+import { GridFooter, StackFooter } from './Footer.styles';
 
 const Footer = () => {
   return (
@@ -19,11 +19,11 @@ const Footer = () => {
           <GridFooter display="flex" justifyContent="left" alignItems="center" marginRight="28px">
             <StackFooter width="395px">
               <Stack flexDirection="row" alignItems="center" marginBottom="16px">
-              <LogoGranitPrimary2Icon />
-              <Typography variant="h6" fontWeight="700" fontSize="24px" color="common.white" marginLeft="16px">Гранит памяти</Typography>
+                <LogoGranitPrimary2Icon />
+                <Typography variant="h6" fontWeight="700" fontSize="24px" color="common.white" marginLeft="16px">Гранит памяти</Typography>
               </Stack>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">
-              Сохраняем память о ваших близких в граните на века
+                Сохраняем память о ваших близких в граните на века
               </Typography>
             </StackFooter>
           </GridFooter>
@@ -34,7 +34,7 @@ const Footer = () => {
               <Link href="tel:+375297082111" underline="none" fontWeight="400" fontSize="16px" color="common.white">+375(29)708-21-11</Link>
               <Link href="mailto:info@granite-memory.by" underline="none" fontWeight="400" fontSize="16px" color="common.white">info@granite-memory.by</Link>
               <Typography variant="body2" fontWeight="400" color="common.white">пр.Янки Купалы 22а, цокольный этаж</Typography>
-            </StackFooter>          
+            </StackFooter>
           </GridFooter>
 
           <GridFooter display="flex" justifyContent="flex-end" alignItems="center" marginLeft="auto">
@@ -48,13 +48,13 @@ const Footer = () => {
         </GridFooter>
 
         <Box marginTop={4}>
-          <Divider/>
+          <Divider />
         </Box>
 
         <Stack marginTop="33px" alignItems="center">
           <Typography variant="caption" color="common.white">© {new Date().getFullYear()} Гранит памяти. Все права защищены.</Typography>
         </Stack>
-                
+
       </Container>
     </Box>
   );
