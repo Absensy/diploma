@@ -18,7 +18,8 @@ const GranitOurCatagol = () => {
           md: "repeat(3, 1fr)"
         }}
         gap={{ xs: "16px", sm: "20px", md: "24px" }}
-        marginTop="40px"
+        paddingTop={{ md: "40px", lg: "80px" }}
+        paddingBottom={{ xs: "40px", lg: "80px" }}
       >
         {data.monumentCategories.map((c) => (
           <MonumentCategoryCard

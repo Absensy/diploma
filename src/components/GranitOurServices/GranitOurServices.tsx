@@ -5,20 +5,29 @@ import { GridOurServices } from "./GranitOurServices.styles";
 
 const GranitOurServices = () => {
     return (
-        <Box margin={{xs: "15px", md: "80px"}}>
+        <Box padding={{ xs: "40px 4%", md: "80px 5%" }}>
             <Box>
-                <Typography fontSize={{xs: "24px",  md: "36px"}} fontWeight="700" textAlign="center" margin={{xs: "48px 0px", md: "60px 0px"}} >Наши услуги</Typography>
+                <Typography fontSize={{ xs: "24px", md: "36px" }} fontWeight="700" textAlign="center" margin={{ xs: "0px 0px 40px 0px", md: "0px 0px 60px 0px" }}>Наши услуги</Typography>
             </Box>
-            <GridOurServices container spacing="24px">
-            {data.ourServices.map((c) => (
-                <OurServicesCard
-                key={c.id}
-                image={c.image}
-                name={c.name}
-                subtext={c.subtext}
-                />
-            ))}
-            </GridOurServices>
+            <Box
+                display="grid"
+                gridTemplateColumns={{
+                    xs: "1fr",
+                    sm: "repeat(2, 1fr)",
+                    md: "repeat(3, 1fr)"
+                }}
+                gap={{ xs: "16px", sm: "20px", md: "24px" }}
+                justifyContent="center"
+            >
+                {data.ourServices.map((c) => (
+                    <OurServicesCard
+                        key={c.id}
+                        image={c.image}
+                        name={c.name}
+                        subtext={c.subtext}
+                    />
+                ))}
+            </Box>
         </Box>
     )
 }
