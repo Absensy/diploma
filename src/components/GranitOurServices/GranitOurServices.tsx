@@ -1,14 +1,15 @@
 import { Box, Typography } from "@mui/material"
 import OurServicesCard from "../OurServicesCard/OurServicesCard";
 import data from '@/mocks/OurServices.json';
+import { GridOurServices } from "./GranitOurServices.styles";
 
 const GranitOurServices = () => {
     return (
-        <Box padding="80px">
+        <Box margin={{xs: "15px", md: "80px"}}>
             <Box>
-                <Typography variant="h2" fontSize="36px" fontWeight="700" textAlign="center" paddingBottom="60px" >Наши услуги</Typography>
+                <Typography fontSize={{xs: "24px",  md: "36px"}} fontWeight="700" textAlign="center" margin={{xs: "48px 0px", md: "60px 0px"}} >Наши услуги</Typography>
             </Box>
-            <Box display="flex" justifyContent="space-between">
+            <GridOurServices container spacing="24px">
             {data.ourServices.map((c) => (
                 <OurServicesCard
                 key={c.id}
@@ -17,7 +18,7 @@ const GranitOurServices = () => {
                 subtext={c.subtext}
                 />
             ))}
-            </Box>
+            </GridOurServices>
         </Box>
     )
 }

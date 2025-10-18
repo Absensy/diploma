@@ -1,5 +1,5 @@
 import React from "react";
-import { ExamplesOurWorkCardProps, ExamplesWorkCard } from "./ExamplesOurWorkCard.Styles";
+import { ExamplesOurWorkCardProps, ExamplesWorkCard } from "./ExamplesOurWorkCard.styles";
 import { Box, Typography, Divider } from "@mui/material";
 import Image from "next/image";
 

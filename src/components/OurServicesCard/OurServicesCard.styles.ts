@@ -1,7 +1,7 @@
 'use client';
 
 import { styled } from '@mui/material/styles';
-import { Box } from '@mui/material';
+import { Grid } from '@mui/material';
 
 export interface OurServicesCardProps {
     image: string;
@@ -9,14 +9,13 @@ export interface OurServicesCardProps {
     subtext: string;
 }
 
-export const ServicesCard = styled(Box)(({ theme }) => ({
-    display: 'grid',
+export const ServicesCard = styled(Grid)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     width: '395px',
     height: '302px',
-    borderRadius: 16, 
+    borderRadius: "16px", 
     textAlign: 'center',
-    alignContent: 'center',
+    justifyContent: 'space-around',
     transition: 'background-color 0.2s',
     boxShadow: '0 25px 50px 0 rgba(0, 0, 0, 0.08)',
     '&:hover': {

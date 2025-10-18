@@ -22,7 +22,7 @@ export const GridAboutCompany = styled(Grid)(({ theme }) => ({
     margin: '80px',
     [theme.breakpoints.down("md")]: {   
         justifyContent: 'center',
-        margin: '50px',
+        margin: '15px',
         direction: 'row',
     }
 }));
