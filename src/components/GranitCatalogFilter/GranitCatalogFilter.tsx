@@ -3,12 +3,12 @@ import FilterButton from "../GranitFilterButton/GranitFilterButton";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import data from '@/mocks/CatalogFilter.json';
-import {TypographyWrapStyles} from "./GranitCatalogFilter.Styles";
+import {TypographyWrapStyles, FilterBox} from "./GranitCatalogFilter.Styles";
 
 const GranitCatalogFilter = () => {
 
     return (
-        <Box width={320} height="70%" p="24px" borderRadius="8px" border="0.5px solid #E5E7EB">
+        <FilterBox width={320} height="70%" p="24px" borderRadius="8px" border="0.5px solid #E5E7EB" marginLeft="80px">
             
             <Stack spacing="32px">
                 {/* Поисковая строка */}
@@ -79,7 +79,7 @@ const GranitCatalogFilter = () => {
                     <FilterButton />
                 </Box>
             </Stack>
-        </Box>
+        </FilterBox>
     )
 }
 

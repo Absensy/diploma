@@ -5,12 +5,15 @@ import GranitCatalogHeader from "@/components/GranitCatalogHeader/GranitCatalogH
 
 export default function Catalog() {
     return (
-        <Box padding="40px 80px 80px">
+        <Box>
             <GranitCatalogHeader />
-            <Stack spacing="80px" marginTop="32px" direction="row">        
+            <Box display="flex">            
                 <GranitCatalogFilter />
-                <GranitCatalogCard />
-            </Stack>
+                <Box flexGrow={1}>
+                    <GranitCatalogCard />
+                </Box>
+            </Box>
+
         </Box>
     )
 }

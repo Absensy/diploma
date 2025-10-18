@@ -15,7 +15,7 @@ export interface CatalogCardProps{
 
 export const CategoryCard = styled(Box)(({ theme }) => ({
     justifySelf: 'center',
-    width: '280px',
+    width: '100%',
     height: '410px',
     borderRadius: 8,
     backgroundColor: '#fff',
