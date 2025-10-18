@@ -6,7 +6,7 @@ export const TopHeaderBox = styled(Box)(({ theme }) => ({
   background: 'theme.palette.background.default',
   borderBottom: '1px solid ${theme.palette.secondary.main}',
   padding: '29px 80px',
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down(1024)]: {
     display: 'none',
   },
 }));
@@ -15,8 +15,8 @@ export const BottomHeaderBox = styled(Box)(({ theme }) => ({
   backgroundColor: 'theme.palette.background.default',
   boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
    padding: '10px 80px',
-   [theme.breakpoints.down('md')]: {
-    padding: '16px',
+   [theme.breakpoints.down(1024)]: {
+    padding: '16px 4%',
   },
 }));
 
@@ -27,13 +27,13 @@ export const TypographyTitle = styled(Typography)(({ theme }) => ({
   fontWeight: '700', 
   fontSize: '24px',
   paddingLeft: '10px',
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down(1024)]: {
     fontSize: '18px',
   },
 }))
 
 export const ButtonHeader = styled(Box)(({ theme }) => ({
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down(1024)]: {
     display: 'none',
   },
 }));
@@ -42,7 +42,7 @@ export const BurgerMenu = styled(Button)(({ theme }) => ({
   display: 'none',
   marginLeft: '12px',
   padding: '0px',
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down(1024)]: {
     display: 'flex',
   },
 }));
@@ -71,7 +71,7 @@ export const HeaderMenuButton = styled(Button)(({ theme }) => ({
     color: theme.palette.primary.main,
     boxShadow: 'none',
   },
-  [theme.breakpoints.down('md')]: {
+  [theme.breakpoints.down(1024)]: {
     display: 'none',
   },
 }));

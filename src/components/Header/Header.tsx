@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Box, Container, Typography, Stack, AppBar, Badge } from '@mui/material';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
-import { ButtonHeader, HeaderMenuButton, TopHeaderBox, BottomHeaderBox, TypographyTitle, BurgerMenu } from './Header.styles';
+import { ButtonHeader, HeaderMenuButton, TopHeaderBox, BottomHeaderBox, TypographyTitle, BurgerMenu } from './Header.Styles';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import FavoriteShoppingIcon from '@/icons/FavoriteShopping';
 import GpsIcon from '@/icons/GPS';
@@ -21,7 +21,7 @@ const Header = () => {
       {/* Верхняя часть Header */}
       <TopHeaderBox>
         <Container maxWidth={false} disableGutters >
-          <Stack direction="row" justifyContent="space-between">
+          <Stack direction="row" justifyContent="space-between" flexWrap="wrap" gap="20px">
             <Stack direction="row" alignItems="center">
               <Link href="/"><LogoGranitPrimary1Icon /></Link>
               <Stack spacing={1} alignItems="flex-start" marginLeft="0" justifyContent="center" paddingLeft="17px">
@@ -46,7 +46,7 @@ const Header = () => {
               </Stack>
             </Stack>
 
-            <Stack direction="row" spacing={1} alignItems="flex-start" paddingRight="14%">
+            <Stack direction="row" spacing={1} alignItems="flex-start" paddingRight="14%" paddingTop="5px">
               <Box paddingTop="2px">
                 <ClocksIcon />
               </Box>
@@ -84,14 +84,14 @@ const Header = () => {
               {/* Левая часть: Логотип */}
               <Box display='flex' alignItems='center'>
                 <Link href="/"><LogoGranitPrimary2Icon /></Link>
-                <Link href="/" style={{ textDecoration: 'none' }}><Typography variant="h6" component="div" fontWeight="700" fontSize="24px" paddingLeft='10px' color="text.primary"  >
+                <Link href="/" style={{ textDecoration: 'none' }}><Typography variant="h6" component="div" fontWeight="700" fontSize={{ md: '18px', lg: '24px' }} paddingLeft='10px' color="text.primary"  >
                   Гранит памяти
                 </Typography>
                 </Link>
               </Box>
 
               {/* Центральная часть: Меню */}
-              <Stack direction="row" spacing={5} >
+              <Stack direction="row" gap={{ md: '15px', lg: '30px' }}>
                 <HeaderMenuButton variant="text" color="inherit" href="/catalog">Каталог</HeaderMenuButton>
                 <HeaderMenuButton variant="text" color="inherit">О нас</HeaderMenuButton>
                 <HeaderMenuButton variant="text" color="inherit">Услуги</HeaderMenuButton>
