@@ -10,7 +10,7 @@ const ExamplesOurWorkCard: React.FC<ExamplesOurWorkCardProps> = ({ image, title,
                 <Image src={image} alt={title} fill sizes="100%" style={{ objectFit: 'cover' }} />
             </Box>
             <Box>
-                <Typography fontSize="24px" fontWeight="600" padding="10px 20px">{title}</Typography>
+                <Typography fontSize="24px" fontWeight="600" padding="10px 20px" textAlign="center">{title}</Typography>
                 <Box padding="0px 20px" paddingBottom="20px">
                     <Divider style={{ backgroundColor: '#ccc', height: '1px', border: 'none' }} />
                 </Box>

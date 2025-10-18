@@ -13,8 +13,8 @@ const GranitExamplesOurWork = () => {
                 display="grid"
                 gridTemplateColumns={{
                     xs: "1fr",
-                    sm: "repeat(2, 1fr)",
-                    md: "repeat(3, 1fr)"
+                    md: "repeat(2, 1fr)",
+                    lg: "repeat(3, 1fr)"
                 }}
                 gap={{ xs: "16px", sm: "20px", md: "24px" }}
                 padding={{ xs: "0px 4%", md: "0px 5%" }}

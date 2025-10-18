@@ -14,7 +14,7 @@ export const ExamplesWorkCard = styled(Box)(({ theme }) => ({
     justifySelf: 'center',
     width: '100%',
     minHeight: '340px',
-    maxWidth: '384px',
+    maxWidth: '584px',
     borderRadius: 16,
     backgroundColor: theme.palette.background.default,
     boxShadow: '0 4px 6px rgba(0,0,0,0.08)',
