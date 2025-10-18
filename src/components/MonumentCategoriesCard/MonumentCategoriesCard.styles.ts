@@ -10,11 +10,9 @@ export interface MonumentCategoryCardProps {
 }
 
 export const CategoryCard = styled(Box)(({ theme }) => ({
-    justifySelf: 'center',
-    minWidth: '400px',
-    minHeight:'516px',
-    maxWidth: 'auto',
-    height: '516px',
+    width: '100%',
+    minHeight: '400px',
+    maxHeight: '450px',
     borderRadius: 16,
     backgroundColor: '#fff',
     boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
@@ -22,6 +20,14 @@ export const CategoryCard = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     border: '1px solid rgba(0,0,0,0.06)',
+    transition: 'transform 0.2s ease-in-out',
+    '&:hover': {
+        transform: 'translateY(-4px)',
+    },
+    [theme.breakpoints.down('sm')]: {
+        minHeight: '350px',
+        maxHeight: '400px',
+    },
 }));
 
 export const DiscountBadge = styled(Box)(({ theme }) => ({

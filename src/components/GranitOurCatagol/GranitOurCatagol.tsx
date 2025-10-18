@@ -1,17 +1,25 @@
-import { Box, Typography, Grid } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import { MonumentCategoryCard } from "../MonumentCategoriesCard/MonumentCategoriesCard"
 import data from '@/mocks/MonumentCategories.json';
 import { DividerWithIcon } from "../GranitDividerWithIcon/GranitDividerWithIcon";
-import { GridOurCatalog } from "./GranitOurCatalog.styles";
 
 const GranitOurCatagol = () => {
   return (
-    <Box paddingTop="80px">
-      <Typography component="h2" fontWeight="bold" fontSize={{ xs: "30px", md: "48px" }} textAlign="center">
+    <Box paddingTop={{ xs: "40px", md: "80px" }} paddingX={{ xs: "4%", md: "5%" }}>
+      <Typography component="h2" fontWeight="bold" fontSize={{ xs: "24px", sm: "30px", md: "48px" }} textAlign="center">
         Наш каталог
       </Typography>
       <DividerWithIcon />
-      <GridOurCatalog container spacing={{ xs: "24px", md: "45px" }}>
+      <Box
+        display="grid"
+        gridTemplateColumns={{
+          xs: "1fr",
+          sm: "repeat(2, 1fr)",
+          md: "repeat(3, 1fr)"
+        }}
+        gap={{ xs: "16px", sm: "20px", md: "24px" }}
+        marginTop="40px"
+      >
         {data.monumentCategories.map((c) => (
           <MonumentCategoryCard
             key={c.id}
@@ -21,7 +29,7 @@ const GranitOurCatagol = () => {
             discount={c.discount}
           />
         ))}
-      </GridOurCatalog>
+      </Box>
     </Box>
   )
 }
