@@ -10,7 +10,7 @@ export default function Maps() {
 
   return (
     <YMaps>
-      <Map defaultState={defaultState} width="600px" height="308px">
+      <Map defaultState={defaultState} width="100%" height="100%">
         <Placemark geometry={[53.659082, 23.838170]} />
       </Map>
     </YMaps>
