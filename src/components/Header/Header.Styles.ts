@@ -12,11 +12,23 @@ export const TopHeaderBox = styled(Box)(({ theme }) => ({
 }));
 
 export const BottomHeaderBox = styled(Box)(({ theme }) => ({
-  backgroundColor: 'theme.palette.background.default',
+  backgroundColor: theme.palette.background.default,
   boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
-   padding: '10px 80px',
-   [theme.breakpoints.down(1024)]: {
+  padding: '10px 80px',
+  position: 'sticky',
+  top: 0,
+  zIndex: 1000,
+  width: '100%',
+  display: 'block',
+  minHeight: '60px',
+  [theme.breakpoints.down(1024)]: {
     padding: '16px 4%',
+    position: 'sticky',
+    top: 0,
+    zIndex: 1000,
+    width: '100%',
+    display: 'block',
+    minHeight: '60px',
   },
 }));
 
@@ -38,14 +50,6 @@ export const ButtonHeader = styled(Box)(({ theme }) => ({
   },
 }));
 
-export const BurgerMenu = styled(Button)(({ theme }) => ({
-  display: 'none',
-  marginLeft: '12px',
-  padding: '0px',
-  [theme.breakpoints.down(1024)]: {
-    display: 'flex',
-  },
-}));
 
 export const HeaderMenuButton = styled(Button)(({ theme }) => ({
   textTransform: 'none',

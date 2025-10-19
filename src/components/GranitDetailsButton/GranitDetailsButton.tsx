@@ -1,10 +1,14 @@
 import * as React from 'react';
 import DetailsButtonStyles from './GranitDetailsButton.styles';
 
-const DetailsButton = () => {
+interface DetailsButtonProps {
+    onClick?: () => void;
+}
+
+const DetailsButton: React.FC<DetailsButtonProps> = ({ onClick }) => {
     return (
-        <DetailsButtonStyles variant="contained">
-        Детали
+        <DetailsButtonStyles variant="contained" onClick={onClick}>
+            Детали
         </DetailsButtonStyles>
     )
 }

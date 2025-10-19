@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
+import { Box } from '@mui/material';
 import Providers from './providers';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';

@@ -7,10 +7,19 @@ export const PaginationStyles = styled(Pagination) (({ theme }) => ({
          '& .MuiPaginationItem-root': {
              color: "grey.600", 
              "&.Mui-selected": {
-                 backgroundColor: '#2C2C2C', 
+                 backgroundColor: '#000000', 
                  color: 'white',
-                 borderRadius:"8px"} 
+                 borderRadius:"8px",
+                 '&:hover': {
+                     backgroundColor: '#000000',
+                     color: 'white'
+                 }
              },
+             '&:hover': {
+                 backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                 color: 'grey.600'
+             }
+         },
 
         [theme.breakpoints.down("sm")]: {
             display: 'none'
@@ -46,6 +55,19 @@ export const StackStyle = styled(Stack) (({theme}) => ({
     [theme.breakpoints.down("sm")]:{
         display: "flex",
         marginTop: '32px',
+    }
+}));
+
+export const ShowMoreContainer = styled(Box) (({theme}) => ({
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginTop: '48px',
+    marginBottom: '32px',
+
+    [theme.breakpoints.down("sm")]:{
+        marginTop: '40px',
+        marginBottom: '24px',
     }
 }));
 

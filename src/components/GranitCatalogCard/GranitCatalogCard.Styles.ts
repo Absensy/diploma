@@ -1,8 +1,7 @@
 'use client'
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
-
-import { Interface } from 'readline';
+import { Product } from '@/lib/db';
 
 export interface CatalogCardProps{
      name: string;
@@ -11,12 +10,16 @@ export interface CatalogCardProps{
      oldPrice?: number;
      image: string;
      discount?: number;
+     is_new?: boolean;
+     is_popular?: boolean;
+     product?: Product;
 }
 
 export const CategoryCard = styled(Box)(({ theme }) => ({
     justifySelf: 'center',
     width: '100%',
-    height: '410px',
+    minHeight: '350px',
+    height: 'auto',
     borderRadius: 8,
     backgroundColor: '#fff',
     boxShadow: '0 8px 24px rgba(0,0,0,0.08)',
@@ -24,6 +27,9 @@ export const CategoryCard = styled(Box)(({ theme }) => ({
     display: 'flex',
     flexDirection: 'column',
     border: '1px solid rgba(0,0,0,0.06)',
+    [theme.breakpoints.down('sm')]: {
+        minHeight: '320px',
+    },
 }));
 
 export const DiscountBadge = styled(Box)(({ theme }) => ({
@@ -39,22 +45,33 @@ export const DiscountBadge = styled(Box)(({ theme }) => ({
     zIndex: 1,
 }));
 
-export const FavoriteButton = styled(Box)(({ theme }) => ({
-    bottom: 16,
-    right: 16,
-    width: 40,
-    height: 40,
-    borderRadius: 8,
-    backgroundColor: '#f5f5f5',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    cursor: 'pointer',
-    transition: 'background-color 0.2s',
-    '&:hover': {
-        backgroundColor: '#e0e0e0',
-    },
+export const StatusBadge = styled(Box)(({ theme }) => ({
+    position: 'absolute',
+    top: 8,
+    left: 8,
+    backgroundColor: '#4caf50',
+    color: '#fff',
+    borderRadius: 12,
+    padding: '4px 12px',
+    fontSize: '12px',
+    fontWeight: 600,
+    zIndex: 1,
+    textTransform: 'uppercase',
+    letterSpacing: '0.5px',
 }));
+
+export const PopularBadge = styled(StatusBadge)(({ theme }) => ({
+    backgroundColor: '#ff9800',
+    top: 8,
+    left: 8,
+}));
+
+export const NewBadge = styled(StatusBadge)(({ theme }) => ({
+    backgroundColor: '#2196f3',
+    top: 8, // Верхняя позиция по умолчанию
+    left: 8,
+}));
+
 
 export const PriceContainer = styled(Box)(({ theme }) => ({
     display: 'flex',
@@ -77,7 +94,7 @@ export const NewPrice = styled(Box)(({ theme }) => ({
 
 export const CardActions = styled(Box)(({ theme }) => ({
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'start',
     alignItems: 'center',
     marginTop: '16px',
 }));

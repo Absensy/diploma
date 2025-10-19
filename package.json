@@ -6,25 +6,33 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:seed": "tsx prisma/seed.ts",
+    "db:push": "prisma db push",
+    "db:generate": "prisma generate"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.1",
-    "@pbe/react-yandex-maps": "1.2.7",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
+    "@pbe/react-yandex-maps": "1.2.5",
+    "@prisma/client": "^6.17.1",
     "next": "15.5.3",
+    "pg": "^8.11.3",
+    "prisma": "^6.17.1",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@types/node": "^20",
+    "@types/pg": "^8.10.9",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
+    "tsx": "^4.20.6",
     "typescript": "^5"
   }
 }

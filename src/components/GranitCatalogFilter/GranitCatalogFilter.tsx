@@ -1,20 +1,39 @@
-import { Box, Divider, FormControl, FormControlLabel, FormGroup, InputAdornment, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, Checkbox } from "@mui/material";
-import FilterButton from "../GranitFilterButton/GranitFilterButton";
+"use client"
+import { Box, Divider, FormControl, FormControlLabel, FormGroup, InputAdornment, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, Checkbox, CircularProgress, Alert } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import data from '@/mocks/CatalogFilter.json';
-import {TypographyWrapStyles, FilterBox} from "./GranitCatalogFilter.Styles";
+import { TypographyWrapStyles, FilterBox } from "./GranitCatalogFilter.Styles";
+import { useFilterContext } from "@/contexts/FilterContext";
+import { FilterSkeleton } from "../Skeleton/Skeleton";
 
 const GranitCatalogFilter = () => {
+    const { filterData, filters, loading, error, updateFilter, toggleCategory, toggleMaterial } = useFilterContext();
+
+    if (loading) {
+        return <FilterSkeleton />;
+    }
+
+    if (error) {
+        return (
+            <FilterBox width={320} height="70%" p="24px" borderRadius="8px" border="0.5px solid #E5E7EB">
+                <Alert severity="error">{error}</Alert>
+            </FilterBox>
+        );
+    }
+
+    if (!filterData) {
+        return null;
+    }
 
     return (
-        <FilterBox width={320} height="70%" p="24px" borderRadius="8px" border="0.5px solid #E5E7EB" marginLeft="80px">
-            
+        <FilterBox width={320} height="70%" p="24px" borderRadius="8px" border="0.5px solid #E5E7EB">
             <Stack spacing="32px">
                 {/* Поисковая строка */}
-                <TextField 
-                    size="small" 
-                    placeholder="Поиск памятников.." 
+                <TextField
+                    size="small"
+                    placeholder="Поиск памятников.."
+                    value={filters.search}
+                    onChange={(e) => updateFilter('search', e.target.value)}
                     InputProps={{
                         startAdornment: (
                             <InputAdornment position="start">
@@ -23,61 +42,86 @@ const GranitCatalogFilter = () => {
                         ),
                     }}
                 />
+
                 {/* Сортировка по */}
                 <Stack spacing="16px">
                     <Typography fontWeight={600} fontSize="18px">Сортировать по</Typography>
                     <FormControl size="small">
-                        <Select defaultValue="popular" IconComponent={ArrowDropDownIcon}
+                        <Select
+                            value={filters.sortBy}
+                            onChange={(e) => updateFilter('sortBy', e.target.value)}
+                            IconComponent={ArrowDropDownIcon}
                         >
-                            {data.SortBy.map((value) => (
-                            <MenuItem value={value.value}>{value.label}</MenuItem>
-                        ))}
-                            {/* <MenuItem value="popular">Популярные</MenuItem>
-                            <MenuItem value="price-asc">Цена: по возрастанию</MenuItem>
-                            <MenuItem value="price-desc">Цена: по убыванию</MenuItem>
-                            <MenuItem value="new">Новинки</MenuItem> */}
+                            {filterData.sortOptions.map((option: any) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                 </Stack>
-                
+
                 {/* Категории */}
                 <Stack spacing={1}>
                     <Typography fontWeight={600} fontSize="18px">Категории</Typography>
                     <FormGroup>
-                        {data.categoryOptions.map((label) => (
-                            <FormControlLabel key={label}
-                                control={ <Checkbox size="small"/>}
-                                label={<TypographyWrapStyles>{label}</TypographyWrapStyles>}
+                        {filterData.categories.map((category: any) => (
+                            <FormControlLabel
+                                key={category.id}
+                                control={
+                                    <Checkbox
+                                        size="small"
+                                        checked={filters.selectedCategories.includes(category.id)}
+                                        onChange={() => toggleCategory(category.id)}
+                                    />
+                                }
+                                label={<TypographyWrapStyles>{category.name}</TypographyWrapStyles>}
                             />
                         ))}
                     </FormGroup>
                 </Stack>
-                
+
                 {/* Ценовой диапазон */}
                 <Stack spacing={1}>
                     <Typography fontWeight={600} fontSize="18px">Ценовой диапазон</Typography>
                     <Stack direction="row" spacing={1}>
-                        <OutlinedInput size="small"  placeholder="Мин."  />
-                        <OutlinedInput size="small" placeholder="Макс."  />
+                        <OutlinedInput
+                            size="small"
+                            placeholder="Мин."
+                            type="number"
+                            value={filters.priceMin || ''}
+                            onChange={(e) => updateFilter('priceMin', e.target.value ? Number(e.target.value) : null)}
+                        />
+                        <OutlinedInput
+                            size="small"
+                            placeholder="Макс."
+                            type="number"
+                            value={filters.priceMax || ''}
+                            onChange={(e) => updateFilter('priceMax', e.target.value ? Number(e.target.value) : null)}
+                        />
                     </Stack>
                 </Stack>
-                
+
                 {/* Материал */}
                 <Stack spacing={1}>
                     <Typography fontWeight={600} fontSize="18px">Материал</Typography>
                     <FormGroup>
-                        {data.materialOptions.map((label) => (
-                            <FormControlLabel key={label}
-                                control={<Checkbox size="small" />}
-                                label={<TypographyWrapStyles>{label}</TypographyWrapStyles>}
+                        {filterData.materials.map((material: string) => (
+                            <FormControlLabel
+                                key={material}
+                                control={
+                                    <Checkbox
+                                        size="small"
+                                        checked={filters.selectedMaterials.includes(material)}
+                                        onChange={() => toggleMaterial(material)}
+                                    />
+                                }
+                                label={<TypographyWrapStyles>{material}</TypographyWrapStyles>}
                             />
                         ))}
                     </FormGroup>
                 </Stack>
-                {/* Кнопка */}
-                <Box pt={1}>
-                    <FilterButton />
-                </Box>
+
             </Stack>
         </FilterBox>
     )

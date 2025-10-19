@@ -7,11 +7,23 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
+import CircularProgress from '@mui/material/CircularProgress';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import { Grid } from '@mui/material';
+import { useContactContext } from '@/contexts/ContactContext';
 import { GridFooter, StackFooter } from './Footer.styles';
 
 const Footer = () => {
+  const { contactInfo, loading } = useContactContext();
+
+  if (loading) {
+    return (
+      <Box component="footer" bgcolor="common.black" padding={{ xs: "40px 4%", md: "40px 5%" }} display="flex" justifyContent="center">
+        <CircularProgress sx={{ color: 'white' }} />
+      </Box>
+    );
+  }
+
   return (
     <Box component="footer" bgcolor="common.black" padding={{ xs: "40px 4%", md: "40px 5%" }}>
       <Container maxWidth={false} disableGutters>
@@ -31,9 +43,27 @@ const Footer = () => {
           <Box>
             <StackFooter width={{ xs: "100%", md: "400px" }}>
               <Typography variant="subtitle2" fontWeight="600" fontSize="20px" color="common.white" marginBottom="16px">Контакты</Typography>
-              <Link href="tel:+375297082111" underline="none" fontWeight="400" fontSize="16px" color="common.white">+375(29)708-21-11</Link>
-              <Link href="mailto:info@granite-memory.by" underline="none" fontWeight="400" fontSize="16px" color="common.white">info@granite-memory.by</Link>
-              <Typography variant="body2" fontWeight="400" color="common.white">пр.Янки Купалы 22а, цокольный этаж</Typography>
+              <Link
+                href={`tel:${contactInfo?.phone?.replace(/\s/g, '') || '+375297082111'}`}
+                underline="none"
+                fontWeight="400"
+                fontSize="16px"
+                color="common.white"
+              >
+                {contactInfo?.phone || '+375(29)708-21-11'}
+              </Link>
+              <Link
+                href={`mailto:${contactInfo?.email || 'info@granite-memory.by'}`}
+                underline="none"
+                fontWeight="400"
+                fontSize="16px"
+                color="common.white"
+              >
+                {contactInfo?.email || 'info@granite-memory.by'}
+              </Link>
+              <Typography variant="body2" fontWeight="400" color="common.white">
+                {contactInfo?.address || 'пр.Янки Купалы 22а, цокольный этаж'}
+              </Typography>
             </StackFooter>
           </Box>
 

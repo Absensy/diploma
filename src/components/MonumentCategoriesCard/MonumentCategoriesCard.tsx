@@ -5,7 +5,7 @@ import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 
-export const MonumentCategoryCard: React.FC<MonumentCategoryCardProps> = ({ name, price, image, discount }) => {
+export const MonumentCategoryCard: React.FC<MonumentCategoryCardProps> = ({ name, price, image, discount, discounted_price, categoryId }) => {
 
     return (
         <CategoryCard>
@@ -15,9 +15,11 @@ export const MonumentCategoryCard: React.FC<MonumentCategoryCardProps> = ({ name
             </Box>
             <Box padding={{ xs: "16px", md: "24px" }} display="flex" flexDirection="column" flex="1">
                 <Typography variant="h3" fontSize={{ xs: "18px", md: "24px" }} fontWeight="700" color="text.primary">{name}</Typography>
-                <Typography padding={{ xs: "12px 0px", md: "24px 0px" }} fontSize={{ xs: "24px", md: "30px" }} fontWeight="800" color="text.primary">от {price} BYN</Typography>
+                <Typography padding={{ xs: "12px 0px", md: "24px 0px" }} fontSize={{ xs: "24px", md: "30px" }} fontWeight="800" color="text.primary">
+                    от {price} BYN
+                </Typography>
                 <Box marginTop="auto">
-                    <CatalogButton />
+                    <CatalogButton categoryId={categoryId} />
                 </Box>
             </Box>
         </CategoryCard>

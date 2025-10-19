@@ -7,6 +7,8 @@ export interface MonumentCategoryCardProps {
     price: number;
     image: string;
     discount?: number;
+    discounted_price?: number;
+    categoryId?: number;
 }
 
 export const CategoryCard = styled(Box)(({ theme }) => ({
