@@ -7,9 +7,9 @@ import Maps from '../Maps/Maps';
 const GranitContacts = () => {
     return (
         <Box padding={{ xs: "40px 4%", md: "80px 5%" }}>
-            <Typography fontSize="36px" fontWeight="700" textAlign="center" paddingBottom="80px">Контакты</Typography>
-            <Box display="flex" justifyContent="space-between" flexDirection={{ xs: "column", lg: "row" }}>
-                <Box paddingRight={{ xs: "0px", lg: "80px" }} paddingBottom={{ xs: "40px", lg: "0px" }}>
+            <Typography fontSize={{ xs: "24px", md: "36px" }} fontWeight="700" textAlign="center" paddingBottom={{ xs: "40px", md: "80px" }}>Контакты</Typography>
+            <Box display="flex" flexDirection={{ xs: "column", lg: "row" }} gap={{ xs: "40px", lg: "80px" }} alignItems={{ xs: "flex-start", lg: "stretch" }}>
+                <Box flex="1">
                     <Stack flexDirection="row" alignItems="center" paddingBottom="20px">
                         <Box width="49px" height="49px" display="flex" alignItems="center" justifyContent="center">
                             <MapCircleIcon size={49} />
@@ -48,7 +48,7 @@ const GranitContacts = () => {
                         </Box>
                     </Stack>
                 </Box>
-                <Box width="100%" height="313px" border="5px solid" borderColor="common.black" borderRadius="8px" overflow="hidden">
+                <Box width={{ xs: "100%", lg: "605px" }} height="313px" border="5px solid" borderColor="common.black" borderRadius="8px" overflow="hidden">
                     <Maps />
                 </Box>
             </Box>

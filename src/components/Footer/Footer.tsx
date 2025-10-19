@@ -13,11 +13,11 @@ import { GridFooter, StackFooter } from './Footer.styles';
 
 const Footer = () => {
   return (
-    <Box component="footer" bgcolor="common.black" padding="40px 80px">
+    <Box component="footer" bgcolor="common.black" padding={{ xs: "40px 4%", md: "40px 5%" }}>
       <Container maxWidth={false} disableGutters>
-        <GridFooter container>
-          <GridFooter display="flex" justifyContent="left" alignItems="center" marginRight="28px">
-            <StackFooter width="395px">
+        <Box display="flex" flexDirection={{ xs: "column", md: "row" }} justifyContent="space-between" flexWrap="wrap" alignItems={{ xs: "flex-start", md: "center" }} gap={{ xs: "16px", md: "0px" }}>
+          <Box>
+            <StackFooter width={{ xs: "100%", md: "395px" }}>
               <Stack flexDirection="row" alignItems="center" marginBottom="16px">
                 <LogoGranitPrimary2Icon />
                 <Typography variant="h6" fontWeight="700" fontSize="24px" color="common.white" marginLeft="16px">Гранит памяти</Typography>
@@ -26,26 +26,26 @@ const Footer = () => {
                 Сохраняем память о ваших близких в граните на века
               </Typography>
             </StackFooter>
-          </GridFooter>
+          </Box>
 
-          <GridFooter display="flex" justifyContent="center" alignItems="center">
-            <StackFooter width="400px">
+          <Box>
+            <StackFooter width={{ xs: "100%", md: "400px" }}>
               <Typography variant="subtitle2" fontWeight="600" fontSize="20px" color="common.white" marginBottom="16px">Контакты</Typography>
               <Link href="tel:+375297082111" underline="none" fontWeight="400" fontSize="16px" color="common.white">+375(29)708-21-11</Link>
               <Link href="mailto:info@granite-memory.by" underline="none" fontWeight="400" fontSize="16px" color="common.white">info@granite-memory.by</Link>
               <Typography variant="body2" fontWeight="400" color="common.white">пр.Янки Купалы 22а, цокольный этаж</Typography>
             </StackFooter>
-          </GridFooter>
+          </Box>
 
-          <GridFooter display="flex" justifyContent="flex-end" alignItems="center" marginLeft="auto">
-            <StackFooter width="280px">
+          <Box>
+            <StackFooter width={{ xs: "100%", md: "280px" }}>
               <Typography variant="subtitle2" fontWeight="600" fontSize="20px" color="common.white" marginBottom="16px">Правовая информация</Typography>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">ООО "Гранит Памяти"</Typography>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">ИНН: 1234567890</Typography>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">Лицензия на ритуальные услуги</Typography>
             </StackFooter>
-          </GridFooter>
-        </GridFooter>
+          </Box>
+        </Box>
 
         <Box marginTop={4}>
           <Divider />
