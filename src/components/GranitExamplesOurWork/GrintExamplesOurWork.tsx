@@ -4,6 +4,7 @@ import { Box, Typography, CircularProgress, Alert } from "@mui/material";
 import ExamplesOurWorkCard from "../ExamplesOurWorkCard/ExamplesOurWorkCard";
 import { useExamplesWork } from "@/hooks/useExamplesWork";
 import { ExampleWorkCardSkeleton } from "../Skeleton/Skeleton";
+import EmptyState from "../EmptyState/EmptyState";
 
 const GranitExamplesOurWork = () => {
     const { examplesWork, loading, error } = useExamplesWork();
@@ -51,28 +52,36 @@ const GranitExamplesOurWork = () => {
             <Box textAlign="center" paddingTop={{ xs: "40px", md: "80px" }} paddingBottom={{ xs: "30px", md: "60px" }}>
                 <Typography component="h2" fontSize={{ xs: "24px", md: "36px" }} fontWeight="700">Примеры наших работ</Typography>
             </Box>
-            <Box
-                display="grid"
-                gridTemplateColumns={{
-                    xs: "1fr",
-                    md: "repeat(2, 1fr)",
-                    lg: "repeat(3, 1fr)"
-                }}
-                gap={{ xs: "16px", sm: "20px", md: "24px" }}
-                padding={{ xs: "0px 4%", md: "0px 5%" }}
-                justifyContent="center"
-            >
-                {examplesWork.map((work) => (
-                    <ExamplesOurWorkCard
-                        key={work.id}
-                        image={work.image}
-                        title={work.title}
-                        material={work.material}
-                        dimensions={work.dimensions}
-                        date={work.date}
-                    />
-                ))}
-            </Box>
+            {examplesWork.length === 0 ? (
+                <EmptyState
+                    message="Примеры работ не найдены"
+                    variant="default"
+                    height={300}
+                />
+            ) : (
+                <Box
+                    display="grid"
+                    gridTemplateColumns={{
+                        xs: "1fr",
+                        md: "repeat(2, 1fr)",
+                        lg: "repeat(3, 1fr)"
+                    }}
+                    gap={{ xs: "16px", sm: "20px", md: "24px" }}
+                    padding={{ xs: "0px 4%", md: "0px 5%" }}
+                    justifyContent="center"
+                >
+                    {examplesWork.map((work) => (
+                        <ExamplesOurWorkCard
+                            key={work.id}
+                            image={work.image}
+                            title={work.title}
+                            material={work.material}
+                            dimensions={work.dimensions}
+                            date={work.date}
+                        />
+                    ))}
+                </Box>
+            )}
         </Box>
     )
 }

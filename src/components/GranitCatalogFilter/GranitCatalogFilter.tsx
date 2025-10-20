@@ -5,6 +5,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { TypographyWrapStyles, FilterBox } from "./GranitCatalogFilter.Styles";
 import { useFilterContext } from "@/contexts/FilterContext";
 import { FilterSkeleton } from "../Skeleton/Skeleton";
+import EmptyState from "../EmptyState/EmptyState";
 
 const GranitCatalogFilter = () => {
     const { filterData, filters, loading, error, updateFilter, toggleCategory, toggleMaterial } = useFilterContext();
@@ -64,21 +65,29 @@ const GranitCatalogFilter = () => {
                 {/* Категории */}
                 <Stack spacing={1}>
                     <Typography fontWeight={600} fontSize="18px">Категории</Typography>
-                    <FormGroup>
-                        {filterData.categories.map((category: any) => (
-                            <FormControlLabel
-                                key={category.id}
-                                control={
-                                    <Checkbox
-                                        size="small"
-                                        checked={filters.selectedCategories.includes(category.id)}
-                                        onChange={() => toggleCategory(category.id)}
-                                    />
-                                }
-                                label={<TypographyWrapStyles>{category.name}</TypographyWrapStyles>}
-                            />
-                        ))}
-                    </FormGroup>
+                    {filterData.categories.length === 0 ? (
+                        <EmptyState
+                            message="Категории не найдены"
+                            variant="minimal"
+                            height={60}
+                        />
+                    ) : (
+                        <FormGroup>
+                            {filterData.categories.map((category: any) => (
+                                <FormControlLabel
+                                    key={category.id}
+                                    control={
+                                        <Checkbox
+                                            size="small"
+                                            checked={filters.selectedCategories.includes(category.id)}
+                                            onChange={() => toggleCategory(category.id)}
+                                        />
+                                    }
+                                    label={<TypographyWrapStyles>{category.name}</TypographyWrapStyles>}
+                                />
+                            ))}
+                        </FormGroup>
+                    )}
                 </Stack>
 
                 {/* Ценовой диапазон */}
@@ -105,21 +114,29 @@ const GranitCatalogFilter = () => {
                 {/* Материал */}
                 <Stack spacing={1}>
                     <Typography fontWeight={600} fontSize="18px">Материал</Typography>
-                    <FormGroup>
-                        {filterData.materials.map((material: string) => (
-                            <FormControlLabel
-                                key={material}
-                                control={
-                                    <Checkbox
-                                        size="small"
-                                        checked={filters.selectedMaterials.includes(material)}
-                                        onChange={() => toggleMaterial(material)}
-                                    />
-                                }
-                                label={<TypographyWrapStyles>{material}</TypographyWrapStyles>}
-                            />
-                        ))}
-                    </FormGroup>
+                    {filterData.materials.length === 0 ? (
+                        <EmptyState
+                            message="Материалы не найдены"
+                            variant="minimal"
+                            height={60}
+                        />
+                    ) : (
+                        <FormGroup>
+                            {filterData.materials.map((material: string) => (
+                                <FormControlLabel
+                                    key={material}
+                                    control={
+                                        <Checkbox
+                                            size="small"
+                                            checked={filters.selectedMaterials.includes(material)}
+                                            onChange={() => toggleMaterial(material)}
+                                        />
+                                    }
+                                    label={<TypographyWrapStyles>{material}</TypographyWrapStyles>}
+                                />
+                            ))}
+                        </FormGroup>
+                    )}
                 </Stack>
 
             </Stack>

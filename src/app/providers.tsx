@@ -3,6 +3,7 @@
 import { ThemeProvider, CssBaseline, Box } from '@mui/material';
 import theme from '@/theme/theme';
 import { ContactProvider } from '@/contexts/ContactContext';
+import { AlertProvider } from '@/components/GlobalAlert/GlobalAlert';
 
 type ProvidersProps = {
   children: React.ReactNode;
@@ -12,9 +13,11 @@ export default function Providers({ children }: ProvidersProps) {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <ContactProvider>
-        {children}
-      </ContactProvider>
+      <AlertProvider>
+        <ContactProvider>
+          {children}
+        </ContactProvider>
+      </AlertProvider>
     </ThemeProvider>
   );
 }

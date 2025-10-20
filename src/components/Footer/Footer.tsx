@@ -11,10 +11,12 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import { Grid } from '@mui/material';
 import { useContactContext } from '@/contexts/ContactContext';
+import { useFooterContent } from '@/hooks/useContent';
 import { GridFooter, StackFooter } from './Footer.styles';
 
 const Footer = () => {
   const { contactInfo, loading } = useContactContext();
+  const { data: footerData, loading: footerLoading } = useFooterContent();
 
   if (loading) {
     return (
@@ -35,7 +37,7 @@ const Footer = () => {
                 <Typography variant="h6" fontWeight="700" fontSize="24px" color="common.white" marginLeft="16px">Гранит памяти</Typography>
               </Stack>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">
-                Сохраняем память о ваших близких в граните на века
+                {footerData.slogan}
               </Typography>
             </StackFooter>
           </Box>
@@ -70,9 +72,24 @@ const Footer = () => {
           <Box>
             <StackFooter width={{ xs: "100%", md: "280px" }}>
               <Typography variant="subtitle2" fontWeight="600" fontSize="20px" color="common.white" marginBottom="16px">Правовая информация</Typography>
-              <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">ООО "Гранит Памяти"</Typography>
-              <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">ИНН: 1234567890</Typography>
-              <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">Лицензия на ритуальные услуги</Typography>
+              <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">{footerData.company_full_name}</Typography>
+              <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">УНП: {footerData.unp_number}</Typography>
+              {footerData.license_document ? (
+                <Link
+                  href={footerData.license_document}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  underline="none"
+                  fontWeight="400"
+                  fontSize="16px"
+                  color="common.white"
+                  sx={{ textDecoration: 'underline' }}
+                >
+                  Лицензия на ритуальные услуги
+                </Link>
+              ) : (
+                <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">Лицензия на ритуальные услуги</Typography>
+              )}
             </StackFooter>
           </Box>
         </Box>
@@ -82,7 +99,7 @@ const Footer = () => {
         </Box>
 
         <Stack marginTop="33px" alignItems="center">
-          <Typography variant="caption" color="common.white">© {new Date().getFullYear()} Гранит памяти. Все права защищены.</Typography>
+          <Typography variant="caption" color="common.white">{footerData.copyright_text}</Typography>
         </Stack>
 
       </Container>

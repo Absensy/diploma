@@ -29,6 +29,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import InfoIcon from '@mui/icons-material/Info';
 import { useFilterContext } from '@/contexts/FilterContext';
+import EmptyState from '../EmptyState/EmptyState';
 
 const FilterButton = styled(Button)(({ theme }) => ({
     gap: '10px',
@@ -239,24 +240,32 @@ const MobileFilterDrawer = () => {
                                 <Typography fontWeight={600} fontSize="18px" marginBottom="16px">
                                     Категории
                                 </Typography>
-                                <FormGroup>
-                                    {filterData.categories.map((category: any) => (
-                                        <FormControlLabel
-                                            key={category.id}
-                                            control={
-                                                <Checkbox
-                                                    checked={filters.selectedCategories.includes(category.id)}
-                                                    onChange={() => toggleCategory(category.id)}
-                                                />
-                                            }
-                                            label={
-                                                <Typography fontSize="16px" fontWeight="400">
-                                                    {category.name}
-                                                </Typography>
-                                            }
-                                        />
-                                    ))}
-                                </FormGroup>
+                                {filterData.categories.length === 0 ? (
+                                    <EmptyState
+                                        message="Категории не найдены"
+                                        variant="minimal"
+                                        height={60}
+                                    />
+                                ) : (
+                                    <FormGroup>
+                                        {filterData.categories.map((category: any) => (
+                                            <FormControlLabel
+                                                key={category.id}
+                                                control={
+                                                    <Checkbox
+                                                        checked={filters.selectedCategories.includes(category.id)}
+                                                        onChange={() => toggleCategory(category.id)}
+                                                    />
+                                                }
+                                                label={
+                                                    <Typography fontSize="16px" fontWeight="400">
+                                                        {category.name}
+                                                    </Typography>
+                                                }
+                                            />
+                                        ))}
+                                    </FormGroup>
+                                )}
                             </FilterSection>
 
                             <Divider sx={{ margin: '20px 0', borderColor: '#E5E7EB' }} />
@@ -293,24 +302,32 @@ const MobileFilterDrawer = () => {
                                 <Typography fontWeight={600} fontSize="18px" marginBottom="16px">
                                     Материалы
                                 </Typography>
-                                <FormGroup>
-                                    {filterData.materials.map((material: string) => (
-                                        <FormControlLabel
-                                            key={material}
-                                            control={
-                                                <Checkbox
-                                                    checked={filters.selectedMaterials.includes(material)}
-                                                    onChange={() => toggleMaterial(material)}
-                                                />
-                                            }
-                                            label={
-                                                <Typography fontSize="16px" fontWeight="400">
-                                                    {material}
-                                                </Typography>
-                                            }
-                                        />
-                                    ))}
-                                </FormGroup>
+                                {filterData.materials.length === 0 ? (
+                                    <EmptyState
+                                        message="Материалы не найдены"
+                                        variant="minimal"
+                                        height={60}
+                                    />
+                                ) : (
+                                    <FormGroup>
+                                        {filterData.materials.map((material: string) => (
+                                            <FormControlLabel
+                                                key={material}
+                                                control={
+                                                    <Checkbox
+                                                        checked={filters.selectedMaterials.includes(material)}
+                                                        onChange={() => toggleMaterial(material)}
+                                                    />
+                                                }
+                                                label={
+                                                    <Typography fontSize="16px" fontWeight="400">
+                                                        {material}
+                                                    </Typography>
+                                                }
+                                            />
+                                        ))}
+                                    </FormGroup>
+                                )}
                             </FilterSection>
 
                             {/* Кнопка сброса */}

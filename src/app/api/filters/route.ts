@@ -3,8 +3,11 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
-    // Получаем все материалы из продуктов
+    // Получаем все материалы из активных продуктов
     const products = await prisma.product.findMany({
+      where: {
+        is_active: true
+      },
       select: {
         materials: true
       }
@@ -27,8 +30,11 @@ export async function GET() {
       })
       .sort()
 
-    // Получаем все категории
+    // Получаем все активные категории
     const categories = await prisma.category.findMany({
+      where: {
+        is_active: true
+      },
       select: {
         id: true,
         name: true
@@ -38,8 +44,11 @@ export async function GET() {
       }
     })
 
-    // Получаем ценовые диапазоны
+    // Получаем ценовые диапазоны из активных товаров
     const priceRanges = await prisma.product.aggregate({
+      where: {
+        is_active: true
+      },
       _min: {
         price: true
       },

@@ -9,6 +9,7 @@ import { useFilteredProducts } from "@/hooks/useFilteredProducts";
 import { useFilterContext } from "@/contexts/FilterContext";
 import { usePagination } from "@/hooks/usePagination";
 import { ProductCardSkeleton, Skeleton } from "../Skeleton/Skeleton";
+import EmptyState from "../EmptyState/EmptyState";
 
 const GranitCatalogCards = () => {
     const { filters } = useFilterContext();
@@ -73,11 +74,11 @@ const GranitCatalogCards = () => {
             </Box>
 
             {products.length === 0 ? (
-                <Box display="flex" justifyContent="center" alignItems="center" minHeight="200px">
-                    <Typography fontSize="18px" color="text.secondary">
-                        Товары не найдены
-                    </Typography>
-                </Box>
+                <EmptyState
+                    message="Товары не найдены"
+                    variant="default"
+                    height={200}
+                />
             ) : (
                 <>
                     <Box display="grid" gridTemplateColumns="repeat(auto-fill, minmax(280px, 1fr))" gap="20px" justifyContent="center">

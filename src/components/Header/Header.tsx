@@ -13,11 +13,13 @@ import LogoGranitPrimary1Icon from '@/icons/LogoGranitPrimary1';
 import ClocksIcon from '@/icons/Clocks';
 import Link from 'next/link';
 import { useContactContext } from '@/contexts/ContactContext';
+import { useAboutCompanyContent } from '@/hooks/useContent';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
 import { Skeleton } from '../Skeleton/Skeleton';
 
 const Header = () => {
   const { contactInfo, loading } = useContactContext();
+  const { data: aboutData, loading: aboutLoading } = useAboutCompanyContent();
 
   if (loading) {
     return (
@@ -51,12 +53,14 @@ const Header = () => {
           sx={{
             position: 'sticky',
             top: 0,
-            zIndex: 1000,
+            zIndex: 1300,
             backgroundColor: 'white',
             boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
             padding: { xs: '16px 4%', md: '10px 80px' },
             width: '100%',
-            display: 'block'
+            display: 'block',
+            contain: 'layout',
+            isolation: 'isolate'
           }}
         >
           <Box display="flex" alignItems="center" justifyContent="space-between">
@@ -127,18 +131,12 @@ const Header = () => {
 
             <Box bgcolor="#9a9da4" borderRadius="21px">
               <Stack spacing={1} alignItems="flex-start" padding="10px 24px">
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <GreenCheckIcon />
-                  <Typography variant="body2" color="#FFFFFF">Качество материалов</Typography>
-                </Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <GreenCheckIcon />
-                  <Typography variant="body2" color="#FFFFFF">Индивидуальный подход</Typography>
-                </Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
-                  <GreenCheckIcon />
-                  <Typography variant="body2" color="#FFFFFF">Гарантия и надёжность</Typography>
-                </Stack>
+                {aboutData.advantages.slice(0, 3).map((advantage, index) => (
+                  <Stack key={index} direction="row" spacing={1} alignItems="center">
+                    <GreenCheckIcon />
+                    <Typography variant="body2" color="#FFFFFF">{advantage}</Typography>
+                  </Stack>
+                ))}
               </Stack>
             </Box>
           </Stack>
@@ -157,12 +155,15 @@ const Header = () => {
         sx={{
           position: 'sticky',
           top: 0,
-          zIndex: 1000,
+          zIndex: 1300, // Увеличиваем z-index для Material-UI совместимости
           backgroundColor: 'white',
           boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
           padding: { xs: '16px 4%', md: '10px 80px' },
           width: '100%',
-          display: 'block'
+          display: 'block',
+          // Добавляем дополнительные свойства для лучшей работы sticky
+          contain: 'layout',
+          isolation: 'isolate'
         }}
       >
         <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={2} width="100%">

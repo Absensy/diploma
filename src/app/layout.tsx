@@ -1,9 +1,7 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
-import { Box } from '@mui/material';
 import Providers from './providers';
-import Header from '@/components/Header/Header';
-import Footer from '@/components/Footer/Footer';
+import ConditionalLayout from '@/components/ConditionalLayout/ConditionalLayout';
 
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
@@ -24,11 +22,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={montserrat.variable}>
-      <body>
+      <body style={{ margin: 0, padding: 0, overflow: 'visible' }}>
         <Providers>
-          <Header />
-          {children}
-          <Footer />
+          <ConditionalLayout>
+            {children}
+          </ConditionalLayout>
         </Providers>
       </body>
     </html>

@@ -7,7 +7,10 @@ export async function GET(request: NextRequest) {
     const categoryId = searchParams.get('category_id');
     
     const products = await prisma.product.findMany({
-      where: categoryId ? { category_id: parseInt(categoryId) } : {},
+      where: {
+        is_active: true,
+        ...(categoryId ? { category_id: parseInt(categoryId) } : {})
+      },
       include: {
         category: {
           select: {

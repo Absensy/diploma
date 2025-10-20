@@ -15,6 +15,7 @@ import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import Link from 'next/link';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import { useContactContext } from '@/contexts/ContactContext';
+import { useAboutCompanyContent } from '@/hooks/useContent';
 
 const BurgerButton = styled(Button)(({ theme }) => ({
     display: 'none',
@@ -60,6 +61,7 @@ const FeaturesBox = styled(Box)(({ theme }) => ({
 const BurgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { contactInfo, loading } = useContactContext();
+    const { data: aboutData } = useAboutCompanyContent();
 
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
@@ -151,7 +153,7 @@ const BurgerMenu = () => {
                                                 Режим работы
                                             </Typography>
                                             {contactInfo?.working_hours ? (
-                                                contactInfo.working_hours.split(', ').map((hours, index) => (
+                                                contactInfo.working_hours.split(', ').map((hours: string, index: number) => (
                                                     <Typography key={index} variant="body2" color="text.secondary">
                                                         {hours}
                                                     </Typography>
@@ -203,24 +205,14 @@ const BurgerMenu = () => {
                                 Наши преимущества
                             </Typography>
                             <Stack spacing={1}>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <GreenCheckIcon />
-                                    <Typography variant="body2" color="#FFFFFF">
-                                        Качество материалов
-                                    </Typography>
-                                </Stack>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <GreenCheckIcon />
-                                    <Typography variant="body2" color="#FFFFFF">
-                                        Индивидуальный подход
-                                    </Typography>
-                                </Stack>
-                                <Stack direction="row" spacing={1} alignItems="center">
-                                    <GreenCheckIcon />
-                                    <Typography variant="body2" color="#FFFFFF">
-                                        Гарантия и надёжность
-                                    </Typography>
-                                </Stack>
+                                {aboutData.advantages.map((advantage, index) => (
+                                    <Stack key={index} direction="row" spacing={1} alignItems="center">
+                                        <GreenCheckIcon />
+                                        <Typography variant="body2" color="#FFFFFF">
+                                            {advantage}
+                                        </Typography>
+                                    </Stack>
+                                ))}
                             </Stack>
                         </FeaturesBox>
                     </Box>

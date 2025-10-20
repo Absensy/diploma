@@ -18,6 +18,7 @@
     "@mui/material": "^7.3.2",
     "@pbe/react-yandex-maps": "1.2.5",
     "@prisma/client": "^6.17.1",
+    "cloudinary": "^2.7.0",
     "next": "15.5.3",
     "pg": "^8.11.3",
     "prisma": "^6.17.1",

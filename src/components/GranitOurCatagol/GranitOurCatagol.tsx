@@ -5,6 +5,7 @@ import { MonumentCategoryCard } from "../MonumentCategoriesCard/MonumentCategori
 import { DividerWithIcon } from "../GranitDividerWithIcon/GranitDividerWithIcon";
 import { useCategories } from '@/hooks/useCategories';
 import { CategoryCardSkeleton } from "../Skeleton/Skeleton";
+import EmptyState from "../EmptyState/EmptyState";
 
 const GranitOurCatagol = () => {
   const { categories, loading, error } = useCategories();
@@ -53,28 +54,36 @@ const GranitOurCatagol = () => {
         Наш каталог
       </Typography>
       <DividerWithIcon />
-      <Box
-        display="grid"
-        gridTemplateColumns={{
-          xs: "1fr",
-          sm: "repeat(2, 1fr)",
-          md: "repeat(3, 1fr)"
-        }}
-        gap={{ xs: "16px", sm: "20px", md: "24px" }}
-        paddingTop={{ md: "40px", lg: "80px" }}
-        paddingBottom={{ xs: "40px", lg: "80px" }}
-      >
-        {categories.map((category) => (
-          <MonumentCategoryCard
-            key={category.id}
-            name={category.name}
-            price={category.discounted_price ? Number(category.discounted_price) : Number(category.price_from)}
-            image={category.photo}
-            discount={category.discount || undefined}
-            categoryId={category.id}
-          />
-        ))}
-      </Box>
+      {categories.length === 0 ? (
+        <EmptyState
+          message="Категории не найдены"
+          variant="default"
+          height={300}
+        />
+      ) : (
+        <Box
+          display="grid"
+          gridTemplateColumns={{
+            xs: "1fr",
+            sm: "repeat(2, 1fr)",
+            md: "repeat(3, 1fr)"
+          }}
+          gap={{ xs: "16px", sm: "20px", md: "24px" }}
+          paddingTop={{ md: "40px", lg: "80px" }}
+          paddingBottom={{ xs: "40px", lg: "80px" }}
+        >
+          {categories.map((category) => (
+            <MonumentCategoryCard
+              key={category.id}
+              name={category.name}
+              price={category.discounted_price ? Number(category.discounted_price) : Number(category.price_from)}
+              image={category.photo}
+              discount={category.discount || undefined}
+              categoryId={category.id}
+            />
+          ))}
+        </Box>
+      )}
     </Box>
   )
 }

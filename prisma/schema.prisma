@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,36 +8,38 @@ datasource db {
 }
 
 model Category {
-  id               Int      @id @default(autoincrement())
+  id               Int       @id @default(autoincrement())
   name             String
-  price_from       Decimal  @db.Decimal(10, 2)
+  price_from       Decimal   @db.Decimal(10, 2)
   photo            String
   discount         Int?
-  discounted_price Decimal? @db.Decimal(10, 2)
-  created_at       DateTime @default(now())
-  updated_at       DateTime @updatedAt
+  discounted_price Decimal?  @db.Decimal(10, 2)
+  created_at       DateTime  @default(now())
+  updated_at       DateTime  @updatedAt
+  is_active        Boolean   @default(true)
   products         Product[]
 
   @@map("categories")
 }
 
 model Product {
-  id                Int      @id @default(autoincrement())
+  id                Int       @id @default(autoincrement())
   name              String
   short_description String
   full_description  String
   materials         String
   production_time   String
-  price             Decimal  @db.Decimal(10, 2)
+  price             Decimal   @db.Decimal(10, 2)
   discount          Int?
-  discounted_price  Decimal? @db.Decimal(10, 2)
+  discounted_price  Decimal?  @db.Decimal(10, 2)
   image             String
   category_id       Int?
-  is_new            Boolean  @default(false)
-  is_popular        Boolean  @default(false)
-  created_at        DateTime @default(now())
-  updated_at        DateTime @updatedAt
-  category          Category? @relation(fields: [category_id], references: [id], onDelete: SetNull)
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+  is_new            Boolean   @default(false)
+  is_popular        Boolean   @default(false)
+  is_active         Boolean   @default(true)
+  category          Category? @relation(fields: [category_id], references: [id])
 
   @@map("products")
 }
@@ -69,4 +68,14 @@ model ExamplesOurWork {
   updated_at DateTime @updatedAt
 
   @@map("examples_our_work")
+}
+
+model Content {
+  id         Int      @id @default(autoincrement())
+  section    String   @unique
+  data       Json
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@map("content")
 }
