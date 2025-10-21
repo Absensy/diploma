@@ -18,10 +18,8 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   };
 
   useEffect(() => {
-    const auth = localStorage.getItem('adminAuth');
-    if (auth !== 'true') {
-      router.push('/admin');
-    }
+    // Проверка аутентификации теперь происходит через middleware
+    // Если пользователь попал сюда, значит middleware его пропустил
   }, [router]);
 
   return (

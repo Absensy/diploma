@@ -23,13 +23,28 @@ export default function AdminLogin() {
   const [, setIsAuthenticated] = useState(false);
   const router = useRouter();
 
-  const handleLogin = () => {
-    if (password === 'granit871543') {
-      setIsAuthenticated(true);
-      localStorage.setItem('adminAuth', 'true');
-      router.push('/admin/dashboard');
-    } else {
-      setError('Неверный пароль');
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setIsAuthenticated(true);
+        router.push('/admin/dashboard');
+      } else {
+        setError(data.error || 'Ошибка авторизации');
+        setPassword('');
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      setError('Ошибка соединения с сервером');
       setPassword('');
     }
   };
@@ -45,10 +60,21 @@ export default function AdminLogin() {
   };
 
   React.useEffect(() => {
-    const auth = localStorage.getItem('adminAuth');
-    if (auth === 'true') {
-      router.push('/admin/dashboard');
-    }
+    // Проверяем, есть ли действующий JWT токен через запрос к защищенному роуту
+    const checkAuth = async () => {
+      try {
+        const response = await fetch('/admin/dashboard', {
+          method: 'HEAD',
+        });
+        if (response.ok) {
+          router.push('/admin/dashboard');
+        }
+      } catch (error) {
+        // Пользователь не авторизован, остаемся на странице логина
+      }
+    };
+
+    checkAuth();
   }, [router]);
 
   return (

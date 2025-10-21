@@ -1,7 +1,0 @@
-It is necessary to fix the adaptive on the main page of the site: 
-1. Review the adaptive in the "Our Catalog" section 
-2. Review the adaptive in the "About our company" section 
-3. Review the adaptive in the "Our services" section 
-4. Review the adaptive in the "Examples of our work" section 
-5. Review the adaptive in the "Contacts" section 
-6. Review the adaptive in the footer, there is a wrong container on tablets and mobile phones

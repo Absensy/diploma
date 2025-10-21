@@ -58,9 +58,16 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, handleDrawerTog
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminAuth');
-    router.push('/admin');
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', {
+        method: 'POST',
+      });
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      router.push('/admin');
+    }
   };
 
   const handleBackToSite = () => {

@@ -5,7 +5,6 @@ export const StackFooter = styled(Stack)(({ theme }) => ({
     marginBottom: '32px',
     [theme.breakpoints.down('md')]: {
        marginLeft: '0px',
-       marginBottom: '24px',
       },
 
 }));
@@ -13,7 +12,5 @@ export const StackFooter = styled(Stack)(({ theme }) => ({
 export const GridFooter = styled(Grid)(({ theme }) => ({
     [theme.breakpoints.down('md')]: {
         marginLeft: '0px',
-        justifyContent: 'center',
-        textAlign: 'center',
        },
 }));
