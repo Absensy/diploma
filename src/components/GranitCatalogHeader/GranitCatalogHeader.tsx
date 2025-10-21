@@ -1,17 +1,16 @@
-import { Box, Stack, Typography } from "@mui/material";
-import { styled } from '@mui/material/styles';
-import {HeaderBox, TypographyStyle} from "./GranitCatalogHeader.Styles";
+import { Typography } from "@mui/material";
+import { HeaderBox, TypographyStyle } from "./GranitCatalogHeader.Styles";
 
 const GranitCatalogHeader = () => {
-    return (
+     return (
           <HeaderBox>
-               <TypographyStyle variant="h6" fontWeight="700"  color="text.primary" >
+               <TypographyStyle variant="h6" fontWeight="700" color="text.primary" >
                     Каталог мемориальных памятников
                </TypographyStyle>
                <Typography fontSize="16px" color="#9A9DA4" maxWidth="550px">
                     Откройте для себя нашу коллекцию почтенных и элегантных мемориальных памятников.
                </Typography>
           </HeaderBox>
-    )
-}    
+     )
+}
 export default GranitCatalogHeader;

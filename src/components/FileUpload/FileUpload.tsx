@@ -5,16 +5,15 @@ import {
     Box,
     Button,
     Typography,
-    IconButton,
     Alert,
     CircularProgress,
     Chip
 } from '@mui/material';
 import {
-    CloudUpload,
     Delete,
     Description,
-    Download
+    Download,
+    CloudUpload
 } from '@mui/icons-material';
 
 interface FileUploadProps {
@@ -71,7 +70,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
             // Convert file to base64
             const base64 = await convertToBase64(file);
             onChange(base64);
-        } catch (err) {
+        } catch {
             const errorMsg = 'Ошибка при загрузке файла';
             setError(errorMsg);
             onError?.(errorMsg);

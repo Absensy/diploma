@@ -2,8 +2,19 @@
 import React, { createContext, useContext, ReactNode } from 'react'
 import { useContactInfo } from '@/hooks/useContactInfo'
 
+interface ContactInfo {
+    id: number
+    address: string
+    phone: string
+    email: string
+    instagram?: string
+    working_hours: string
+    created_at: string
+    updated_at: string
+}
+
 interface ContactContextType {
-    contactInfo: any
+    contactInfo: ContactInfo | null
     loading: boolean
     error: string | null
 }

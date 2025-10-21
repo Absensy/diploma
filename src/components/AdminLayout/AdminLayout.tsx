@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Box, useMediaQuery, useTheme } from '@mui/material';
+import { Box } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 
@@ -11,8 +11,6 @@ interface AdminLayoutProps {
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const router = useRouter();
 
   const handleDrawerToggle = () => {
@@ -36,9 +34,11 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           flexGrow: 1,
           backgroundColor: '#f5f5f5',
           minHeight: '100vh',
-          pt: isMobile ? '80px' : 0,
+          pt: { xs: '56px', sm: '64px' },
           width: { xs: '100%', md: 'calc(100% - 280px)' },
           ml: { xs: 0, md: 0 },
+          transition: 'all 0.3s ease',
+          overflowX: 'hidden'
         }}
       >
         {children}

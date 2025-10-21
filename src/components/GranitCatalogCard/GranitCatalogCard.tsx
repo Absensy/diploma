@@ -1,10 +1,9 @@
 import { Box, Typography } from "@mui/material";
-import { CatalogCardProps, CategoryCard, DiscountBadge, PriceContainer, OldPrice, CardActions, PopularBadge, NewBadge, StatusBadge } from "./GranitCatalogCard.Styles"
+import { CatalogCardProps, CategoryCard, DiscountBadge, PriceContainer, OldPrice, CardActions, PopularBadge, StatusBadge } from "./GranitCatalogCard.Styles"
 import DetailsButton from "../GranitDetailsButton/GranitDetailsButton"
 import Image from "next/image";
 import ProductModal from "../ProductModal/ProductModal";
 import { useState } from "react";
-import { Product } from "@/lib/db";
 import { styled } from "@mui/material/styles";
 
 export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, oldPrice, image, discount, subtext, is_new, is_popular, product }) => {
@@ -19,7 +18,7 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
     };
 
     // Динамический стиль для NewBadge в зависимости от наличия PopularBadge
-    const DynamicNewBadge = styled(StatusBadge)(({ theme }) => ({
+    const DynamicNewBadge = styled(StatusBadge)(() => ({
         backgroundColor: '#2196f3',
         top: is_popular ? 40 : 8, // Если есть PopularBadge, то ниже, иначе вверху
         left: 8,
@@ -28,7 +27,7 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
     return (
         <>
             <CategoryCard>
-                <Box height={{ xs: "200px", sm: "210px", md: "220px" }} position="relative" display="block" minHeight="200px">
+                <Box height="200px" position="relative" display="block">
                     {discount ? <DiscountBadge>-{discount}%</DiscountBadge> : null}
                     {is_popular && <PopularBadge>Популярное</PopularBadge>}
                     {is_new && <DynamicNewBadge>Новинка</DynamicNewBadge>}

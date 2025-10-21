@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
-export const StyledDivider = styled(Box)(({ theme }) => ({
+export const StyledDivider = styled(Box)(() => ({
     width: '100%',
     display: 'flex',
     alignItems: 'center',
@@ -17,7 +17,7 @@ export const LineDivider = styled(Box)(({ theme }) => ({
   position: 'relative',
 }));
 
-  export const IconContainer = styled(Box)(({ theme }) => ({
+  export const IconContainer = styled(Box)(() => ({
     width: '20px',
     height: '20px',
     borderRadius: '50%',

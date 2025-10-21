@@ -1,9 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { Box, Container, Typography, Stack, CircularProgress } from '@mui/material';
+import { Box, Container, Typography, Stack } from '@mui/material';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
-import { ButtonHeader, HeaderMenuButton, TopHeaderBox, BottomHeaderBox, TypographyTitle } from './Header.Styles';
+import { ButtonHeader, HeaderMenuButton, TopHeaderBox } from './Header.Styles';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import GpsIcon from '@/icons/GPS';
 import TelIcon from '@/icons/Tel';
@@ -19,13 +19,13 @@ import { Skeleton } from '../Skeleton/Skeleton';
 
 const Header = () => {
   const { contactInfo, loading } = useContactContext();
-  const { data: aboutData, loading: aboutLoading } = useAboutCompanyContent();
+  const { data: aboutData } = useAboutCompanyContent();
 
   if (loading) {
     return (
       <Box>
         {/* Верхняя часть Header - скелетон */}
-        <Box sx={{ padding: '29px 80px', display: { xs: 'none', md: 'block' } }}>
+        <Box sx={{ padding: { xs: '29px', md: '29px' }, display: { xs: 'none', md: 'block' } }}>
           <Box display="flex" justifyContent="space-between" alignItems="center" gap="20px">
             <Box display="flex" alignItems="center" gap="20px">
               <Skeleton width="120px" height="40px" />
@@ -56,7 +56,7 @@ const Header = () => {
             zIndex: 1300,
             backgroundColor: 'white',
             boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
-            padding: { xs: '16px 4%', md: '10px 80px' },
+            padding: { xs: '16px', md: '10px' },
             width: '100%',
             display: 'block',
             contain: 'layout',
@@ -158,7 +158,7 @@ const Header = () => {
           zIndex: 1300, // Увеличиваем z-index для Material-UI совместимости
           backgroundColor: 'white',
           boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
-          padding: { xs: '16px 4%', md: '10px 80px' },
+          padding: { xs: '16px', md: '10px 80px' },
           width: '100%',
           display: 'block',
           // Добавляем дополнительные свойства для лучшей работы sticky
@@ -178,10 +178,18 @@ const Header = () => {
 
           {/* Центральная часть: Меню */}
           <Stack direction="row" gap={{ md: '15px', lg: '30px' }}>
-            <HeaderMenuButton variant="text" color="inherit" href="/catalog">Каталог</HeaderMenuButton>
-            <HeaderMenuButton variant="text" color="inherit">О нас</HeaderMenuButton>
-            <HeaderMenuButton variant="text" color="inherit">Услуги</HeaderMenuButton>
-            <HeaderMenuButton variant="text" color="inherit">Примеры работ</HeaderMenuButton>
+            <Link href="/catalog" style={{ textDecoration: 'none' }}>
+              <HeaderMenuButton variant="text" color="inherit">Каталог</HeaderMenuButton>
+            </Link>
+            <Link href="/#about" style={{ textDecoration: 'none' }}>
+              <HeaderMenuButton variant="text" color="inherit">О нас</HeaderMenuButton>
+            </Link>
+            <Link href="/#services" style={{ textDecoration: 'none' }}>
+              <HeaderMenuButton variant="text" color="inherit">Услуги</HeaderMenuButton>
+            </Link>
+            <Link href="/#examples" style={{ textDecoration: 'none' }}>
+              <HeaderMenuButton variant="text" color="inherit">Примеры работ</HeaderMenuButton>
+            </Link>
           </Stack>
 
           {/* Правая часть: Кнопка и иконки */}

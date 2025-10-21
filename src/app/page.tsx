@@ -8,11 +8,21 @@ import GranitContacts from '@/components/GranitContacts/GranitContacts';
 export default function Home() {
   return (
     <Box>
-      <GranitCategoriesCard />
-      <GranitAboutCompany />
-      <GranitOurServices />
-      <GranitExamplesOurWork />
-      <GranitContacts />
+      <Box id="catalog">
+        <GranitCategoriesCard />
+      </Box>
+      <Box id="about">
+        <GranitAboutCompany />
+      </Box>
+      <Box id="services">
+        <GranitOurServices />
+      </Box>
+      <Box id="examples">
+        <GranitExamplesOurWork />
+      </Box>
+      <Box id="contacts">
+        <GranitContacts />
+      </Box>
     </Box>
   );
 }

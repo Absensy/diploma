@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Typography, CircularProgress, Alert } from "@mui/material";
+import { Box, Typography, Alert } from "@mui/material";
 import ExamplesOurWorkCard from "../ExamplesOurWorkCard/ExamplesOurWorkCard";
 import { useExamplesWork } from "@/hooks/useExamplesWork";
 import { ExampleWorkCardSkeleton } from "../Skeleton/Skeleton";

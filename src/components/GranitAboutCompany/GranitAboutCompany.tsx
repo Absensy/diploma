@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react';
-import { Box, Typography, Grid, useTheme, useMediaQuery, Skeleton } from '@mui/material';
+import { Box, Typography, useTheme, useMediaQuery } from '@mui/material';
 import Image from 'next/image';
 import { BoxAboutCompany, TitleAboutCompany, LeftContent, RightContent, StackStats, BoxImage, ContentWrapper } from './GranitAboutCompany.styles';
 import { useAboutCompanyContent } from '@/hooks/useContent';
@@ -11,7 +11,7 @@ import { AboutCompanySkeleton } from '../Skeleton/Skeleton';
 const GranitAboutCompany = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-  const { data, loading, error } = useAboutCompanyContent();
+  const { data, loading } = useAboutCompanyContent();
 
   if (loading) {
     return <AboutCompanySkeleton />;

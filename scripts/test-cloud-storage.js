@@ -1,7 +1,7 @@
 // Тестовый скрипт для проверки cloud storage
 // Запустите: node scripts/test-cloud-storage.js
 
-const { createStorageProvider } = require('../src/lib/cloudStorage');
+import { createStorageProvider } from '../src/lib/cloudStorage.js';
 
 async function testCloudStorage() {
   console.log('🧪 Тестирование Cloud Storage...');

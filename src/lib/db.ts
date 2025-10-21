@@ -12,8 +12,9 @@ export interface Category {
   photo: string;
   discount?: number;
   discounted_price?: number;
-  created_at: Date;
-  updated_at: Date;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface Product {
@@ -28,10 +29,12 @@ export interface Product {
   discounted_price?: number;
   image: string;
   category_id?: number;
+  category?: Category;
   is_new: boolean;
   is_popular: boolean;
-  created_at: Date;
-  updated_at: Date;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
 }
 
 export interface ContactInfo {
@@ -41,6 +44,6 @@ export interface ContactInfo {
   email: string;
   instagram?: string;
   working_hours: string;
-  created_at: Date;
-  updated_at: Date;
+  created_at: string;
+  updated_at: string;
 }

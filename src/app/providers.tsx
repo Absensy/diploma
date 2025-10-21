@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeProvider, CssBaseline, Box } from '@mui/material';
+import { ThemeProvider, CssBaseline } from '@mui/material';
 import theme from '@/theme/theme';
 import { ContactProvider } from '@/contexts/ContactContext';
 import { AlertProvider } from '@/components/GlobalAlert/GlobalAlert';

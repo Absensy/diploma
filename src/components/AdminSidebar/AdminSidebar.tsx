@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Box,
   Drawer,
@@ -13,7 +13,9 @@ import {
   IconButton,
   Divider,
   useMediaQuery,
-  useTheme
+  useTheme,
+  AppBar,
+  Toolbar
 } from '@mui/material';
 import {
   Dashboard,
@@ -22,8 +24,9 @@ import {
   Category,
   ContactPhone,
   ExitToApp,
-  Menu,
-  Home
+  Menu as MenuIcon,
+  Home,
+  PhotoLibrary
 } from '@mui/icons-material';
 import { useRouter, usePathname } from 'next/navigation';
 import LogoGranitPrimary1Icon from '@/icons/LogoGranitPrimary1';
@@ -38,6 +41,7 @@ const menuItems = [
   { text: 'Контент', icon: <Article />, path: '/admin/content' },
   { text: 'Товары', icon: <Inventory />, path: '/admin/products' },
   { text: 'Категории', icon: <Category />, path: '/admin/categories' },
+  { text: 'Примеры работ', icon: <PhotoLibrary />, path: '/admin/examples-work' },
   { text: 'Контакты', icon: <ContactPhone />, path: '/admin/contacts' },
 ];
 
@@ -63,12 +67,33 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, handleDrawerTog
     router.push('/');
   };
 
+
   const drawerContent = (
     <Box sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
       {/* Header */}
-      <Box sx={{ p: 2, display: 'flex', alignItems: 'center', gap: 1 }}>
-        <LogoGranitPrimary1Icon />
-        <Typography variant="h6" sx={{ fontWeight: 700, color: '#333' }}>
+      <Box sx={{
+        p: { xs: 1.5, md: 2 },
+        display: 'flex',
+        alignItems: 'center',
+        gap: 1,
+        minHeight: { xs: '60px', md: '70px' }
+      }}>
+        <Box sx={{
+          '& svg': {
+            width: { xs: 28, md: 32 },
+            height: { xs: 28, md: 32 }
+          }
+        }}>
+          <LogoGranitPrimary1Icon />
+        </Box>
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: 700,
+            color: '#333',
+            fontSize: { xs: '1rem', md: '1.25rem' }
+          }}
+        >
           Админ-панель
         </Typography>
       </Box>
@@ -86,6 +111,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, handleDrawerTog
                 mx: 1,
                 mb: 0.5,
                 borderRadius: 1,
+                py: { xs: 1, md: 1.5 },
                 '&.Mui-selected': {
                   backgroundColor: '#333',
                   color: 'white',
@@ -103,13 +129,23 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, handleDrawerTog
             >
               <ListItemIcon
                 sx={{
-                  minWidth: 40,
+                  minWidth: { xs: 36, md: 40 },
                   color: pathname === item.path ? 'white' : '#666',
+                  '& svg': {
+                    fontSize: { xs: '1.25rem', md: '1.5rem' }
+                  }
                 }}
               >
                 {item.icon}
               </ListItemIcon>
-              <ListItemText primary={item.text} />
+              <ListItemText
+                primary={item.text}
+                sx={{
+                  '& .MuiListItemText-primary': {
+                    fontSize: { xs: '0.875rem', md: '1rem' }
+                  }
+                }}
+              />
             </ListItemButton>
           </ListItem>
         ))}
@@ -120,19 +156,60 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, handleDrawerTog
       {/* Footer actions */}
       <List>
         <ListItem disablePadding>
-          <ListItemButton onClick={handleBackToSite} sx={{ mx: 1, borderRadius: 1 }}>
-            <ListItemIcon sx={{ minWidth: 40, color: '#666' }}>
+          <ListItemButton
+            onClick={handleBackToSite}
+            sx={{
+              mx: 1,
+              borderRadius: 1,
+              py: { xs: 1, md: 1.5 }
+            }}
+          >
+            <ListItemIcon sx={{
+              minWidth: { xs: 36, md: 40 },
+              color: '#666',
+              '& svg': {
+                fontSize: { xs: '1.25rem', md: '1.5rem' }
+              }
+            }}>
               <Home />
             </ListItemIcon>
-            <ListItemText primary="На сайт" />
+            <ListItemText
+              primary="На сайт"
+              sx={{
+                '& .MuiListItemText-primary': {
+                  fontSize: { xs: '0.875rem', md: '1rem' }
+                }
+              }}
+            />
           </ListItemButton>
         </ListItem>
         <ListItem disablePadding>
-          <ListItemButton onClick={handleLogout} sx={{ mx: 1, borderRadius: 1, color: '#d32f2f' }}>
-            <ListItemIcon sx={{ minWidth: 40, color: '#d32f2f' }}>
+          <ListItemButton
+            onClick={handleLogout}
+            sx={{
+              mx: 1,
+              borderRadius: 1,
+              color: '#d32f2f',
+              py: { xs: 1, md: 1.5 }
+            }}
+          >
+            <ListItemIcon sx={{
+              minWidth: { xs: 36, md: 40 },
+              color: '#d32f2f',
+              '& svg': {
+                fontSize: { xs: '1.25rem', md: '1.5rem' }
+              }
+            }}>
               <ExitToApp />
             </ListItemIcon>
-            <ListItemText primary="Выйти" />
+            <ListItemText
+              primary="Выйти"
+              sx={{
+                '& .MuiListItemText-primary': {
+                  fontSize: { xs: '0.875rem', md: '1rem' }
+                }
+              }}
+            />
           </ListItemButton>
         </ListItem>
       </List>
@@ -141,68 +218,95 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, handleDrawerTog
 
   return (
     <>
-      {/* Mobile header with menu button */}
-      {isMobile && (
-        <Box
-          sx={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            zIndex: theme.zIndex.appBar,
-            backgroundColor: 'white',
-            borderBottom: '1px solid #e0e0e0',
-            display: 'flex',
-            alignItems: 'center',
-            p: { xs: 1.5, sm: 2 },
-            gap: 1,
-            height: '80px',
-          }}
-        >
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 1 }}
-          >
-            <Menu />
-          </IconButton>
-          <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            '& svg': {
-              width: { xs: 42, sm: 32 },
-              height: { xs: 42, sm: 32 }
-            }
-          }}>
-            <LogoGranitPrimary1Icon />
+      {/* Modern Admin Header */}
+      <AppBar
+        position="fixed"
+        sx={{
+          zIndex: theme.zIndex.drawer + 1,
+          backgroundColor: 'white',
+          color: '#333',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
+          borderBottom: '1px solid #e0e0e0'
+        }}
+      >
+        <Toolbar sx={{
+          minHeight: { xs: '56px', sm: '64px' },
+          px: { xs: 2, sm: 3 },
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          {/* Left side - Logo and Menu */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
+            <IconButton
+              color="inherit"
+              aria-label="open drawer"
+              edge="start"
+              onClick={handleDrawerToggle}
+              sx={{
+                color: '#333',
+                display: { xs: 'flex', md: 'none' },
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
+              <Box sx={{
+                '& svg': {
+                  width: { xs: 32, sm: 36 },
+                  height: { xs: 32, sm: 36 }
+                }
+              }}>
+                <LogoGranitPrimary1Icon />
+              </Box>
+              <Box>
+                <Typography
+                  variant="h6"
+                  sx={{
+                    fontWeight: 700,
+                    color: '#333',
+                    fontSize: { xs: '1rem', sm: '1.25rem' },
+                    lineHeight: 1.2
+                  }}
+                >
+                  Админ-панель
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: '#666',
+                    fontSize: '0.75rem',
+                    display: { xs: 'none', sm: 'block' }
+                  }}
+                >
+                  Granit Memory
+                </Typography>
+              </Box>
+            </Box>
           </Box>
-          <Typography
-            variant="h6"
-            sx={{
-              fontWeight: 700,
-              color: '#333',
-              fontSize: { xs: '1rem', sm: '1.25rem' },
-              display: { xs: 'none', sm: 'block' }
-            }}
-          >
-            Админ-панель
-          </Typography>
-        </Box>
-      )}
+
+
+          {/* Right side - Empty for now */}
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+            {/* Empty space for future actions */}
+          </Box>
+        </Toolbar>
+      </AppBar>
 
       {/* Desktop sidebar */}
       {!isMobile && (
         <Drawer
           variant="permanent"
           sx={{
-            width: 280,
+            width: { xs: 280, lg: 280 },
             flexShrink: 0,
             '& .MuiDrawer-paper': {
-              width: 280,
+              width: { xs: 280, lg: 280 },
               boxSizing: 'border-box',
               borderRight: '1px solid #e0e0e0',
+              boxShadow: '2px 0 4px rgba(0,0,0,0.1)'
             },
           }}
         >
@@ -221,8 +325,9 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ mobileOpen, handleDrawerTog
           }}
           sx={{
             '& .MuiDrawer-paper': {
-              width: 280,
+              width: { xs: 280, sm: 300 },
               boxSizing: 'border-box',
+              boxShadow: '0 4px 8px rgba(0,0,0,0.15)'
             },
           }}
         >

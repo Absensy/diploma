@@ -2,7 +2,7 @@
 import { styled } from '@mui/material/styles';
 import { Typography, Box } from "@mui/material";
 
-export const TypographyWrapStyles = styled(Typography) (({ theme }) => ({
+export const TypographyWrapStyles = styled(Typography) (() => ({
      whiteSpace: 'normal', 
      fontSize: '16px',
      overflowWrap: 'break-word',

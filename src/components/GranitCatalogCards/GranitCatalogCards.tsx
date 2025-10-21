@@ -1,7 +1,6 @@
 "use client"
-import { Box, Typography, Grid, CircularProgress, Alert } from "@mui/material";
+import { Box, Typography, Alert } from "@mui/material";
 import { GranitCatalogCard } from "../GranitCatalogCard/GranitCatalogCard";
-import { Pagination, Stack } from '@mui/material';
 import { PaginationStyles, Ctatalogbox, StackStyle, TypographyStyle, ShowMoreContainer } from "./GranitCatalogCard.Styles";
 import MobileFilterDrawer from "../MobileFilterDrawer/MobileFilterDrawer";
 import GranitShowMoreButton from "../GranitShowMoreButton/GranitShowMoreButton";
@@ -115,10 +114,9 @@ const GranitCatalogCards = () => {
                     {/* Кнопка "Показать ещё" для мобилки */}
                     {isMobile && hasMoreItems && (
                         <ShowMoreContainer>
-                            <GranitShowMoreButton
-                                onClick={handleShowMore}
-                                children={`Показать ещё (${remainingItems})`}
-                            />
+                            <GranitShowMoreButton onClick={handleShowMore}>
+                                Показать ещё ({remainingItems})
+                            </GranitShowMoreButton>
                             <TypographyStyle>Показано {visibleItems} из {totalCount} товаров</TypographyStyle>
                         </ShowMoreContainer>
                     )}

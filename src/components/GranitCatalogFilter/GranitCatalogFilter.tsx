@@ -1,5 +1,5 @@
 "use client"
-import { Box, Divider, FormControl, FormControlLabel, FormGroup, InputAdornment, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, Checkbox, CircularProgress, Alert } from "@mui/material";
+import { FormControl, FormControlLabel, FormGroup, InputAdornment, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, Checkbox, Alert } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { TypographyWrapStyles, FilterBox } from "./GranitCatalogFilter.Styles";
@@ -53,7 +53,7 @@ const GranitCatalogFilter = () => {
                             onChange={(e) => updateFilter('sortBy', e.target.value)}
                             IconComponent={ArrowDropDownIcon}
                         >
-                            {filterData.sortOptions.map((option: any) => (
+                            {filterData.sortOptions.map((option: { value: string; label: string }) => (
                                 <MenuItem key={option.value} value={option.value}>
                                     {option.label}
                                 </MenuItem>
@@ -73,7 +73,7 @@ const GranitCatalogFilter = () => {
                         />
                     ) : (
                         <FormGroup>
-                            {filterData.categories.map((category: any) => (
+                            {filterData.categories.map((category: { id: number; name: string }) => (
                                 <FormControlLabel
                                     key={category.id}
                                     control={

@@ -1,9 +1,8 @@
 "use client"
 
-import { Box, Typography, Skeleton } from "@mui/material"
+import { Box, Typography } from "@mui/material"
 import OurServicesCard from "../OurServicesCard/OurServicesCard";
 import { useOurServicesContent } from '@/hooks/useContent';
-import { GridOurServices } from "./GranitOurServices.styles";
 import { ServiceCardSkeleton } from "../Skeleton/Skeleton";
 
 const GranitOurServices = () => {

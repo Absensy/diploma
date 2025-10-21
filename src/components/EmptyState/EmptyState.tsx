@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { Box, Typography, Paper } from '@mui/material';
+import { Box, Typography, Paper, SxProps, Theme } from '@mui/material';
 import { InboxOutlined } from '@mui/icons-material';
 
 interface EmptyStateProps {
@@ -9,7 +9,7 @@ interface EmptyStateProps {
     icon?: React.ReactNode;
     variant?: 'default' | 'minimal' | 'card';
     height?: string | number;
-    sx?: any;
+    sx?: SxProps<Theme>;
 }
 
 const EmptyState: React.FC<EmptyStateProps> = ({
@@ -79,4 +79,6 @@ const EmptyState: React.FC<EmptyStateProps> = ({
 };
 
 export default EmptyState;
+
+
 

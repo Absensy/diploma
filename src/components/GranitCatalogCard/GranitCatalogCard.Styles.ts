@@ -32,7 +32,7 @@ export const CategoryCard = styled(Box)(({ theme }) => ({
     },
 }));
 
-export const DiscountBadge = styled(Box)(({ theme }) => ({
+export const DiscountBadge = styled(Box)(() => ({
     position: 'absolute',
     top: 0,
     right: -2,
@@ -45,7 +45,7 @@ export const DiscountBadge = styled(Box)(({ theme }) => ({
     zIndex: 1,
 }));
 
-export const StatusBadge = styled(Box)(({ theme }) => ({
+export const StatusBadge = styled(Box)(() => ({
     position: 'absolute',
     top: 8,
     left: 8,
@@ -60,39 +60,39 @@ export const StatusBadge = styled(Box)(({ theme }) => ({
     letterSpacing: '0.5px',
 }));
 
-export const PopularBadge = styled(StatusBadge)(({ theme }) => ({
+export const PopularBadge = styled(StatusBadge)(() => ({
     backgroundColor: '#ff9800',
     top: 8,
     left: 8,
 }));
 
-export const NewBadge = styled(StatusBadge)(({ theme }) => ({
+export const NewBadge = styled(StatusBadge)(() => ({
     backgroundColor: '#2196f3',
     top: 8, // Верхняя позиция по умолчанию
     left: 8,
 }));
 
 
-export const PriceContainer = styled(Box)(({ theme }) => ({
+export const PriceContainer = styled(Box)(() => ({
     display: 'flex',
     alignItems: 'center',
     gap: '8px',
     marginTop: '16px',
 }));
 
-export const OldPrice = styled(Box)(({ theme }) => ({
+export const OldPrice = styled(Box)(() => ({
     fontSize: '20px',
     color: '#9A9DA4',
     textDecoration: 'line-through',
 }));
 
-export const NewPrice = styled(Box)(({ theme }) => ({
+export const NewPrice = styled(Box)(() => ({
     fontSize: '20px',
     fontWeight: 700,
     color: '#ff5252',
 }));
 
-export const CardActions = styled(Box)(({ theme }) => ({
+export const CardActions = styled(Box)(() => ({
     display: 'flex',
     justifyContent: 'start',
     alignItems: 'center',

@@ -64,14 +64,14 @@ const FilterButton = styled(Button)(({ theme }) => ({
     }
 }));
 
-const FilterSection = styled(Box)(({ theme }) => ({
+const FilterSection = styled(Box)(() => ({
     backgroundColor: 'transparent',
     borderRadius: '12px',
     padding: '20px',
     marginBottom: '20px',
 }));
 
-const InfoBox = styled(Box)(({ theme }) => ({
+const InfoBox = styled(Box)(() => ({
     backgroundColor: 'transparent',
     borderRadius: '8px',
     padding: '12px 16px',
@@ -224,7 +224,7 @@ const MobileFilterDrawer = () => {
                                         onChange={(e) => updateFilter('sortBy', e.target.value)}
                                         IconComponent={ArrowDropDownIcon}
                                     >
-                                        {filterData.sortOptions.map((option: any) => (
+                                        {filterData.sortOptions.map((option: { value: string; label: string }) => (
                                             <MenuItem key={option.value} value={option.value}>
                                                 {option.label}
                                             </MenuItem>
@@ -248,7 +248,7 @@ const MobileFilterDrawer = () => {
                                     />
                                 ) : (
                                     <FormGroup>
-                                        {filterData.categories.map((category: any) => (
+                                        {filterData.categories.map((category: { id: number; name: string }) => (
                                             <FormControlLabel
                                                 key={category.id}
                                                 control={

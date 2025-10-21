@@ -1,6 +1,6 @@
 "use client"
 
-import { Box, Typography, CircularProgress, Alert } from "@mui/material"
+import { Box, Typography, Alert } from "@mui/material"
 import { MonumentCategoryCard } from "../MonumentCategoriesCard/MonumentCategoriesCard"
 import { DividerWithIcon } from "../GranitDividerWithIcon/GranitDividerWithIcon";
 import { useCategories } from '@/hooks/useCategories';

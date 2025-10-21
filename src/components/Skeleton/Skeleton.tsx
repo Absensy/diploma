@@ -1,18 +1,20 @@
 import React from 'react';
-import { Skeleton as MuiSkeleton, Box, Stack } from '@mui/material';
+import { Skeleton as MuiSkeleton, Box, Stack, SxProps, Theme } from '@mui/material';
 
 interface SkeletonProps {
     variant?: 'text' | 'rectangular' | 'circular';
     width?: number | string;
     height?: number | string;
     animation?: 'pulse' | 'wave' | false;
+    sx?: SxProps<Theme>;
 }
 
 export const Skeleton: React.FC<SkeletonProps> = ({
     variant = 'rectangular',
     width,
     height,
-    animation = 'wave'
+    animation = 'wave',
+    sx
 }) => {
     return (
         <MuiSkeleton
@@ -24,7 +26,8 @@ export const Skeleton: React.FC<SkeletonProps> = ({
                 backgroundColor: 'rgba(0, 0, 0, 0.06)',
                 '&::after': {
                     background: 'linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent)',
-                }
+                },
+                ...sx
             }}
         />
     );
@@ -52,38 +55,47 @@ export const ProductCardSkeleton: React.FC = () => {
             <Box sx={{ height: { xs: "200px", sm: "210px", md: "220px" }, position: 'relative', minHeight: "200px" }}>
                 <Skeleton height="100%" />
                 {/* Имитация возможного бейджа скидки */}
-                <Skeleton
-                    width="50px"
-                    height="24px"
+                <Box
                     sx={{
                         position: 'absolute',
                         top: 8,
                         left: 8,
                         borderRadius: '12px'
                     }}
-                />
+                >
+                    <Skeleton
+                        width="50px"
+                        height="24px"
+                    />
+                </Box>
                 {/* Имитация возможного бейджа "Популярное" */}
-                <Skeleton
-                    width="80px"
-                    height="24px"
+                <Box
                     sx={{
                         position: 'absolute',
                         top: 8,
                         right: 8,
                         borderRadius: '12px'
                     }}
-                />
+                >
+                    <Skeleton
+                        width="80px"
+                        height="24px"
+                    />
+                </Box>
                 {/* Имитация возможного бейджа "Новинка" */}
-                <Skeleton
-                    width="60px"
-                    height="24px"
+                <Box
                     sx={{
                         position: 'absolute',
                         top: 40,
                         right: 8,
                         borderRadius: '12px'
                     }}
-                />
+                >
+                    <Skeleton
+                        width="60px"
+                        height="24px"
+                    />
+                </Box>
             </Box>
 
             {/* Контент */}
@@ -127,26 +139,29 @@ export const CategoryCardSkeleton: React.FC = () => {
             <Box sx={{ height: { xs: 200, sm: 250, md: 280 }, position: 'relative' }}>
                 <Skeleton height="100%" />
                 {/* Имитация возможного бейджа скидки */}
-                <Skeleton
-                    width="50px"
-                    height="24px"
+                <Box
                     sx={{
                         position: 'absolute',
                         top: 8,
                         left: 8,
                         borderRadius: '12px'
                     }}
-                />
+                >
+                    <Skeleton
+                        width="50px"
+                        height="24px"
+                    />
+                </Box>
             </Box>
 
             {/* Контент */}
             <Box sx={{ padding: { xs: '16px', md: '24px' }, display: 'flex', flexDirection: 'column', flex: 1 }}>
                 {/* Название категории */}
-                <Skeleton height={{ xs: "18px", md: "24px" }} width="85%" sx={{ marginBottom: 0 }} />
+                <Skeleton height="18px" width="85%" sx={{ marginBottom: 0, height: { xs: "18px", md: "24px" } }} />
 
                 {/* Цена "от X BYN" */}
                 <Box sx={{ padding: { xs: "12px 0px", md: "24px 0px" } }}>
-                    <Skeleton height={{ xs: "24px", md: "30px" }} width="120px" />
+                    <Skeleton height="24px" width="120px" sx={{ height: { xs: "24px", md: "30px" } }} />
                 </Box>
 
                 {/* Кнопка каталога */}
@@ -360,7 +375,7 @@ export const ServiceCardSkeleton: React.FC = () => {
                     width: '100%',
                     padding: '0px 18px'
                 }}>
-                    <Skeleton height={{ xs: "24px", md: "20px" }} width="80%" />
+                    <Skeleton height="24px" width="80%" sx={{ height: { xs: "24px", md: "20px" } }} />
                 </Box>
             </Box>
 

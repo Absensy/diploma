@@ -22,7 +22,7 @@ export const BottomHeaderBox = styled(Box)(({ theme }) => ({
   display: 'block',
   minHeight: '60px',
   [theme.breakpoints.down(1024)]: {
-    padding: '16px 4%',
+    padding: '16px',
     position: 'sticky',
     top: 0,
     zIndex: 1000,

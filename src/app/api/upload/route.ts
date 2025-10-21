@@ -47,8 +47,7 @@ export async function POST(request: NextRequest) {
     const result = await storage.uploadFile(
       buffer,
       fileName,
-      type,
-      file.type
+      type
     );
 
     return NextResponse.json({ 

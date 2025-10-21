@@ -32,7 +32,7 @@ export const CategoryCard = styled(Box)(({ theme }) => ({
     },
 }));
 
-export const DiscountBadge = styled(Box)(({ theme }) => ({
+export const DiscountBadge = styled(Box)(() => ({
     position: 'absolute',
     top: 0,
     right: 0,

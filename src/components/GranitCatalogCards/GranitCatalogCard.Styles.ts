@@ -1,7 +1,6 @@
 'use client'
 import { styled } from '@mui/material/styles';
 import { Pagination, Box, Typography, Stack } from "@mui/material";
-import { SxProps, Theme } from '@mui/material/styles';
 
 export const PaginationStyles = styled(Pagination) (({ theme }) => ({
          '& .MuiPaginationItem-root': {

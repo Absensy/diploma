@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
 export interface FilterData {
@@ -28,14 +28,14 @@ export const useFilters = (initialCategoryId?: number) => {
   const [error, setError] = useState<string | null>(null)
   
   // Initialize filters from URL parameters
-  const getInitialFilters = (): FilterState => {
+  const getInitialFilters = useCallback((): FilterState => {
     const search = searchParams.get('search') || ''
     const sortBy = searchParams.get('sortBy') || 'price-asc'
     const categories = searchParams.get('categories')?.split(',').map(Number).filter(Boolean) || []
     const materials = searchParams.get('materials')?.split(',').filter(Boolean) || []
     const priceMin = searchParams.get('priceMin') ? Number(searchParams.get('priceMin')) : null
     const priceMax = searchParams.get('priceMax') ? Number(searchParams.get('priceMax')) : null
-    
+
     return {
       search,
       sortBy,
@@ -44,7 +44,7 @@ export const useFilters = (initialCategoryId?: number) => {
       priceMin,
       priceMax
     }
-  }
+  }, [searchParams, initialCategoryId])
   
   const [filters, setFilters] = useState<FilterState>(getInitialFilters)
 
@@ -80,12 +80,6 @@ export const useFilters = (initialCategoryId?: number) => {
         const data = await response.json()
         setFilterData(data)
         
-        // Устанавливаем начальные значения ценового диапазона из API если их нет в URL
-        setFilters(prev => ({
-          ...prev,
-          priceMin: prev.priceMin ?? data.priceRange.min,
-          priceMax: prev.priceMax ?? data.priceRange.max
-        }))
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred')
         console.error('Error fetching filter data:', err)
@@ -101,9 +95,9 @@ export const useFilters = (initialCategoryId?: number) => {
   useEffect(() => {
     const newFilters = getInitialFilters()
     setFilters(newFilters)
-  }, [searchParams])
+  }, [searchParams, getInitialFilters])
 
-  const updateFilter = (key: keyof FilterState, value: any) => {
+  const updateFilter = (key: keyof FilterState, value: string | number | number[] | string[] | null) => {
     const newFilters = {
       ...filters,
       [key]: value
@@ -144,8 +138,8 @@ export const useFilters = (initialCategoryId?: number) => {
       sortBy: 'price-asc',
       selectedCategories: [],
       selectedMaterials: [],
-      priceMin: filterData?.priceRange.min || null,
-      priceMax: filterData?.priceRange.max || null
+      priceMin: null,
+      priceMax: null
     }
     setFilters(newFilters)
     updateURL(newFilters)

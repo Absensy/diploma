@@ -5,27 +5,15 @@ import {
   Box,
   Paper,
   Skeleton,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Grid,
   Card,
   CardContent,
-  TextField,
-  Button,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  FormControl,
-  InputLabel,
-  Avatar,
 } from '@mui/material';
 
-// Скелетон для таблицы товаров
+// Скелетон для карточек товаров
 export const AdminProductsTableSkeleton: React.FC = () => {
   return (
     <>
@@ -47,11 +35,12 @@ export const AdminProductsTableSkeleton: React.FC = () => {
           >
             <Skeleton
               variant="rectangular"
-              width={{ xs: '100%', sm: 300 }}
               height={40}
-              sx={{ borderRadius: 1 }}
+              sx={{
+                borderRadius: 1,
+                width: { xs: '100%', sm: 300 }
+              }}
             />
-            <Skeleton variant="circular" width={40} height={40} />
           </Box>
           <Box
             display="flex"
@@ -61,104 +50,59 @@ export const AdminProductsTableSkeleton: React.FC = () => {
           >
             <Skeleton
               variant="rectangular"
-              width={{ xs: '100%', sm: 200 }}
               height={36}
-              sx={{ borderRadius: 1 }}
-            />
-            <Skeleton
-              variant="rectangular"
-              width={{ xs: '100%', sm: 160 }}
-              height={36}
-              sx={{ borderRadius: 1 }}
+              sx={{
+                borderRadius: 1,
+                width: { xs: '100%', sm: 160 }
+              }}
             />
           </Box>
         </Box>
       </Paper>
 
-      {/* Table Skeleton */}
-      <TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
-        <Table sx={{ minWidth: 800 }}>
-          <TableHead>
-            <TableRow>
-              <TableCell padding="checkbox" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
-                <Skeleton variant="rectangular" width={18} height={18} />
-              </TableCell>
-              <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
-                <Skeleton variant="text" width={100} />
-              </TableCell>
-              <TableCell><Skeleton variant="text" width={80} /></TableCell>
-              <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
-                <Skeleton variant="text" width={90} />
-              </TableCell>
-              <TableCell><Skeleton variant="text" width={60} /></TableCell>
-              <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
-                <Skeleton variant="text" width={70} />
-              </TableCell>
-              <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
-                <Skeleton variant="text" width={100} />
-              </TableCell>
-              <TableCell align="center"><Skeleton variant="text" width={80} /></TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {Array.from({ length: 5 }).map((_, index) => (
-              <TableRow key={index} hover>
-                <TableCell padding="checkbox" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
-                  <Skeleton variant="rectangular" width={18} height={18} />
-                </TableCell>
-                <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
-                  <Skeleton variant="rounded" width={50} height={50} />
-                </TableCell>
-                <TableCell>
-                  <Box display="flex" alignItems="center" gap={2}>
-                    <Skeleton
-                      variant="rounded"
-                      width={40}
-                      height={40}
-                      sx={{ display: { xs: 'block', sm: 'none' } }}
-                    />
-                    <Box sx={{ width: '100%' }}>
-                      <Skeleton variant="text" width="80%" height={20} sx={{ marginBottom: '4px' }} />
-                      <Skeleton variant="text" width="60%" height={16} sx={{ marginBottom: '4px' }} />
-                      <Skeleton
-                        variant="text"
-                        width="50%"
-                        height={14}
-                        sx={{ display: { xs: 'block', md: 'none' } }}
-                      />
-                    </Box>
-                  </Box>
-                </TableCell>
-                <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
-                  <Skeleton variant="text" width={100} />
-                </TableCell>
-                <TableCell>
-                  <Box>
-                    <Skeleton variant="text" width={80} height={20} sx={{ marginBottom: '4px' }} />
-                    <Skeleton variant="text" width={60} height={16} />
-                  </Box>
-                </TableCell>
-                <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
-                  <Box display="flex" gap={1} flexWrap="wrap">
-                    <Skeleton variant="rounded" width={60} height={24} />
-                    <Skeleton variant="rounded" width={80} height={24} />
-                    <Skeleton variant="rounded" width={70} height={24} />
-                  </Box>
-                </TableCell>
-                <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
-                  <Skeleton variant="text" width={80} />
-                </TableCell>
-                <TableCell align="center">
-                  <Box display="flex" gap={1} justifyContent="center">
-                    <Skeleton variant="circular" width={32} height={32} />
-                    <Skeleton variant="circular" width={32} height={32} />
-                  </Box>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      {/* Cards Grid Skeleton */}
+      <Box sx={{
+        display: 'grid',
+        gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)' },
+        gap: { xs: 2, md: 3 }
+      }}>
+        {Array.from({ length: 8 }).map((_, index) => (
+          <Card key={index} sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+            <Box sx={{ position: 'relative' }}>
+              <Skeleton
+                variant="rounded"
+                width="100%"
+                sx={{ height: { xs: 160, sm: 180, md: 200 } }}
+              />
+              <Box sx={{ position: 'absolute', top: 8, right: 8 }}>
+                <Skeleton variant="rounded" width={70} height={24} />
+              </Box>
+            </Box>
+
+            <CardContent sx={{ flexGrow: 1, p: { xs: 1.5, md: 2 }, pb: 1 }}>
+              <Skeleton variant="text" width="80%" height={24} sx={{ mb: 1 }} />
+              <Skeleton variant="text" width="100%" height={16} sx={{ mb: 1 }} />
+              <Skeleton variant="text" width="60%" height={16} sx={{ mb: 1 }} />
+              <Skeleton variant="text" width="90%" height={20} sx={{ mb: 1 }} />
+              <Skeleton variant="text" width="70%" height={16} sx={{ mb: 1 }} />
+
+              <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1 }}>
+                <Skeleton variant="rounded" width={60} height={24} />
+                <Skeleton variant="rounded" width={80} height={24} />
+              </Box>
+
+              <Skeleton variant="text" width="50%" height={14} />
+            </CardContent>
+
+            <Box sx={{ p: { xs: 1, md: 1.5 }, pt: 0 }}>
+              <Box display="flex" gap={1}>
+                <Skeleton variant="circular" width={32} height={32} />
+                <Skeleton variant="circular" width={32} height={32} />
+              </Box>
+            </Box>
+          </Card>
+        ))}
+      </Box>
     </>
   );
 };
@@ -179,9 +123,11 @@ export const AdminCategoriesGridSkeleton: React.FC = () => {
         <Skeleton variant="text" width={150} height={24} />
         <Skeleton
           variant="rectangular"
-          width={{ xs: '100%', sm: 160 }}
           height={36}
-          sx={{ borderRadius: 1 }}
+          sx={{
+            borderRadius: 1,
+            width: { xs: '100%', sm: 160 }
+          }}
         />
       </Box>
 
@@ -276,9 +222,16 @@ export const AdminDashboardSkeleton: React.FC = () => {
       </Box>
 
       {/* Statistics Cards Skeleton */}
-      <Grid container spacing={3} mb={4}>
+      <Box
+        sx={{
+          display: 'grid',
+          gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(4, 1fr)' },
+          gap: 3,
+          mb: 4
+        }}
+      >
         {Array.from({ length: 4 }).map((_, index) => (
-          <Grid item xs={12} sm={6} lg={3} key={index}>
+          <Box key={index}>
             <Card sx={{
               height: '100%',
               borderRadius: 3,
@@ -295,19 +248,19 @@ export const AdminDashboardSkeleton: React.FC = () => {
                 <Skeleton variant="text" width={100} height={16} sx={{ mt: 1 }} />
               </CardContent>
             </Card>
-          </Grid>
+          </Box>
         ))}
-      </Grid>
+      </Box>
 
       {/* Main Content Grid */}
-      <Grid container spacing={3}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', lg: '2fr 1fr' }, gap: 3 }}>
         {/* Quick Actions */}
-        <Grid item xs={12} lg={8}>
+        <Box>
           <Paper sx={{ p: 3, borderRadius: 3, mb: 3 }}>
             <Skeleton variant="text" width={180} height={32} sx={{ mb: 3 }} />
-            <Grid container spacing={2}>
+            <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)' }, gap: 2 }}>
               {Array.from({ length: 4 }).map((_, index) => (
-                <Grid item xs={12} sm={6} key={index}>
+                <Box key={index}>
                   <Card sx={{ height: '100%', borderRadius: 3 }}>
                     <CardContent sx={{ p: 3 }}>
                       <Box display="flex" alignItems="center" gap={2}>
@@ -319,9 +272,9 @@ export const AdminDashboardSkeleton: React.FC = () => {
                       </Box>
                     </CardContent>
                   </Card>
-                </Grid>
+                </Box>
               ))}
-            </Grid>
+            </Box>
           </Paper>
 
           {/* Recent Products */}
@@ -353,10 +306,10 @@ export const AdminDashboardSkeleton: React.FC = () => {
               ))}
             </Box>
           </Paper>
-        </Grid>
+        </Box>
 
         {/* Sidebar */}
-        <Grid item xs={12} lg={4}>
+        <Box>
           {/* System Status */}
           <Paper sx={{ p: 3, borderRadius: 3 }}>
             <Skeleton variant="text" width={120} height={24} sx={{ mb: 2 }} />
@@ -372,8 +325,8 @@ export const AdminDashboardSkeleton: React.FC = () => {
               ))}
             </Box>
           </Paper>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
     </>
   );
 };
@@ -388,9 +341,9 @@ export const AdminContactsSkeleton: React.FC = () => {
         <Skeleton variant="text" width={400} height={24} />
       </Box>
 
-      <Grid container spacing={4}>
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(2, 1fr)' }, gap: 4 }}>
         {/* Основная контактная информация */}
-        <Grid item xs={12} md={6}>
+        <Box>
           <Paper sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
               <Skeleton variant="circular" width={24} height={24} />
@@ -408,10 +361,10 @@ export const AdminContactsSkeleton: React.FC = () => {
               </Box>
             </Box>
           </Paper>
-        </Grid>
+        </Box>
 
         {/* Режим работы */}
-        <Grid item xs={12} md={6}>
+        <Box>
           <Paper sx={{ p: 3 }}>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 3 }}>
               <Skeleton variant="circular" width={24} height={24} />
@@ -432,10 +385,10 @@ export const AdminContactsSkeleton: React.FC = () => {
               </Box>
             </Box>
           </Paper>
-        </Grid>
+        </Box>
 
         {/* Предварительный просмотр */}
-        <Grid item xs={12} md={6}>
+        <Box>
           <Paper sx={{ p: 3 }}>
             <Skeleton variant="text" width={200} height={24} sx={{ mb: 3 }} />
             <Skeleton variant="rectangular" width="100%" height={1} sx={{ mb: 3 }} />
@@ -464,8 +417,8 @@ export const AdminContactsSkeleton: React.FC = () => {
               </CardContent>
             </Card>
           </Paper>
-        </Grid>
-      </Grid>
+        </Box>
+      </Box>
 
       {/* Save Button Skeleton */}
       <Box mt={4} display="flex" justifyContent="center">
@@ -476,12 +429,7 @@ export const AdminContactsSkeleton: React.FC = () => {
 };
 
 // Скелетон для операций (создание/обновление/удаление)
-export const AdminOperationSkeleton: React.FC<{ type: 'create' | 'update' | 'delete' }> = ({ type }) => {
-  const messages = {
-    create: 'Создание...',
-    update: 'Обновление...',
-    delete: 'Удаление...'
-  };
+export const AdminOperationSkeleton: React.FC<{ type: 'create' | 'update' | 'delete' }> = () => {
 
   return (
     <Box

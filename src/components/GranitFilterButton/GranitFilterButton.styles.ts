@@ -2,11 +2,11 @@
 import styled from "@emotion/styled";
 import { Button } from "@mui/material";
 
-export const FilterButtonStyles = styled(Button)(({ theme }) => ({
+export const FilterButtonStyles = styled(Button)(() => ({
     backgroundColor: '#2c2c2c',
     color: '#ffffff',
     borderRadius: '8px',
-    textTransform: 'none',
+    textTransform: 'none' as const,
     padding: '10px 48px',
     boxShadow: 'none',
     '&:hover': {

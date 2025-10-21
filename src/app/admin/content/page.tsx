@@ -18,7 +18,7 @@ import {
   Chip,
   Divider,
 } from '@mui/material';
-import { Save, Edit, Upload, Business, Build, ViewHeadline, ViewModule, Category } from '@mui/icons-material';
+import { Save, Business, Build, ViewHeadline, ViewModule, Category } from '@mui/icons-material';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import FileUpload from '@/components/FileUpload/FileUpload';
 import ImageUpload from '@/components/ImageUpload/ImageUpload';
@@ -327,7 +327,7 @@ export default function AdminContent() {
           <TabPanel value={tabValue} index={0}>
             <Stack spacing={3}>
               <Typography variant="h6" gutterBottom>
-                Секция "О нашей компании"
+                Секция &quot;О нашей компании&quot;
               </Typography>
 
               <Box sx={{ display: 'flex', flexDirection: { xs: 'column', md: 'row' }, gap: 3 }}>
@@ -391,7 +391,6 @@ export default function AdminContent() {
                       label="Изображение секции"
                       helperText="Загрузите изображение для секции 'О нашей компании'"
                       previewSize={{ width: 250, height: 150 }}
-                      aspectRatio={700 / 484}
                       uploadType="content"
                     />
 
@@ -405,7 +404,7 @@ export default function AdminContent() {
           <TabPanel value={tabValue} index={1}>
             <Stack spacing={3}>
               <Typography variant="h6" gutterBottom>
-                Секция "Наши услуги"
+                Секция &quot;Наши услуги&quot;
               </Typography>
 
               <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: 'repeat(3, 1fr)' }, gap: 2 }}>

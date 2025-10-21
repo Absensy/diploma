@@ -5,12 +5,10 @@ import {
   Box,
   Container,
   Typography,
-  Paper,
   Button,
   Card,
   CardContent,
   CardActions,
-  Grid,
   Dialog,
   DialogTitle,
   DialogContent,
@@ -20,7 +18,6 @@ import {
   Chip,
   Alert,
   Avatar,
-  CircularProgress,
   Switch,
   FormControlLabel,
 } from '@mui/material';
@@ -28,11 +25,11 @@ import {
   Add,
   Edit,
   Delete,
-  DragIndicator,
 } from '@mui/icons-material';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import ImageUpload from '@/components/ImageUpload/ImageUpload';
 import { useAdminCategories } from '@/hooks/useAdminCategories';
+import { Category } from '@/lib/db';
 import { AdminCategoriesGridSkeleton } from '@/components/AdminSkeleton/AdminSkeleton';
 import { AdminOperationOverlay } from '@/components/AdminOperationOverlay/AdminOperationOverlay';
 import EmptyState from '@/components/EmptyState/EmptyState';
@@ -49,7 +46,7 @@ interface CategoryFormData {
 export default function AdminCategories() {
   const { categories, loading, saving, deleting, error, createCategory, updateCategory, deleteCategory } = useAdminCategories();
   const [openDialog, setOpenDialog] = useState(false);
-  const [editingCategory, setEditingCategory] = useState<any>(null);
+  const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [saveAlert, setSaveAlert] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [isEditingDiscountedPrice, setIsEditingDiscountedPrice] = useState(false);
@@ -62,7 +59,7 @@ export default function AdminCategories() {
     is_active: true,
   });
 
-  const handleEditCategory = (category: any) => {
+  const handleEditCategory = (category: Category) => {
     setEditingCategory(category);
     setIsEditingDiscountedPrice(false);
     setFormData({
@@ -150,13 +147,23 @@ export default function AdminCategories() {
 
   return (
     <AdminLayout>
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
         {/* Header */}
-        <Box mb={4}>
-          <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+        <Box mb={{ xs: 3, md: 4 }}>
+          <Typography
+            variant="h4"
+            component="h1"
+            fontWeight="bold"
+            gutterBottom
+            sx={{ fontSize: { xs: '1.75rem', sm: '2.125rem', md: '2.5rem' } }}
+          >
             Управление категориями
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
+          >
             Создание и редактирование категорий товаров
           </Typography>
         </Box>
@@ -178,11 +185,14 @@ export default function AdminCategories() {
           display="flex"
           justifyContent="space-between"
           alignItems="center"
-          mb={3}
+          mb={{ xs: 2, md: 3 }}
           flexDirection={{ xs: 'column', sm: 'row' }}
           gap={2}
         >
-          <Typography variant="h6">
+          <Typography
+            variant="h6"
+            sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
+          >
             Всего категорий: {categories.length}
           </Typography>
           <Button
@@ -219,7 +229,11 @@ export default function AdminCategories() {
                 height={300}
               />
             ) : (
-              <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 3 }}>
+              <Box sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)' },
+                gap: { xs: 2, md: 3 }
+              }}>
                 {categories.map((category) => (
                   <Box key={category.id}>
                     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
@@ -228,20 +242,8 @@ export default function AdminCategories() {
                           src={category.photo}
                           alt={category.name}
                           variant="rounded"
-                          sx={{ width: '100%', height: 200 }}
+                          sx={{ width: '100%', height: { xs: 160, sm: 180, md: 200 } }}
                         />
-                        <IconButton
-                          sx={{
-                            position: 'absolute',
-                            top: 8,
-                            left: 8,
-                            backgroundColor: 'rgba(0,0,0,0.5)',
-                            color: 'white',
-                            '&:hover': { backgroundColor: 'rgba(0,0,0,0.7)' }
-                          }}
-                        >
-                          <DragIndicator />
-                        </IconButton>
                         <Chip
                           label={category.is_active ? "Активна" : "Неактивна"}
                           color={category.is_active ? "success" : "error"}
@@ -250,15 +252,33 @@ export default function AdminCategories() {
                             position: 'absolute',
                             top: 8,
                             right: 8,
+                            fontSize: { xs: '0.75rem', md: '0.75rem' }
                           }}
                         />
                       </Box>
 
-                      <CardContent sx={{ flexGrow: 1 }}>
-                        <Typography variant="h6" component="h3" gutterBottom>
+                      <CardContent sx={{ flexGrow: 1, p: { xs: 1.5, md: 2 } }}>
+                        <Typography
+                          variant="h6"
+                          component="h3"
+                          gutterBottom
+                          sx={{
+                            fontSize: { xs: '1rem', md: '1.25rem' },
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                            whiteSpace: 'nowrap'
+                          }}
+                        >
                           {category.name}
                         </Typography>
-                        <Typography variant="body2" color="textSecondary" sx={{ mb: 2 }}>
+                        <Typography
+                          variant="body2"
+                          color="textSecondary"
+                          sx={{
+                            mb: 2,
+                            fontSize: { xs: '0.875rem', md: '0.875rem' }
+                          }}
+                        >
                           От {category.price_from} руб.
                           {category.discounted_price && (
                             <span style={{ textDecoration: 'line-through', marginLeft: 8 }}>
@@ -266,17 +286,34 @@ export default function AdminCategories() {
                             </span>
                           )}
                         </Typography>
-                        <Box display="flex" justifyContent="space-between" alignItems="center">
-                          <Typography variant="body2">
+                        <Box
+                          display="flex"
+                          justifyContent="space-between"
+                          alignItems="center"
+                          flexDirection={{ xs: 'column', sm: 'row' }}
+                          gap={{ xs: 1, sm: 0 }}
+                        >
+                          <Typography
+                            variant="body2"
+                            sx={{ fontSize: { xs: '0.875rem', md: '0.875rem' } }}
+                          >
                             Товаров: <strong>{category.productsCount}</strong>
                           </Typography>
-                          <Typography variant="body2" color="textSecondary">
+                          <Typography
+                            variant="body2"
+                            color="textSecondary"
+                            sx={{ fontSize: { xs: '0.75rem', md: '0.875rem' } }}
+                          >
                             ID: {category.id}
                           </Typography>
                         </Box>
                       </CardContent>
 
-                      <CardActions sx={{ justifyContent: 'space-between', px: 2, pb: 2 }}>
+                      <CardActions sx={{
+                        justifyContent: 'space-between',
+                        px: { xs: 1.5, md: 2 },
+                        pb: { xs: 1.5, md: 2 }
+                      }}>
                         <Box>
                           <IconButton
                             size="small"
@@ -373,7 +410,6 @@ export default function AdminCategories() {
                 label="Изображение категории"
                 helperText="Загрузите изображение категории (JPEG, PNG, WebP до 5MB)"
                 previewSize={{ width: 180, height: 120 }}
-                aspectRatio={200 / 120}
                 uploadType="category"
               />
 

@@ -10,7 +10,6 @@ import TelIcon from '@/icons/Tel';
 import InstIcon from '@/icons/Inst';
 import ClocksIcon from '@/icons/Clocks';
 import GreenCheckIcon from '@/icons/GreenCheck';
-import LogoGranitPrimary1Icon from '@/icons/LogoGranitPrimary1';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import Link from 'next/link';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
@@ -51,7 +50,7 @@ const ContactInfoBox = styled(Box)(({ theme }) => ({
     marginBottom: '16px',
 }));
 
-const FeaturesBox = styled(Box)(({ theme }) => ({
+const FeaturesBox = styled(Box)(() => ({
     backgroundColor: '#9a9da4',
     borderRadius: '12px',
     padding: '16px',
@@ -76,9 +75,9 @@ const BurgerMenu = () => {
 
     const menuItems = [
         { label: 'Каталог', href: '/catalog' },
-        { label: 'О нас', href: '/about' },
-        { label: 'Услуги', href: '/services' },
-        { label: 'Примеры работ', href: '/examples' },
+        { label: 'О нас', href: '/#about' },
+        { label: 'Услуги', href: '/#services' },
+        { label: 'Примеры работ', href: '/#examples' },
     ];
 
     return (

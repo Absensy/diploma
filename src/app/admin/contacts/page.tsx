@@ -13,8 +13,6 @@ import {
   Alert,
   Card,
   CardContent,
-  IconButton,
-  CircularProgress,
 } from '@mui/material';
 import {
   Save,
@@ -23,7 +21,6 @@ import {
   Instagram,
   Schedule,
   Email,
-  Edit,
 } from '@mui/icons-material';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import { useAdminContacts } from '@/hooks/useAdminContacts';
@@ -101,13 +98,23 @@ export default function AdminContacts() {
 
   return (
     <AdminLayout>
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
         {/* Header */}
-        <Box mb={4}>
-          <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+        <Box mb={{ xs: 3, md: 4 }}>
+          <Typography
+            variant="h4"
+            component="h1"
+            fontWeight="bold"
+            gutterBottom
+            sx={{ fontSize: { xs: '1.75rem', sm: '2.125rem', md: '2.5rem' } }}
+          >
             Управление контактами
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
+          >
             Редактирование контактной информации компании
           </Typography>
         </Box>
@@ -127,11 +134,20 @@ export default function AdminContacts() {
         {loading ? (
           <AdminContactsSkeleton />
         ) : (
-          <Grid container spacing={4}>
+          <Grid container spacing={{ xs: 2, md: 4 }}>
             {/* Основная контактная информация */}
             <Grid size={{ xs: 12, md: 6 }}>
-              <Paper sx={{ p: 3 }}>
-                <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Paper sx={{ p: { xs: 2, md: 3 } }}>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    fontSize: { xs: '1.1rem', md: '1.25rem' }
+                  }}
+                >
                   <Phone color="primary" />
                   Основная информация
                 </Typography>
@@ -168,9 +184,10 @@ export default function AdminContacts() {
                     onChange={(e) => handleInputChange('address', e.target.value)}
                     variant="outlined"
                     multiline
-                    rows={2}
+                    rows={1}
+                    size="small"
                     InputProps={{
-                      startAdornment: <LocationOn sx={{ color: 'action.active', mr: 1, mt: 1 }} />,
+                      startAdornment: <LocationOn sx={{ color: 'action.active', mr: 1, alignSelf: 'flex-start', mt: 0.5 }} />,
                     }}
                   />
 
@@ -191,8 +208,17 @@ export default function AdminContacts() {
 
             {/* Режим работы */}
             <Grid size={{ xs: 12, md: 6 }}>
-              <Paper sx={{ p: 3 }}>
-                <Typography variant="h6" gutterBottom sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Paper sx={{ p: { xs: 2, md: 3 } }}>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    fontSize: { xs: '1.1rem', md: '1.25rem' }
+                  }}
+                >
                   <Schedule color="primary" />
                   Режим работы
                 </Typography>
@@ -200,7 +226,14 @@ export default function AdminContacts() {
 
                 <Box display="flex" flexDirection="column" gap={3}>
                   <Box>
-                    <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600 }}>
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      sx={{
+                        fontWeight: 600,
+                        fontSize: { xs: '0.875rem', md: '0.875rem' }
+                      }}
+                    >
                       Будние дни (Пн-Пт)
                     </Typography>
                     <TextField
@@ -211,11 +244,19 @@ export default function AdminContacts() {
                       variant="outlined"
                       placeholder="9:00 - 18:00"
                       helperText="Введите время в формате ЧЧ:ММ - ЧЧ:ММ"
+                      size="small"
                     />
                   </Box>
 
                   <Box>
-                    <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600 }}>
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      sx={{
+                        fontWeight: 600,
+                        fontSize: { xs: '0.875rem', md: '0.875rem' }
+                      }}
+                    >
                       Выходные дни (Сб-Вс)
                     </Typography>
                     <TextField
@@ -226,6 +267,7 @@ export default function AdminContacts() {
                       variant="outlined"
                       placeholder="10:00 - 16:00"
                       helperText="Введите время в формате ЧЧ:ММ - ЧЧ:ММ"
+                      size="small"
                     />
                   </Box>
                 </Box>
@@ -235,28 +277,36 @@ export default function AdminContacts() {
 
             {/* Предварительный просмотр */}
             <Grid size={{ xs: 12, md: 6 }}>
-              <Paper sx={{ p: 3 }}>
-                <Typography variant="h6" gutterBottom>
+              <Paper sx={{ p: { xs: 2, md: 3 } }}>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{ fontSize: { xs: '1.1rem', md: '1.25rem' } }}
+                >
                   Предварительный просмотр
                 </Typography>
                 <Divider sx={{ mb: 3 }} />
 
                 <Card variant="outlined" sx={{ mb: 2 }}>
-                  <CardContent>
-                    <Typography variant="subtitle2" gutterBottom>
+                  <CardContent sx={{ p: { xs: 1.5, md: 2 } }}>
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      sx={{ fontSize: { xs: '0.875rem', md: '0.875rem' } }}
+                    >
                       Как будет отображаться в хедере:
                     </Typography>
-                    <Box sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
+                    <Box sx={{ fontSize: { xs: '0.75rem', md: '0.875rem' }, color: 'text.secondary' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        <LocationOn sx={{ fontSize: 16 }} />
+                        <LocationOn sx={{ fontSize: { xs: 14, md: 16 } }} />
                         {contactData.address}
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                        <Phone sx={{ fontSize: 16 }} />
+                        <Phone sx={{ fontSize: { xs: 14, md: 16 } }} />
                         {contactData.phone}
                       </Box>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <Instagram sx={{ fontSize: 16 }} />
+                        <Instagram sx={{ fontSize: { xs: 14, md: 16 } }} />
                         {contactData.instagram}
                       </Box>
                     </Box>
@@ -264,11 +314,15 @@ export default function AdminContacts() {
                 </Card>
 
                 <Card variant="outlined">
-                  <CardContent>
-                    <Typography variant="subtitle2" gutterBottom>
+                  <CardContent sx={{ p: { xs: 1.5, md: 2 } }}>
+                    <Typography
+                      variant="subtitle2"
+                      gutterBottom
+                      sx={{ fontSize: { xs: '0.875rem', md: '0.875rem' } }}
+                    >
                       Режим работы:
                     </Typography>
-                    <Box sx={{ fontSize: '0.875rem', color: 'text.secondary' }}>
+                    <Box sx={{ fontSize: { xs: '0.75rem', md: '0.875rem' }, color: 'text.secondary' }}>
                       <div>Пн-Пт: {workingHours.weekdays}</div>
                       <div>Сб-Вс: {workingHours.weekends}</div>
                     </Box>
@@ -280,7 +334,7 @@ export default function AdminContacts() {
         )}
 
         {/* Save Button */}
-        <Box mt={4} display="flex" justifyContent="center">
+        <Box mt={{ xs: 3, md: 4 }} display="flex" justifyContent="center">
           <Button
             variant="contained"
             size="large"
@@ -289,9 +343,10 @@ export default function AdminContacts() {
             sx={{
               backgroundColor: '#333',
               '&:hover': { backgroundColor: '#555' },
-              px: 4,
+              px: { xs: 3, md: 4 },
               py: 1.5,
-              width: { xs: '100%', sm: 'auto' }
+              width: { xs: '100%', sm: 'auto' },
+              fontSize: { xs: '0.875rem', md: '1rem' }
             }}
           >
             Сохранить все изменения

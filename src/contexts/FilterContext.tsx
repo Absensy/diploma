@@ -1,14 +1,13 @@
 "use client"
 import React, { createContext, useContext, ReactNode } from 'react'
-import { useFilters } from '@/hooks/useFilters'
-import { FilterState } from '@/hooks/useFilters'
+import { useFilters, FilterData, FilterState } from '@/hooks/useFilters'
 
 interface FilterContextType {
-    filterData: any
+    filterData: FilterData | null
     filters: FilterState
     loading: boolean
     error: string | null
-    updateFilter: (key: keyof FilterState, value: any) => void
+    updateFilter: (key: keyof FilterState, value: string | number | number[] | string[] | null) => void
     toggleCategory: (categoryId: number) => void
     toggleMaterial: (material: string) => void
     resetFilters: () => void

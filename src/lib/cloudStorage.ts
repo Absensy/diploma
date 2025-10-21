@@ -1,5 +1,14 @@
 // Cloud Storage конфигурация для продакшена
 
+// Базовый тип для Cloudinary
+type CloudinaryInstance = {
+  config: (options: Record<string, unknown>) => void;
+  uploader: {
+    upload_stream: (options: Record<string, unknown>, callback?: (error: unknown, result: unknown) => void) => { end: (buffer: Buffer) => void };
+    destroy: (publicId: string) => Promise<unknown>;
+  };
+};
+
 export interface CloudStorageConfig {
   provider: 'cloudinary' | 'local';
   bucket?: string;
@@ -10,7 +19,7 @@ export interface CloudStorageConfig {
 
 // Конфигурация для разных провайдеров
 export const cloudStorageConfig: CloudStorageConfig = {
-  provider: process.env.CLOUD_STORAGE_PROVIDER as any || 'local',
+  provider: (process.env.CLOUD_STORAGE_PROVIDER as 'local' | 'cloudinary') || 'local',
   bucket: process.env.CLOUD_STORAGE_BUCKET,
   region: process.env.CLOUD_STORAGE_REGION,
   apiKey: process.env.CLOUD_STORAGE_API_KEY,
@@ -29,7 +38,6 @@ export interface CloudStorageProvider {
     file: Buffer, 
     fileName: string, 
     folder: string,
-    mimeType: string
   ): Promise<FileUploadResult>;
   
   deleteFile(publicId: string): Promise<boolean>;
@@ -41,10 +49,9 @@ export class LocalStorageProvider implements CloudStorageProvider {
     file: Buffer, 
     fileName: string, 
     folder: string,
-    mimeType: string
   ): Promise<FileUploadResult> {
-    const path = require('path');
-    const fs = require('fs').promises;
+    const path = await import('path');
+    const fs = await import('fs').then(m => m.promises);
     
     const uploadDir = path.join(process.cwd(), 'public', 'uploads', folder);
     const filePath = path.join(uploadDir, fileName);
@@ -63,8 +70,8 @@ export class LocalStorageProvider implements CloudStorageProvider {
   
   async deleteFile(publicId: string): Promise<boolean> {
     try {
-      const fs = require('fs').promises;
-      const path = require('path');
+      const fs = await import('fs').then(m => m.promises);
+      const path = await import('path');
       
       // publicId в локальном хранилище - это путь к файлу
       const filePath = path.join(process.cwd(), 'public', publicId);
@@ -78,7 +85,7 @@ export class LocalStorageProvider implements CloudStorageProvider {
 
 // Cloudinary провайдер (рекомендуется)
 export class CloudinaryProvider implements CloudStorageProvider {
-  private cloudinary: any;
+  private cloudinary: CloudinaryInstance | null = null;
   
   constructor() {
     // Ленивая загрузка модуля
@@ -94,7 +101,7 @@ export class CloudinaryProvider implements CloudStorageProvider {
           api_secret: process.env.CLOUDINARY_API_SECRET,
         });
         this.cloudinary = cloudinary;
-      } catch (error) {
+      } catch {
         throw new Error('cloudinary package not found. Please install it with: npm install cloudinary');
       }
     }
@@ -105,7 +112,6 @@ export class CloudinaryProvider implements CloudStorageProvider {
     file: Buffer, 
     fileName: string, 
     folder: string,
-    mimeType: string
   ): Promise<FileUploadResult> {
     const cloudinary = await this.loadCloudinaryModule();
     
@@ -116,13 +122,14 @@ export class CloudinaryProvider implements CloudStorageProvider {
           public_id: fileName.replace(/\.[^/.]+$/, ""), // убираем расширение
           resource_type: 'auto',
         },
-        (error: any, result: any) => {
+        (error: unknown, result: unknown) => {
           if (error) {
             reject(error);
           } else {
+            const cloudinaryResult = result as { secure_url: string; public_id: string };
             resolve({
-              url: result.secure_url,
-              publicId: result.public_id,
+              url: cloudinaryResult.secure_url,
+              publicId: cloudinaryResult.public_id,
               fileName
             });
           }

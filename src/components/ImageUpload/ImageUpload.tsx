@@ -1,9 +1,9 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import Image from 'next/image';
 import {
     Box,
-    Button,
     Typography,
     IconButton,
     Alert,
@@ -11,7 +11,6 @@ import {
     Tooltip
 } from '@mui/material';
 import {
-    CloudUpload,
     Delete,
     Image as ImageIcon,
     Edit
@@ -22,7 +21,6 @@ interface ImageUploadProps {
     onChange: (imageUrl: string) => void;
     onError?: (error: string) => void;
     previewSize?: { width: number; height: number };
-    aspectRatio?: number;
     maxSize?: number; // in MB
     acceptedFormats?: string[];
     label?: string;
@@ -35,7 +33,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
     onChange,
     onError,
     previewSize = { width: 200, height: 120 },
-    aspectRatio,
     maxSize = 5,
     acceptedFormats = ['image/jpeg', 'image/png', 'image/webp'],
     label = 'Загрузить изображение',
@@ -139,12 +136,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({
             >
                 {value ? (
                     <>
-                        <img
+                        <Image
                             src={value}
                             alt="Preview"
+                            fill
                             style={{
-                                width: '100%',
-                                height: '100%',
                                 objectFit: 'cover',
                                 borderRadius: '6px'
                             }}

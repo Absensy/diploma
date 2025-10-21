@@ -7,12 +7,6 @@ import {
   Typography,
   Paper,
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
   IconButton,
   Chip,
   Dialog,
@@ -27,16 +21,17 @@ import {
   Checkbox,
   Alert,
   Avatar,
-  CircularProgress,
   Switch,
   FormControlLabel,
+  Card,
+  CardActions,
+  CardContent,
 } from '@mui/material';
 import {
   Add,
   Edit,
   Delete,
   Search,
-  FilterList,
 } from '@mui/icons-material';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import ImageUpload from '@/components/ImageUpload/ImageUpload';
@@ -63,12 +58,11 @@ interface ProductFormData {
 }
 
 export default function AdminProducts() {
-  const { products, loading, saving, deleting, error, createProduct, updateProduct, deleteProduct, deleteProducts } = useAdminProducts();
+  const { products, loading, saving, deleting, error, createProduct, updateProduct, deleteProduct } = useAdminProducts();
   const { categories } = useAdminCategories();
-  const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [editingProduct, setEditingProduct] = useState<any>(null);
-  const [deleteAlert, setDeleteAlert] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<ProductCardData | null>(null);
+  const [deleteAlert] = useState(false);
   const [isEditingDiscountedPrice, setIsEditingDiscountedPrice] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
   const [formData, setFormData] = useState<ProductFormData>({
@@ -87,32 +81,8 @@ export default function AdminProducts() {
     is_active: true,
   });
 
-  const handleSelectProduct = (productId: number) => {
-    setSelectedProducts(prev =>
-      prev.includes(productId)
-        ? prev.filter(id => id !== productId)
-        : [...prev, productId]
-    );
-  };
 
-  const handleSelectAll = () => {
-    setSelectedProducts(
-      selectedProducts.length === products.length ? [] : products.map(p => p.id)
-    );
-  };
-
-  const handleDeleteSelected = async () => {
-    try {
-      await deleteProducts(selectedProducts);
-      setSelectedProducts([]);
-      setDeleteAlert(true);
-      setTimeout(() => setDeleteAlert(false), 3000);
-    } catch (error) {
-      console.error('Error deleting products:', error);
-    }
-  };
-
-  const handleEditProduct = (product: any) => {
+  const handleEditProduct = (product: ProductCardData) => {
     setEditingProduct(product);
     setIsEditingDiscountedPrice(false);
     setFormData({
@@ -173,7 +143,11 @@ export default function AdminProducts() {
       };
 
       if (editingProduct) {
-        await updateProduct(editingProduct.id, productData);
+        // Для редактирования нужно получить полный объект Product из products
+        const fullProduct = products.find(p => p.id === editingProduct.id);
+        if (fullProduct) {
+          await updateProduct(editingProduct.id, productData);
+        }
       } else {
         await createProduct(productData);
       }
@@ -212,15 +186,166 @@ export default function AdminProducts() {
     product.short_description.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  interface ProductCardData {
+    id: number;
+    name: string;
+    short_description: string;
+    full_description: string;
+    materials: string;
+    production_time: string;
+    price: number;
+    discount?: number;
+    discounted_price?: number;
+    image: string;
+    category_id?: number;
+    category?: {
+      id: number;
+      name: string;
+    };
+    is_new: boolean;
+    is_popular: boolean;
+    is_active: boolean;
+    created_at: string;
+  }
+
+  const ProductCard = ({ product }: { product: ProductCardData }) => (
+    <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ position: 'relative' }}>
+        <Avatar
+          src={product.image}
+          alt={product.name}
+          variant="rounded"
+          sx={{ width: '100%', height: { xs: 160, sm: 180, md: 200 } }}
+        />
+        <Chip
+          label={product.is_active ? "Активен" : "Неактивен"}
+          color={product.is_active ? "success" : "error"}
+          size="small"
+          sx={{
+            position: 'absolute',
+            top: 8,
+            right: 8,
+            fontSize: { xs: '0.75rem', md: '0.75rem' }
+          }}
+        />
+      </Box>
+
+      <CardContent sx={{ flexGrow: 1, p: { xs: 1.5, md: 2 }, pb: 1 }}>
+        <Typography
+          variant="h6"
+          component="h3"
+          gutterBottom
+          sx={{
+            fontSize: { xs: '1rem', md: '1.25rem' },
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap'
+          }}
+        >
+          {product.name}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          sx={{
+            mb: 1.5,
+            fontSize: { xs: '0.875rem', md: '0.875rem' },
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden'
+          }}
+        >
+          {product.short_description}
+        </Typography>
+
+        <Typography
+          variant="h6"
+          fontWeight="bold"
+          color="primary"
+          sx={{
+            fontSize: { xs: '1rem', md: '1.25rem' },
+            mb: 0.5
+          }}
+        >
+          {product.price} руб.
+          {product.discounted_price && (
+            <span style={{
+              textDecoration: 'line-through',
+              marginLeft: 8,
+              color: 'gray',
+              fontSize: '0.875rem',
+              fontWeight: 'normal'
+            }}>
+              {product.discounted_price} руб.
+            </span>
+          )}
+        </Typography>
+
+        <Typography
+          variant="body2"
+          color="textSecondary"
+          sx={{
+            fontSize: { xs: '0.875rem', md: '0.875rem' },
+            mb: 1
+          }}
+        >
+          {product.category?.name || 'Без категории'}
+        </Typography>
+
+        <Box sx={{ display: 'flex', gap: 1, flexWrap: 'wrap', mb: 1 }}>
+          {product.is_new && <Chip label="Новинка" color="primary" size="small" sx={{ fontSize: '0.75rem' }} />}
+          {product.is_popular && <Chip label="Популярный" color="success" size="small" sx={{ fontSize: '0.75rem' }} />}
+        </Box>
+
+        <Typography
+          variant="caption"
+          color="textSecondary"
+          sx={{ fontSize: { xs: '0.75rem', md: '0.875rem' } }}
+        >
+          Создан: {new Date(product.created_at).toLocaleDateString()}
+        </Typography>
+      </CardContent>
+
+      <CardActions sx={{ p: { xs: 1, md: 1.5 }, pt: 0 }}>
+        <IconButton
+          size="small"
+          color="primary"
+          onClick={() => handleEditProduct(product)}
+        >
+          <Edit />
+        </IconButton>
+        <IconButton
+          size="small"
+          color="error"
+          onClick={() => deleteProduct(product.id)}
+        >
+          <Delete />
+        </IconButton>
+      </CardActions>
+    </Card>
+  );
+
   return (
     <AdminLayout>
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
         {/* Header */}
-        <Box mb={4}>
-          <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+        <Box mb={{ xs: 3, md: 4 }}>
+          <Typography
+            variant="h4"
+            component="h1"
+            fontWeight="bold"
+            gutterBottom
+            sx={{ fontSize: { xs: '1.75rem', sm: '2.125rem', md: '2.5rem' } }}
+          >
             Управление товарами
           </Typography>
-          <Typography variant="body1" color="textSecondary">
+          <Typography
+            variant="body1"
+            color="textSecondary"
+            sx={{ fontSize: { xs: '0.875rem', sm: '1rem' } }}
+          >
             Добавление, редактирование и удаление товаров в каталоге
           </Typography>
         </Box>
@@ -232,7 +357,7 @@ export default function AdminProducts() {
         )}
 
         {/* Controls */}
-        <Paper sx={{ p: { xs: 2, sm: 3 }, mb: 3 }}>
+        <Paper sx={{ p: { xs: 2, sm: 3 }, mb: { xs: 2, md: 3 } }}>
           <Box
             display="flex"
             flexDirection={{ xs: 'column', sm: 'row' }}
@@ -260,9 +385,6 @@ export default function AdminProducts() {
                   width: { xs: '100%', sm: 'auto' }
                 }}
               />
-              <IconButton sx={{ alignSelf: { xs: 'flex-start', sm: 'center' } }}>
-                <FilterList />
-              </IconButton>
             </Box>
             <Box
               display="flex"
@@ -270,17 +392,6 @@ export default function AdminProducts() {
               flexDirection={{ xs: 'column', sm: 'row' }}
               width={{ xs: '100%', sm: 'auto' }}
             >
-              {selectedProducts.length > 0 && (
-                <Button
-                  variant="outlined"
-                  color="error"
-                  startIcon={<Delete />}
-                  onClick={handleDeleteSelected}
-                  sx={{ width: { xs: '100%', sm: 'auto' } }}
-                >
-                  Удалить выбранные ({selectedProducts.length})
-                </Button>
-              )}
               <Button
                 variant="contained"
                 startIcon={<Add />}
@@ -307,7 +418,7 @@ export default function AdminProducts() {
           </Alert>
         )}
 
-        {/* Products Table */}
+        {/* Products Display */}
         {!loading && !error && (
           <>
             {filteredProducts.length === 0 ? (
@@ -317,118 +428,15 @@ export default function AdminProducts() {
                 height={300}
               />
             ) : (
-              <TableContainer component={Paper} sx={{ overflowX: 'auto' }}>
-                <Table sx={{ minWidth: 800 }}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell padding="checkbox" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
-                        <Checkbox
-                          checked={selectedProducts.length === products.length}
-                          indeterminate={selectedProducts.length > 0 && selectedProducts.length < products.length}
-                          onChange={handleSelectAll}
-                        />
-                      </TableCell>
-                      <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>Изображение</TableCell>
-                      <TableCell>Название</TableCell>
-                      <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>Категория</TableCell>
-                      <TableCell>Цена</TableCell>
-                      <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Статус</TableCell>
-                      <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>Дата создания</TableCell>
-                      <TableCell align="center">Действия</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {filteredProducts.map((product) => (
-                      <TableRow key={product.id} hover>
-                        <TableCell padding="checkbox" sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
-                          <Checkbox
-                            checked={selectedProducts.includes(product.id)}
-                            onChange={() => handleSelectProduct(product.id)}
-                          />
-                        </TableCell>
-                        <TableCell sx={{ display: { xs: 'none', sm: 'table-cell' } }}>
-                          <Avatar
-                            src={product.image}
-                            alt={product.name}
-                            variant="rounded"
-                            sx={{ width: 50, height: 50 }}
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Box display="flex" alignItems="center" gap={2}>
-                            <Avatar
-                              src={product.image}
-                              alt={product.name}
-                              variant="rounded"
-                              sx={{
-                                width: { xs: 40, sm: 0 },
-                                height: { xs: 40, sm: 0 },
-                                display: { xs: 'block', sm: 'none' }
-                              }}
-                            />
-                            <Box>
-                              <Typography variant="subtitle2" fontWeight="medium">
-                                {product.name}
-                              </Typography>
-                              <Typography variant="caption" color="textSecondary" sx={{ display: { xs: 'block', sm: 'block' } }}>
-                                {product.short_description}
-                              </Typography>
-                              <Typography variant="caption" color="textSecondary" sx={{ display: { xs: 'block', md: 'none' } }}>
-                                {product.category?.name || 'Без категории'}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        </TableCell>
-                        <TableCell sx={{ display: { xs: 'none', md: 'table-cell' } }}>
-                          {product.category?.name || 'Без категории'}
-                        </TableCell>
-                        <TableCell>
-                          <Typography variant="body2" fontWeight="medium">
-                            {product.price} руб.
-                            {product.discounted_price && (
-                              <span style={{ textDecoration: 'line-through', marginLeft: 8, color: 'gray' }}>
-                                {product.discounted_price} руб.
-                              </span>
-                            )}
-                          </Typography>
-                        </TableCell>
-                        <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
-                          <Box display="flex" gap={1} flexWrap="wrap">
-                            {product.is_new && <Chip label="Новинка" color="primary" size="small" />}
-                            {product.is_popular && <Chip label="Популярный" color="success" size="small" />}
-                            <Chip
-                              label={product.is_active ? "Активен" : "Неактивен"}
-                              color={product.is_active ? "success" : "error"}
-                              size="small"
-                            />
-                          </Box>
-                        </TableCell>
-                        <TableCell sx={{ display: { xs: 'none', lg: 'table-cell' } }}>
-                          {new Date(product.created_at).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell align="center">
-                          <Box display="flex" gap={1} justifyContent="center">
-                            <IconButton
-                              size="small"
-                              color="primary"
-                              onClick={() => handleEditProduct(product)}
-                            >
-                              <Edit />
-                            </IconButton>
-                            <IconButton
-                              size="small"
-                              color="error"
-                              onClick={() => deleteProduct(product.id)}
-                            >
-                              <Delete />
-                            </IconButton>
-                          </Box>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <Box sx={{
+                display: 'grid',
+                gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)' },
+                gap: { xs: 2, md: 3 }
+              }}>
+                {filteredProducts.map((product) => (
+                  <ProductCard key={product.id} product={product} />
+                ))}
+              </Box>
             )}
           </>
         )}
@@ -556,7 +564,6 @@ export default function AdminProducts() {
                 label="Изображение товара"
                 helperText="Загрузите изображение товара (JPEG, PNG, WebP до 5MB)"
                 previewSize={{ width: 180, height: 120 }}
-                aspectRatio={200 / 120}
                 uploadType="product"
               />
               <Box display="flex" gap={2} flexDirection="column">

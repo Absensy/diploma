@@ -5,11 +5,11 @@ import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
 
-export const MonumentCategoryCard: React.FC<MonumentCategoryCardProps> = ({ name, price, image, discount, discounted_price, categoryId }) => {
+export const MonumentCategoryCard: React.FC<MonumentCategoryCardProps> = ({ name, price, image, discount, categoryId }) => {
 
     return (
         <CategoryCard>
-            <Box height={{ xs: 200, sm: 250, md: 280 }} position="relative" display="block">
+            <Box height="250px" position="relative" display="block">
                 {discount ? <DiscountBadge>-{discount}%</DiscountBadge> : null}
                 <Image src={image} alt={name} fill sizes="100%" style={{ objectFit: 'cover' }} />
             </Box>

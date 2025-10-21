@@ -9,14 +9,13 @@ import Divider from '@mui/material/Divider';
 import Link from '@mui/material/Link';
 import CircularProgress from '@mui/material/CircularProgress';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
-import { Grid } from '@mui/material';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useFooterContent } from '@/hooks/useContent';
-import { GridFooter, StackFooter } from './Footer.styles';
+import { StackFooter } from './Footer.styles';
 
 const Footer = () => {
   const { contactInfo, loading } = useContactContext();
-  const { data: footerData, loading: footerLoading } = useFooterContent();
+  const { data: footerData } = useFooterContent();
 
   if (loading) {
     return (

@@ -1,5 +1,5 @@
 "use client"
-import { Box, Stack } from "@mui/material";
+import { Box } from "@mui/material";
 import GranitCatalogFilter from "@/components/GranitCatalogFilter/GranitCatalogFilter";
 import GranitCatalogCard from "@/components/GranitCatalogCards/GranitCatalogCards";
 import GranitCatalogHeader from "@/components/GranitCatalogHeader/GranitCatalogHeader";

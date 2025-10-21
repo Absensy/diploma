@@ -1,6 +1,6 @@
 'use client'
 
-import { Grid, Stack, Box, styled, Typography } from "@mui/material";
+import { Stack, Box, styled, Typography } from "@mui/material";
 
 export const TitleAboutCompany = styled(Typography)(({ theme }) => ({
     fontWeight: '700',
