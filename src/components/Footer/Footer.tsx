@@ -11,7 +11,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useFooterContent } from '@/hooks/useContent';
-import { StackFooter } from './Footer.Styles';
+import { StackFooter } from './Footer.styles';
 
 const Footer = () => {
   const { contactInfo, loading } = useContactContext();
