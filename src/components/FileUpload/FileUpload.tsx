@@ -67,9 +67,28 @@ const FileUpload: React.FC<FileUploadProps> = ({
         setFileName(file.name);
 
         try {
-            // Convert file to base64
-            const base64 = await convertToBase64(file);
-            onChange(base64);
+            if (fileType === 'pdf') {
+                // For PDF files, upload to server and get URL
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('type', 'document');
+
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to upload file');
+                }
+
+                const result = await response.json();
+                onChange(result.fileUrl);
+            } else {
+                // For other files, convert to base64
+                const base64 = await convertToBase64(file);
+                onChange(base64);
+            }
         } catch {
             const errorMsg = 'Ошибка при загрузке файла';
             setError(errorMsg);

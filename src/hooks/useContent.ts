@@ -76,7 +76,6 @@ export function useAboutCompanyContent() {
 interface FooterData {
   slogan: string;
   unp_number: string;
-  license_document: string;
   copyright_text: string;
   company_full_name: string;
 }
@@ -85,7 +84,6 @@ export function useFooterContent() {
   const [data, setData] = useState<FooterData>({
     slogan: 'Сохраняем память о ваших близких в граните на века',
     unp_number: '1234567890',
-    license_document: '',
     copyright_text: '© 2024 Гранит памяти. Все права защищены.',
     company_full_name: 'ООО "Гранит Памяти"'
   });

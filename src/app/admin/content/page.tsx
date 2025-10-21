@@ -20,7 +20,6 @@ import {
 } from '@mui/material';
 import { Save, Business, Build, ViewHeadline, ViewModule, Category } from '@mui/icons-material';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
-import FileUpload from '@/components/FileUpload/FileUpload';
 import ImageUpload from '@/components/ImageUpload/ImageUpload';
 
 interface TabPanelProps {
@@ -59,7 +58,6 @@ interface AboutCompanyData {
 interface FooterData {
   slogan: string;
   unp_number: string;
-  license_document: string;
   copyright_text: string;
   company_full_name: string;
 }
@@ -98,7 +96,6 @@ export default function AdminContent() {
   const [footerData, setFooterData] = useState<FooterData>({
     slogan: '',
     unp_number: '',
-    license_document: '',
     copyright_text: '',
     company_full_name: ''
   });
@@ -152,7 +149,6 @@ export default function AdminContent() {
         setFooterData({
           slogan: footerData.slogan || '',
           unp_number: footerData.unp_number || '',
-          license_document: footerData.license_document || '',
           copyright_text: footerData.copyright_text || '',
           company_full_name: footerData.company_full_name || ''
         });
@@ -548,23 +544,6 @@ export default function AdminContent() {
                   </Stack>
                 </Box>
 
-                <Box sx={{ flex: 1 }}>
-                  <Stack spacing={2}>
-                    <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
-                      Лицензия на ритуальные услуги
-                    </Typography>
-                    <FileUpload
-                      value={footerData.license_document}
-                      onChange={(fileData) => setFooterData({ ...footerData, license_document: fileData || '' })}
-                      fileType="pdf"
-                      label="Лицензия PDF"
-                      helperText="Загрузите PDF файл с лицензией (до 10MB)"
-                      acceptedFormats={['application/pdf']}
-                      maxSize={10}
-                    />
-
-                  </Stack>
-                </Box>
               </Box>
             </Stack>
           </TabPanel>

@@ -14,7 +14,6 @@ export async function GET() {
       return NextResponse.json({
         slogan: 'Сохраняем память о ваших близких в граните на века',
         unp_number: '1234567890',
-        license_document: '',
         copyright_text: '© 2024 Гранит памяти. Все права защищены.',
         company_full_name: 'ООО "Гранит Памяти"'
       });

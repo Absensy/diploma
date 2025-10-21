@@ -16,18 +16,18 @@ export async function POST(request: NextRequest) {
     }
 
     // Проверяем тип файла
-    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
     if (!allowedTypes.includes(file.type)) {
       return NextResponse.json({ 
-        error: 'Неподдерживаемый тип файла. Разрешены: JPEG, PNG, WebP' 
+        error: 'Неподдерживаемый тип файла. Разрешены: JPEG, PNG, WebP, PDF' 
       }, { status: 400 });
     }
 
-    // Проверяем размер файла (5MB)
-    const maxSize = 5 * 1024 * 1024;
+    // Проверяем размер файла (10MB для PDF, 5MB для изображений)
+    const maxSize = file.type === 'application/pdf' ? 10 * 1024 * 1024 : 5 * 1024 * 1024;
     if (file.size > maxSize) {
       return NextResponse.json({ 
-        error: 'Размер файла не должен превышать 5MB' 
+        error: `Размер файла не должен превышать ${file.type === 'application/pdf' ? '10MB' : '5MB'}` 
       }, { status: 400 });
     }
 

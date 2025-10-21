@@ -28,7 +28,7 @@ const Footer = () => {
   return (
     <Box component="footer" bgcolor="common.black" padding={{ xs: "40px 4%", md: "40px 5%" }}>
       <Container maxWidth={false} disableGutters>
-        <Box display="flex" flexDirection={{ xs: "column", md: "row" }} justifyContent="space-between" flexWrap="wrap" alignItems={{ xs: "flex-start", md: "center" }} gap={{ xs: "16px", md: "0px" }}>
+        <Box display="flex" flexDirection={{ xs: "column", md: "row" }} justifyContent="space-between" flexWrap="wrap" alignItems="flex-start" gap={{ xs: "16px", md: "0px" }}>
           <Box>
             <StackFooter width={{ xs: "100%", md: "395px" }}>
               <Stack flexDirection="row" alignItems="center" marginBottom="16px">
@@ -73,22 +73,6 @@ const Footer = () => {
               <Typography variant="subtitle2" fontWeight="600" fontSize="20px" color="common.white" marginBottom="16px">Правовая информация</Typography>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">{footerData.company_full_name}</Typography>
               <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">УНП: {footerData.unp_number}</Typography>
-              {footerData.license_document ? (
-                <Link
-                  href={footerData.license_document}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  underline="none"
-                  fontWeight="400"
-                  fontSize="16px"
-                  color="common.white"
-                  sx={{ textDecoration: 'underline' }}
-                >
-                  Лицензия на ритуальные услуги
-                </Link>
-              ) : (
-                <Typography variant="body2" fontWeight="400" fontSize="16px" color="common.white">Лицензия на ритуальные услуги</Typography>
-              )}
             </StackFooter>
           </Box>
         </Box>
