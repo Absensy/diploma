@@ -25,7 +25,7 @@ const Header = () => {
     return (
       <Box>
         {/* Верхняя часть Header - скелетон */}
-        <Box sx={{ padding: { xs: '29px', md: '29px' }, display: { xs: 'none', md: 'block' } }}>
+        <Box sx={{ padding: { xs: '29px 4%', md: '29px 5%' }, display: { xs: 'none', md: 'block' } }}>
           <Box display="flex" justifyContent="space-between" alignItems="center" gap="20px">
             <Box display="flex" alignItems="center" gap="20px">
               <Skeleton width="120px" height="40px" />
@@ -56,7 +56,7 @@ const Header = () => {
             zIndex: 1300,
             backgroundColor: 'white',
             boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
-            padding: { xs: '16px', md: '10px' },
+            padding: { xs: '16px 4%', md: '10px 5%' },
             width: '100%',
             display: 'block',
             contain: 'layout',
@@ -70,7 +70,6 @@ const Header = () => {
             </Box>
             <Box display="flex" alignItems="center" gap="20px">
               <Skeleton width="200px" height="20px" />
-              <Skeleton width="40px" height="40px" />
             </Box>
           </Box>
         </Box>
@@ -82,8 +81,7 @@ const Header = () => {
     <Box>
       {/* Верхняя часть Header */}
       <TopHeaderBox>
-        <Container maxWidth={false} disableGutters >
-          <Stack direction="row" justifyContent="space-between" flexWrap="wrap" gap="20px">
+        <Stack direction="row" justifyContent="space-between" flexWrap="wrap" gap="20px">
             <Stack direction="row" alignItems="center">
               <Link href="/"><LogoGranitPrimary1Icon /></Link>
               <Stack spacing={1} alignItems="flex-start" marginLeft="0" justifyContent="center" paddingLeft="17px">
@@ -139,8 +137,7 @@ const Header = () => {
                 ))}
               </Stack>
             </Box>
-          </Stack>
-        </Container>
+        </Stack>
       </TopHeaderBox>
 
       {/* Разделитель */}
@@ -158,7 +155,7 @@ const Header = () => {
           zIndex: 1300, // Увеличиваем z-index для Material-UI совместимости
           backgroundColor: 'white',
           boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
-          padding: { xs: '16px', md: '10px 80px' },
+          padding: { xs: '16px 4%', md: '10px 5%' },
           width: '100%',
           display: 'block',
           // Добавляем дополнительные свойства для лучшей работы sticky

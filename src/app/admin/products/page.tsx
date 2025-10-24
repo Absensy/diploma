@@ -269,7 +269,7 @@ export default function AdminProducts() {
             mb: 0.5
           }}
         >
-          {product.price} руб.
+          {product.price} BYN
           {product.discounted_price && (
             <span style={{
               textDecoration: 'line-through',
@@ -278,7 +278,7 @@ export default function AdminProducts() {
               fontSize: '0.875rem',
               fontWeight: 'normal'
             }}>
-              {product.discounted_price} руб.
+              {product.discounted_price} BYN
             </span>
           )}
         </Typography>
@@ -501,7 +501,7 @@ export default function AdminProducts() {
               >
                 <TextField
                   fullWidth
-                  label="Цена (руб.)"
+                  label="Цена (BYN)"
                   type="number"
                   value={formData.price}
                   onChange={(e) => handleInputChange('price', e.target.value)}
@@ -518,7 +518,7 @@ export default function AdminProducts() {
                 <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 1 }}>
                   <TextField
                     fullWidth
-                    label="Цена со скидкой (руб.)"
+                    label="Цена со скидкой (BYN)"
                     type="number"
                     value={formData.discounted_price}
                     onChange={(e) => handleInputChange('discounted_price', e.target.value)}

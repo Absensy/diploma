@@ -12,17 +12,14 @@ import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useFooterContent } from '@/hooks/useContent';
 import { StackFooter } from './Footer.styles';
+import { FooterSkeleton } from '../Skeleton/Skeleton';
 
 const Footer = () => {
-  const { contactInfo, loading } = useContactContext();
-  const { data: footerData } = useFooterContent();
+  const { contactInfo, loading: contactLoading } = useContactContext();
+  const { data: footerData, loading: footerLoading } = useFooterContent();
 
-  if (loading) {
-    return (
-      <Box component="footer" bgcolor="common.black" padding={{ xs: "40px 4%", md: "40px 5%" }} display="flex" justifyContent="center">
-        <CircularProgress sx={{ color: 'white' }} />
-      </Box>
-    );
+  if (contactLoading || footerLoading) {
+    return <FooterSkeleton />;
   }
 
   return (

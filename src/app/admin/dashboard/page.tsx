@@ -248,7 +248,7 @@ const RecentProductCard = ({ product }: { product: RecentProduct }) => (
             color="primary"
             sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
           >
-            {product.price} ₽
+            {product.price} BYN
           </Typography>
           {product.discount && (
             <Typography

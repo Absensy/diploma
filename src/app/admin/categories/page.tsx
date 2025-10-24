@@ -279,10 +279,10 @@ export default function AdminCategories() {
                             fontSize: { xs: '0.875rem', md: '0.875rem' }
                           }}
                         >
-                          От {category.price_from} руб.
+                          От {category.price_from} BYN
                           {category.discounted_price && (
                             <span style={{ textDecoration: 'line-through', marginLeft: 8 }}>
-                              {category.discounted_price} руб.
+                              {category.discounted_price} BYN
                             </span>
                           )}
                         </Typography>
@@ -361,7 +361,7 @@ export default function AdminCategories() {
               />
               <TextField
                 fullWidth
-                label="Цена от (руб.)"
+                label="Цена от (BYN)"
                 type="number"
                 value={formData.price_from}
                 onChange={(e) => handleInputChange('price_from', e.target.value)}
@@ -384,7 +384,7 @@ export default function AdminCategories() {
                 <Box sx={{ display: 'flex', alignItems: 'flex-end', gap: 1 }}>
                   <TextField
                     fullWidth
-                    label="Цена со скидкой (руб.)"
+                    label="Цена со скидкой (BYN)"
                     type="number"
                     value={formData.discounted_price}
                     onChange={(e) => handleInputChange('discounted_price', e.target.value)}
