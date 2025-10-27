@@ -294,7 +294,7 @@ export default function AdminContacts() {
                       gutterBottom
                       sx={{ fontSize: { xs: '0.875rem', md: '0.875rem' } }}
                     >
-                      Как будет отображаться в хедере:
+                      Как будет отображаться в шапке:
                     </Typography>
                     <Box sx={{ fontSize: { xs: '0.75rem', md: '0.875rem' }, color: 'text.secondary' }}>
                       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>

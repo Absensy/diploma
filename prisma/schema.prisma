@@ -58,14 +58,16 @@ model ContactInfo {
 }
 
 model ExamplesOurWork {
-  id         Int      @id @default(autoincrement())
-  title      String
-  image      String
-  material   String
-  dimensions String
-  date       String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id          Int      @id @default(autoincrement())
+  title       String
+  image       String
+  material    String
+  dimensions  String
+  date        String
+  description String?
+  is_active   Boolean  @default(true)
+  created_at  DateTime @default(now())
+  updated_at  DateTime @updatedAt
 
   @@map("examples_our_work")
 }

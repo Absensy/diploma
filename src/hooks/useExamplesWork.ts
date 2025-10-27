@@ -9,6 +9,8 @@ export interface ExamplesWorkItem {
   material: string
   dimensions: string
   date: string
+  description?: string
+  is_active: boolean
   created_at: string
   updated_at: string
 }

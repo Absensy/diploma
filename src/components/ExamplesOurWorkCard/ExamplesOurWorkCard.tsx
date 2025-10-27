@@ -3,14 +3,35 @@ import { ExamplesOurWorkCardProps, ExamplesWorkCard } from "./ExamplesOurWorkCar
 import { Box, Typography, Divider } from "@mui/material";
 import Image from "next/image";
 
-const ExamplesOurWorkCard: React.FC<ExamplesOurWorkCardProps> = ({ image, title, material, dimensions, date }) => {
+const ExamplesOurWorkCard: React.FC<ExamplesOurWorkCardProps> = ({ image, title, description, material, dimensions, date }) => {
     return (
         <ExamplesWorkCard>
             <Box height={{ xs: 150, sm: 180, md: 192 }} position="relative">
                 <Image src={image} alt={title} fill sizes="100%" style={{ objectFit: 'cover' }} />
             </Box>
-            <Box>
+            <Box display="flex" flexDirection="column" flex={1}>
                 <Typography fontSize="24px" fontWeight="600" padding="10px 20px" textAlign="center">{title}</Typography>
+                <Box padding="0px 20px" paddingBottom="20px">
+                    <Divider style={{ backgroundColor: '#ccc', height: '1px', border: 'none' }} />
+                </Box>
+                <Box
+                    flexGrow={1}
+                    display={!description ? "flex" : "block"}
+                    alignItems={!description ? "center" : "flex-start"}
+                    justifyContent={!description ? "center" : "flex-start"}
+                >
+                    <Box padding="0px 20px" paddingBottom="20px">
+                        <Typography
+                            fontSize="16px"
+                            fontWeight="400"
+                            color="text.secondary"
+                            lineHeight={1.6}
+                            textAlign={!description ? "center" : "left"}
+                        >
+                            {description || "Нет описания"}
+                        </Typography>
+                    </Box>
+                </Box>
                 <Box padding="0px 20px" paddingBottom="20px">
                     <Divider style={{ backgroundColor: '#ccc', height: '1px', border: 'none' }} />
                 </Box>

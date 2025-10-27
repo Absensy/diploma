@@ -76,11 +76,15 @@ export const BoxImage = styled(Box)(({ theme }) => ({
     display: 'flex',
     borderRadius: '2px',
     alignItems: 'center',
+    height: '384px',
+    overflow: 'hidden',
     [theme.breakpoints.down(1024)]: {
         maxWidth: '450px',
+        height: '300px',
     },
     [theme.breakpoints.down("md")]: {
         justifyContent: 'center',
+        height: '250px',
     }
 }));
 

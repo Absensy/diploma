@@ -29,17 +29,7 @@ export function useAdminContacts() {
       setError(null);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Ошибка при загрузке контактов');
-      // Fallback to default values if API fails
-      setContactInfo({
-        id: 1,
-        address: 'пр. Янки Купалы 22а, цокольный этаж',
-        phone: '+375 (29) 708-21-11',
-        email: 'info@granit-grodno.by',
-        instagram: 'granit.grodno',
-        working_hours: 'Пн-Пт: 9:00 - 18:00, Сб-Вс: 10:00 - 16:00',
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      });
+      console.error('Error fetching contact info:', err);
     } finally {
       setLoading(false);
     }
@@ -48,17 +38,22 @@ export function useAdminContacts() {
   const updateContactInfo = async (contactData: Partial<ContactInfo>) => {
     try {
       setSaving(true);
-      // Simulate API delay
-      await new Promise(resolve => setTimeout(resolve, 1000));
 
-      const updatedContactInfo = {
-        ...contactInfo,
-        ...contactData,
-        updated_at: new Date().toISOString()
-      } as ContactInfo;
+      const response = await fetch('/api/admin/contacts', {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(contactData),
+      });
 
+      if (!response.ok) {
+        throw new Error('Failed to update contact info');
+      }
+
+      const updatedContactInfo = await response.json();
       setContactInfo(updatedContactInfo);
-      localStorage.setItem('adminContactInfo', JSON.stringify(updatedContactInfo));
+      setError(null);
 
       return updatedContactInfo;
     } catch (err) {

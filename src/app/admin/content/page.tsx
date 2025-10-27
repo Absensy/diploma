@@ -195,14 +195,14 @@ export default function AdminContent() {
             body: JSON.stringify(ourServicesData),
           });
           break;
-        case 2: // Хедер (использует данные о компании)
+        case 2: // Шапка (использует данные о компании)
           response = await fetch('/api/content/about-company', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(aboutCompanyData),
           });
           break;
-        case 3: // Футер
+        case 3: // Подвал
           response = await fetch('/api/content/footer', {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -313,8 +313,8 @@ export default function AdminContent() {
             >
               <Tab icon={<Business />} label="О компании" />
               <Tab icon={<Build />} label="Наши услуги" />
-              <Tab icon={<ViewHeadline />} label="Хедер" />
-              <Tab icon={<ViewModule />} label="Футер" />
+              <Tab icon={<ViewHeadline />} label="Шапка" />
+              <Tab icon={<ViewModule />} label="Подвал" />
               <Tab icon={<Category />} label="Каталог" />
             </Tabs>
           </Box>
@@ -440,22 +440,22 @@ export default function AdminContent() {
             </Stack>
           </TabPanel>
 
-          {/* Хедер */}
+          {/* Шапка */}
           <TabPanel value={tabValue} index={2}>
             <Stack spacing={3}>
               <Box>
                 <Typography variant="h6" gutterBottom>
-                  Контент хедера
+                  Контент шапки
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  В хедере можно редактировать только текст на плашках с преимуществами компании
+                  В шапке можно редактировать только текст на плашках с преимуществами компании
                 </Typography>
               </Box>
 
               <Divider />
 
               <Typography variant="subtitle1" gutterBottom sx={{ fontWeight: 600 }}>
-                Преимущества компании (отображаются в хедере)
+                Преимущества компании (отображаются в шапке)
               </Typography>
 
               <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)' }, gap: 2 }}>
@@ -468,14 +468,14 @@ export default function AdminContent() {
                     onChange={(e) => updateAdvantage(index, e.target.value)}
                     variant="outlined"
                     size="small"
-                    helperText={`Текст для ${index + 1}-го преимущества в хедере`}
+                    helperText={`Текст для ${index + 1}-го преимущества в шапке`}
                   />
                 ))}
               </Box>
 
               <Paper variant="outlined" sx={{ p: 2, backgroundColor: '#f5f5f5' }}>
                 <Typography variant="subtitle2" gutterBottom sx={{ fontWeight: 600 }}>
-                  Неизменяемые элементы хедера:
+                  Неизменяемые элементы шапки:
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
                   • Название компании и логотип<br />
@@ -488,15 +488,15 @@ export default function AdminContent() {
             </Stack>
           </TabPanel>
 
-          {/* Футер */}
+          {/* Подвал */}
           <TabPanel value={tabValue} index={3}>
             <Stack spacing={3}>
               <Box>
                 <Typography variant="h6" gutterBottom>
-                  Контент футера
+                  Контент подвала
                 </Typography>
                 <Typography variant="body2" color="textSecondary">
-                  Редактирование текстового содержимого футера
+                  Редактирование текстового содержимого подвала
                 </Typography>
               </Box>
 

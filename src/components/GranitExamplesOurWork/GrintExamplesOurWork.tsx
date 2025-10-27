@@ -75,6 +75,7 @@ const GranitExamplesOurWork = () => {
                             key={work.id}
                             image={work.image}
                             title={work.title}
+                            description={work.description}
                             material={work.material}
                             dimensions={work.dimensions}
                             date={work.date}

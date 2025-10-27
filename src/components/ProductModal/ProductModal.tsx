@@ -29,7 +29,20 @@ interface ProductModalProps {
 }
 
 const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) => {
-    const { contactInfo } = useContactContext();
+    const { contactInfo, loading } = useContactContext();
+
+    // Debug - проверяем загрузку данных
+    React.useEffect(() => {
+        if (open && product) {
+            console.log('=== ProductModal Debug ===');
+            console.log('ContactInfo:', contactInfo);
+            console.log('Loading:', loading);
+            console.log('Email:', contactInfo?.email);
+            console.log('Phone:', contactInfo?.phone);
+            console.log('Instagram:', contactInfo?.instagram);
+            console.log('=========================');
+        }
+    }, [open, contactInfo, loading, product]);
 
     if (!product) return null;
 
@@ -60,7 +73,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                 alignItems: 'center',
                 pb: 1
             }}>
-                <Typography variant="h5" fontWeight="700">
+                <Typography variant="h5" component="h2" fontWeight="700">
                     {product.name}
                 </Typography>
                 <IconButton onClick={onClose} size="small">
@@ -126,7 +139,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
 
                     {/* Краткое описание */}
                     <Box>
-                        <Typography variant="h6" fontWeight="600" gutterBottom>
+                        <Typography variant="h6" component="h3" fontWeight="600" gutterBottom>
                             Описание
                         </Typography>
                         <Typography variant="body1" color="text.secondary" lineHeight={1.6}>
@@ -136,7 +149,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
 
                     {/* Полное описание */}
                     <Box>
-                        <Typography variant="h6" fontWeight="600" gutterBottom>
+                        <Typography variant="h6" component="h3" fontWeight="600" gutterBottom>
                             Подробное описание
                         </Typography>
                         <Typography variant="body1" color="text.secondary" lineHeight={1.6}>
@@ -146,7 +159,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
 
                     {/* Материалы */}
                     <Box>
-                        <Typography variant="h6" fontWeight="600" gutterBottom>
+                        <Typography variant="h6" component="h3" fontWeight="600" gutterBottom>
                             Материалы
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
@@ -156,7 +169,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
 
                     {/* Сроки изготовления */}
                     <Box>
-                        <Typography variant="h6" fontWeight="600" gutterBottom>
+                        <Typography variant="h6" component="h3" fontWeight="600" gutterBottom>
                             Сроки изготовления
                         </Typography>
                         <Typography variant="body1" color="text.secondary">
@@ -174,11 +187,15 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                     }}>
                         <CardContent>
                             <Stack spacing={2}>
-                                <Typography variant="h6" fontWeight="700" textAlign="center">
+                                <Typography variant="h6" component="h3" fontWeight="700" textAlign="center">
                                     Для заказа или подробностей свяжитесь с нами
                                 </Typography>
 
-                                {contactInfo && (
+                                {loading ? (
+                                    <Typography variant="body2" sx={{ opacity: 0.9, textAlign: 'center' }}>
+                                        Загрузка контактной информации...
+                                    </Typography>
+                                ) : contactInfo ? (
                                     <Stack spacing={1.5}>
                                         <Stack direction="row" alignItems="center" spacing={1}>
                                             <PhoneIcon fontSize="small" />
@@ -205,6 +222,10 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                             {contactInfo.working_hours}
                                         </Typography>
                                     </Stack>
+                                ) : (
+                                    <Typography variant="body2" sx={{ opacity: 0.9, textAlign: 'center' }}>
+                                        Контактная информация недоступна
+                                    </Typography>
                                 )}
 
                                 <Box textAlign="center" mt={2}>
@@ -220,6 +241,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                             variant="contained"
                                             size="large"
                                             startIcon={<PhoneIcon sx={{ color: 'black' }} />}
+                                            component="a"
+                                            href={contactInfo?.phone ? `tel:${contactInfo.phone.replace(/\s+/g, '')}` : '#'}
                                             sx={{
                                                 px: 4,
                                                 py: 1.5,
@@ -231,11 +254,17 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                                 color: 'black',
                                                 '&:hover': {
                                                     backgroundColor: 'grey.100',
-                                                }
+                                                },
+                                                pointerEvents: contactInfo?.phone ? 'auto' : 'none',
+                                                opacity: contactInfo?.phone ? 1 : 0.5,
                                             }}
-                                            onClick={() => {
-                                                if (contactInfo?.phone) {
-                                                    window.open(`tel:${contactInfo.phone}`, '_self');
+                                            onClick={(e) => {
+                                                console.log('Phone button clicked');
+                                                console.log('Contact phone:', contactInfo?.phone);
+                                                if (!contactInfo?.phone) {
+                                                    e.preventDefault();
+                                                    console.error('No phone available');
+                                                    alert('Телефон недоступен.');
                                                 }
                                             }}
                                         >
@@ -247,6 +276,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                             variant="contained"
                                             size="large"
                                             startIcon={<EmailIcon sx={{ color: 'black' }} />}
+                                            component="a"
+                                            href={contactInfo?.email ? `mailto:${contactInfo.email}` : '#'}
                                             sx={{
                                                 px: 4,
                                                 py: 1.5,
@@ -258,11 +289,17 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                                 color: 'black',
                                                 '&:hover': {
                                                     backgroundColor: 'grey.100',
-                                                }
+                                                },
+                                                pointerEvents: contactInfo?.email ? 'auto' : 'none',
+                                                opacity: contactInfo?.email ? 1 : 0.5,
                                             }}
-                                            onClick={() => {
-                                                if (contactInfo?.email) {
-                                                    window.open(`mailto:${contactInfo.email}`, '_self');
+                                            onClick={(e) => {
+                                                console.log('Email button clicked');
+                                                console.log('Contact email:', contactInfo?.email);
+                                                if (!contactInfo?.email) {
+                                                    e.preventDefault();
+                                                    console.error('No email available');
+                                                    alert('Email недоступен. Пожалуйста, попробуйте позвонить.');
                                                 }
                                             }}
                                         >
@@ -275,6 +312,14 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                                 variant="contained"
                                                 size="large"
                                                 startIcon={<InstagramIcon sx={{ color: 'black' }} />}
+                                                component="a"
+                                                href={
+                                                    contactInfo.instagram.startsWith('http')
+                                                        ? contactInfo.instagram
+                                                        : `https://instagram.com/${contactInfo.instagram.replace('@', '')}`
+                                                }
+                                                target="_blank"
+                                                rel="noopener noreferrer"
                                                 sx={{
                                                     px: 4,
                                                     py: 1.5,
@@ -289,7 +334,8 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                                     }
                                                 }}
                                                 onClick={() => {
-                                                    window.open(contactInfo.instagram, '_blank');
+                                                    console.log('Instagram button clicked');
+                                                    console.log('Contact instagram:', contactInfo?.instagram);
                                                 }}
                                             >
                                                 Instagram

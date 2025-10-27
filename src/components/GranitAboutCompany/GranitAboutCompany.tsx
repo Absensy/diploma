@@ -30,20 +30,20 @@ const GranitAboutCompany = () => {
           {/* Фотография на мобилке */}
           {isMobile && (
             <Box width="100%" display="flex" justifyContent="center">
-              <BoxImage sx={{ width: '100%', maxWidth: "100%", height: 'auto', justifyContent: 'center', alignItems: 'center' }}>
+              <BoxImage sx={{ width: '100%', maxWidth: "100%", justifyContent: 'center', alignItems: 'center' }}>
                 <Image
                   src={data.image}
                   alt="Мастер за работой по камню"
                   width={700}
-                  height={484}
-                  style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+                  height={250}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                 />
               </BoxImage>
             </Box>
           )}
           {/* Информация */}
           <Box>
-            <Typography variant="body1" fontSize={{ xs: "14px", md: "16px" }} paddingBottom="10px">
+            <Typography variant="body1" fontSize={{ xs: "14px", md: "16px" }} paddingBottom={{ xs: "20px", md: "45px" }}>
               {data.description}
             </Typography>
           </Box>
@@ -74,7 +74,7 @@ const GranitAboutCompany = () => {
                 alt="Мастер за работой по камню"
                 width={700}
                 height={384}
-                style={{ width: '100%', objectFit: 'contain' }}
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
               />
             </BoxImage>
           </RightContent>

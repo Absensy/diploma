@@ -191,7 +191,7 @@ export const ExampleWorkCardSkeleton: React.FC = () => {
             </Box>
 
             {/* Контент */}
-            <Box sx={{ flex: 1 }}>
+            <Box sx={{ display: 'flex', flexDirection: 'column', flex: 1 }}>
                 {/* Заголовок */}
                 <Box sx={{ padding: '10px 20px', textAlign: 'center' }}>
                     <Skeleton height="24px" width="80%" sx={{ margin: '0 auto' }} />
@@ -202,7 +202,19 @@ export const ExampleWorkCardSkeleton: React.FC = () => {
                     <Box sx={{ height: '1px', backgroundColor: '#ccc' }} />
                 </Box>
 
-                {/* Информация */}
+                {/* Описание */}
+                <Box sx={{ flexGrow: 1, padding: '0px 20px', paddingBottom: '20px' }}>
+                    <Skeleton height="16px" width="100%" sx={{ marginBottom: '8px' }} />
+                    <Skeleton height="16px" width="90%" sx={{ marginBottom: '8px' }} />
+                    <Skeleton height="16px" width="70%" />
+                </Box>
+
+                {/* Разделитель */}
+                <Box sx={{ padding: '0px 20px', paddingBottom: '20px' }}>
+                    <Box sx={{ height: '1px', backgroundColor: '#ccc' }} />
+                </Box>
+
+                {/* Информация (без материала) */}
                 <Box sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
@@ -211,14 +223,12 @@ export const ExampleWorkCardSkeleton: React.FC = () => {
                 }}>
                     {/* Левая колонка - лейблы */}
                     <Box sx={{ color: 'text.secondary', textAlign: 'left' }}>
-                        <Skeleton height="16px" width="80px" sx={{ marginBottom: '8px' }} />
                         <Skeleton height="16px" width="70px" sx={{ marginBottom: '8px' }} />
                         <Skeleton height="16px" width="100px" />
                     </Box>
 
                     {/* Правая колонка - значения */}
                     <Box sx={{ color: 'text.primary', textAlign: 'right' }}>
-                        <Skeleton height="16px" width="90px" sx={{ marginBottom: '8px' }} />
                         <Skeleton height="16px" width="80px" sx={{ marginBottom: '8px' }} />
                         <Skeleton height="16px" width="70px" />
                     </Box>

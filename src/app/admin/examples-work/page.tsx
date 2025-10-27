@@ -19,7 +19,6 @@ import {
     IconButton,
     Alert,
     CircularProgress,
-    Chip,
 } from '@mui/material';
 import {
     Add,
@@ -31,7 +30,7 @@ import { useAdminExamplesWork } from '@/hooks/useAdminExamplesWork';
 interface ExampleWork {
     id: number;
     title: string;
-    description: string;
+    description?: string;
     image: string;
     material: string;
     dimensions: string;
@@ -47,7 +46,7 @@ import EmptyState from '@/components/EmptyState/EmptyState';
 
 interface ExampleWorkFormData {
     title: string;
-    description: string;
+    description?: string;
     image: string;
     material: string;
     dimensions: string;
@@ -89,7 +88,7 @@ export default function AdminExamplesWork() {
         setEditingExampleWork(exampleWork);
         setFormData({
             title: exampleWork.title,
-            description: exampleWork.description,
+            description: exampleWork.description || '',
             image: exampleWork.image,
             material: exampleWork.material,
             dimensions: exampleWork.dimensions,
@@ -271,14 +270,14 @@ export default function AdminExamplesWork() {
                                             >
                                                 {exampleWork.title}
                                             </Typography>
-                                            <Box mb={1}>
-                                                <Chip
-                                                    label={`Материал: ${exampleWork.material}`}
-                                                    size="small"
-                                                    color="primary"
-                                                    sx={{ fontSize: { xs: '0.75rem', md: '0.75rem' } }}
-                                                />
-                                            </Box>
+                                            <Typography
+                                                variant="body2"
+                                                color="textSecondary"
+                                                gutterBottom
+                                                sx={{ fontSize: { xs: '0.875rem', md: '0.875rem' } }}
+                                            >
+                                                Материал: {exampleWork.material}
+                                            </Typography>
                                             <Typography
                                                 variant="body2"
                                                 color="textSecondary"
@@ -352,26 +351,37 @@ export default function AdminExamplesWork() {
                                     uploadType="example"
                                 />
 
-                                <Box sx={{ display: 'flex', gap: 2, flexDirection: { xs: 'column', sm: 'row' } }}>
-                                    <TextField
-                                        fullWidth
-                                        label="Материал"
-                                        value={formData.material}
-                                        onChange={(e) => handleInputChange('material', e.target.value)}
-                                        variant="outlined"
-                                        size="small"
-                                    />
+                                <TextField
+                                    fullWidth
+                                    label="Описание"
+                                    value={formData.description}
+                                    onChange={(e) => handleInputChange('description', e.target.value)}
+                                    variant="outlined"
+                                    placeholder="Напишите описание работы"
+                                    size="small"
+                                    multiline
+                                    rows={4}
+                                />
 
-                                    <TextField
-                                        fullWidth
-                                        label="Размеры"
-                                        value={formData.dimensions}
-                                        onChange={(e) => handleInputChange('dimensions', e.target.value)}
-                                        variant="outlined"
-                                        placeholder="например: 120 × 60 × 15 см"
-                                        size="small"
-                                    />
-                                </Box>
+                                <TextField
+                                    fullWidth
+                                    label="Материал"
+                                    value={formData.material}
+                                    onChange={(e) => handleInputChange('material', e.target.value)}
+                                    variant="outlined"
+                                    placeholder="например: Гранит черный"
+                                    size="small"
+                                />
+
+                                <TextField
+                                    fullWidth
+                                    label="Размеры"
+                                    value={formData.dimensions}
+                                    onChange={(e) => handleInputChange('dimensions', e.target.value)}
+                                    variant="outlined"
+                                    placeholder="например: 120 × 60 × 15 см"
+                                    size="small"
+                                />
 
                                 <TextField
                                     fullWidth

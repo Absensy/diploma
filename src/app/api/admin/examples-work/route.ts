@@ -24,7 +24,7 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, image, material, dimensions, date } = body;
+    const { title, image, material, dimensions, date, description, is_active } = body;
 
     const exampleWork = await prisma.examplesOurWork.create({
       data: {
@@ -33,6 +33,8 @@ export async function POST(request: NextRequest) {
         material,
         dimensions,
         date,
+        description,
+        is_active: is_active ?? true,
       },
     });
 

@@ -230,7 +230,7 @@ export default function AdminProducts() {
         />
       </Box>
 
-      <CardContent sx={{ flexGrow: 1, p: { xs: 1.5, md: 2 }, pb: 1 }}>
+      <CardContent sx={{ flexGrow: 1, p: { xs: 1.5, md: 2 }, pb: 1, display: 'flex', flexDirection: 'column' }}>
         <Typography
           variant="h6"
           component="h3"
@@ -269,7 +269,7 @@ export default function AdminProducts() {
             mb: 0.5
           }}
         >
-          {product.price} BYN
+          {product.discounted_price || product.price} BYN
           {product.discounted_price && (
             <span style={{
               textDecoration: 'line-through',
@@ -278,7 +278,7 @@ export default function AdminProducts() {
               fontSize: '0.875rem',
               fontWeight: 'normal'
             }}>
-              {product.discounted_price} BYN
+              {product.price} BYN
             </span>
           )}
         </Typography>
@@ -302,7 +302,7 @@ export default function AdminProducts() {
         <Typography
           variant="caption"
           color="textSecondary"
-          sx={{ fontSize: { xs: '0.75rem', md: '0.875rem' } }}
+          sx={{ fontSize: { xs: '0.75rem', md: '0.875rem' }, mt: 'auto' }}
         >
           Создан: {new Date(product.created_at).toLocaleDateString()}
         </Typography>

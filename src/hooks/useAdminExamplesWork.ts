@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 interface ExampleWork {
   id: number;
   title: string;
-  description: string;
+  description?: string;
   image: string;
   material: string;
   dimensions: string;
