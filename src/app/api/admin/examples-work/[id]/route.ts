@@ -37,14 +37,13 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { title, image, material, dimensions, date, description, is_active } = body;
+    const { title, image, dimensions, date, description, is_active } = body;
 
     const exampleWork = await prisma.examplesOurWork.update({
       where: { id: parseInt(id) },
       data: {
         ...(title !== undefined && { title }),
         ...(image !== undefined && { image }),
-        ...(material !== undefined && { material }),
         ...(dimensions !== undefined && { dimensions }),
         ...(date !== undefined && { date }),
         ...(description !== undefined && { description }),

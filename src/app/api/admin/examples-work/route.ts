@@ -24,13 +24,12 @@ export async function GET() {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { title, image, material, dimensions, date, description, is_active } = body;
+    const { title, image, dimensions, date, description, is_active } = body;
 
     const exampleWork = await prisma.examplesOurWork.create({
       data: {
         title,
         image,
-        material,
         dimensions,
         date,
         description,

@@ -6,7 +6,6 @@ export interface ExamplesOurWorkCardProps {
     image: string;
     title: string;
     description?: string;
-    material: string;
     dimensions: string;
     date: string;
 }

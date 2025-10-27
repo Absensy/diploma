@@ -32,7 +32,6 @@ interface ExampleWork {
     title: string;
     description?: string;
     image: string;
-    material: string;
     dimensions: string;
     date: string;
     is_active: boolean;
@@ -48,7 +47,6 @@ interface ExampleWorkFormData {
     title: string;
     description?: string;
     image: string;
-    material: string;
     dimensions: string;
     date: string;
     is_active: boolean;
@@ -64,7 +62,6 @@ export default function AdminExamplesWork() {
         title: '',
         description: '',
         image: '',
-        material: '',
         dimensions: '',
         date: '',
         is_active: true,
@@ -76,7 +73,6 @@ export default function AdminExamplesWork() {
             title: '',
             description: '',
             image: '',
-            material: '',
             dimensions: '',
             date: '',
             is_active: true,
@@ -90,7 +86,6 @@ export default function AdminExamplesWork() {
             title: exampleWork.title,
             description: exampleWork.description || '',
             image: exampleWork.image,
-            material: exampleWork.material,
             dimensions: exampleWork.dimensions,
             date: exampleWork.date,
             is_active: exampleWork.is_active,
@@ -104,7 +99,6 @@ export default function AdminExamplesWork() {
                 title: formData.title,
                 description: formData.description,
                 image: formData.image,
-                material: formData.material,
                 dimensions: formData.dimensions,
                 date: formData.date,
                 is_active: formData.is_active,
@@ -276,14 +270,6 @@ export default function AdminExamplesWork() {
                                                 gutterBottom
                                                 sx={{ fontSize: { xs: '0.875rem', md: '0.875rem' } }}
                                             >
-                                                Материал: {exampleWork.material}
-                                            </Typography>
-                                            <Typography
-                                                variant="body2"
-                                                color="textSecondary"
-                                                gutterBottom
-                                                sx={{ fontSize: { xs: '0.875rem', md: '0.875rem' } }}
-                                            >
                                                 Размеры: {exampleWork.dimensions}
                                             </Typography>
                                             <Typography
@@ -361,16 +347,6 @@ export default function AdminExamplesWork() {
                                     size="small"
                                     multiline
                                     rows={4}
-                                />
-
-                                <TextField
-                                    fullWidth
-                                    label="Материал"
-                                    value={formData.material}
-                                    onChange={(e) => handleInputChange('material', e.target.value)}
-                                    variant="outlined"
-                                    placeholder="например: Гранит черный"
-                                    size="small"
                                 />
 
                                 <TextField

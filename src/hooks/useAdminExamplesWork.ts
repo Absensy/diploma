@@ -5,7 +5,6 @@ interface ExampleWork {
   title: string;
   description?: string;
   image: string;
-  material: string;
   dimensions: string;
   date: string;
   is_active: boolean;

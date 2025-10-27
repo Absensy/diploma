@@ -6,7 +6,6 @@ export interface ExamplesWorkItem {
   id: number
   title: string
   image: string
-  material: string
   dimensions: string
   date: string
   description?: string
