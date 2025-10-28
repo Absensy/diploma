@@ -399,7 +399,6 @@ async function main() {
       data: {
         title: 'Мемориальный комплекс "Вечность"',
         image: '/images/memorialMonument.jpg',
-        material: 'Гранит черный',
         dimensions: '120 × 60 × 15 см',
         date: '15 марта 2024'
       }
@@ -408,7 +407,6 @@ async function main() {
       data: {
         title: 'Семейный памятник "Согласие"',
         image: '/images/doubleMonuments.jpg',
-        material: 'Гранит серый',
         dimensions: '100 × 80 × 12 см',
         date: '22 апреля 2024'
       }
@@ -417,7 +415,6 @@ async function main() {
       data: {
         title: 'Одиночный памятник "Классик"',
         image: '/images/GrneyMonument.jpg',
-        material: 'Гранит красный',
         dimensions: '80 × 40 × 10 см',
         date: '8 мая 2024'
       }
@@ -426,7 +423,6 @@ async function main() {
       data: {
         title: 'Мемориальная плита "Память"',
         image: '/images/memorialMonument.jpg',
-        material: 'Мрамор белый',
         dimensions: '60 × 30 × 8 см',
         date: '12 июня 2024'
       }
@@ -435,7 +431,6 @@ async function main() {
       data: {
         title: 'Двойной памятник "Единство"',
         image: '/images/doubleMonuments.jpg',
-        material: 'Гранит черный',
         dimensions: '110 × 70 × 14 см',
         date: '3 июля 2024'
       }
@@ -444,7 +439,6 @@ async function main() {
       data: {
         title: 'Детский памятник "Ангел"',
         image: '/images/memorialMonument.jpg',
-        material: 'Мрамор розовый',
         dimensions: '50 × 25 × 6 см',
         date: '18 августа 2024'
       }
