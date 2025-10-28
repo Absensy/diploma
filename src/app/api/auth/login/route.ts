@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { SignJWT } from 'jose';
 
-const ADMIN_PASSWORD = 'granit871543';
+const ADMIN_PASSWORD = 'Oleshuki2012';
 const JWT_SECRET = process.env.JWT_SECRET || 'fallback-secret-key';
 
 export async function POST(request: NextRequest) {
