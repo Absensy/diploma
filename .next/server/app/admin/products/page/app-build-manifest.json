@@ -1,0 +1,27 @@
+{
+  "pages": {
+    "/admin/products/page": [
+      "static/chunks/ff1a16fafef87110.js",
+      "static/chunks/7dd66bdf8a7e5707.js",
+      "static/chunks/b58e14dcb2bf0d5d.css",
+      "static/chunks/1bc491b2bc5c3f21.js",
+      "static/chunks/597a85aa8d9b1882.js",
+      "static/chunks/b3c055592e04e68b.js",
+      "static/chunks/45e06186c12d1fea.js",
+      "static/chunks/af39161b470227af.js",
+      "static/chunks/26433cccc09c8e4d.js",
+      "static/chunks/9052bf4be38f7a40.js",
+      "static/chunks/9d3f30f168f937d8.js",
+      "static/chunks/712746272728aa43.js",
+      "static/chunks/2f9f96386f0e3014.js",
+      "static/chunks/2987b3ee8f23051e.js",
+      "static/chunks/6fb2672197d80128.js",
+      "static/chunks/f06b92649760de5b.js",
+      "static/chunks/bed5a15b96593803.js",
+      "static/chunks/8082ab48faca5ea1.js",
+      "static/chunks/3e937773bda7db14.js",
+      "static/chunks/2008ffcf9e5b170c.js",
+      "static/chunks/turbopack-cc712b7801016818.js"
+    ]
+  }
+}

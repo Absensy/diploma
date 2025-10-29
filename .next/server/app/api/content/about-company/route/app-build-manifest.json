@@ -1,0 +1,12 @@
+{
+  "pages": {
+    "/api/content/about-company/route": [
+      "static/chunks/f06b92649760de5b.js",
+      "static/chunks/bed5a15b96593803.js",
+      "static/chunks/8082ab48faca5ea1.js",
+      "static/chunks/3e937773bda7db14.js",
+      "static/chunks/2008ffcf9e5b170c.js",
+      "static/chunks/turbopack-cc712b7801016818.js"
+    ]
+  }
+}
