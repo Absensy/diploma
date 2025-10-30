@@ -1,12 +1,12 @@
 {
   "pages": {
     "/api/admin/categories/route": [
-      "static/chunks/f06b92649760de5b.js",
+      "static/chunks/1e5dde5709948733.js",
       "static/chunks/bed5a15b96593803.js",
-      "static/chunks/8082ab48faca5ea1.js",
-      "static/chunks/3e937773bda7db14.js",
       "static/chunks/2008ffcf9e5b170c.js",
-      "static/chunks/turbopack-cc712b7801016818.js"
+      "static/chunks/53a2409d16e6c400.js",
+      "static/chunks/8082ab48faca5ea1.js",
+      "static/chunks/turbopack-1ec13c2e782ad6ca.js"
     ]
   }
 }

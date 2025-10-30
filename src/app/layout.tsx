@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import Providers from './providers';
 import ConditionalLayout from '@/components/ConditionalLayout/ConditionalLayout';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 const montserrat = Montserrat({
   subsets: ["latin", "cyrillic"],
@@ -26,20 +27,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={montserrat.variable}>
-      <head>
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-D3JDTEHXTJ"></script>
-        <script dangerouslySetInnerHTML={{
-          __html: `window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());gtag('config', 'G-D3JDTEHXTJ', { page_path: window.location.pathname });`
-        }} />
-      </head>
       <body style={{ margin: 0, padding: 0, overflow: 'visible' }}>
         <Providers>
           <ConditionalLayout>
             {children}
           </ConditionalLayout>
         </Providers>
+        <GoogleAnalytics gaId="G-D3JDTEHXTJ" />
       </body>
     </html>
   );
