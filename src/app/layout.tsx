@@ -27,13 +27,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={montserrat.variable}>
+      <head>
+        <GoogleAnalytics gaId="G-D3JDTEHXTJ" />
+      </head>
       <body style={{ margin: 0, padding: 0, overflow: 'visible' }}>
         <Providers>
           <ConditionalLayout>
             {children}
           </ConditionalLayout>
         </Providers>
-        <GoogleAnalytics gaId="G-D3JDTEHXTJ" />
       </body>
     </html>
   );
