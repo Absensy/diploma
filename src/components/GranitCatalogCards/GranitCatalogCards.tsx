@@ -63,11 +63,28 @@ const GranitCatalogCards = () => {
 
     const currentProducts = getCurrentPageProducts();
 
+    // Функция для склонения слова "результат"
+    const getResultText = (count: number) => {
+        const lastDigit = count % 10;
+        const lastTwoDigits = count % 100;
+
+        if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+            return 'результатов';
+        }
+        if (lastDigit === 1) {
+            return 'результат';
+        }
+        if (lastDigit >= 2 && lastDigit <= 4) {
+            return 'результата';
+        }
+        return 'результатов';
+    };
+
     return (
         <Ctatalogbox>
             <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="32px">
                 <Typography fontSize="16px" color="#9A9DA4">
-                    Показано {isMobile ? visibleItems : currentProducts.length} из {totalCount} результатов
+                    Показано {isMobile ? Math.min(visibleItems, totalCount) : currentProducts.length} из {totalCount} {getResultText(totalCount)}
                 </Typography>
                 <MobileFilterDrawer />
             </Box>

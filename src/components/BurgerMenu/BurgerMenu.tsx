@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import { Box, Typography, Stack, Button, Drawer, IconButton, Divider } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Typography, Stack, Button, Drawer, Divider } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@/icons/MenuIcon';
 import CloseIcon from '@mui/icons-material/Close';
@@ -10,11 +10,11 @@ import TelIcon from '@/icons/Tel';
 import InstIcon from '@/icons/Inst';
 import ClocksIcon from '@/icons/Clocks';
 import GreenCheckIcon from '@/icons/GreenCheck';
-import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import Link from 'next/link';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useAboutCompanyContent } from '@/hooks/useContent';
+import { usePathname } from 'next/navigation';
 
 const BurgerButton = styled(Button)(({ theme }) => ({
     display: 'none',
@@ -61,6 +61,12 @@ const BurgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
     const { contactInfo, loading } = useContactContext();
     const { data: aboutData } = useAboutCompanyContent();
+    const pathname = usePathname();
+
+    // Автоматически закрывать меню при изменении маршрута
+    useEffect(() => {
+        setIsOpen(false);
+    }, [pathname]);
 
     const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
         if (
@@ -82,38 +88,26 @@ const BurgerMenu = () => {
 
     return (
         <>
-            <BurgerButton onClick={toggleDrawer(true)}>
-                <MenuIcon />
+            <BurgerButton onClick={toggleDrawer(!isOpen)}>
+                {isOpen ? <CloseIcon /> : <MenuIcon />}
             </BurgerButton>
 
             <Drawer
                 anchor="top"
                 open={isOpen}
                 onClose={toggleDrawer(false)}
+                hideBackdrop
                 sx={{
+                    zIndex: 1299, // Ниже хедера
                     '& .MuiDrawer-paper': {
-                        top: 0, // Начинается с самого верха
-                        height: '100vh', // Полная высота экрана
+                        top: '80px', // Начинается ниже Header'а
+                        height: 'calc(100vh - 80px)', // Высота экрана минус Header
                         backgroundColor: '#ffffff',
                         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-                        zIndex: 1300, // Выше хедера
                     },
                 }}
             >
-                <Box sx={{ width: '100%', padding: '20px', paddingTop: '100px' }}>
-                    {/* Заголовок с кнопкой закрытия */}
-                    <Stack direction="row" justifyContent="space-between" alignItems="center">
-                        <Stack direction="row" alignItems="center" spacing={2}>
-                            <LogoGranitPrimary2Icon />
-                            <Typography variant="h6" fontWeight="700" fontSize="20px" color="text.primary">
-                                Гранит памяти
-                            </Typography>
-                        </Stack>
-                        <IconButton onClick={toggleDrawer(false)}>
-                            <CloseIcon />
-                        </IconButton>
-                    </Stack>
-
+                <Box sx={{ width: '100%', padding: '20px', paddingTop: '20px' }}>
                     <Box marginTop="16px">
                         {/* Контактная информация */}
                         <ContactInfoBox>

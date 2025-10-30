@@ -143,12 +143,12 @@ const MobileFilterDrawer = () => {
                 open={isOpen}
                 onClose={toggleDrawer(false)}
                 sx={{
+                    zIndex: 1400,
                     '& .MuiDrawer-paper': {
                         top: 0,
                         height: '100vh',
                         backgroundColor: '#ffffff',
                         boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
-                        zIndex: 1300,
                     },
                 }}
             >
