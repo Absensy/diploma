@@ -29,7 +29,7 @@ const GranitAboutCompany = () => {
           </Box>
           {/* Фотография на мобилке */}
           {isMobile && (
-            <Box width="100%" display="flex" justifyContent="center">
+            <Box width="100%" display="flex" justifyContent="center" marginBottom="20px">
               <BoxImage sx={{ width: '100%', maxWidth: "100%", height: 'auto', justifyContent: 'center', alignItems: 'center' }}>
                 <Image
                   src={data.image}

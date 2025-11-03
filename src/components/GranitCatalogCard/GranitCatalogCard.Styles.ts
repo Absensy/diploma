@@ -35,14 +35,15 @@ export const CategoryCard = styled(Box)(({ theme }) => ({
 export const DiscountBadge = styled(Box)(() => ({
     position: 'absolute',
     top: 0,
-    right: -2,
+    right: 0,
     backgroundColor: '#ff5252',
     color: '#fff',
-    borderRadius: 4,
+    borderTopRightRadius: 4,
+    borderBottomLeftRadius: 4,
     padding: '6px 16px',
     fontSize: '32px',
     fontWeight: 600,
-    zIndex: 1,
+    zIndex: 10,
 }));
 
 export const StatusBadge = styled(Box)(() => ({
@@ -55,7 +56,7 @@ export const StatusBadge = styled(Box)(() => ({
     padding: '4px 12px',
     fontSize: '12px',
     fontWeight: 600,
-    zIndex: 1,
+    zIndex: 10,
     textTransform: 'uppercase',
     letterSpacing: '0.5px',
 }));

@@ -3,11 +3,17 @@ import { CatalogCardProps, CategoryCard, DiscountBadge, PriceContainer, OldPrice
 import DetailsButton from "../GranitDetailsButton/GranitDetailsButton"
 import Image from "next/image";
 import ProductModal from "../ProductModal/ProductModal";
+import ImageViewerModal from "../ImageViewerModal/ImageViewerModal";
 import { useState } from "react";
 import { styled } from "@mui/material/styles";
+import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import { useImageBackgroundColor } from "@/hooks/useImageBackgroundColor";
 
 export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, oldPrice, image, discount, subtext, is_new, is_popular, product }) => {
     const [modalOpen, setModalOpen] = useState(false);
+    const [imageViewerOpen, setImageViewerOpen] = useState(false);
+    const [isHovered, setIsHovered] = useState(false);
+    const isWhiteBackground = useImageBackgroundColor(image);
 
     const handleDetailsClick = () => {
         setModalOpen(true);
@@ -17,21 +23,116 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
         setModalOpen(false);
     };
 
+    const handleImageClick = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        setImageViewerOpen(true);
+    };
+
+    const handleCloseImageViewer = () => {
+        setImageViewerOpen(false);
+    };
+
     // Динамический стиль для NewBadge в зависимости от наличия PopularBadge
     const DynamicNewBadge = styled(StatusBadge)(() => ({
         backgroundColor: '#2196f3',
         top: is_popular ? 40 : 8, // Если есть PopularBadge, то ниже, иначе вверху
         left: 8,
+        zIndex: 10,
     }));
 
     return (
         <>
             <CategoryCard>
-                <Box height="200px" position="relative" display="block">
+                <Box
+                    height="200px"
+                    position="relative"
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    overflow="hidden"
+                    onMouseEnter={() => setIsHovered(true)}
+                    onMouseLeave={() => setIsHovered(false)}
+                    onClick={handleImageClick}
+                    sx={{
+                        cursor: 'pointer',
+                        backgroundColor: (isWhiteBackground === false) ? 'transparent' : 'white'
+                    }}
+                >
+                    {/* Размытый фон - показывается только если фон НЕ белый */}
+                    {isWhiteBackground === false && (
+                        <Box
+                            position="absolute"
+                            top={0}
+                            left={0}
+                            right={0}
+                            bottom={0}
+                            sx={{
+                                '&::after': {
+                                    content: '""',
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                    zIndex: 1,
+                                }
+                            }}
+                        >
+                            <Image
+                                src={image}
+                                alt={`${name} background`}
+                                fill
+                                sizes="100%"
+                                style={{ objectFit: 'cover', filter: 'blur(25px)', transform: 'scale(1.2)' }}
+                            />
+                        </Box>
+                    )}
+                    {/* Основное изображение */}
+                    <Box
+                        position="absolute"
+                        top={0}
+                        left={0}
+                        right={0}
+                        bottom={0}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        sx={{ zIndex: 2 }}
+                    >
+                        <Box position="relative" width="100%" height="100%">
+                            <Image
+                                src={image}
+                                alt={name}
+                                fill
+                                sizes="100%"
+                                style={{ objectFit: 'contain' }}
+                            />
+                        </Box>
+                    </Box>
+                    {/* Оверлей с лупой при наведении */}
+                    <Box
+                        position="absolute"
+                        top={0}
+                        left={0}
+                        right={0}
+                        bottom={0}
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        sx={{
+                            backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                            opacity: isHovered ? 1 : 0,
+                            transition: 'opacity 0.3s ease',
+                            zIndex: 3,
+                        }}
+                    >
+                        <ZoomInIcon sx={{ fontSize: 60, color: 'white' }} />
+                    </Box>
+                    {/* Бейджи */}
                     {discount ? <DiscountBadge>-{discount}%</DiscountBadge> : null}
                     {is_popular && <PopularBadge>Популярное</PopularBadge>}
                     {is_new && <DynamicNewBadge>Новинка</DynamicNewBadge>}
-                    <Image src={image} alt={name} fill sizes="100%" style={{ objectFit: 'cover' }} />
                 </Box>
                 <Box padding="20px" display="flex" flexDirection="column" flex={1} justifyContent="space-between">
                     <Typography variant="h3" fontSize="20px" fontWeight="700" color="text.primary" marginBottom="8px">
@@ -59,6 +160,14 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
                     product={product}
                 />
             )}
+
+            <ImageViewerModal
+                open={imageViewerOpen}
+                onClose={handleCloseImageViewer}
+                imageSrc={image}
+                imageAlt={name}
+                useWhiteBackground={isWhiteBackground !== false}
+            />
         </>
     );
 };

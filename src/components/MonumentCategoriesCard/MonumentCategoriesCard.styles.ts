@@ -38,9 +38,10 @@ export const DiscountBadge = styled(Box)(() => ({
     right: 0,
     backgroundColor: '#ff5252',
     color: '#fff',
-    borderRadius: 5,
+    borderTopRightRadius: 5,
+    borderBottomLeftRadius: 5,
     padding: '4px 10px',
     fontSize: '36px',
     fontWeight: 600,
-    zIndex: 1,
+    zIndex: 10,
 }));

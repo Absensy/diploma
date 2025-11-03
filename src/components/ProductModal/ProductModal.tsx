@@ -21,6 +21,7 @@ import LocationOnIcon from '@mui/icons-material/LocationOn';
 import Image from 'next/image';
 import { Product } from '@/lib/db';
 import { useContactContext } from '@/contexts/ContactContext';
+import { useImageBackgroundColor } from '@/hooks/useImageBackgroundColor';
 
 interface ProductModalProps {
     open: boolean;
@@ -30,6 +31,7 @@ interface ProductModalProps {
 
 const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) => {
     const { contactInfo, loading } = useContactContext();
+    const isWhiteBackground = useImageBackgroundColor(product?.image || '');
 
     // Debug - проверяем загрузку данных
     React.useEffect(() => {
@@ -90,17 +92,70 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                         position: 'relative',
                         borderRadius: 2,
                         overflow: 'hidden',
-                        backgroundColor: 'grey.100'
+                        backgroundColor: (isWhiteBackground === false) ? 'transparent' : 'white',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                     }}>
-                        <Image
-                            src={product.image}
-                            alt={product.name}
-                            fill
-                            style={{
-                                objectFit: 'cover',
+                        {/* Размытый фон - показывается только если фон НЕ белый */}
+                        {isWhiteBackground === false && (
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    '&::after': {
+                                        content: '""',
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                                        zIndex: 1,
+                                    }
+                                }}
+                            >
+                                <Image
+                                    src={product.image}
+                                    alt={`${product.name} background`}
+                                    fill
+                                    style={{
+                                        objectFit: 'cover',
+                                        filter: 'blur(25px)',
+                                        transform: 'scale(1.2)'
+                                    }}
+                                />
+                            </Box>
+                        )}
+                        {/* Основное изображение */}
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                zIndex: 2,
                             }}
-                            priority
-                        />
+                        >
+                            <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+                                <Image
+                                    src={product.image}
+                                    alt={product.name}
+                                    fill
+                                    style={{
+                                        objectFit: 'contain',
+                                    }}
+                                    priority
+                                />
+                            </Box>
+                        </Box>
                     </Box>
 
                     {/* Цена и скидка */}
