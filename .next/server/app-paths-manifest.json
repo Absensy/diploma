@@ -1,0 +1,10 @@
+{
+  "/api/categories/route": "app/api/categories/route.js",
+  "/api/contact/route": "app/api/contact/route.js",
+  "/api/content/about-company/route": "app/api/content/about-company/route.js",
+  "/api/content/footer/route": "app/api/content/footer/route.js",
+  "/api/content/our-services/route": "app/api/content/our-services/route.js",
+  "/api/examples-work/route": "app/api/examples-work/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js",
+  "/page": "app/page.js"
+}
