@@ -1,3 +1,8 @@
-module.exports=[14747,(e,p,r)=>{p.exports=e.x("path",()=>require("path"))}];
+module.exports = [
+"[externals]/path [external] (path, cjs)", ((__turbopack_context__, module, exports) => {
 
-//# sourceMappingURL=%5Bexternals%5D_path_e30b8067._.js.map
+const mod = __turbopack_context__.x("path", () => require("path"));
+
+module.exports = mod;
+}),
+];

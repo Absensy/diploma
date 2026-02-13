@@ -1,3 +1,8 @@
-module.exports=[22734,(e,r,s)=>{r.exports=e.x("fs",()=>require("fs"))}];
+module.exports = [
+"[externals]/fs [external] (fs, cjs)", ((__turbopack_context__, module, exports) => {
 
-//# sourceMappingURL=%5Bexternals%5D_fs_54ffce70._.js.map
+const mod = __turbopack_context__.x("fs", () => require("fs"));
+
+module.exports = mod;
+}),
+];

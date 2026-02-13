@@ -1,21 +1,25 @@
 {
   "pages": {
     "/_not-found/page": [
-      "static/chunks/ff1a16fafef87110.js",
-      "static/chunks/7dd66bdf8a7e5707.js",
-      "static/chunks/b58e14dcb2bf0d5d.css",
-      "static/chunks/1bc491b2bc5c3f21.js",
-      "static/chunks/ea3fd9dd89ba688c.js",
-      "static/chunks/b3c055592e04e68b.js",
-      "static/chunks/7f0a3b339285b5ce.js",
-      "static/chunks/597a85aa8d9b1882.js",
-      "static/chunks/26433cccc09c8e4d.js",
-      "static/chunks/1e5dde5709948733.js",
-      "static/chunks/bed5a15b96593803.js",
-      "static/chunks/2008ffcf9e5b170c.js",
-      "static/chunks/53a2409d16e6c400.js",
-      "static/chunks/8082ab48faca5ea1.js",
-      "static/chunks/turbopack-1ec13c2e782ad6ca.js"
+      "static/chunks/node_modules_next_dist_8db7fb1f._.js",
+      "static/chunks/src_app_favicon_ico_mjs_243aa161._.js",
+      "static/chunks/[next]_internal_font_google_montserrat_fcfdc1bc_module_848ac484.css",
+      "static/chunks/src_1679c13b._.js",
+      "static/chunks/node_modules_@mui_system_esm_7d3d353c._.js",
+      "static/chunks/node_modules_@mui_material_esm_72d21268._.js",
+      "static/chunks/node_modules_322fe193._.js",
+      "static/chunks/src_app_layout_tsx_0a548d63._.js",
+      "static/chunks/_4a1db14d._.js",
+      "static/chunks/src_app_not-found_tsx_b70ef497._.js",
+      "static/chunks/[turbopack]_browser_dev_hmr-client_hmr-client_ts_57d40746._.js",
+      "static/chunks/node_modules_next_dist_compiled_react-dom_1e674e59._.js",
+      "static/chunks/node_modules_next_dist_compiled_next-devtools_index_a9cb0712.js",
+      "static/chunks/node_modules_next_dist_compiled_5150ccfd._.js",
+      "static/chunks/node_modules_next_dist_client_cf1d9188._.js",
+      "static/chunks/node_modules_next_dist_b0daae9a._.js",
+      "static/chunks/node_modules_@swc_helpers_cjs_b3dc30d6._.js",
+      "static/chunks/_a0ff3932._.js",
+      "static/chunks/turbopack-_cdba956c._.js"
     ]
   }
 }

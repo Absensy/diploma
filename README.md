@@ -60,6 +60,9 @@ CLOUDINARY_API_SECRET=your_api_secret
 
 # JWT Authentication
 JWT_SECRET=your_super_secret_jwt_key_here_make_it_long_and_random
+
+# Admin Panel Password
+ADMIN_PASSWORD=Oleshuki2012
 ```
 
 ### 4. Настройка базы данных
@@ -81,7 +84,7 @@ npm run dev
 ## 🔐 Доступ к админ-панели
 
 - **URL**: `http://localhost:3000/admin`
-- **Пароль**: `Oleshuki2012`
+- **Пароль**: настраивается через переменную окружения `ADMIN_PASSWORD` (по умолчанию: `Oleshuki2012`)
 
 ## 📁 Структура проекта
 
