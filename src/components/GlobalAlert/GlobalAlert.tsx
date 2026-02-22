@@ -36,7 +36,10 @@ export const AlertProvider: React.FC<AlertProviderProps> = ({ children }) => {
   const [alerts, setAlerts] = useState<AlertMessage[]>([]);
 
   const showAlert = useCallback((message: string, severity: AlertColor = 'info', duration: number = 4000) => {
-    const id = Date.now().toString();
+    // Use crypto.randomUUID if available, otherwise fallback to timestamp + random
+    const id = typeof crypto !== 'undefined' && crypto.randomUUID 
+      ? crypto.randomUUID() 
+      : `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
     const newAlert: AlertMessage = {
       id,
       message,

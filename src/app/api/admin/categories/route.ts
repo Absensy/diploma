@@ -13,7 +13,7 @@ export async function GET() {
       },
     });
 
-    const categoriesWithCount = categories.map(category => ({
+    const categoriesWithCount = categories.map((category: any) => ({
       ...category,
       productsCount: category.products.length,
       is_active: Boolean(category.is_active),

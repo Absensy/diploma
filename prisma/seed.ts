@@ -1,458 +1,505 @@
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
+import { faker } from '@faker-js/faker';
 
-const prisma = new PrismaClient()
+// Local image paths for products and examples
+const productImages = [
+  '/images/singleMonument.jpg',
+  '/images/doubleMonument.jpg',
+  '/images/memorialMonument.jpg',
+  '/images/graniteSlab.jpg',
+  '/images/gravestone.jpg',
+  '/images/GrneyMonument.jpg',
+];
+
+const exampleImages = [
+  '/images/memorialMonument.jpg',
+  '/images/singleMonument.jpg',
+  '/images/doubleMonument.jpg',
+  '/images/graniteSlab.jpg',
+  '/images/gravestone.jpg',
+  '/images/GrneyMonument.jpg',
+];
+
+const prisma = new PrismaClient();
+
+// Helper function to generate slug from name
+function generateSlug(name: string): string {
+  return name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
+// Helper function to generate SKU
+function generateSKU(prefix: string = 'GR'): string {
+  return `${prefix}-${faker.string.alphanumeric(6).toUpperCase()}`;
+}
 
 async function main() {
-  // Очищаем все данные из БД
-  console.log('Clearing existing data...')
-  await prisma.examplesOurWork.deleteMany()
-  await prisma.product.deleteMany()
-  await prisma.category.deleteMany()
-  await prisma.contactInfo.deleteMany()
-  console.log('Database cleared successfully')
+  console.log('🌱 Starting database seeding...\n');
 
-  // Создаем контактную информацию
-  console.log('Creating contact info...')
-  await prisma.contactInfo.create({
-    data: {
+  // Clear existing data (optional - comment out if you want to keep existing data)
+  console.log('🧹 Clearing existing data...');
+  await prisma.orderItem.deleteMany();
+  await prisma.order.deleteMany();
+  await prisma.productTag.deleteMany();
+  await prisma.productMaterial.deleteMany();
+  await prisma.productImage.deleteMany();
+  await prisma.productVariant.deleteMany();
+  await prisma.productAttribute.deleteMany();
+  await prisma.relatedProduct.deleteMany();
+  await prisma.product.deleteMany();
+  await prisma.tag.deleteMany();
+  await prisma.material.deleteMany();
+  await prisma.user.deleteMany();
+  await prisma.category.deleteMany();
+  await prisma.contactInfo.deleteMany();
+  await prisma.examplesOurWork.deleteMany();
+  console.log('✅ Database cleared\n');
+
+  // 1. Create Contact Info
+  console.log('📞 Creating contact info...');
+  await prisma.contactInfo.upsert({
+    where: { id: 1 },
+    update: {},
+    create: {
       address: 'пр. Янки Купалы 22а, цокольный этаж',
       phone: '+375 (29) 708-21-11',
       email: 'info@granite-memory.by',
       instagram: 'granit.grodno',
-      working_hours: 'Пн-Пт: 9:00 - 18:00, Сб-Вс: 10:00 - 16:00'
-    }
-  })
-  console.log('Contact info created successfully')
+      working_hours: 'Пн-Пт: 9:00 - 18:00, Сб-Вс: 10:00 - 16:00',
+    },
+  });
+  console.log('✅ Contact info created\n');
 
-  // Создаем категории
+  // 2. Create Categories
+  console.log('📁 Creating categories...');
   const categories = await Promise.all([
-    prisma.category.create({
-      data: {
+    prisma.category.upsert({
+      where: { id: 1 },
+      update: {},
+      create: {
         name: 'Памятники одинарные',
-        price_from: 1500.00,
+        price_from: 1200.00,
         photo: '/images/singleMonument.jpg',
         discount: 10,
-        discounted_price: 1350.00
-      }
+        discounted_price: 1080.00,
+      },
     }),
-    prisma.category.create({
-      data: {
+    prisma.category.upsert({
+      where: { id: 2 },
+      update: {},
+      create: {
         name: 'Памятники двойные',
-        price_from: 2500.00,
+        price_from: 2200.00,
         photo: '/images/doubleMonument.jpg',
         discount: 15,
-        discounted_price: 2125.00
-      }
+        discounted_price: 1870.00,
+      },
     }),
-    prisma.category.create({
-      data: {
+    prisma.category.upsert({
+      where: { id: 3 },
+      update: {},
+      create: {
         name: 'Мемориальные комплексы',
-        price_from: 3500.00,
-        photo: '/images/memorialMonument.jpg'
-      }
+        price_from: 4800.00,
+        photo: '/images/memorialMonument.jpg',
+      },
     }),
-    prisma.category.create({
-      data: {
+    prisma.category.upsert({
+      where: { id: 4 },
+      update: {},
+      create: {
         name: 'Гранитные плиты',
-        price_from: 800.00,
+        price_from: 700.00,
         photo: '/images/graniteSlab.jpg',
         discount: 5,
-        discounted_price: 760.00
-      }
+        discounted_price: 665.00,
+      },
     }),
-    prisma.category.create({
-      data: {
+    prisma.category.upsert({
+      where: { id: 5 },
+      update: {},
+      create: {
         name: 'Надгробные плиты',
-        price_from: 1200.00,
-        photo: '/images/gravestone.jpg'
-      }
-    })
-  ])
+        price_from: 1000.00,
+        photo: '/images/gravestone.jpg',
+      },
+    }),
+  ]);
+  console.log(`✅ Created ${categories.length} categories\n`);
 
-  console.log('Created categories:', categories.length)
+  // 3. Create Users (1 Admin + 5 Customers)
+  console.log('👥 Creating users...');
+  const admin = await prisma.user.upsert({
+    where: { email: 'admin@granite-memory.by' },
+    update: {},
+    create: {
+      first_name: 'Admin',
+      last_name: 'User',
+      email: 'admin@granite-memory.by',
+      password: '$2a$10$rOzJqJqJqJqJqJqJqJqJqO', // In production, use proper hashing
+      phone: '+375 (29) 123-45-67',
+    },
+  });
 
-  // Создаем товары
-  const products = await Promise.all([
-    prisma.product.create({
-      data: {
-        name: 'Памятник "Классик"',
-        short_description: 'Классический памятник из черного гранита с золотой гравировкой',
-        full_description: 'Элегантный памятник в классическом стиле из высококачественного черного гранита. Включает золотую гравировку имени и дат, а также декоративные элементы. Подходит для любого типа захоронения.',
-        materials: 'Черный гранит, Золотая фольга',
-        production_time: '7-10 дней',
-        price: 1800.00,
-        discount: 10,
-        discounted_price: 1620.00,
-        image: '/images/singleMonument.jpg',
-        category_id: categories[0].id,
-        is_new: false,
-        is_popular: true
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Памятник "Семейный"',
-        short_description: 'Двойной памятник для семейных захоронений',
-        full_description: 'Просторный двойной памятник из серого гранита с возможностью размещения двух имен. Включает общую эпитафию и декоративные элементы. Идеально подходит для семейных захоронений.',
-        materials: 'Серый гранит, Бронза',
-        production_time: '10-14 дней',
-        price: 2800.00,
-        discount: 15,
-        discounted_price: 2380.00,
-        image: '/images/doubleMonument.jpg',
-        category_id: categories[1].id,
-        is_new: true,
-        is_popular: false
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Мемориал "Вечность"',
-        short_description: 'Монументальный мемориальный комплекс',
-        full_description: 'Величественный мемориальный комплекс из красного гранита с декоративными колоннами и барельефами. Включает постамент, основную стелу и декоративные элементы. Создан для увековечивания памяти особо важных людей.',
-        materials: 'Красный гранит, Мрамор, Бронза',
-        production_time: '21-30 дней',
-        price: 4500.00,
-        discount: 20,
-        discounted_price: 3600.00,
-        image: '/images/memorialMonument.jpg',
-        category_id: categories[2].id,
-        is_new: false,
-        is_popular: true
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Плита "Простота"',
-        short_description: 'Простая гранитная плита для скромных захоронений',
-        full_description: 'Минималистичная гранитная плита из серого гранита. Чистые линии и простота дизайна подчеркивают достоинство и скромность. Подходит для тех, кто предпочитает простоту и элегантность.',
-        materials: 'Серый гранит',
-        production_time: '3-5 дней',
-        price: 900.00,
-        discount: 5,
-        discounted_price: 855.00,
-        image: '/images/graniteSlab.jpg',
-        category_id: categories[3].id,
-        is_new: true,
-        is_popular: false
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Надгробие "Традиция"',
-        short_description: 'Традиционное надгробие с религиозными символами',
-        full_description: 'Традиционное надгробие из белого мрамора с выгравированными религиозными символами. Включает крест и молитвенную надпись. Создано в соответствии с православными традициями.',
-        materials: 'Белый мрамор, Золотая фольга',
-        production_time: '5-7 дней',
-        price: 1400.00,
-        image: '/images/gravestone.jpg',
-        category_id: categories[4].id,
-        is_new: false,
-        is_popular: false
-      }
-    }),
-    // Дополнительные товары
-    prisma.product.create({
-      data: {
-        name: 'Памятник "Элегант"',
-        short_description: 'Элегантный памятник из белого мрамора',
-        full_description: 'Утонченный памятник из белого мрамора с изящными линиями и декоративными элементами. Создан для тех, кто ценит красоту и изысканность.',
-        materials: 'Белый мрамор, Бронза',
-        production_time: '8-12 дней',
-        price: 2200.00,
-        discount: 12,
-        discounted_price: 1936.00,
-        image: '/images/singleMonument.jpg',
-        category_id: categories[0].id,
-        is_new: true,
-        is_popular: false
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Памятник "Дуэт"',
-        short_description: 'Двойной памятник в современном стиле',
-        full_description: 'Современный двойной памятник с минималистичным дизайном. Идеально подходит для молодых семей, предпочитающих современный стиль.',
-        materials: 'Черный гранит, Стекло',
-        production_time: '12-16 дней',
-        price: 3200.00,
-        image: '/images/doubleMonument.jpg',
-        category_id: categories[1].id,
-        is_new: false,
-        is_popular: true
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Мемориал "Память"',
-        short_description: 'Мемориальный комплекс с колоннами',
-        full_description: 'Величественный мемориальный комплекс с декоративными колоннами и барельефами. Создан для увековечивания памяти выдающихся людей.',
-        materials: 'Красный гранит, Мрамор',
-        production_time: '25-35 дней',
-        price: 5200.00,
-        discount: 15,
-        discounted_price: 4420.00,
-        image: '/images/memorialMonument.jpg',
-        category_id: categories[2].id,
-        is_new: false,
-        is_popular: true
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Плита "Минимал"',
-        short_description: 'Минималистичная гранитная плита',
-        full_description: 'Простая и элегантная гранитная плита в минималистичном стиле. Подходит для тех, кто предпочитает простоту и лаконичность.',
-        materials: 'Серый гранит',
-        production_time: '2-4 дня',
-        price: 750.00,
-        image: '/images/graniteSlab.jpg',
-        category_id: categories[3].id,
-        is_new: true,
-        is_popular: false
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Надгробие "Вера"',
-        short_description: 'Надгробие с православным крестом',
-        full_description: 'Традиционное надгробие с выгравированным православным крестом и молитвенной надписью. Создано в соответствии с православными традициями.',
-        materials: 'Белый мрамор, Золотая фольга',
-        production_time: '6-8 дней',
-        price: 1600.00,
-        discount: 8,
-        discounted_price: 1472.00,
-        image: '/images/gravestone.jpg',
-        category_id: categories[4].id,
-        is_new: false,
-        is_popular: false
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Памятник "Премиум"',
-        short_description: 'Премиум памятник из черного гранита',
-        full_description: 'Эксклюзивный памятник из высококачественного черного гранита с золотой гравировкой и декоративными элементами. Создан для особых случаев.',
-        materials: 'Черный гранит, Золотая фольга, Бронза',
-        production_time: '10-14 дней',
-        price: 3500.00,
-        image: '/images/singleMonument.jpg',
-        category_id: categories[0].id,
-        is_new: false,
-        is_popular: true
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Памятник "Гармония"',
-        short_description: 'Двойной памятник в стиле ар-деко',
-        full_description: 'Элегантный двойной памятник в стиле ар-деко с геометрическими узорами и декоративными элементами. Создан для ценителей искусства.',
-        materials: 'Серый гранит, Мрамор, Бронза',
-        production_time: '15-20 дней',
-        price: 3800.00,
-        discount: 18,
-        discounted_price: 3116.00,
-        image: '/images/doubleMonument.jpg',
-        category_id: categories[1].id,
-        is_new: true,
-        is_popular: false
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Мемориал "Величие"',
-        short_description: 'Монументальный мемориальный комплекс',
-        full_description: 'Величественный мемориальный комплекс с декоративными колоннами, барельефами и скульптурными элементами. Создан для увековечивания памяти великих людей.',
-        materials: 'Красный гранит, Мрамор, Бронза, Золотая фольга',
-        production_time: '30-45 дней',
-        price: 6500.00,
-        image: '/images/memorialMonument.jpg',
-        category_id: categories[2].id,
-        is_new: false,
-        is_popular: true
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Плита "Классик"',
-        short_description: 'Классическая гранитная плита',
-        full_description: 'Традиционная гранитная плита в классическом стиле с простыми линиями и элегантным дизайном. Подходит для любого типа захоронения.',
-        materials: 'Серый гранит',
-        production_time: '4-6 дней',
-        price: 950.00,
-        discount: 10,
-        discounted_price: 855.00,
-        image: '/images/graniteSlab.jpg',
-        category_id: categories[3].id,
-        is_new: false,
-        is_popular: false
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Надгробие "Надежда"',
-        short_description: 'Надгробие с ангелом-хранителем',
-        full_description: 'Трогательное надгробие с изображением ангела-хранителя и молитвенной надписью. Создано для тех, кто верит в вечную жизнь.',
-        materials: 'Белый мрамор, Золотая фольга',
-        production_time: '7-10 дней',
-        price: 1800.00,
-        image: '/images/gravestone.jpg',
-        category_id: categories[4].id,
-        is_new: true,
-        is_popular: false
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Памятник "Современник"',
-        short_description: 'Современный памятник с LED-подсветкой',
-        full_description: 'Инновационный памятник с встроенной LED-подсветкой и современным дизайном. Создан для тех, кто ценит современные технологии.',
-        materials: 'Черный гранит, Стекло, Металл',
-        production_time: '14-18 дней',
-        price: 4200.00,
-        discount: 20,
-        discounted_price: 3360.00,
-        image: '/images/singleMonument.jpg',
-        category_id: categories[0].id,
-        is_new: true,
-        is_popular: true
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Памятник "Единство"',
-        short_description: 'Двойной памятник с общим основанием',
-        full_description: 'Уникальный двойной памятник с общим основанием и раздельными стелами. Символизирует единство и вечную любовь.',
-        materials: 'Серый гранит, Мрамор',
-        production_time: '16-22 дня',
-        price: 4100.00,
-        image: '/images/doubleMonument.jpg',
-        category_id: categories[1].id,
-        is_new: false,
-        is_popular: true
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Мемориал "Слава"',
-        short_description: 'Мемориальный комплекс с вечным огнем',
-        full_description: 'Величественный мемориальный комплекс с вечным огнем и декоративными элементами. Создан для увековечивания памяти героев.',
-        materials: 'Красный гранит, Мрамор, Бронза, Металл',
-        production_time: '35-50 дней',
-        price: 7500.00,
-        image: '/images/memorialMonument.jpg',
-        category_id: categories[2].id,
-        is_new: false,
-        is_popular: true
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Плита "Эко"',
-        short_description: 'Экологичная гранитная плита',
-        full_description: 'Экологически чистая гранитная плита из натурального камня. Создана с заботой об окружающей среде.',
-        materials: 'Серый гранит',
-        production_time: '3-5 дней',
-        price: 800.00,
-        image: '/images/graniteSlab.jpg',
-        category_id: categories[3].id,
-        is_new: true,
-        is_popular: false
-      }
-    }),
-    prisma.product.create({
-      data: {
-        name: 'Надгробие "Мир"',
-        short_description: 'Надгробие с голубем мира',
-        full_description: 'Трогательное надгробие с изображением голубя мира и молитвенной надписью. Символизирует мир и покой.',
-        materials: 'Белый мрамор, Золотая фольга',
-        production_time: '8-12 дней',
-        price: 1700.00,
-        discount: 15,
-        discounted_price: 1445.00,
-        image: '/images/gravestone.jpg',
-        category_id: categories[4].id,
-        is_new: false,
-        is_popular: false
-      }
-    })
-  ])
+  const customers = await Promise.all(
+    Array.from({ length: 5 }).map(() =>
+      prisma.user.create({
+        data: {
+          first_name: faker.person.firstName(),
+          last_name: faker.person.lastName(),
+          email: faker.internet.email().toLowerCase(),
+          password: '$2a$10$rOzJqJqJqJqJqJqJqJqJqO', // In production, use proper hashing
+          phone: `+375 (${faker.number.int({ min: 29, max: 44 })}) ${faker.number.int({ min: 100, max: 999 })}-${faker.number.int({ min: 10, max: 99 })}-${faker.number.int({ min: 10, max: 99 })}`,
+        },
+      })
+    )
+  );
+  const allUsers = [admin, ...customers];
+  console.log(`✅ Created ${allUsers.length} users (1 admin, ${customers.length} customers)\n`);
 
-  console.log('Created products:', products.length)
+  // 4. Create Materials
+  console.log('🔨 Creating materials...');
+  const materialNames = [
+    'Черный гранит',
+    'Серый гранит',
+    'Красный гранит',
+    'Белый мрамор',
+    'Бронза',
+    'Золотая фольга',
+    'Стекло',
+  ];
 
-  // Создаем контактную информацию
-  const contactInfo = await prisma.contactInfo.create({
-    data: {
-      address: 'пр.Янки Купалы 22а, цокольный этаж',
-      phone: '+375(29)708-21-11',
-      email: 'info@granite-memory.by',
-      instagram: '@granite_memory',
-      working_hours: 'Пн-Пт: 9:00 - 18:00, Сб-Вс: 10:00 - 16:00'
+  const materials = await Promise.all(
+    materialNames.map((name) =>
+      prisma.material.upsert({
+        where: { name },
+        update: {},
+        create: {
+          name,
+          description: faker.lorem.sentence(),
+        },
+      })
+    )
+  );
+  console.log(`✅ Created ${materials.length} materials\n`);
+
+  // 5. Create Tags
+  console.log('🏷️  Creating tags...');
+  const tagNames = [
+    'Новинка',
+    'Популярное',
+    'Премиум',
+    'Эксклюзив',
+    'Классика',
+    'Современный стиль',
+    'Религиозный',
+    'Минимализм',
+    'Элегантность',
+    'Традиционный',
+    'Арт-деко',
+    'Семейный',
+  ];
+
+  // Create tags sequentially to avoid conflicts
+  const tags = [];
+  const usedTagSlugs = new Set<string>();
+  
+  for (const name of tagNames) {
+    let slug = generateSlug(name);
+    let counter = 1;
+    
+    // Ensure unique slug
+    while (usedTagSlugs.has(slug)) {
+      slug = `${generateSlug(name)}-${counter}`;
+      counter++;
     }
-  })
+    usedTagSlugs.add(slug);
+    
+    const tag = await prisma.tag.upsert({
+      where: { name },
+      update: {},
+      create: {
+        name,
+        slug,
+      },
+    });
+    
+    tags.push(tag);
+  }
+  console.log(`✅ Created ${tags.length} tags\n`);
 
-  console.log('Created contact info:', contactInfo.id)
+  // 6. Create Products (25 products)
+  console.log('📦 Creating products...');
+  const productNames = [
+    'Памятник "Классик"',
+    'Памятник "Семейный"',
+    'Мемориал "Вечность"',
+    'Плита "Простота"',
+    'Надгробие "Традиция"',
+    'Памятник "Элегант"',
+    'Памятник "Дуэт"',
+    'Мемориал "Память"',
+    'Плита "Минимал"',
+    'Надгробие "Вера"',
+    'Памятник "Премиум"',
+    'Памятник "Гармония"',
+    'Мемориал "Величие"',
+    'Памятник "Свет"',
+    'Памятник "Память"',
+    'Плита "Элегия"',
+    'Надгробие "Надежда"',
+    'Памятник "Достоинство"',
+    'Мемориал "Честь"',
+    'Памятник "Благородство"',
+    'Плита "Скромность"',
+    'Надгробие "Мудрость"',
+    'Памятник "Великолепие"',
+    'Мемориал "Героизм"',
+    'Памятник "Бессмертие"',
+  ];
 
-  // Создаем примеры работ
-  const examplesWork = await Promise.all([
-    prisma.examplesOurWork.create({
-      data: {
-        title: 'Мемориальный комплекс "Вечность"',
-        image: '/images/memorialMonument.jpg',
-        dimensions: '120 × 60 × 15 см',
-        date: '15 марта 2024'
+  // Create products sequentially to ensure unique slugs and SKUs
+  const products: any[] = [];
+  const usedSlugs = new Set<string>();
+  const usedSKUs = new Set<string>();
+  
+  for (let index = 0; index < productNames.length; index++) {
+    const name = productNames[index];
+    const category = categories[index % categories.length];
+    
+    // Generate unique slug
+    let slug = generateSlug(name);
+    let slugCounter = 1;
+    while (usedSlugs.has(slug)) {
+      slug = `${generateSlug(name)}-${slugCounter}`;
+      slugCounter++;
+    }
+    usedSlugs.add(slug);
+    
+    // Generate unique SKU
+    let sku = generateSKU();
+    while (usedSKUs.has(sku)) {
+      sku = generateSKU();
+    }
+    usedSKUs.add(sku);
+      const basePrice = faker.number.float({ min: 800, max: 6500, fractionDigits: 2 });
+      const hasDiscount = faker.datatype.boolean({ probability: 0.4 });
+      const discount = hasDiscount ? faker.number.int({ min: 5, max: 25 }) : null;
+      const discountedPrice = discount
+        ? Math.round(basePrice * (1 - discount / 100) * 100) / 100
+        : null;
+
+      // Select 1-3 random materials
+      const selectedMaterials = faker.helpers.arrayElements(materials, {
+        min: 1,
+        max: 3,
+      });
+      const materialsString = selectedMaterials.map((m: any) => m.name).join(', ');
+
+      // Select 2-4 random tags
+      const selectedTags = faker.helpers.arrayElements(tags, {
+        min: 2,
+        max: 4,
+      });
+
+      const product = await prisma.product.create({
+        data: {
+          name,
+          slug,
+          short_description: faker.lorem.sentence({ min: 10, max: 20 }),
+          full_description: faker.lorem.paragraphs({ min: 2, max: 4 }),
+          materials: materialsString,
+          production_time: `${faker.number.int({ min: 3, max: 30 })} дней`,
+          price: basePrice,
+          discount,
+          discounted_price: discountedPrice,
+          image: faker.helpers.arrayElement(productImages),
+          category_id: category.id,
+          meta_title: `${name} - Гранитная память`,
+          meta_description: faker.lorem.sentence(),
+          meta_keywords: faker.lorem.words(5).split(' ').join(', '),
+          weight: faker.number.float({ min: 50, max: 500, fractionDigits: 2 }),
+          dimensions: `${faker.number.int({ min: 80, max: 150 })}x${faker.number.int({
+            min: 40,
+            max: 80,
+          })}x${faker.number.int({ min: 10, max: 30 })}`,
+          stock_quantity: faker.number.int({ min: 0, max: 10 }),
+          sku: sku,
+          is_new: faker.datatype.boolean({ probability: 0.3 }),
+          is_popular: faker.datatype.boolean({ probability: 0.3 }),
+          is_active: true,
+          // Create product-material relationships
+          product_materials: {
+            create: selectedMaterials.map((material: any) => ({
+              material_id: material.id,
+            })),
+          },
+          // Create product-tag relationships
+          tags: {
+            create: selectedTags.map((tag: any) => ({
+              tag_id: tag.id,
+            })),
+          },
+        },
+      });
+
+      // Create product images (1-3 images per product)
+      const imageCount = faker.number.int({ min: 1, max: 3 });
+      await Promise.all(
+        Array.from({ length: imageCount }).map((_, imgIndex) =>
+          prisma.productImage.create({
+            data: {
+              product_id: product.id,
+              url: faker.helpers.arrayElement(productImages),
+              alt: `${name} - изображение ${imgIndex + 1}`,
+              order: imgIndex,
+              is_primary: imgIndex === 0,
+            },
+          })
+        )
+      );
+
+      // Create product attributes (2-4 attributes per product)
+      const attributeNames = ['Высота', 'Ширина', 'Толщина', 'Цвет', 'Обработка'];
+      const attributeCount = faker.number.int({ min: 2, max: 4 });
+      const selectedAttributes = faker.helpers.arrayElements(attributeNames, attributeCount);
+      await Promise.all(
+        selectedAttributes.map((attrName: string, attrIndex: number) =>
+          prisma.productAttribute.create({
+            data: {
+              product_id: product.id,
+              name: attrName,
+              value: faker.lorem.word(),
+              order: attrIndex,
+            },
+          })
+        )
+      );
+
+      products.push(product);
+    }
+  console.log(`✅ Created ${products.length} products\n`);
+
+  // Create related products (some products have related products)
+  console.log('🔗 Creating product relationships...');
+  for (let i = 0; i < products.length; i++) {
+    if (faker.datatype.boolean({ probability: 0.3 })) {
+      const relatedProduct = faker.helpers.arrayElement(
+        products.filter((p: any) => p.id !== products[i].id)
+      );
+      try {
+        await prisma.relatedProduct.create({
+          data: {
+            product_id: products[i].id,
+            related_product_id: relatedProduct.id,
+          },
+        });
+      } catch (e) {
+        // Ignore duplicate errors
       }
-    }),
-    prisma.examplesOurWork.create({
-      data: {
-        title: 'Семейный памятник "Согласие"',
-        image: '/images/doubleMonuments.jpg',
-        dimensions: '100 × 80 × 12 см',
-        date: '22 апреля 2024'
-      }
-    }),
-    prisma.examplesOurWork.create({
-      data: {
-        title: 'Одиночный памятник "Классик"',
-        image: '/images/GrneyMonument.jpg',
-        dimensions: '80 × 40 × 10 см',
-        date: '8 мая 2024'
-      }
-    }),
-    prisma.examplesOurWork.create({
-      data: {
-        title: 'Мемориальная плита "Память"',
-        image: '/images/memorialMonument.jpg',
-        dimensions: '60 × 30 × 8 см',
-        date: '12 июня 2024'
-      }
-    }),
-    prisma.examplesOurWork.create({
-      data: {
-        title: 'Двойной памятник "Единство"',
-        image: '/images/doubleMonuments.jpg',
-        dimensions: '110 × 70 × 14 см',
-        date: '3 июля 2024'
-      }
-    }),
-    prisma.examplesOurWork.create({
-      data: {
-        title: 'Детский памятник "Ангел"',
-        image: '/images/memorialMonument.jpg',
-        dimensions: '50 × 25 × 6 см',
-        date: '18 августа 2024'
-      }
+    }
+  }
+  console.log('✅ Product relationships created\n');
+
+  // 7. Create Orders (15 orders)
+  console.log('🛒 Creating orders...');
+  const orderStatuses: Array<'PENDING' | 'PAID' | 'SHIPPED' | 'COMPLETED' | 'OFFLINE'> = [
+    'PENDING',
+    'PAID',
+    'SHIPPED',
+    'COMPLETED',
+    'OFFLINE',
+  ];
+  const paymentMethods: Array<'ONLINE' | 'OFFLINE'> = ['ONLINE', 'OFFLINE'];
+
+  const orders = await Promise.all(
+    Array.from({ length: 15 }).map(async () => {
+      const user = faker.helpers.arrayElement(customers);
+      const status = faker.helpers.arrayElement(orderStatuses);
+      const paymentMethod = faker.helpers.arrayElement(paymentMethods);
+      const orderDate = faker.date.recent({ days: 90 });
+
+      // Select 1-4 random products for this order
+      const selectedProducts = faker.helpers.arrayElements(products, {
+        min: 1,
+        max: 4,
+      });
+
+      // Calculate total amount
+      let totalAmount = 0;
+      const orderItems = selectedProducts.map((product: any) => {
+        const quantity = faker.number.int({ min: 1, max: 3 });
+        const price = product.discounted_price
+          ? Number(product.discounted_price)
+          : Number(product.price);
+        const itemTotal = price * quantity;
+        totalAmount += itemTotal;
+
+        return {
+          product_id: product.id,
+          quantity,
+          price_at_purchase: price,
+        };
+      });
+
+      const order = await prisma.order.create({
+        data: {
+          user_id: user.id,
+          order_date: orderDate,
+          status,
+          payment_method: paymentMethod,
+          total_amount: Math.round(totalAmount * 100) / 100,
+          order_items: {
+            create: orderItems,
+          },
+        },
+      });
+
+      return order;
     })
-  ])
+  );
+  console.log(`✅ Created ${orders.length} orders\n`);
 
-  console.log('Created examples work:', examplesWork.length)
+  // 8. Create Examples of Work
+  console.log('🖼️  Creating examples of work...');
+  const examples = await Promise.all(
+    Array.from({ length: 6 }).map(() =>
+      prisma.examplesOurWork.create({
+        data: {
+          title: faker.lorem.words({ min: 3, max: 6 }),
+          image: faker.helpers.arrayElement(exampleImages),
+          dimensions: `${faker.number.int({ min: 100, max: 200 })}x${faker.number.int({
+            min: 50,
+            max: 100,
+          })}x${faker.number.int({ min: 15, max: 40 })}`,
+          date: faker.date.past({ years: 2 }).toLocaleDateString('ru-RU'),
+          description: faker.lorem.paragraph(),
+          is_active: true,
+        },
+      })
+    )
+  );
+  console.log(`✅ Created ${examples.length} examples of work\n`);
+
+  // Summary
+  console.log('📊 Seeding Summary:');
+  console.log(`   ✅ Users: ${allUsers.length} (1 admin, ${customers.length} customers)`);
+  console.log(`   ✅ Categories: ${categories.length}`);
+  console.log(`   ✅ Materials: ${materials.length}`);
+  console.log(`   ✅ Tags: ${tags.length}`);
+  console.log(`   ✅ Products: ${products.length}`);
+  console.log(`   ✅ Orders: ${orders.length}`);
+  console.log(`   ✅ Examples of Work: ${examples.length}`);
+  console.log('\n🎉 Database seeding completed successfully!');
 }
 
 main()
   .catch((e) => {
-    console.error(e)
-    process.exit(1)
+    console.error('❌ Error during seeding:', e);
+    process.exit(1);
   })
   .finally(async () => {
-    await prisma.$disconnect()
-  })
+    await prisma.$disconnect();
+  });

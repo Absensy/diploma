@@ -15,16 +15,16 @@ export async function GET() {
 
     // Извлекаем и обрабатываем материалы
     const allMaterials = products
-      .map(p => p.materials)
+      .map((p: any) => p.materials)
       .filter(Boolean)
-      .flatMap(materialString => 
-        materialString.split(',').map(m => m.trim())
+      .flatMap((materialString: string) => 
+        materialString.split(',').map((m: string) => m.trim())
       )
       .filter(Boolean)
 
     // Создаем Set для дедупликации и приводим к правильному формату
-    const uniqueMaterials = Array.from(new Set(allMaterials))
-      .map(material => {
+    const uniqueMaterials = Array.from(new Set(allMaterials) as Set<string>)
+      .map((material: string) => {
         // Приводим к правильному формату: первая буква заглавная, остальные строчные
         return material.charAt(0).toUpperCase() + material.slice(1).toLowerCase()
       })

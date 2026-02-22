@@ -26,7 +26,11 @@ import {
   ExitToApp,
   Menu as MenuIcon,
   Home,
-  PhotoLibrary
+  PhotoLibrary,
+  Label,
+  ShoppingCart,
+  People,
+  Build
 } from '@mui/icons-material';
 import { useRouter, usePathname } from 'next/navigation';
 import LogoGranitPrimary1Icon from '@/icons/LogoGranitPrimary1';
@@ -37,11 +41,15 @@ interface AdminSidebarProps {
 }
 
 const menuItems = [
-  { text: 'Dashboard', icon: <Dashboard />, path: '/admin/dashboard' },
-  { text: 'Контент', icon: <Article />, path: '/admin/content' },
+  { text: 'Панель управления', icon: <Dashboard />, path: '/admin/dashboard' },
   { text: 'Товары', icon: <Inventory />, path: '/admin/products' },
   { text: 'Категории', icon: <Category />, path: '/admin/categories' },
+  { text: 'Материалы', icon: <Build />, path: '/admin/materials' },
+  { text: 'Теги', icon: <Label />, path: '/admin/tags' },
+  { text: 'Заказы', icon: <ShoppingCart />, path: '/admin/orders' },
+  { text: 'Пользователи', icon: <People />, path: '/admin/users' },
   { text: 'Примеры работ', icon: <PhotoLibrary />, path: '/admin/examples-work' },
+  { text: 'Контент', icon: <Article />, path: '/admin/content' },
   { text: 'Контакты', icon: <ContactPhone />, path: '/admin/contacts' },
 ];
 

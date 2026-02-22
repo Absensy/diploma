@@ -3,7 +3,7 @@
 import * as React from 'react';
 import { Box, Container, Typography, Stack } from '@mui/material';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
-import { ButtonHeader, HeaderMenuButton, TopHeaderBox } from './Header.Styles';
+import { ButtonHeader, HeaderMenuButton } from './Header.Styles';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import GpsIcon from '@/icons/GPS';
 import TelIcon from '@/icons/Tel';
@@ -15,72 +15,48 @@ import Link from 'next/link';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useAboutCompanyContent } from '@/hooks/useContent';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
-import { Skeleton } from '../Skeleton/Skeleton';
+
+// Default values to ensure consistent rendering between server and client
+const DEFAULT_ADVANTAGES = [
+  'Качество материалов',
+  'Индивидуальный подход',
+  'Гарантия и надёжность'
+];
+
+const DEFAULT_WORKING_HOURS = 'Пн-Пт: 9:00 - 18:00, Сб-Вс: 10:00 - 16:00';
 
 const Header = () => {
-  const { contactInfo, loading } = useContactContext();
+  const { contactInfo } = useContactContext();
   const { data: aboutData } = useAboutCompanyContent();
 
-  if (loading) {
-    return (
-      <Box>
-        {/* Верхняя часть Header - скелетон */}
-        <Box sx={{ padding: { xs: '29px 4%', md: '29px 5%' }, display: { xs: 'none', md: 'block' } }}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" gap="20px">
-            <Box display="flex" alignItems="center" gap="20px">
-              <Skeleton width="120px" height="40px" />
-              <Box>
-                <Box sx={{ marginBottom: '8px' }}>
-                  <Skeleton width="200px" height="20px" />
-                </Box>
-                <Box sx={{ marginBottom: '8px' }}>
-                  <Skeleton width="150px" height="20px" />
-                </Box>
-                <Skeleton width="180px" height="20px" />
-              </Box>
-            </Box>
-            <Box>
-              <Skeleton width="200px" height="60px" />
-            </Box>
-          </Box>
-        </Box>
-
-        {/* Разделитель */}
-        <Box sx={{ borderTop: '1px solid #E5E7EB', backgroundColor: '#F8F9FA', height: '1px' }} />
-
-        {/* Нижняя часть Header - скелетон */}
-        <Box
-          sx={{
-            position: 'sticky',
-            top: 0,
-            zIndex: 1300,
-            backgroundColor: 'white',
-            boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
-            padding: { xs: '16px 4%', md: '10px 5%' },
-            width: '100%',
-            display: 'block',
-            contain: 'layout',
-            isolation: 'isolate'
-          }}
-        >
-          <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Box display="flex" alignItems="center" gap="10px">
-              <Skeleton width="40px" height="40px" />
-              <Skeleton width="150px" height="24px" />
-            </Box>
-            <Box display="flex" alignItems="center" gap="20px">
-              <Skeleton width="200px" height="20px" />
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-    );
-  }
+  // Use fallback values to ensure consistent rendering between server and client
+  // Always use the same structure regardless of loading state
+  const address = contactInfo?.address || 'пр. Янки Купалы 22а, цокольный этаж';
+  const phone = contactInfo?.phone || '+375 (29) 708-21-11';
+  const instagram = contactInfo?.instagram || 'granit.grodno';
+  
+  // Ensure working hours always have the same format
+  const workingHoursString = contactInfo?.working_hours || DEFAULT_WORKING_HOURS;
+  const workingHoursArray = workingHoursString.includes(', ') 
+    ? workingHoursString.split(', ')
+    : [workingHoursString];
+  
+  // Ensure advantages always have the same structure
+  const advantages = Array.isArray(aboutData?.advantages) && aboutData.advantages.length > 0
+    ? aboutData.advantages
+    : DEFAULT_ADVANTAGES;
 
   return (
     <Box>
       {/* Верхняя часть Header */}
-      <TopHeaderBox>
+      <Box
+        sx={{
+          background: (theme: any) => theme.palette.background.default,
+          borderBottom: (theme: any) => `1px solid ${theme.palette.secondary.main}`,
+          padding: '29px 5%',
+          display: { xs: 'none', md: 'block' },
+        }}
+      >
         <Stack direction="row" justifyContent="space-between" flexWrap="wrap" gap="20px">
             <Stack direction="row" alignItems="center">
               <Link href="/"><LogoGranitPrimary1Icon /></Link>
@@ -88,19 +64,19 @@ const Header = () => {
                 <Stack direction="row" spacing={1} alignItems="center">
                   <GpsIcon />
                   <Typography variant="body2" color="text.primary" fontWeight="500">
-                    {contactInfo?.address || 'пр. Янки Купалы 22а, цокольный этаж'}
+                    {address}
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <TelIcon />
                   <Typography variant="body2" color="text.primary" fontWeight="500">
-                    {contactInfo?.phone || '+375 (29) 708-21-11'}
+                    {phone}
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <InstIcon />
                   <Typography variant="body2" color="text.primary" fontWeight="500">
-                    {contactInfo?.instagram || 'granit.grodno'}
+                    {instagram}
                   </Typography>
                 </Stack>
               </Stack>
@@ -112,24 +88,17 @@ const Header = () => {
               </Box>
               <Stack textAlign="left">
                 <Typography variant="subtitle2" fontWeight="600" fontSize="18px" color="text.primary" paddingBottom="4px">Режим работы</Typography>
-                {contactInfo?.working_hours ? (
-                  contactInfo.working_hours.split(', ').map((hours: string, index: number) => (
-                    <Typography key={index} variant="body2" color="text.secondary">
-                      {hours}
-                    </Typography>
-                  ))
-                ) : (
-                  <>
-                    <Typography variant="body2" color="text.secondary">Пн-Пт: 9:00 - 18:00</Typography>
-                    <Typography variant="body2" color="text.secondary">Сб-Вс: 10:00 - 16:00</Typography>
-                  </>
-                )}
+                {workingHoursArray.map((hours: string, index: number) => (
+                  <Typography key={index} variant="body2" color="text.secondary">
+                    {hours}
+                  </Typography>
+                ))}
               </Stack>
             </Stack>
 
             <Box bgcolor="#9a9da4" borderRadius="21px">
               <Stack spacing={1} alignItems="flex-start" padding="10px 24px">
-                {aboutData.advantages.slice(0, 3).map((advantage, index) => (
+                {advantages.slice(0, 3).map((advantage: string, index: number) => (
                   <Stack key={index} direction="row" spacing={1} alignItems="center">
                     <GreenCheckIcon />
                     <Typography variant="body2" color="#FFFFFF">{advantage}</Typography>
@@ -138,7 +107,7 @@ const Header = () => {
               </Stack>
             </Box>
         </Stack>
-      </TopHeaderBox>
+      </Box>
 
       {/* Разделитель */}
       <Box sx={{
