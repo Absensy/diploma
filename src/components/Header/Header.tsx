@@ -143,7 +143,11 @@ const Header = () => {
           </Box>
 
           {/* Центральная часть: Меню */}
-          <Stack direction="row" gap={{ md: '15px', lg: '30px' }}>
+          <Stack 
+            direction="row" 
+            gap={{ md: '15px', lg: '30px' }}
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+          >
             <Link href="/catalog" style={{ textDecoration: 'none' }}>
               <HeaderMenuButton variant="text" color="inherit">Каталог</HeaderMenuButton>
             </Link>
@@ -159,8 +163,15 @@ const Header = () => {
           </Stack>
 
           {/* Правая часть: Кнопка и иконки */}
-          <Stack direction='row' spacing='1' alignItems='center'>
-            <ButtonHeader><CatalogButton /></ButtonHeader>
+          <Stack 
+            direction='row' 
+            spacing='1' 
+            alignItems='center'
+            sx={{ gap: { xs: '8px', md: '4px' } }}
+          >
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <ButtonHeader><CatalogButton /></ButtonHeader>
+            </Box>
             <BurgerMenu />
           </Stack>
         </Stack>

@@ -23,9 +23,11 @@ import {
   Edit,
   Delete,
   Refresh,
+  Search,
 } from '@mui/icons-material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
+import { ruRU } from '@/lib/dataGridLocale';
 
 interface Material {
   id: number;
@@ -54,6 +56,18 @@ export default function AdminMaterials() {
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [editingMaterial, setEditingMaterial] = useState<Material | null>(null);
+  const [searchText, setSearchText] = useState('');
+
+  // Filter materials based on search text
+  const filteredMaterials = materials.filter((material) => {
+    if (!searchText.trim()) return true;
+    const searchLower = searchText.toLowerCase();
+    return (
+      material.name.toLowerCase().includes(searchLower) ||
+      material.id.toString().includes(searchLower) ||
+      material.description?.toLowerCase().includes(searchLower)
+    );
+  });
 
   const [formData, setFormData] = useState<MaterialFormData>({
     name: '',
@@ -252,29 +266,12 @@ export default function AdminMaterials() {
       <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
         {/* Header */}
         <Box mb={3}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
-            <Box>
-              <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
-                Управление материалами
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Управление материалами товаров
-              </Typography>
-            </Box>
-            <Stack direction="row" gap={1}>
-              <Button
-                variant="outlined"
-                startIcon={<Refresh />}
-                onClick={fetchMaterials}
-                disabled={loading}
-              >
-                Обновить
-              </Button>
-              <Button variant="contained" startIcon={<Add />} onClick={handleCreate}>
-                Добавить материал
-              </Button>
-            </Stack>
-          </Stack>
+          <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+            Управление материалами
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Управление материалами товаров
+          </Typography>
         </Box>
 
         {/* Error Alert */}
@@ -284,10 +281,63 @@ export default function AdminMaterials() {
           </Alert>
         )}
 
+        {/* Controls */}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={{ xs: 2, md: 3 }}
+          flexDirection={{ xs: 'column', sm: 'row' }}
+          gap={2}
+          flexWrap="wrap"
+        >
+          <Box display="flex" alignItems="center" gap={2} flex={1} minWidth={0}>
+            <Typography
+              variant="h6"
+              sx={{ fontSize: { xs: '1rem', md: '1.25rem' }, whiteSpace: 'nowrap' }}
+            >
+              Всего материалов: {filteredMaterials.length}
+            </Typography>
+            <TextField
+              placeholder="Поиск по материалам..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              InputProps={{
+                startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />,
+              }}
+              sx={{ maxWidth: 300, flex: { xs: 1, sm: 'none' } }}
+              size="small"
+            />
+          </Box>
+          <Stack direction="row" gap={1} flexWrap="wrap">
+            <Button
+              variant="outlined"
+              startIcon={<Refresh />}
+              onClick={fetchMaterials}
+              disabled={loading}
+              size="small"
+            >
+              Обновить
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<Add />}
+              onClick={handleCreate}
+              sx={{
+                backgroundColor: '#333',
+                '&:hover': { backgroundColor: '#555' },
+                width: { xs: '100%', sm: 'auto' }
+              }}
+            >
+              Добавить материал
+            </Button>
+          </Stack>
+        </Box>
+
         {/* DataGrid */}
-        <Paper sx={{ height: 'calc(100vh - 250px)', width: '100%' }}>
+        <Paper sx={{ height: { xs: 'calc(100vh - 250px)', md: 'calc(100vh - 300px)' }, width: '100%', overflow: 'auto' }}>
           <DataGrid
-            rows={materials}
+            rows={filteredMaterials}
             columns={columns}
             loading={loading}
             initialState={{
@@ -297,9 +347,16 @@ export default function AdminMaterials() {
             }}
             pageSizeOptions={[10, 25, 50, 100]}
             disableRowSelectionOnClick
+            localeText={ruRU}
             sx={{
               '& .MuiDataGrid-cell:focus': {
                 outline: 'none',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
+              },
+              '& .MuiDataGrid-cell': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
               },
             }}
           />
@@ -311,6 +368,12 @@ export default function AdminMaterials() {
           onClose={() => setOpenDialog(false)}
           maxWidth="sm"
           fullWidth
+          PaperProps={{
+            sx: { 
+              m: { xs: 1, md: 2 },
+              width: { xs: 'calc(100% - 16px)', md: 'auto' }
+            },
+          }}
         >
           <DialogTitle>
             {editingMaterial ? 'Редактировать материал' : 'Создать новый материал'}
@@ -318,7 +381,7 @@ export default function AdminMaterials() {
           <DialogContent dividers>
             <Stack spacing={3} sx={{ mt: 1 }}>
               <TextField
-                label="Название материала *"
+                label="Название материала"
                 value={formData.name}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('name', e.target.value)}
                 fullWidth

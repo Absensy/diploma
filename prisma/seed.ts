@@ -126,6 +126,56 @@ async function main() {
         photo: '/images/gravestone.jpg',
       },
     }),
+    prisma.category.upsert({
+      where: { id: 6 },
+      update: {},
+      create: {
+        name: 'Венки',
+        price_from: 50.00,
+        photo: '/images/venki.jpg',
+        is_active: true,
+      },
+    }),
+    prisma.category.upsert({
+      where: { id: 7 },
+      update: {},
+      create: {
+        name: 'Светильники',
+        price_from: 100.00,
+        photo: '/images/svetilniki.jpg',
+        is_active: true,
+      },
+    }),
+    prisma.category.upsert({
+      where: { id: 8 },
+      update: {},
+      create: {
+        name: 'Ограды',
+        price_from: 200.00,
+        photo: '/images/ogrady.jpg',
+        is_active: true,
+      },
+    }),
+    prisma.category.upsert({
+      where: { id: 9 },
+      update: {},
+      create: {
+        name: 'Столы',
+        price_from: 300.00,
+        photo: '/images/stoly.jpg',
+        is_active: true,
+      },
+    }),
+    prisma.category.upsert({
+      where: { id: 10 },
+      update: {},
+      create: {
+        name: 'Скамейки',
+        price_from: 250.00,
+        photo: '/images/skameyki.jpg',
+        is_active: true,
+      },
+    }),
   ]);
   console.log(`✅ Created ${categories.length} categories\n`);
 
@@ -143,18 +193,33 @@ async function main() {
     },
   });
 
+  // Русские имена и фамилии
+  const russianFirstNames = [
+    'Александр', 'Дмитрий', 'Максим', 'Сергей', 'Андрей', 'Алексей', 'Артем', 'Илья',
+    'Кирилл', 'Михаил', 'Никита', 'Матвей', 'Роман', 'Егор', 'Арсений', 'Иван',
+    'Анна', 'Мария', 'Елена', 'Наталья', 'Ольга', 'Татьяна', 'Ирина', 'Екатерина',
+    'Светлана', 'Юлия', 'Анастасия', 'Дарья', 'Марина', 'Виктория', 'Полина', 'София'
+  ];
+  const russianLastNames = [
+    'Иванов', 'Петров', 'Сидоров', 'Смирнов', 'Кузнецов', 'Попов', 'Соколов', 'Лебедев',
+    'Козлов', 'Новиков', 'Морозов', 'Волков', 'Соловьев', 'Васильев', 'Зайцев', 'Павлов',
+    'Семенов', 'Голубев', 'Виноградов', 'Богданов', 'Воробьев', 'Федоров', 'Михайлов', 'Белов'
+  ];
+
   const customers = await Promise.all(
-    Array.from({ length: 5 }).map(() =>
-      prisma.user.create({
+    Array.from({ length: 5 }).map(() => {
+      const firstName = faker.helpers.arrayElement(russianFirstNames);
+      const lastName = faker.helpers.arrayElement(russianLastNames);
+      return prisma.user.create({
         data: {
-          first_name: faker.person.firstName(),
-          last_name: faker.person.lastName(),
+          first_name: firstName,
+          last_name: lastName,
           email: faker.internet.email().toLowerCase(),
           password: '$2a$10$rOzJqJqJqJqJqJqJqJqJqO', // In production, use proper hashing
           phone: `+375 (${faker.number.int({ min: 29, max: 44 })}) ${faker.number.int({ min: 100, max: 999 })}-${faker.number.int({ min: 10, max: 99 })}-${faker.number.int({ min: 10, max: 99 })}`,
         },
-      })
-    )
+      });
+    })
   );
   const allUsers = [admin, ...customers];
   console.log(`✅ Created ${allUsers.length} users (1 admin, ${customers.length} customers)\n`);
@@ -171,6 +236,17 @@ async function main() {
     'Стекло',
   ];
 
+  // Описания материалов на русском языке
+  const materialDescriptions: Record<string, string> = {
+    'Черный гранит': 'Высококачественный черный гранит премиум класса. Отличается глубоким черным цветом и однородной структурой. Идеально подходит для изготовления памятников и надгробий.',
+    'Серый гранит': 'Прочный серый гранит с красивой текстурой. Устойчив к погодным условиям и долговечен. Широко используется для памятников и мемориальных комплексов.',
+    'Красный гранит': 'Элегантный красный гранит с благородным оттенком. Придает памятникам особую выразительность и индивидуальность.',
+    'Белый мрамор': 'Классический белый мрамор высочайшего качества. Идеален для создания элегантных и изысканных памятников.',
+    'Бронза': 'Качественная бронза для декоративных элементов и надписей. Обеспечивает долговечность и красивый внешний вид.',
+    'Золотая фольга': 'Премиальная золотая фольга для нанесения надписей и изображений. Создает эффектный и долговечный результат.',
+    'Стекло': 'Прочное закаленное стекло для светильников и декоративных элементов. Устойчиво к перепадам температур.',
+  };
+
   const materials = await Promise.all(
     materialNames.map((name) =>
       prisma.material.upsert({
@@ -178,7 +254,7 @@ async function main() {
         update: {},
         create: {
           name,
-          description: faker.lorem.sentence(),
+          description: materialDescriptions[name] || '',
         },
       })
     )
@@ -464,18 +540,34 @@ async function main() {
 
   // 8. Create Examples of Work
   console.log('🖼️  Creating examples of work...');
+  const russianTitles = [
+    'Памятник из черного гранита',
+    'Мемориальный комплекс "Вечность"',
+    'Надгробие из серого гранита',
+    'Памятник с гравировкой',
+    'Мемориал "Память"',
+    'Памятник из красного гранита',
+  ];
+  const russianDescriptions = [
+    'Элегантный памятник из высококачественного черного гранита с ручной обработкой. Идеально подходит для увековечивания памяти близких.',
+    'Величественный мемориальный комплекс, выполненный из натурального гранита. Включает памятник, ограду и декоративные элементы.',
+    'Классическое надгробие из серого гранита с красивой текстурой. Прочное и долговечное решение для могильного участка.',
+    'Памятник с художественной гравировкой и позолоченными надписями. Индивидуальный дизайн и высокое качество исполнения.',
+    'Мемориал, созданный с особым вниманием к деталям. Сочетает традиционные элементы с современным дизайном.',
+    'Выразительный памятник из красного гранита с уникальной текстурой. Придает могильному участку особую индивидуальность.',
+  ];
   const examples = await Promise.all(
-    Array.from({ length: 6 }).map(() =>
+    Array.from({ length: 6 }).map((_, index) =>
       prisma.examplesOurWork.create({
         data: {
-          title: faker.lorem.words({ min: 3, max: 6 }),
+          title: russianTitles[index] || `Пример работы ${index + 1}`,
           image: faker.helpers.arrayElement(exampleImages),
           dimensions: `${faker.number.int({ min: 100, max: 200 })}x${faker.number.int({
             min: 50,
             max: 100,
           })}x${faker.number.int({ min: 15, max: 40 })}`,
           date: faker.date.past({ years: 2 }).toLocaleDateString('ru-RU'),
-          description: faker.lorem.paragraph(),
+          description: russianDescriptions[index] || 'Качественное изделие из гранита.',
           is_active: true,
         },
       })

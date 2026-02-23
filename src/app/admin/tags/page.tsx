@@ -23,9 +23,11 @@ import {
   Edit,
   Delete,
   Refresh,
+  Search,
 } from '@mui/icons-material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
+import { ruRU } from '@/lib/dataGridLocale';
 
 interface Tag {
   id: number;
@@ -53,6 +55,18 @@ export default function AdminTags() {
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
+  const [searchText, setSearchText] = useState('');
+
+  // Filter tags based on search text
+  const filteredTags = tags.filter((tag) => {
+    if (!searchText.trim()) return true;
+    const searchLower = searchText.toLowerCase();
+    return (
+      tag.name.toLowerCase().includes(searchLower) ||
+      tag.slug.toLowerCase().includes(searchLower) ||
+      tag.id.toString().includes(searchLower)
+    );
+  });
 
   const [formData, setFormData] = useState<TagFormData>({
     name: '',
@@ -69,7 +83,12 @@ export default function AdminTags() {
         throw new Error('Failed to fetch tags');
       }
       const data = await response.json();
-      setTags(data);
+      // Убеждаемся, что все slug являются строками
+      const normalizedData = data.map((tag: any) => ({
+        ...tag,
+        slug: tag.slug ? String(tag.slug) : '',
+      }));
+      setTags(normalizedData);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch tags';
       setError(message);
@@ -214,9 +233,21 @@ export default function AdminTags() {
     },
     {
       field: 'slug',
-      headerName: 'Slug',
+      headerName: 'URL-адрес',
       width: 200,
       flex: 1,
+      type: 'string',
+      valueGetter: (value: any, row: Tag) => {
+        // Убеждаемся, что slug всегда строка
+        if (!row.slug && value !== undefined) {
+          return String(value);
+        }
+        return row.slug ? String(row.slug) : '';
+      },
+      renderCell: (params: GridRenderCellParams<Tag>) => {
+        const slug = params.row.slug ? String(params.row.slug) : '';
+        return <span>{slug || '-'}</span>;
+      },
     },
     {
       field: 'productsCount',
@@ -266,29 +297,12 @@ export default function AdminTags() {
       <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
         {/* Header */}
         <Box mb={3}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
-            <Box>
-              <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
-                Управление тегами
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Управление тегами товаров
-              </Typography>
-            </Box>
-            <Stack direction="row" gap={1}>
-              <Button
-                variant="outlined"
-                startIcon={<Refresh />}
-                onClick={fetchTags}
-                disabled={loading}
-              >
-                Обновить
-              </Button>
-              <Button variant="contained" startIcon={<Add />} onClick={handleCreate}>
-                Добавить тег
-              </Button>
-            </Stack>
-          </Stack>
+          <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+            Управление тегами
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Управление тегами товаров
+          </Typography>
         </Box>
 
         {/* Error Alert */}
@@ -298,10 +312,62 @@ export default function AdminTags() {
           </Alert>
         )}
 
+        {/* Controls */}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={{ xs: 2, md: 3 }}
+          flexDirection={{ xs: 'column', sm: 'row' }}
+          gap={2}
+        >
+          <Box display="flex" alignItems="center" gap={2} flex={1} minWidth={0}>
+            <Typography
+              variant="h6"
+              sx={{ fontSize: { xs: '1rem', md: '1.25rem' }, whiteSpace: 'nowrap' }}
+            >
+              Всего тегов: {filteredTags.length}
+            </Typography>
+            <TextField
+              placeholder="Поиск по тегам..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              InputProps={{
+                startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />,
+              }}
+              sx={{ maxWidth: 300, flex: { xs: 1, sm: 'none' } }}
+              size="small"
+            />
+          </Box>
+          <Stack direction="row" gap={1} flexWrap="wrap">
+            <Button
+              variant="outlined"
+              startIcon={<Refresh />}
+              onClick={fetchTags}
+              disabled={loading}
+              size="small"
+            >
+              Обновить
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<Add />}
+              onClick={handleCreate}
+              sx={{
+                backgroundColor: '#333',
+                '&:hover': { backgroundColor: '#555' },
+                width: { xs: '100%', sm: 'auto' }
+              }}
+            >
+              Добавить тег
+            </Button>
+          </Stack>
+        </Box>
+
         {/* DataGrid */}
-        <Paper sx={{ height: 'calc(100vh - 250px)', width: '100%' }}>
+        <Paper sx={{ height: { xs: 'calc(100vh - 250px)', md: 'calc(100vh - 300px)' }, width: '100%', overflow: 'auto' }}>
           <DataGrid
-            rows={tags}
+            rows={filteredTags}
             columns={columns}
             loading={loading}
             initialState={{
@@ -311,9 +377,16 @@ export default function AdminTags() {
             }}
             pageSizeOptions={[10, 25, 50, 100]}
             disableRowSelectionOnClick
+            localeText={ruRU}
             sx={{
               '& .MuiDataGrid-cell:focus': {
                 outline: 'none',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
+              },
+              '& .MuiDataGrid-cell': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
               },
             }}
           />
@@ -325,6 +398,12 @@ export default function AdminTags() {
           onClose={() => setOpenDialog(false)}
           maxWidth="sm"
           fullWidth
+          PaperProps={{
+            sx: { 
+              m: { xs: 1, md: 2 },
+              width: { xs: 'calc(100% - 16px)', md: 'auto' }
+            },
+          }}
         >
           <DialogTitle>
             {editingTag ? 'Редактировать тег' : 'Создать новый тег'}
@@ -332,14 +411,14 @@ export default function AdminTags() {
           <DialogContent dividers>
             <Stack spacing={3} sx={{ mt: 1 }}>
               <TextField
-                label="Название тега *"
+                label="Название тега"
                 value={formData.name}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('name', e.target.value)}
                 fullWidth
                 required
               />
               <TextField
-                label="Slug *"
+                label="Slug"
                 value={formData.slug}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('slug', e.target.value)}
                 fullWidth
@@ -348,8 +427,13 @@ export default function AdminTags() {
               />
             </Stack>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDialog(false)} disabled={saving}>
+          <DialogActions sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: 2, p: { xs: 2, md: 3 } }}>
+            <Button 
+              onClick={() => setOpenDialog(false)} 
+              disabled={saving}
+              fullWidth={false}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
               Отмена
             </Button>
             <Button
@@ -357,6 +441,8 @@ export default function AdminTags() {
               variant="contained"
               disabled={saving}
               startIcon={saving ? <CircularProgress size={20} /> : null}
+              fullWidth={false}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               {saving ? 'Сохранение...' : editingTag ? 'Обновить' : 'Создать'}
             </Button>

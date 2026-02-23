@@ -25,6 +25,7 @@ import {
   Add,
   Edit,
   Delete,
+  Search,
 } from '@mui/icons-material';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import ImageUpload from '@/components/ImageUpload/ImageUpload';
@@ -50,6 +51,7 @@ export default function AdminCategories() {
   const [saveAlert, setSaveAlert] = useState(false);
   const [deleteAlert, setDeleteAlert] = useState(false);
   const [isEditingDiscountedPrice, setIsEditingDiscountedPrice] = useState(false);
+  const [searchText, setSearchText] = useState('');
   const [formData, setFormData] = useState<CategoryFormData>({
     name: '',
     price_from: '',
@@ -145,6 +147,16 @@ export default function AdminCategories() {
     });
   };
 
+  // Filter categories based on search text
+  const filteredCategories = categories.filter((category) => {
+    if (!searchText.trim()) return true;
+    const searchLower = searchText.toLowerCase();
+    return (
+      category.name.toLowerCase().includes(searchLower) ||
+      category.id.toString().includes(searchLower)
+    );
+  });
+
   return (
     <AdminLayout>
       <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
@@ -189,12 +201,24 @@ export default function AdminCategories() {
           flexDirection={{ xs: 'column', sm: 'row' }}
           gap={2}
         >
-          <Typography
-            variant="h6"
-            sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
-          >
-            Всего категорий: {categories.length}
-          </Typography>
+          <Box display="flex" alignItems="center" gap={2} flex={1}>
+            <Typography
+              variant="h6"
+              sx={{ fontSize: { xs: '1rem', md: '1.25rem' } }}
+            >
+              Всего категорий: {filteredCategories.length}
+            </Typography>
+            <TextField
+              placeholder="Поиск по категориям..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              InputProps={{
+                startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />,
+              }}
+              sx={{ maxWidth: 300 }}
+              size="small"
+            />
+          </Box>
           <Button
             variant="contained"
             startIcon={<Add />}
@@ -222,9 +246,9 @@ export default function AdminCategories() {
         {/* Categories Grid */}
         {!loading && !error && (
           <>
-            {categories.length === 0 ? (
+            {filteredCategories.length === 0 ? (
               <EmptyState
-                message="Категории не найдены"
+                message={searchText ? "Категории не найдены по запросу" : "Категории не найдены"}
                 variant="card"
                 height={300}
               />
@@ -234,7 +258,7 @@ export default function AdminCategories() {
                 gridTemplateColumns: { xs: '1fr', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(4, 1fr)' },
                 gap: { xs: 2, md: 3 }
               }}>
-                {categories.map((category) => (
+                {filteredCategories.map((category) => (
                   <Box key={category.id}>
                     <Card sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                       <Box sx={{ position: 'relative' }}>
@@ -345,7 +369,14 @@ export default function AdminCategories() {
           onClose={() => setOpenDialog(false)}
           maxWidth="md"
           fullWidth
-          fullScreen
+          fullScreen={false}
+          PaperProps={{
+            sx: { 
+              maxHeight: { xs: '100vh', md: '90vh' },
+              m: { xs: 1, md: 2 },
+              width: { xs: 'calc(100% - 16px)', md: 'auto' }
+            },
+          }}
         >
           <DialogTitle>
             {editingCategory ? 'Редактировать категорию' : 'Добавить новую категорию'}

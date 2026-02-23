@@ -381,8 +381,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$mat
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Typography/Typography.js [app-client] (ecmascript) <export default as Typography>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Checkbox$2f$Checkbox$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Checkbox$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Checkbox/Checkbox.js [app-client] (ecmascript) <export default as Checkbox>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Alert$2f$Alert$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Alert$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Alert/Alert.js [app-client] (ecmascript) <export default as Alert>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Button/Button.js [app-client] (ecmascript) <export default as Button>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Search$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/Search.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$ArrowDropDown$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/ArrowDropDown.js [app-client] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Clear$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/Clear.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$Styles$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.Styles.ts [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FilterContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/contexts/FilterContext.tsx [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2f$Skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/Skeleton/Skeleton.tsx [app-client] (ecmascript)");
@@ -397,13 +399,14 @@ var _s = __turbopack_context__.k.signature();
 ;
 ;
 ;
+;
 const GranitCatalogFilter = ()=>{
     _s();
-    const { filterData, filters, loading, error, updateFilter, toggleCategory, toggleMaterial } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FilterContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFilterContext"])();
+    const { filterData, filters, loading, error, updateFilter, toggleCategory, toggleMaterial, resetFilters } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FilterContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFilterContext"])();
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2f$Skeleton$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FilterSkeleton"], {}, void 0, false, {
             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-            lineNumber: 14,
+            lineNumber: 15,
             columnNumber: 16
         }, ("TURBOPACK compile-time value", void 0));
     }
@@ -419,18 +422,20 @@ const GranitCatalogFilter = ()=>{
                 children: error
             }, void 0, false, {
                 fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                lineNumber: 20,
+                lineNumber: 21,
                 columnNumber: 17
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-            lineNumber: 19,
+            lineNumber: 20,
             columnNumber: 13
         }, ("TURBOPACK compile-time value", void 0));
     }
     if (!filterData) {
         return null;
     }
+    // Проверяем, есть ли активные фильтры
+    const hasActiveFilters = filters.search !== '' || filters.sortBy !== 'price-asc' || filters.selectedCategories.length > 0 || filters.selectedMaterials.length > 0 || filters.priceMin !== null || filters.priceMax !== null;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$Styles$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["FilterBox"], {
         width: 320,
         height: "70%",
@@ -452,19 +457,42 @@ const GranitCatalogFilter = ()=>{
                                 fontSize: "small"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                lineNumber: 41,
+                                lineNumber: 51,
                                 columnNumber: 33
                             }, void 0)
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 40,
+                            lineNumber: 50,
                             columnNumber: 29
                         }, void 0)
                     }
                 }, void 0, false, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 33,
+                    lineNumber: 43,
                     columnNumber: 17
+                }, ("TURBOPACK compile-time value", void 0)),
+                hasActiveFilters && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
+                    variant: "outlined",
+                    startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Clear$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                        fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
+                        lineNumber: 61,
+                        columnNumber: 36
+                    }, void 0),
+                    onClick: resetFilters,
+                    fullWidth: true,
+                    sx: {
+                        borderColor: '#d32f2f',
+                        color: '#d32f2f',
+                        '&:hover': {
+                            borderColor: '#b71c1c',
+                            backgroundColor: 'rgba(211, 47, 47, 0.04)'
+                        }
+                    },
+                    children: "Сбросить фильтры"
+                }, void 0, false, {
+                    fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
+                    lineNumber: 59,
+                    columnNumber: 21
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
                     spacing: "16px",
@@ -475,7 +503,7 @@ const GranitCatalogFilter = ()=>{
                             children: "Сортировать по"
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 49,
+                            lineNumber: 79,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControl$2f$FormControl$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControl$3e$__["FormControl"], {
@@ -489,23 +517,23 @@ const GranitCatalogFilter = ()=>{
                                         children: option.label
                                     }, option.value, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 57,
+                                        lineNumber: 87,
                                         columnNumber: 33
                                     }, ("TURBOPACK compile-time value", void 0)))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                lineNumber: 51,
+                                lineNumber: 81,
                                 columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 50,
+                            lineNumber: 80,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 48,
+                    lineNumber: 78,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -517,7 +545,7 @@ const GranitCatalogFilter = ()=>{
                             children: "Категории"
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 67,
+                            lineNumber: 97,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         filterData.categories.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$EmptyState$2f$EmptyState$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -526,7 +554,7 @@ const GranitCatalogFilter = ()=>{
                             height: 60
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 69,
+                            lineNumber: 99,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormGroup$2f$FormGroup$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FormGroup$3e$__["FormGroup"], {
                             children: filterData.categories.map((category)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControlLabel$2f$FormControlLabel$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControlLabel$3e$__["FormControlLabel"], {
@@ -536,30 +564,30 @@ const GranitCatalogFilter = ()=>{
                                         onChange: ()=>toggleCategory(category.id)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 80,
+                                        lineNumber: 110,
                                         columnNumber: 41
                                     }, void 0),
                                     label: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$Styles$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TypographyWrapStyles"], {
                                         children: category.name
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 86,
+                                        lineNumber: 116,
                                         columnNumber: 44
                                     }, void 0)
                                 }, category.id, false, {
                                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                    lineNumber: 77,
+                                    lineNumber: 107,
                                     columnNumber: 33
                                 }, ("TURBOPACK compile-time value", void 0)))
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 75,
+                            lineNumber: 105,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 66,
+                    lineNumber: 96,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -571,7 +599,7 @@ const GranitCatalogFilter = ()=>{
                             children: "Ценовой диапазон"
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 95,
+                            lineNumber: 125,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -586,7 +614,7 @@ const GranitCatalogFilter = ()=>{
                                     onChange: (e)=>updateFilter('priceMin', e.target.value ? Number(e.target.value) : null)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                    lineNumber: 97,
+                                    lineNumber: 127,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$OutlinedInput$2f$OutlinedInput$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__OutlinedInput$3e$__["OutlinedInput"], {
@@ -597,19 +625,19 @@ const GranitCatalogFilter = ()=>{
                                     onChange: (e)=>updateFilter('priceMax', e.target.value ? Number(e.target.value) : null)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                    lineNumber: 104,
+                                    lineNumber: 134,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 96,
+                            lineNumber: 126,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 94,
+                    lineNumber: 124,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -621,7 +649,7 @@ const GranitCatalogFilter = ()=>{
                             children: "Материал"
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 116,
+                            lineNumber: 146,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         filterData.materials.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$EmptyState$2f$EmptyState$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -630,7 +658,7 @@ const GranitCatalogFilter = ()=>{
                             height: 60
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 118,
+                            lineNumber: 148,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormGroup$2f$FormGroup$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FormGroup$3e$__["FormGroup"], {
                             children: filterData.materials.map((material)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControlLabel$2f$FormControlLabel$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControlLabel$3e$__["FormControlLabel"], {
@@ -640,45 +668,45 @@ const GranitCatalogFilter = ()=>{
                                         onChange: ()=>toggleMaterial(material)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 129,
+                                        lineNumber: 159,
                                         columnNumber: 41
                                     }, void 0),
                                     label: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$Styles$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["TypographyWrapStyles"], {
                                         children: material
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 135,
+                                        lineNumber: 165,
                                         columnNumber: 44
                                     }, void 0)
                                 }, material, false, {
                                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                    lineNumber: 126,
+                                    lineNumber: 156,
                                     columnNumber: 33
                                 }, ("TURBOPACK compile-time value", void 0)))
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 124,
+                            lineNumber: 154,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 115,
+                    lineNumber: 145,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0))
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-            lineNumber: 31,
+            lineNumber: 41,
             columnNumber: 13
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-        lineNumber: 30,
+        lineNumber: 40,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
-_s(GranitCatalogFilter, "5jxkdEFRMrOjdTiFbzGIcu4SGGo=", false, function() {
+_s(GranitCatalogFilter, "WS1fbNE5zlChhRs0V9gXAOwRqEk=", false, function() {
     return [
         __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FilterContext$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useFilterContext"]
     ];
@@ -3756,7 +3784,10 @@ const GranitCatalogHeader = ()=>{
                 columnNumber: 16
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
-                fontSize: "16px",
+                fontSize: {
+                    xs: "14px",
+                    md: "16px"
+                },
                 color: "#9A9DA4",
                 maxWidth: "550px",
                 children: "Откройте для себя нашу коллекцию почтенных и элегантных мемориальных памятников."
@@ -3822,28 +3853,38 @@ function CatalogContent() {
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                     display: "flex",
                     minHeight: "calc(100vh - 200px)",
+                    flexDirection: {
+                        xs: 'column',
+                        md: 'row'
+                    },
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                            sx: {
+                                display: {
+                                    xs: 'none',
+                                    md: 'block'
+                                }
+                            },
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                 fileName: "[project]/src/app/catalog/page.tsx",
-                                lineNumber: 21,
+                                lineNumber: 25,
                                 columnNumber: 25
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/catalog/page.tsx",
-                            lineNumber: 20,
+                            lineNumber: 24,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                             flexGrow: 1,
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogCards$2f$GranitCatalogCards$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                 fileName: "[project]/src/app/catalog/page.tsx",
-                                lineNumber: 24,
+                                lineNumber: 28,
                                 columnNumber: 25
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/catalog/page.tsx",
-                            lineNumber: 23,
+                            lineNumber: 27,
                             columnNumber: 21
                         }, this)
                     ]
@@ -3876,17 +3917,17 @@ function Catalog() {
             children: "Loading..."
         }, void 0, false, {
             fileName: "[project]/src/app/catalog/page.tsx",
-            lineNumber: 34,
+            lineNumber: 38,
             columnNumber: 29
         }, void 0),
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CatalogContent, {}, void 0, false, {
             fileName: "[project]/src/app/catalog/page.tsx",
-            lineNumber: 35,
+            lineNumber: 39,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/catalog/page.tsx",
-        lineNumber: 34,
+        lineNumber: 38,
         columnNumber: 9
     }, this);
 }

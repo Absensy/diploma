@@ -26,6 +26,9 @@ import {
   Toolbar,
   Stack,
   Avatar,
+  Menu,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 import {
   Add,
@@ -34,11 +37,15 @@ import {
   Refresh,
   Visibility,
   VisibilityOff,
+  Search,
+  FileDownload,
 } from '@mui/icons-material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import ImageUpload from '@/components/ImageUpload/ImageUpload';
 import { useAdminCategories } from '@/hooks/useAdminCategories';
+import { ruRU } from '@/lib/dataGridLocale';
+import { exportToExcel, exportToPDF, ExportColumn } from '@/lib/exportUtils';
 
 // TypeScript interfaces
 interface Product {
@@ -110,7 +117,71 @@ export default function AdminProducts() {
   const [openDialog, setOpenDialog] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isEditingDiscountedPrice, setIsEditingDiscountedPrice] = useState(false);
+  const [searchText, setSearchText] = useState('');
+  const [exportMenuAnchor, setExportMenuAnchor] = useState<null | HTMLElement>(null);
   const { categories, loading: categoriesLoading } = useAdminCategories();
+
+  // Filter products based on search text
+  const filteredProducts = products.filter((product) => {
+    if (!searchText.trim()) return true;
+    const searchLower = searchText.toLowerCase();
+    return (
+      product.name.toLowerCase().includes(searchLower) ||
+      product.id.toString().includes(searchLower) ||
+      product.sku?.toLowerCase().includes(searchLower) ||
+      product.category?.name.toLowerCase().includes(searchLower) ||
+      product.price.toString().includes(searchLower)
+    );
+  });
+
+  // Export functions
+  const handleExportClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setExportMenuAnchor(event.currentTarget);
+  };
+
+  const handleExportClose = () => {
+    setExportMenuAnchor(null);
+  };
+
+  const handleExportExcel = () => {
+    const exportColumns: ExportColumn[] = [
+      { header: 'ID', key: 'id', width: 10 },
+      { header: 'Название', key: 'name', width: 30 },
+      { header: 'Категория', key: 'category', width: 20, formatter: (val, row) => row.category?.name || 'Без категории' },
+      { header: 'Цена', key: 'price', width: 15, formatter: (val) => `${val} BYN` },
+      { header: 'Скидка', key: 'discount', width: 12, formatter: (val) => val ? `${val}%` : '-' },
+      { header: 'Цена со скидкой', key: 'discounted_price', width: 18, formatter: (val) => val ? `${val} BYN` : '-' },
+      { header: 'Остаток', key: 'stock_quantity', width: 12, formatter: (val) => val ?? 'Н/Д' },
+      { header: 'Статус', key: 'is_active', width: 12, formatter: (val) => val ? 'Активен' : 'Неактивен' },
+      { header: 'Новинка', key: 'is_new', width: 10, formatter: (val) => val ? 'Да' : 'Нет' },
+      { header: 'Популярное', key: 'is_popular', width: 12, formatter: (val) => val ? 'Да' : 'Нет' },
+      { header: 'SKU', key: 'sku', width: 15 },
+      { header: 'Создано', key: 'created_at', width: 20, formatter: (val) => new Date(val).toLocaleString('ru-RU') },
+    ];
+    exportToExcel(filteredProducts, exportColumns, `товары_${new Date().toISOString().split('T')[0]}`);
+    handleExportClose();
+  };
+
+  const handleExportPDF = () => {
+    const exportColumns: ExportColumn[] = [
+      { header: 'ID', key: 'id' },
+      { header: 'Название', key: 'name' },
+      { header: 'Категория', key: 'category', formatter: (val, row) => row.category?.name || 'Без категории' },
+      { header: 'Цена', key: 'price', formatter: (val) => `${val} BYN` },
+      { header: 'Скидка', key: 'discount', formatter: (val) => val ? `${val}%` : '-' },
+      { header: 'Цена со скидкой', key: 'discounted_price', formatter: (val) => val ? `${val} BYN` : '-' },
+      { header: 'Остаток', key: 'stock_quantity', formatter: (val) => val ?? 'Н/Д' },
+      { header: 'Статус', key: 'is_active', formatter: (val) => val ? 'Активен' : 'Неактивен' },
+      { header: 'Новинка', key: 'is_new', formatter: (val) => val ? 'Да' : 'Нет' },
+      { header: 'Популярное', key: 'is_popular', formatter: (val) => val ? 'Да' : 'Нет' },
+      { header: 'SKU', key: 'sku' },
+      { header: 'Создано', key: 'created_at', formatter: (val) => new Date(val).toLocaleString('ru-RU') },
+    ];
+    exportToPDF(filteredProducts, exportColumns, `товары_${new Date().toISOString().split('T')[0]}`, 'Отчет по товарам');
+    handleExportClose();
+  };
 
   const [formData, setFormData] = useState<ProductFormData>({
     name: '',
@@ -397,7 +468,7 @@ export default function AdminProducts() {
     },
     {
       field: 'category',
-      headerName: 'Category',
+      headerName: 'Категория',
       width: 150,
       valueGetter: (value: unknown, row: Product) => row.category?.name || 'Без категории',
       renderCell: (params: GridRenderCellParams<Product>) => (
@@ -459,14 +530,14 @@ export default function AdminProducts() {
       headerName: 'Новинка',
       width: 80,
       type: 'boolean',
-      renderCell: (params: GridRenderCellParams<Product>) => (params.value ? <Chip label="New" size="small" color="info" /> : '-'),
+      renderCell: (params: GridRenderCellParams<Product>) => (params.value ? <Chip label="Новинка" size="small" color="info" /> : '-'),
     },
     {
       field: 'is_popular',
       headerName: 'Популярное',
       width: 100,
       type: 'boolean',
-      renderCell: (params: GridRenderCellParams<Product>) => (params.value ? <Chip label="Popular" size="small" color="warning" /> : '-'),
+      renderCell: (params: GridRenderCellParams<Product>) => (params.value ? <Chip label="Популярное" size="small" color="warning" /> : '-'),
     },
     {
       field: 'created_at',
@@ -509,29 +580,12 @@ export default function AdminProducts() {
       <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
         {/* Header */}
         <Box mb={3}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
-            <Box>
-              <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
-                Управление товарами
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Управление каталогом товаров
-              </Typography>
-            </Box>
-            <Stack direction="row" gap={1}>
-              <Button
-                variant="outlined"
-                startIcon={<Refresh />}
-                onClick={fetchProducts}
-                disabled={loading}
-              >
-                Обновить
-              </Button>
-              <Button variant="contained" startIcon={<Add />} onClick={handleCreate}>
-                Добавить товар
-              </Button>
-            </Stack>
-          </Stack>
+          <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+            Управление товарами
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Управление каталогом товаров
+          </Typography>
         </Box>
 
         {/* Error Alert */}
@@ -541,10 +595,71 @@ export default function AdminProducts() {
           </Alert>
         )}
 
+        {/* Controls */}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={{ xs: 2, md: 3 }}
+          flexDirection={{ xs: 'column', sm: 'row' }}
+          gap={2}
+          flexWrap="wrap"
+        >
+          <Box display="flex" alignItems="center" gap={2} flex={1} minWidth={0}>
+            <Typography
+              variant="h6"
+              sx={{ fontSize: { xs: '1rem', md: '1.25rem' }, whiteSpace: 'nowrap' }}
+            >
+              Всего товаров: {filteredProducts.length}
+            </Typography>
+            <TextField
+              placeholder="Поиск по товарам..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              InputProps={{
+                startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />,
+              }}
+              sx={{ maxWidth: 300, flex: { xs: 1, sm: 'none' } }}
+              size="small"
+            />
+          </Box>
+          <Stack direction="row" gap={1} flexWrap="wrap">
+            <Button
+              variant="outlined"
+              startIcon={<Refresh />}
+              onClick={fetchProducts}
+              disabled={loading}
+              size="small"
+            >
+              Обновить
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<FileDownload />}
+              onClick={handleExportClick}
+              size="small"
+            >
+              Экспорт
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<Add />}
+              onClick={handleCreate}
+              sx={{
+                backgroundColor: '#333',
+                '&:hover': { backgroundColor: '#555' },
+                width: { xs: '100%', sm: 'auto' }
+              }}
+            >
+              Добавить товар
+            </Button>
+          </Stack>
+        </Box>
+
         {/* DataGrid */}
-        <Paper sx={{ height: 'calc(100vh - 250px)', width: '100%' }}>
+        <Paper sx={{ height: { xs: 'calc(100vh - 250px)', md: 'calc(100vh - 300px)' }, width: '100%', overflow: 'auto' }}>
           <DataGrid
-            rows={products}
+            rows={filteredProducts}
             columns={columns}
             loading={loading}
             initialState={{
@@ -554,9 +669,16 @@ export default function AdminProducts() {
             }}
             pageSizeOptions={[10, 25, 50, 100]}
             disableRowSelectionOnClick
+            localeText={ruRU}
             sx={{
               '& .MuiDataGrid-cell:focus': {
                 outline: 'none',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
+              },
+              '& .MuiDataGrid-cell': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
               },
             }}
           />
@@ -568,8 +690,13 @@ export default function AdminProducts() {
           onClose={() => setOpenDialog(false)}
           maxWidth="md"
           fullWidth
+          fullScreen={false}
           PaperProps={{
-            sx: { maxHeight: '90vh' },
+            sx: { 
+              maxHeight: { xs: '100vh', md: '90vh' },
+              m: { xs: 0, md: 2 },
+              width: { xs: '100%', md: 'auto' }
+            },
           }}
         >
           <DialogTitle>
@@ -579,7 +706,7 @@ export default function AdminProducts() {
             <Stack spacing={3} sx={{ mt: 1 }}>
               {/* Basic Information */}
               <TextField
-                label="Название товара *"
+                label="Название товара"
                 value={formData.name}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('name', e.target.value)}
                 fullWidth
@@ -599,7 +726,7 @@ export default function AdminProducts() {
                 fullWidth
               />
               <TextField
-                label="Краткое описание *"
+                label="Краткое описание"
                 value={formData.short_description}
                 onChange={(e) => handleInputChange('short_description', e.target.value)}
                 fullWidth
@@ -608,7 +735,7 @@ export default function AdminProducts() {
                 rows={2}
               />
               <TextField
-                label="Полное описание *"
+                label="Полное описание"
                 value={formData.full_description}
                 onChange={(e) => handleInputChange('full_description', e.target.value)}
                 fullWidth
@@ -631,9 +758,9 @@ export default function AdminProducts() {
               />
 
               {/* Pricing */}
-              <Stack direction="row" spacing={2}>
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                 <TextField
-                  label="Цена *"
+                  label="Цена"
                   type="number"
                   value={formData.price}
                   onChange={(e) => handleInputChange('price', e.target.value)}
@@ -668,7 +795,7 @@ export default function AdminProducts() {
                 <InputLabel>Категория</InputLabel>
                 <Select
                   value={formData.category_id}
-                  label="Category"
+                  label="Категория"
                   onChange={(e) => handleInputChange('category_id', e.target.value as string)}
                 >
                   <MenuItem value="">Без категории</MenuItem>
@@ -738,7 +865,7 @@ export default function AdminProducts() {
               />
 
               {/* Flags */}
-              <Stack direction="row" spacing={2}>
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2}>
                 <FormControlLabel
                   control={
                     <Switch
@@ -769,8 +896,13 @@ export default function AdminProducts() {
               </Stack>
             </Stack>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDialog(false)} disabled={saving}>
+          <DialogActions sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: 2, p: { xs: 2, md: 3 } }}>
+            <Button 
+              onClick={() => setOpenDialog(false)} 
+              disabled={saving}
+              fullWidth={false}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
               Отмена
             </Button>
             <Button
@@ -778,11 +910,33 @@ export default function AdminProducts() {
               variant="contained"
               disabled={saving}
               startIcon={saving ? <CircularProgress size={20} /> : null}
+              fullWidth={false}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               {saving ? 'Сохранение...' : editingProduct ? 'Обновить' : 'Создать'}
             </Button>
           </DialogActions>
         </Dialog>
+
+        {/* Export Menu */}
+        <Menu
+          anchorEl={exportMenuAnchor}
+          open={Boolean(exportMenuAnchor)}
+          onClose={handleExportClose}
+        >
+          <MenuItem onClick={handleExportExcel}>
+            <ListItemIcon>
+              <FileDownload fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Экспорт в Excel</ListItemText>
+          </MenuItem>
+          <MenuItem onClick={handleExportPDF}>
+            <ListItemIcon>
+              <FileDownload fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Экспорт в PDF</ListItemText>
+          </MenuItem>
+        </Menu>
 
         {/* Snackbar */}
         <Snackbar

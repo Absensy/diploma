@@ -23,9 +23,11 @@ import {
   Edit,
   Delete,
   Refresh,
+  Search,
 } from '@mui/icons-material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
+import { ruRU } from '@/lib/dataGridLocale';
 
 interface User {
   id: number;
@@ -58,6 +60,20 @@ export default function AdminUsers() {
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
+  const [searchText, setSearchText] = useState('');
+
+  // Filter users based on search text
+  const filteredUsers = users.filter((user) => {
+    if (!searchText.trim()) return true;
+    const searchLower = searchText.toLowerCase();
+    return (
+      user.first_name.toLowerCase().includes(searchLower) ||
+      user.last_name.toLowerCase().includes(searchLower) ||
+      user.email.toLowerCase().includes(searchLower) ||
+      user.phone?.toLowerCase().includes(searchLower) ||
+      user.id.toString().includes(searchLower)
+    );
+  });
 
   const [formData, setFormData] = useState<UserFormData>({
     first_name: '',
@@ -242,7 +258,7 @@ export default function AdminUsers() {
       field: 'phone',
       headerName: 'Телефон',
       width: 150,
-      valueGetter: (value: string | null) => value || 'N/A',
+      valueGetter: (value: string | null) => value || 'Н/Д',
     },
     {
       field: 'ordersCount',
@@ -292,29 +308,12 @@ export default function AdminUsers() {
       <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
         {/* Header */}
         <Box mb={3}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
-            <Box>
-              <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
-                Управление пользователями
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Управление учетными записями пользователей
-              </Typography>
-            </Box>
-            <Stack direction="row" gap={1}>
-              <Button
-                variant="outlined"
-                startIcon={<Refresh />}
-                onClick={fetchUsers}
-                disabled={loading}
-              >
-                Обновить
-              </Button>
-              <Button variant="contained" startIcon={<Add />} onClick={handleCreate}>
-                Добавить пользователя
-              </Button>
-            </Stack>
-          </Stack>
+          <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+            Управление пользователями
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Управление учетными записями пользователей
+          </Typography>
         </Box>
 
         {/* Error Alert */}
@@ -324,10 +323,63 @@ export default function AdminUsers() {
           </Alert>
         )}
 
+        {/* Controls */}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={{ xs: 2, md: 3 }}
+          flexDirection={{ xs: 'column', sm: 'row' }}
+          gap={2}
+          flexWrap="wrap"
+        >
+          <Box display="flex" alignItems="center" gap={2} flex={1} minWidth={0}>
+            <Typography
+              variant="h6"
+              sx={{ fontSize: { xs: '1rem', md: '1.25rem' }, whiteSpace: 'nowrap' }}
+            >
+              Всего пользователей: {filteredUsers.length}
+            </Typography>
+            <TextField
+              placeholder="Поиск по пользователям..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              InputProps={{
+                startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />,
+              }}
+              sx={{ maxWidth: 300, flex: { xs: 1, sm: 'none' } }}
+              size="small"
+            />
+          </Box>
+          <Stack direction="row" gap={1} flexWrap="wrap">
+            <Button
+              variant="outlined"
+              startIcon={<Refresh />}
+              onClick={fetchUsers}
+              disabled={loading}
+              size="small"
+            >
+              Обновить
+            </Button>
+            <Button
+              variant="contained"
+              startIcon={<Add />}
+              onClick={handleCreate}
+              sx={{
+                backgroundColor: '#333',
+                '&:hover': { backgroundColor: '#555' },
+                width: { xs: '100%', sm: 'auto' }
+              }}
+            >
+              Добавить пользователя
+            </Button>
+          </Stack>
+        </Box>
+
         {/* DataGrid */}
-        <Paper sx={{ height: 'calc(100vh - 250px)', width: '100%' }}>
+        <Paper sx={{ height: { xs: 'calc(100vh - 250px)', md: 'calc(100vh - 300px)' }, width: '100%', overflow: 'auto' }}>
           <DataGrid
-            rows={users}
+            rows={filteredUsers}
             columns={columns}
             loading={loading}
             initialState={{
@@ -337,9 +389,16 @@ export default function AdminUsers() {
             }}
             pageSizeOptions={[10, 25, 50, 100]}
             disableRowSelectionOnClick
+            localeText={ruRU}
             sx={{
               '& .MuiDataGrid-cell:focus': {
                 outline: 'none',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
+              },
+              '& .MuiDataGrid-cell': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
               },
             }}
           />
@@ -358,21 +417,21 @@ export default function AdminUsers() {
           <DialogContent dividers>
             <Stack spacing={3} sx={{ mt: 1 }}>
               <TextField
-                label="Имя *"
+                label="Имя"
                 value={formData.first_name}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleInputChange('first_name', e.target.value)}
                 fullWidth
                 required
               />
               <TextField
-                label="Фамилия *"
+                label="Фамилия"
                 value={formData.last_name}
                 onChange={(e) => handleInputChange('last_name', e.target.value)}
                 fullWidth
                 required
               />
               <TextField
-                label="Email *"
+                label="Email"
                 type="email"
                 value={formData.email}
                 onChange={(e) => handleInputChange('email', e.target.value)}
@@ -388,7 +447,7 @@ export default function AdminUsers() {
                 fullWidth
               />
               <TextField
-                label={editingUser ? 'Новый пароль (оставьте пустым, чтобы оставить текущий)' : 'Пароль *'}
+                label={editingUser ? 'Новый пароль (оставьте пустым, чтобы оставить текущий)' : 'Пароль'}
                 type="password"
                 value={formData.password}
                 onChange={(e) => handleInputChange('password', e.target.value)}
@@ -398,8 +457,13 @@ export default function AdminUsers() {
               />
             </Stack>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDialog(false)} disabled={saving}>
+          <DialogActions sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: 2, p: { xs: 2, md: 3 } }}>
+            <Button 
+              onClick={() => setOpenDialog(false)} 
+              disabled={saving}
+              fullWidth={false}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
               Отмена
             </Button>
             <Button
@@ -407,6 +471,8 @@ export default function AdminUsers() {
               variant="contained"
               disabled={saving}
               startIcon={saving ? <CircularProgress size={20} /> : null}
+              fullWidth={false}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               {saving ? 'Сохранение...' : editingUser ? 'Обновить' : 'Создать'}
             </Button>

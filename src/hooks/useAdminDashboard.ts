@@ -4,6 +4,8 @@ interface DashboardStats {
   totalProducts: number;
   totalCategories: number;
   totalExamplesWork: number;
+  totalOrders?: number;
+  totalUsers?: number;
   recentProducts: Array<{
     id: number;
     name: string;

@@ -30,10 +30,14 @@ export async function GET(request: NextRequest) {
       },
     });
 
-    const normalizedTags = tags.map((tag: any) => ({
-      ...tag,
-      productsCount: tag._count.products,
-    }));
+    const normalizedTags = tags.map((tag: any) => {
+      const { _count, ...rest } = tag;
+      return {
+        ...rest,
+        productsCount: _count?.products || 0,
+        slug: tag.slug ? String(tag.slug) : '', // Убеждаемся, что slug всегда строка
+      };
+    });
 
     return NextResponse.json(normalizedTags);
   } catch (error) {

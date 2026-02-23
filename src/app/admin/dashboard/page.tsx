@@ -25,6 +25,10 @@ import {
   Phone,
   NewReleases,
   ContentCopy,
+  ShoppingCart,
+  People,
+  TrendingUp,
+  AttachMoney,
 } from '@mui/icons-material';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import { useAdminDashboard } from '@/hooks/useAdminDashboard';
@@ -344,18 +348,18 @@ export default function AdminDashboard() {
               subtitle="Активных категорий"
             />
             <StatCard
-              title="Примеры работ"
-              value={stats.totalExamplesWork}
-              icon={<Article />}
-              color="#ff9800"
-              subtitle="В портфолио"
+              title="Заказы"
+              value={stats.totalOrders || 0}
+              icon={<ShoppingCart />}
+              color="#9c27b0"
+              subtitle="Всего заказов"
             />
             <StatCard
-              title="Недавние товары"
-              value={stats.recentProducts.length}
-              icon={<NewReleases />}
-              color="#9c27b0"
-              subtitle="Последние добавленные"
+              title="Пользователи"
+              value={stats.totalUsers || 0}
+              icon={<People />}
+              color="#ff9800"
+              subtitle="Зарегистрировано"
             />
           </Box>
         )}
@@ -376,7 +380,7 @@ export default function AdminDashboard() {
               </Typography>
               <Box
                 display="grid"
-                gridTemplateColumns={{ xs: '1fr', sm: 'repeat(2, 1fr)' }}
+                gridTemplateColumns={{ xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
                 gap={{ xs: 1.5, sm: 2 }}
               >
                 <QuickActionCard
@@ -406,6 +410,20 @@ export default function AdminDashboard() {
                   icon={<Phone />}
                   color="#9c27b0"
                   onClick={() => handleQuickAction('update-contacts')}
+                />
+                <QuickActionCard
+                  title="Управление заказами"
+                  description="Просмотр и обработка заказов"
+                  icon={<ShoppingCart />}
+                  color="#e91e63"
+                  onClick={() => router.push('/admin/orders')}
+                />
+                <QuickActionCard
+                  title="Управление пользователями"
+                  description="Просмотр и редактирование пользователей"
+                  icon={<People />}
+                  color="#00bcd4"
+                  onClick={() => router.push('/admin/users')}
                 />
               </Box>
             </Paper>

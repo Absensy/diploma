@@ -11,7 +11,14 @@
     "db:push": "prisma db push",
     "db:generate": "prisma generate",
     "db:update-prices": "tsx scripts/update-prices.ts",
-    "db:update-images": "tsx scripts/update-external-images.ts"
+    "db:update-images": "tsx scripts/update-external-images.ts",
+    "db:add-categories": "tsx scripts/add-categories.ts",
+    "db:add-products": "tsx scripts/add-products.ts",
+    "db:update-content-ru": "tsx scripts/update-content-ru.ts",
+    "db:update-materials-ru": "tsx scripts/update-materials-ru.ts",
+    "db:update-users-ru": "tsx scripts/update-users-ru.ts",
+    "db:update-examples-ru": "tsx scripts/update-examples-ru.ts",
+    "db:fix-tags-slug": "tsx scripts/fix-tags-slug.ts"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
@@ -24,16 +31,20 @@
     "@prisma/client": "^6.17.1",
     "cloudinary": "^2.7.0",
     "jose": "^6.1.0",
+    "jspdf": "^4.2.0",
+    "jspdf-autotable": "^5.0.7",
     "next": "15.5.3",
     "pg": "^8.11.3",
     "prisma": "^6.17.1",
     "react": "19.1.0",
     "react-dom": "19.1.0",
-    "react-snowfall": "^2.4.0"
+    "react-snowfall": "^2.4.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@faker-js/faker": "^10.3.0",
+    "@types/jspdf": "^1.3.3",
     "@types/node": "^20",
     "@types/pg": "^8.10.9",
     "@types/react": "^19",

@@ -21,15 +21,22 @@ import {
   Paper,
   Stack,
   Chip,
+  Menu,
+  ListItemIcon,
+  ListItemText,
 } from '@mui/material';
 import {
   Add,
   Edit,
   Delete,
   Refresh,
+  Search,
+  FileDownload,
 } from '@mui/icons-material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
+import { ruRU } from '@/lib/dataGridLocale';
+import { exportToExcel, exportToPDF, ExportColumn } from '@/lib/exportUtils';
 
 interface Order {
   id: number;
@@ -53,8 +60,17 @@ interface OrderFormData {
   payment_method: string;
 }
 
-const orderStatuses = ['PENDING', 'PAID', 'SHIPPED', 'COMPLETED', 'OFFLINE'];
-const paymentMethods = ['ONLINE', 'OFFLINE'];
+const orderStatuses = [
+  { value: 'PENDING', label: 'Ожидает' },
+  { value: 'PAID', label: 'Оплачен' },
+  { value: 'SHIPPED', label: 'Отправлен' },
+  { value: 'COMPLETED', label: 'Завершен' },
+  { value: 'OFFLINE', label: 'Офлайн' },
+];
+const paymentMethods = [
+  { value: 'ONLINE', label: 'Онлайн' },
+  { value: 'OFFLINE', label: 'Офлайн' },
+];
 
 export default function AdminOrders() {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -70,6 +86,76 @@ export default function AdminOrders() {
   });
   const [openDialog, setOpenDialog] = useState(false);
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
+  const [searchText, setSearchText] = useState('');
+  const [exportMenuAnchor, setExportMenuAnchor] = useState<null | HTMLElement>(null);
+
+  // Filter orders based on search text
+  const filteredOrders = orders.filter((order) => {
+    if (!searchText.trim()) return true;
+    const searchLower = searchText.toLowerCase();
+    return (
+      order.id.toString().includes(searchLower) ||
+      order.user?.first_name.toLowerCase().includes(searchLower) ||
+      order.user?.last_name.toLowerCase().includes(searchLower) ||
+      order.user?.email.toLowerCase().includes(searchLower) ||
+      order.status.toLowerCase().includes(searchLower) ||
+      order.total_amount?.toString().includes(searchLower)
+    );
+  });
+
+  // Export functions
+  const handleExportClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    setExportMenuAnchor(event.currentTarget);
+  };
+
+  const handleExportClose = () => {
+    setExportMenuAnchor(null);
+  };
+
+  const statusLabels: Record<string, string> = {
+    PENDING: 'Ожидает',
+    PAID: 'Оплачен',
+    SHIPPED: 'Отправлен',
+    COMPLETED: 'Завершен',
+    OFFLINE: 'Офлайн',
+  };
+
+  const methodLabels: Record<string, string> = {
+    ONLINE: 'Онлайн',
+    OFFLINE: 'Офлайн',
+  };
+
+  const handleExportExcel = () => {
+    const exportColumns: ExportColumn[] = [
+      { header: 'ID', key: 'id', width: 10 },
+      { header: 'Клиент', key: 'user', width: 25, formatter: (val, row) => row.user ? `${row.user.first_name} ${row.user.last_name}` : 'Гость' },
+      { header: 'Email', key: 'user', width: 25, formatter: (val, row) => row.user?.email || '-' },
+      { header: 'Дата заказа', key: 'order_date', width: 20, formatter: (val) => new Date(val).toLocaleString('ru-RU') },
+      { header: 'Статус', key: 'status', width: 15, formatter: (val) => statusLabels[val] || val },
+      { header: 'Сумма', key: 'total_amount', width: 15, formatter: (val) => val ? `${val} BYN` : 'Н/Д' },
+      { header: 'Способ оплаты', key: 'payment_method', width: 15, formatter: (val) => methodLabels[val] || val },
+      { header: 'Товаров', key: 'itemsCount', width: 12 },
+    ];
+    exportToExcel(filteredOrders, exportColumns, `заказы_${new Date().toISOString().split('T')[0]}`);
+    handleExportClose();
+  };
+
+  const handleExportPDF = () => {
+    const exportColumns: ExportColumn[] = [
+      { header: 'ID', key: 'id' },
+      { header: 'Клиент', key: 'user', formatter: (val, row) => row.user ? `${row.user.first_name} ${row.user.last_name}` : 'Гость' },
+      { header: 'Email', key: 'user', formatter: (val, row) => row.user?.email || '-' },
+      { header: 'Дата заказа', key: 'order_date', formatter: (val) => new Date(val).toLocaleString('ru-RU') },
+      { header: 'Статус', key: 'status', formatter: (val) => statusLabels[val] || val },
+      { header: 'Сумма', key: 'total_amount', formatter: (val) => val ? `${val} BYN` : 'Н/Д' },
+      { header: 'Способ оплаты', key: 'payment_method', formatter: (val) => methodLabels[val] || val },
+      { header: 'Товаров', key: 'itemsCount' },
+    ];
+    exportToPDF(filteredOrders, exportColumns, `заказы_${new Date().toISOString().split('T')[0]}`, 'Отчет по заказам');
+    handleExportClose();
+  };
 
   const [formData, setFormData] = useState<OrderFormData>({
     user_id: '',
@@ -214,6 +300,7 @@ export default function AdminOrders() {
       field: 'user',
       headerName: 'Клиент',
       width: 200,
+      flex: 1,
       valueGetter: (value: unknown, row: Order) => {
         if (row.user) {
           return `${row.user.first_name} ${row.user.last_name}`;
@@ -221,12 +308,31 @@ export default function AdminOrders() {
           return 'Гость';
       },
       renderCell: (params: GridRenderCellParams<Order>) => (
-        <Box>
-          <Typography variant="body2" fontWeight="medium">
+        <Box sx={{ py: 0.5, minWidth: 0 }}>
+          <Typography 
+            variant="body2" 
+            fontWeight="medium"
+            sx={{ 
+              fontSize: { xs: '0.75rem', md: '0.875rem' },
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+            }}
+          >
             {params.value}
           </Typography>
           {params.row.user && (
-            <Typography variant="caption" color="text.secondary">
+            <Typography 
+              variant="caption" 
+              color="text.secondary"
+              sx={{ 
+                fontSize: { xs: '0.7rem', md: '0.75rem' },
+                display: 'block',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              }}
+            >
               {params.row.user.email}
             </Typography>
           )}
@@ -245,6 +351,13 @@ export default function AdminOrders() {
       headerName: 'Статус',
       width: 120,
       renderCell: (params: GridRenderCellParams<Order>) => {
+        const statusLabels: Record<string, string> = {
+          PENDING: 'Ожидает',
+          PAID: 'Оплачен',
+          SHIPPED: 'Отправлен',
+          COMPLETED: 'Завершен',
+          OFFLINE: 'Офлайн',
+        };
         const colors: Record<string, 'default' | 'primary' | 'success' | 'warning' | 'error'> = {
           PENDING: 'warning',
           PAID: 'primary',
@@ -254,7 +367,7 @@ export default function AdminOrders() {
         };
         return (
           <Chip
-            label={params.value as string}
+            label={statusLabels[params.value as string] || params.value as string}
             size="small"
             color={colors[params.value as string] || 'default'}
           />
@@ -272,13 +385,19 @@ export default function AdminOrders() {
       field: 'payment_method',
       headerName: 'Оплата',
       width: 120,
-      renderCell: (params: GridRenderCellParams<Order>) => (
-        <Chip
-          label={params.value as string}
-          size="small"
-          variant="outlined"
-        />
-      ),
+      renderCell: (params: GridRenderCellParams<Order>) => {
+        const methodLabels: Record<string, string> = {
+          ONLINE: 'Онлайн',
+          OFFLINE: 'Офлайн',
+        };
+        return (
+          <Chip
+            label={methodLabels[params.value as string] || params.value as string}
+            size="small"
+            variant="outlined"
+          />
+        );
+      },
     },
     {
       field: 'itemsCount',
@@ -314,26 +433,12 @@ export default function AdminOrders() {
       <Container maxWidth="xl" sx={{ py: { xs: 2, md: 4 } }}>
         {/* Header */}
         <Box mb={3}>
-          <Stack direction="row" justifyContent="space-between" alignItems="center" flexWrap="wrap" gap={2}>
-            <Box>
-              <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
-                Управление заказами
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Управление заказами клиентов
-              </Typography>
-            </Box>
-            <Stack direction="row" gap={1}>
-              <Button
-                variant="outlined"
-                startIcon={<Refresh />}
-                onClick={fetchOrders}
-                disabled={loading}
-              >
-                Обновить
-              </Button>
-            </Stack>
-          </Stack>
+          <Typography variant="h4" component="h1" fontWeight="bold" gutterBottom>
+            Управление заказами
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            Управление заказами клиентов
+          </Typography>
         </Box>
 
         {/* Error Alert */}
@@ -343,10 +448,59 @@ export default function AdminOrders() {
           </Alert>
         )}
 
+        {/* Controls */}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          alignItems="center"
+          mb={{ xs: 2, md: 3 }}
+          flexDirection={{ xs: 'column', sm: 'row' }}
+          gap={2}
+          flexWrap="wrap"
+        >
+          <Box display="flex" alignItems="center" gap={2} flex={1} minWidth={0}>
+            <Typography
+              variant="h6"
+              sx={{ fontSize: { xs: '1rem', md: '1.25rem' }, whiteSpace: 'nowrap' }}
+            >
+              Всего заказов: {filteredOrders.length}
+            </Typography>
+            <TextField
+              placeholder="Поиск по заказам..."
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
+              InputProps={{
+                startAdornment: <Search sx={{ mr: 1, color: 'text.secondary' }} />,
+              }}
+              sx={{ maxWidth: 300, flex: { xs: 1, sm: 'none' } }}
+              size="small"
+            />
+          </Box>
+          <Stack direction="row" gap={1} flexWrap="wrap">
+            <Button
+              variant="outlined"
+              startIcon={<Refresh />}
+              onClick={fetchOrders}
+              disabled={loading}
+              size="small"
+            >
+              Обновить
+            </Button>
+            <Button
+              variant="outlined"
+              startIcon={<FileDownload />}
+              onClick={handleExportClick}
+              size="small"
+            >
+              Экспорт
+            </Button>
+          </Stack>
+        </Box>
+
         {/* DataGrid */}
-        <Paper sx={{ height: 'calc(100vh - 250px)', width: '100%' }}>
+        <Paper sx={{ height: { xs: 'calc(100vh - 250px)', md: 'calc(100vh - 300px)' }, width: '100%', overflow: 'auto' }}>
           <DataGrid
-            rows={orders}
+            rows={filteredOrders}
             columns={columns}
             loading={loading}
             initialState={{
@@ -356,9 +510,16 @@ export default function AdminOrders() {
             }}
             pageSizeOptions={[10, 25, 50, 100]}
             disableRowSelectionOnClick
+            localeText={ruRU}
             sx={{
               '& .MuiDataGrid-cell:focus': {
                 outline: 'none',
+              },
+              '& .MuiDataGrid-columnHeaders': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
+              },
+              '& .MuiDataGrid-cell': {
+                fontSize: { xs: '0.75rem', md: '0.875rem' },
               },
             }}
           />
@@ -378,7 +539,7 @@ export default function AdminOrders() {
                 <InputLabel>Пользователь</InputLabel>
                 <Select
                   value={formData.user_id}
-                  label="User"
+                  label="Пользователь"
                   onChange={(e) => handleInputChange('user_id', e.target.value as string)}
                 >
                   <MenuItem value="">Гость</MenuItem>
@@ -393,12 +554,12 @@ export default function AdminOrders() {
                 <InputLabel>Статус</InputLabel>
                 <Select
                   value={formData.status}
-                  label="Status"
+                  label="Статус"
                   onChange={(e) => handleInputChange('status', e.target.value as string)}
                 >
                   {orderStatuses.map((status) => (
-                    <MenuItem key={status} value={status}>
-                      {status}
+                    <MenuItem key={status.value} value={status.value}>
+                      {status.label}
                     </MenuItem>
                   ))}
                 </Select>
@@ -407,20 +568,25 @@ export default function AdminOrders() {
                 <InputLabel>Способ оплаты</InputLabel>
                 <Select
                   value={formData.payment_method}
-                  label="Payment Method"
+                  label="Способ оплаты"
                   onChange={(e) => handleInputChange('payment_method', e.target.value as string)}
                 >
                   {paymentMethods.map((method) => (
-                    <MenuItem key={method} value={method}>
-                      {method}
+                    <MenuItem key={method.value} value={method.value}>
+                      {method.label}
                     </MenuItem>
                   ))}
                 </Select>
               </FormControl>
             </Stack>
           </DialogContent>
-          <DialogActions>
-            <Button onClick={() => setOpenDialog(false)} disabled={saving}>
+          <DialogActions sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: 2, p: { xs: 2, md: 3 } }}>
+            <Button 
+              onClick={() => setOpenDialog(false)} 
+              disabled={saving}
+              fullWidth={false}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
+            >
               Отмена
             </Button>
             <Button
@@ -428,11 +594,33 @@ export default function AdminOrders() {
               variant="contained"
               disabled={saving}
               startIcon={saving ? <CircularProgress size={20} /> : null}
+              fullWidth={false}
+              sx={{ width: { xs: '100%', sm: 'auto' } }}
             >
               {saving ? 'Сохранение...' : 'Обновить'}
             </Button>
           </DialogActions>
         </Dialog>
+
+        {/* Export Menu */}
+        <Menu
+          anchorEl={exportMenuAnchor}
+          open={Boolean(exportMenuAnchor)}
+          onClose={handleExportClose}
+        >
+          <MenuItem onClick={handleExportExcel}>
+            <ListItemIcon>
+              <FileDownload fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Экспорт в Excel</ListItemText>
+          </MenuItem>
+          <MenuItem onClick={handleExportPDF}>
+            <ListItemIcon>
+              <FileDownload fontSize="small" />
+            </ListItemIcon>
+            <ListItemText>Экспорт в PDF</ListItemText>
+          </MenuItem>
+        </Menu>
 
         {/* Snackbar */}
         <Snackbar
