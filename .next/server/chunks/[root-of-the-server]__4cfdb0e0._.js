@@ -98,12 +98,12 @@ async function GET() {
             }
         });
         // Извлекаем и обрабатываем материалы
-        const allMaterials = products.map((p)=>p.materials).filter(Boolean).flatMap((materialString)=>materialString.split(',').map((m)=>m.trim())).filter(Boolean);
-        // Создаем Set для дедупликации и приводим к правильному формату
-        const uniqueMaterials = Array.from(new Set(allMaterials)).map((material)=>{
+        const allMaterials = products.map((p)=>p.materials).filter(Boolean).flatMap((materialString)=>materialString.split(',').map((m)=>m.trim())).filter(Boolean).map((material)=>{
             // Приводим к правильному формату: первая буква заглавная, остальные строчные
             return material.charAt(0).toUpperCase() + material.slice(1).toLowerCase();
-        }).sort();
+        });
+        // Создаем Set для дедупликации после нормализации
+        const uniqueMaterials = Array.from(new Set(allMaterials)).sort();
         // Получаем все активные категории
         const categories = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].category.findMany({
             where: {

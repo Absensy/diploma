@@ -3867,7 +3867,9 @@ function AdminCategories() {
                                 md: 3
                             }
                         },
-                        children: filteredCategories.map((category)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                        children: filteredCategories.map((category)=>{
+                            var _category_name;
+                            return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                                 children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Card$2f$Card$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Card$3e$__["Card"], {
                                     sx: {
                                         height: '100%',
@@ -3891,7 +3893,12 @@ function AdminCategories() {
                                                             sm: 180,
                                                             md: 200
                                                         }
-                                                    }
+                                                    },
+                                                    onError: (e)=>{
+                                                        const target = e.target;
+                                                        target.style.display = 'none';
+                                                    },
+                                                    children: ((_category_name = category.name) === null || _category_name === void 0 ? void 0 : _category_name.charAt(0)) || '?'
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/categories/page.tsx",
                                                     lineNumber: 265,
@@ -3912,7 +3919,7 @@ function AdminCategories() {
                                                     }
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                    lineNumber: 271,
+                                                    lineNumber: 277,
                                                     columnNumber: 25
                                                 }, this)
                                             ]
@@ -3946,7 +3953,7 @@ function AdminCategories() {
                                                     children: category.name
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                    lineNumber: 285,
+                                                    lineNumber: 291,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -3974,13 +3981,13 @@ function AdminCategories() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                            lineNumber: 308,
+                                                            lineNumber: 314,
                                                             columnNumber: 29
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                    lineNumber: 298,
+                                                    lineNumber: 304,
                                                     columnNumber: 25
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -4010,13 +4017,13 @@ function AdminCategories() {
                                                                     children: category.productsCount
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                                    lineNumber: 324,
+                                                                    lineNumber: 330,
                                                                     columnNumber: 38
                                                                 }, this)
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                            lineNumber: 320,
+                                                            lineNumber: 326,
                                                             columnNumber: 27
                                                         }, this),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -4034,19 +4041,19 @@ function AdminCategories() {
                                                             ]
                                                         }, void 0, true, {
                                                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                            lineNumber: 326,
+                                                            lineNumber: 332,
                                                             columnNumber: 27
                                                         }, this)
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                    lineNumber: 313,
+                                                    lineNumber: 319,
                                                     columnNumber: 25
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                                            lineNumber: 284,
+                                            lineNumber: 290,
                                             columnNumber: 23
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$CardActions$2f$CardActions$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__CardActions$3e$__["CardActions"], {
@@ -4069,12 +4076,12 @@ function AdminCategories() {
                                                         onClick: ()=>handleEditCategory(category),
                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Edit$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                            lineNumber: 347,
+                                                            lineNumber: 353,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                        lineNumber: 342,
+                                                        lineNumber: 348,
                                                         columnNumber: 27
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$IconButton$2f$IconButton$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__IconButton$3e$__["IconButton"], {
@@ -4083,23 +4090,23 @@ function AdminCategories() {
                                                         onClick: ()=>handleDeleteCategory(category.id),
                                                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Delete$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                            lineNumber: 354,
+                                                            lineNumber: 360,
                                                             columnNumber: 29
                                                         }, this)
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                        lineNumber: 349,
+                                                        lineNumber: 355,
                                                         columnNumber: 27
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                lineNumber: 341,
+                                                lineNumber: 347,
                                                 columnNumber: 25
                                             }, this)
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                                            lineNumber: 336,
+                                            lineNumber: 342,
                                             columnNumber: 23
                                         }, this)
                                     ]
@@ -4112,7 +4119,8 @@ function AdminCategories() {
                                 fileName: "[project]/src/app/admin/categories/page.tsx",
                                 lineNumber: 262,
                                 columnNumber: 19
-                            }, this))
+                            }, this);
+                        })
                     }, void 0, false, {
                         fileName: "[project]/src/app/admin/categories/page.tsx",
                         lineNumber: 256,
@@ -4146,7 +4154,7 @@ function AdminCategories() {
                             children: editingCategory ? 'Редактировать категорию' : 'Добавить новую категорию'
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                            lineNumber: 381,
+                            lineNumber: 387,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$DialogContent$2f$DialogContent$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__DialogContent$3e$__["DialogContent"], {
@@ -4164,7 +4172,7 @@ function AdminCategories() {
                                         variant: "outlined"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/categories/page.tsx",
-                                        lineNumber: 386,
+                                        lineNumber: 392,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$TextField$2f$TextField$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__TextField$3e$__["TextField"], {
@@ -4176,7 +4184,7 @@ function AdminCategories() {
                                         variant: "outlined"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/categories/page.tsx",
-                                        lineNumber: 393,
+                                        lineNumber: 399,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -4197,7 +4205,7 @@ function AdminCategories() {
                                                 helperText: "Необязательное поле"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                lineNumber: 406,
+                                                lineNumber: 412,
                                                 columnNumber: 17
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -4220,7 +4228,7 @@ function AdminCategories() {
                                                         helperText: isEditingDiscountedPrice ? "Редактирование вручную" : "Рассчитывается автоматически"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                        lineNumber: 416,
+                                                        lineNumber: 422,
                                                         columnNumber: 19
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
@@ -4234,19 +4242,19 @@ function AdminCategories() {
                                                         children: isEditingDiscountedPrice ? "Авто" : "Изменить"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                        lineNumber: 428,
+                                                        lineNumber: 434,
                                                         columnNumber: 19
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/admin/categories/page.tsx",
-                                                lineNumber: 415,
+                                                lineNumber: 421,
                                                 columnNumber: 17
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/admin/categories/page.tsx",
-                                        lineNumber: 401,
+                                        lineNumber: 407,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ImageUpload$2f$ImageUpload$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -4261,7 +4269,7 @@ function AdminCategories() {
                                         uploadType: "category"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/categories/page.tsx",
-                                        lineNumber: 438,
+                                        lineNumber: 444,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControlLabel$2f$FormControlLabel$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControlLabel$3e$__["FormControlLabel"], {
@@ -4271,24 +4279,24 @@ function AdminCategories() {
                                             color: "primary"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                                            lineNumber: 449,
+                                            lineNumber: 455,
                                             columnNumber: 19
                                         }, void 0),
                                         label: "Категория активна (отображается на сайте)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/admin/categories/page.tsx",
-                                        lineNumber: 447,
+                                        lineNumber: 453,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/admin/categories/page.tsx",
-                                lineNumber: 385,
+                                lineNumber: 391,
                                 columnNumber: 13
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                            lineNumber: 384,
+                            lineNumber: 390,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$DialogActions$2f$DialogActions$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__DialogActions$3e$__["DialogActions"], {
@@ -4312,7 +4320,7 @@ function AdminCategories() {
                                     children: "Отмена"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                                    lineNumber: 460,
+                                    lineNumber: 466,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
@@ -4331,19 +4339,19 @@ function AdminCategories() {
                                     children: editingCategory ? 'Сохранить' : 'Добавить'
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                                    lineNumber: 466,
+                                    lineNumber: 472,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/admin/categories/page.tsx",
-                            lineNumber: 459,
+                            lineNumber: 465,
                             columnNumber: 11
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                    lineNumber: 367,
+                    lineNumber: 373,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AdminOperationOverlay$2f$AdminOperationOverlay$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AdminOperationOverlay"], {
@@ -4351,7 +4359,7 @@ function AdminCategories() {
                     message: editingCategory ? "Сохранение изменений..." : "Создание категории..."
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                    lineNumber: 481,
+                    lineNumber: 487,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$AdminOperationOverlay$2f$AdminOperationOverlay$2e$tsx__$5b$app$2d$client$5d$__$28$ecmascript$29$__["AdminOperationOverlay"], {
@@ -4359,7 +4367,7 @@ function AdminCategories() {
                     message: "Удаление категории..."
                 }, void 0, false, {
                     fileName: "[project]/src/app/admin/categories/page.tsx",
-                    lineNumber: 485,
+                    lineNumber: 491,
                     columnNumber: 9
                 }, this)
             ]

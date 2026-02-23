@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Dialog,
     DialogTitle,
@@ -31,6 +31,7 @@ interface ProductModalProps {
 
 const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) => {
     const { contactInfo, loading } = useContactContext();
+    const [imageError, setImageError] = useState(false);
     const isWhiteBackground = useImageBackgroundColor(product?.image || '');
 
     // Debug - проверяем загрузку данных
@@ -98,7 +99,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                         justifyContent: 'center'
                     }}>
                         {/* Размытый фон - показывается только если фон НЕ белый */}
-                        {isWhiteBackground === false && (
+                        {isWhiteBackground === false && !imageError && product.image && (
                             <Box
                                 sx={{
                                     position: 'absolute',
@@ -127,35 +128,58 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                         filter: 'blur(25px)',
                                         transform: 'scale(1.2)'
                                     }}
+                                    onError={() => setImageError(true)}
                                 />
                             </Box>
                         )}
                         {/* Основное изображение */}
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                zIndex: 2,
-                            }}
-                        >
-                            <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-                                <Image
-                                    src={product.image}
-                                    alt={product.name}
-                                    fill
-                                    style={{
-                                        objectFit: 'contain',
-                                    }}
-                                    priority
-                                />
+                        {!imageError && product.image ? (
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    zIndex: 2,
+                                }}
+                            >
+                                <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+                                    <Image
+                                        src={product.image}
+                                        alt={product.name}
+                                        fill
+                                        style={{
+                                            objectFit: 'contain',
+                                        }}
+                                        priority
+                                        onError={() => setImageError(true)}
+                                    />
+                                </Box>
                             </Box>
-                        </Box>
+                        ) : (
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    zIndex: 2,
+                                    backgroundColor: '#f5f5f5'
+                                }}
+                            >
+                                <Typography variant="body2" color="text.secondary">
+                                    Изображение недоступно
+                                </Typography>
+                            </Box>
+                        )}
                     </Box>
 
                     {/* Цена и скидка */}

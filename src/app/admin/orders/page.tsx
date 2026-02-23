@@ -142,7 +142,7 @@ export default function AdminOrders() {
     handleExportClose();
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     const exportColumns: ExportColumn[] = [
       { header: 'ID', key: 'id' },
       { header: 'Клиент', key: 'user', formatter: (val, row) => row.user ? `${row.user.first_name} ${row.user.last_name}` : 'Гость' },
@@ -153,7 +153,7 @@ export default function AdminOrders() {
       { header: 'Способ оплаты', key: 'payment_method', formatter: (val) => methodLabels[val] || val },
       { header: 'Товаров', key: 'itemsCount' },
     ];
-    exportToPDF(filteredOrders, exportColumns, `заказы_${new Date().toISOString().split('T')[0]}`, 'Отчет по заказам');
+    await exportToPDF(filteredOrders, exportColumns, `заказы_${new Date().toISOString().split('T')[0]}`, 'Отчет по заказам');
     handleExportClose();
   };
 
@@ -419,7 +419,7 @@ export default function AdminOrders() {
         />,
         <GridActionsCellItem
           key="delete"
-          icon={<Delete />}
+          icon={<Delete sx={{ color: 'error.main' }} />}
           label="Удалить"
           onClick={() => handleDelete(params.row.id)}
           disabled={deleting === params.row.id}

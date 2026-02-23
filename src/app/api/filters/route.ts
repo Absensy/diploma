@@ -21,13 +21,13 @@ export async function GET() {
         materialString.split(',').map((m: string) => m.trim())
       )
       .filter(Boolean)
-
-    // Создаем Set для дедупликации и приводим к правильному формату
-    const uniqueMaterials = Array.from(new Set(allMaterials) as Set<string>)
       .map((material: string) => {
         // Приводим к правильному формату: первая буква заглавная, остальные строчные
         return material.charAt(0).toUpperCase() + material.slice(1).toLowerCase()
       })
+
+    // Создаем Set для дедупликации после нормализации
+    const uniqueMaterials = Array.from(new Set(allMaterials) as Set<string>)
       .sort()
 
     // Получаем все активные категории

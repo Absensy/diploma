@@ -47,6 +47,23 @@ import { useAdminCategories } from '@/hooks/useAdminCategories';
 import { ruRU } from '@/lib/dataGridLocale';
 import { exportToExcel, exportToPDF, ExportColumn } from '@/lib/exportUtils';
 
+// Компонент для отображения изображения товара с обработкой ошибок
+const ProductImageAvatar: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
+  const [imageError, setImageError] = useState(false);
+  
+  return (
+    <Avatar
+      src={imageError ? undefined : src}
+      alt={alt}
+      variant="rounded"
+      sx={{ width: 56, height: 56 }}
+      onError={() => setImageError(true)}
+    >
+      {alt?.charAt(0) || '?'}
+    </Avatar>
+  );
+};
+
 // TypeScript interfaces
 interface Product {
   id: number;
@@ -164,7 +181,7 @@ export default function AdminProducts() {
     handleExportClose();
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
     const exportColumns: ExportColumn[] = [
       { header: 'ID', key: 'id' },
       { header: 'Название', key: 'name' },
@@ -179,7 +196,7 @@ export default function AdminProducts() {
       { header: 'SKU', key: 'sku' },
       { header: 'Создано', key: 'created_at', formatter: (val) => new Date(val).toLocaleString('ru-RU') },
     ];
-    exportToPDF(filteredProducts, exportColumns, `товары_${new Date().toISOString().split('T')[0]}`, 'Отчет по товарам');
+    await exportToPDF(filteredProducts, exportColumns, `товары_${new Date().toISOString().split('T')[0]}`, 'Отчет по товарам');
     handleExportClose();
   };
 
@@ -450,11 +467,9 @@ export default function AdminProducts() {
       headerName: 'Изображение',
       width: 100,
       renderCell: (params: GridRenderCellParams<Product>) => (
-        <Avatar
-          src={params.value as string}
-          alt={params.row.name}
-          variant="rounded"
-          sx={{ width: 56, height: 56 }}
+        <ProductImageAvatar 
+          src={params.value as string} 
+          alt={params.row.name} 
         />
       ),
       sortable: false,
@@ -566,7 +581,7 @@ export default function AdminProducts() {
         />,
         <GridActionsCellItem
           key="delete"
-          icon={<Delete />}
+          icon={<Delete sx={{ color: 'error.main' }} />}
           label="Удалить"
           onClick={() => handleDelete(params.row.id)}
           disabled={deleting === params.row.id}

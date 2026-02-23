@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Box, IconButton } from '@mui/material';
+import { Modal, Box, IconButton, Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import Image from 'next/image';
 
@@ -12,6 +12,7 @@ interface ImageViewerModalProps {
 }
 
 const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ open, onClose, imageSrc, imageAlt, useWhiteBackground = false }) => {
+    const [imageError, setImageError] = React.useState(false);
     return (
         <Modal
             open={open}
@@ -64,7 +65,7 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ open, onClose, imag
                         justifyContent: 'center',
                     }}
                 >
-                    {!useWhiteBackground && (
+                    {!useWhiteBackground && !imageError && imageSrc && (
                         /* Размытый фон для примеров работ */
                         <Box
                             sx={{
@@ -94,35 +95,58 @@ const ImageViewerModal: React.FC<ImageViewerModalProps> = ({ open, onClose, imag
                                     filter: 'blur(30px)',
                                     transform: 'scale(1.2)',
                                 }}
+                                onError={() => setImageError(true)}
                             />
                         </Box>
                     )}
                     {/* Основное изображение */}
-                    <Box
-                        sx={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            zIndex: 2,
-                        }}
-                    >
-                        <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-                            <Image
-                                src={imageSrc}
-                                alt={imageAlt}
-                                fill
-                                style={{
-                                    objectFit: 'contain',
-                                }}
-                                quality={100}
-                            />
+                    {!imageError && imageSrc ? (
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                zIndex: 2,
+                            }}
+                        >
+                            <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+                                <Image
+                                    src={imageSrc}
+                                    alt={imageAlt}
+                                    fill
+                                    style={{
+                                        objectFit: 'contain',
+                                    }}
+                                    quality={100}
+                                    onError={() => setImageError(true)}
+                                />
+                            </Box>
                         </Box>
-                    </Box>
+                    ) : (
+                        <Box
+                            sx={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                zIndex: 2,
+                                backgroundColor: '#f5f5f5'
+                            }}
+                        >
+                            <Box sx={{ textAlign: 'center', color: 'text.secondary' }}>
+                                <Typography variant="body1">Изображение недоступно</Typography>
+                            </Box>
+                        </Box>
+                    )}
                 </Box>
             </Box>
         </Modal>

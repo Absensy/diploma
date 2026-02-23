@@ -267,7 +267,13 @@ export default function AdminCategories() {
                           alt={category.name}
                           variant="rounded"
                           sx={{ width: '100%', height: { xs: 160, sm: 180, md: 200 } }}
-                        />
+                          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+                            const target = e.target as HTMLImageElement;
+                            target.style.display = 'none';
+                          }}
+                        >
+                          {category.name?.charAt(0) || '?'}
+                        </Avatar>
                         <Chip
                           label={category.is_active ? "Активна" : "Неактивна"}
                           color={category.is_active ? "success" : "error"}

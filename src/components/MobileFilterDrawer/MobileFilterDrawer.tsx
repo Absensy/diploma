@@ -310,9 +310,9 @@ const MobileFilterDrawer = () => {
                                     />
                                 ) : (
                                     <FormGroup>
-                                        {filterData.materials.map((material: string) => (
+                                        {filterData.materials.map((material: string, index: number) => (
                                             <FormControlLabel
-                                                key={material}
+                                                key={`material-${index}-${material}`}
                                                 control={
                                                     <Checkbox
                                                         checked={filters.selectedMaterials.includes(material)}

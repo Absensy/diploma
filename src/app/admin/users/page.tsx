@@ -294,7 +294,7 @@ export default function AdminUsers() {
         />,
         <GridActionsCellItem
           key="delete"
-          icon={<Delete />}
+          icon={<Delete sx={{ color: 'error.main' }} />}
           label="Удалить"
           onClick={() => handleDelete(params.row.id)}
           disabled={deleting === params.row.id || params.row.ordersCount > 0}

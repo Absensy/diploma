@@ -36,14 +36,16 @@ const Header = () => {
   const instagram = contactInfo?.instagram || 'granit.grodno';
   
   // Ensure working hours always have the same format
+  // Normalize the format to prevent hydration mismatches
   const workingHoursString = contactInfo?.working_hours || DEFAULT_WORKING_HOURS;
-  const workingHoursArray = workingHoursString.includes(', ') 
-    ? workingHoursString.split(', ')
-    : [workingHoursString];
+  const normalizedWorkingHours = workingHoursString.replace(/\s*,\s*/g, ', '); // Normalize comma spacing
+  const workingHoursArray = normalizedWorkingHours.includes(', ') 
+    ? normalizedWorkingHours.split(', ')
+    : [normalizedWorkingHours];
   
-  // Ensure advantages always have the same structure
+  // Ensure advantages always have the same structure and length
   const advantages = Array.isArray(aboutData?.advantages) && aboutData.advantages.length > 0
-    ? aboutData.advantages
+    ? aboutData.advantages.slice(0, 3) // Always limit to 3 items
     : DEFAULT_ADVANTAGES;
 
   return (

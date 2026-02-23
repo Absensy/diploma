@@ -19,7 +19,8 @@ import type { ReactNode } from "react";
  */
 export const metadata: Metadata = {
   title: "Админ-панель - Гранит памяти",
-  description: "Панель управления сайтом",
+  description: "Панель управления сайтом. Управление товарами, заказами, категориями, материалами и контентом.",
+  keywords: ['админ-панель', 'управление', 'администратор', 'панель управления'],
 };
 
 export default function AdminLayout({

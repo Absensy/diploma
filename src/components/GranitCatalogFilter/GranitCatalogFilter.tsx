@@ -152,9 +152,9 @@ const GranitCatalogFilter = () => {
                         />
                     ) : (
                         <FormGroup>
-                            {filterData.materials.map((material: string) => (
+                            {filterData.materials.map((material: string, index: number) => (
                                 <FormControlLabel
-                                    key={material}
+                                    key={`material-${index}-${material}`}
                                     control={
                                         <Checkbox
                                             size="small"
