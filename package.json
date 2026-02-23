@@ -9,16 +9,7 @@
     "lint": "eslint",
     "db:seed": "tsx prisma/seed.ts",
     "db:push": "prisma db push",
-    "db:generate": "prisma generate",
-    "db:update-prices": "tsx scripts/update-prices.ts",
-    "db:update-images": "tsx scripts/update-external-images.ts",
-    "db:add-categories": "tsx scripts/add-categories.ts",
-    "db:add-products": "tsx scripts/add-products.ts",
-    "db:update-content-ru": "tsx scripts/update-content-ru.ts",
-    "db:update-materials-ru": "tsx scripts/update-materials-ru.ts",
-    "db:update-users-ru": "tsx scripts/update-users-ru.ts",
-    "db:update-examples-ru": "tsx scripts/update-examples-ru.ts",
-    "db:fix-tags-slug": "tsx scripts/fix-tags-slug.ts"
+    "db:generate": "prisma generate"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
