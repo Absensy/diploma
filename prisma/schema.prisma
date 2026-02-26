@@ -23,24 +23,46 @@ model Category {
 }
 
 model Product {
-  id                Int       @id @default(autoincrement())
+  id                Int                @id @default(autoincrement())
   name              String
   short_description String
   full_description  String
   materials         String
   production_time   String
-  price             Decimal   @db.Decimal(10, 2)
+  price             Decimal            @db.Decimal(10, 2)
   discount          Int?
-  discounted_price  Decimal?  @db.Decimal(10, 2)
+  discounted_price  Decimal?           @db.Decimal(10, 2)
   image             String
   category_id       Int?
-  created_at        DateTime  @default(now())
-  updated_at        DateTime  @updatedAt
-  is_new            Boolean   @default(false)
-  is_popular        Boolean   @default(false)
-  is_active         Boolean   @default(true)
-  category          Category? @relation(fields: [category_id], references: [id])
+  created_at        DateTime           @default(now())
+  updated_at        DateTime           @updatedAt
+  is_new            Boolean            @default(false)
+  is_popular        Boolean            @default(false)
+  is_active         Boolean            @default(true)
+  dimensions        String?
+  meta_description  String?
+  meta_keywords     String?
+  meta_title        String?
+  sku               String?            @unique
+  slug              String?            @unique
+  stock_quantity    Int                @default(0)
+  weight            Decimal?           @db.Decimal(10, 2)
+  order_items       OrderItem[]
+  attributes        ProductAttribute[]
+  images            ProductImage[]
+  product_materials ProductMaterial[]
+  tags              ProductTag[]
+  variants          ProductVariant[]
+  category          Category?          @relation(fields: [category_id], references: [id])
+  related_products  RelatedProduct[]   @relation("ProductRelated")
+  related_to        RelatedProduct[]   @relation("ProductRelatedTo")
 
+  @@index([slug])
+  @@index([category_id])
+  @@index([is_active, is_new, is_popular])
+  @@index([is_active, stock_quantity])
+  @@index([price])
+  @@index([name])
   @@map("products")
 }
 
@@ -63,10 +85,10 @@ model ExamplesOurWork {
   image       String
   dimensions  String
   date        String
-  description String?
-  is_active   Boolean  @default(true)
   created_at  DateTime @default(now())
   updated_at  DateTime @updatedAt
+  is_active   Boolean  @default(true)
+  description String?
 
   @@map("examples_our_work")
 }
@@ -79,4 +101,167 @@ model Content {
   updated_at DateTime @updatedAt
 
   @@map("content")
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  first_name String   @map("first_name")
+  last_name  String   @map("last_name")
+  email      String   @unique
+  password   String
+  phone      String?
+  is_admin   Boolean  @default(false) @map("is_admin")
+  created_at DateTime @default(now())
+  orders     Order[]
+
+  @@map("users")
+}
+
+model Order {
+  id             Int           @id @default(autoincrement())
+  user_id        Int?
+  order_date     DateTime      @default(now()) @map("order_date")
+  status         OrderStatus   @default(PENDING_CONFIRMATION)
+  confirmed_at   DateTime?     @map("confirmed_at")
+  paid_at        DateTime?     @map("paid_at")
+  total_amount   Decimal?      @map("total_amount") @db.Decimal(10, 2)
+  payment_method PaymentMethod @default(OFFLINE) @map("payment_method")
+  order_items    OrderItem[]
+  user           User?         @relation(fields: [user_id], references: [id])
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id                Int      @id @default(autoincrement())
+  order_id          Int?     @map("order_id")
+  product_id        Int?     @map("product_id")
+  quantity          Int
+  price_at_purchase Decimal  @map("price_at_purchase") @db.Decimal(10, 2)
+  order             Order?   @relation(fields: [order_id], references: [id])
+  product           Product? @relation(fields: [product_id], references: [id])
+
+  @@map("order_items")
+}
+
+model ProductImage {
+  id         Int      @id @default(autoincrement())
+  product_id Int
+  url        String
+  alt        String?
+  order      Int      @default(0)
+  is_primary Boolean  @default(false)
+  created_at DateTime @default(now())
+  product    Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@index([product_id])
+  @@map("product_images")
+}
+
+model Material {
+  id          Int               @id @default(autoincrement())
+  name        String            @unique
+  description String?
+  created_at  DateTime          @default(now())
+  updated_at  DateTime          @updatedAt
+  products    ProductMaterial[]
+
+  @@map("materials")
+}
+
+model ProductMaterial {
+  id          Int      @id @default(autoincrement())
+  product_id  Int
+  material_id Int
+  material    Material @relation(fields: [material_id], references: [id], onDelete: Cascade)
+  product     Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@unique([product_id, material_id])
+  @@index([product_id])
+  @@index([material_id])
+  @@map("product_materials")
+}
+
+model ProductVariant {
+  id             Int      @id @default(autoincrement())
+  product_id     Int
+  name           String
+  value          String?
+  price_modifier Decimal? @db.Decimal(10, 2)
+  sku            String?  @unique
+  stock_quantity Int?     @default(0)
+  is_active      Boolean  @default(true)
+  created_at     DateTime @default(now())
+  updated_at     DateTime @updatedAt
+  product        Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@index([product_id])
+  @@index([sku])
+  @@map("product_variants")
+}
+
+model ProductAttribute {
+  id         Int      @id @default(autoincrement())
+  product_id Int
+  name       String
+  value      String
+  order      Int      @default(0)
+  created_at DateTime @default(now())
+  product    Product  @relation(fields: [product_id], references: [id], onDelete: Cascade)
+
+  @@index([product_id])
+  @@map("product_attributes")
+}
+
+model RelatedProduct {
+  id                 Int     @id @default(autoincrement())
+  product_id         Int
+  related_product_id Int
+  product            Product @relation("ProductRelated", fields: [product_id], references: [id], onDelete: Cascade)
+  related_product    Product @relation("ProductRelatedTo", fields: [related_product_id], references: [id], onDelete: Cascade)
+
+  @@unique([product_id, related_product_id])
+  @@index([product_id])
+  @@index([related_product_id])
+  @@map("related_products")
+}
+
+model Tag {
+  id         Int          @id @default(autoincrement())
+  name       String       @unique
+  slug       String       @unique
+  created_at DateTime     @default(now())
+  products   ProductTag[]
+
+  @@index([slug])
+  @@map("tags")
+}
+
+model ProductTag {
+  id         Int     @id @default(autoincrement())
+  product_id Int
+  tag_id     Int
+  product    Product @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  tag        Tag     @relation(fields: [tag_id], references: [id], onDelete: Cascade)
+
+  @@unique([product_id, tag_id])
+  @@index([product_id])
+  @@index([tag_id])
+  @@map("product_tags")
+}
+
+enum OrderStatus {
+  PENDING_CONFIRMATION
+  CONFIRMED
+  PAID
+  CANCELLED
+
+  @@map("order_status")
+}
+
+enum PaymentMethod {
+  ONLINE
+  OFFLINE
+
+  @@map("payment_method")
 }

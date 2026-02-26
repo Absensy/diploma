@@ -1,9 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import { Box, Container, Typography, Stack } from '@mui/material';
+import { Box, Typography, Stack, Button, Menu, MenuItem, Avatar, Divider, IconButton, Badge } from '@mui/material';
+import { Logout, Login, Person, AdminPanelSettings, ShoppingCart } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
-import { ButtonHeader, HeaderMenuButton, TopHeaderBox } from './Header.Styles';
+import { ButtonHeader, HeaderMenuButton } from './Header.Styles';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import GpsIcon from '@/icons/GPS';
 import TelIcon from '@/icons/Tel';
@@ -14,73 +16,88 @@ import ClocksIcon from '@/icons/Clocks';
 import Link from 'next/link';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useAboutCompanyContent } from '@/hooks/useContent';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
-import { Skeleton } from '../Skeleton/Skeleton';
+import CartDrawer from '../Cart/CartDrawer';
+
+// Default values to ensure consistent rendering between server and client
+const DEFAULT_ADVANTAGES = [
+  'Качество материалов',
+  'Индивидуальный подход',
+  'Гарантия и надёжность'
+];
+
+const DEFAULT_WORKING_HOURS = 'Пн-Пт: 9:00 - 18:00, Сб-Вс: 10:00 - 16:00';
 
 const Header = () => {
-  const { contactInfo, loading } = useContactContext();
+  const { contactInfo } = useContactContext();
   const { data: aboutData } = useAboutCompanyContent();
+  const { user, authenticated, logout, loading } = useAuth();
+  const { totalItems } = useCart();
+  const router = useRouter();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [cartOpen, setCartOpen] = React.useState(false);
+  const open = Boolean(anchorEl);
 
-  if (loading) {
-    return (
-      <Box>
-        {/* Верхняя часть Header - скелетон */}
-        <Box sx={{ padding: { xs: '29px 4%', md: '29px 5%' }, display: { xs: 'none', md: 'block' } }}>
-          <Box display="flex" justifyContent="space-between" alignItems="center" gap="20px">
-            <Box display="flex" alignItems="center" gap="20px">
-              <Skeleton width="120px" height="40px" />
-              <Box>
-                <Box sx={{ marginBottom: '8px' }}>
-                  <Skeleton width="200px" height="20px" />
-                </Box>
-                <Box sx={{ marginBottom: '8px' }}>
-                  <Skeleton width="150px" height="20px" />
-                </Box>
-                <Skeleton width="180px" height="20px" />
-              </Box>
-            </Box>
-            <Box>
-              <Skeleton width="200px" height="60px" />
-            </Box>
-          </Box>
-        </Box>
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
 
-        {/* Разделитель */}
-        <Box sx={{ borderTop: '1px solid #E5E7EB', backgroundColor: '#F8F9FA', height: '1px' }} />
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
 
-        {/* Нижняя часть Header - скелетон */}
-        <Box
-          sx={{
-            position: 'sticky',
-            top: 0,
-            zIndex: 1300,
-            backgroundColor: 'white',
-            boxShadow: '0 4px 6px 0 rgba(0, 0, 0, 0.08)',
-            padding: { xs: '16px 4%', md: '10px 5%' },
-            width: '100%',
-            display: 'block',
-            contain: 'layout',
-            isolation: 'isolate'
-          }}
-        >
-          <Box display="flex" alignItems="center" justifyContent="space-between">
-            <Box display="flex" alignItems="center" gap="10px">
-              <Skeleton width="40px" height="40px" />
-              <Skeleton width="150px" height="24px" />
-            </Box>
-            <Box display="flex" alignItems="center" gap="20px">
-              <Skeleton width="200px" height="20px" />
-            </Box>
-          </Box>
-        </Box>
-      </Box>
-    );
-  }
+  const handleLogout = async () => {
+    handleMenuClose();
+    await logout();
+    router.push('/');
+  };
+
+  const handleLogin = () => {
+    router.push('/auth');
+  };
+
+  const handleProfile = () => {
+    handleMenuClose();
+    router.push('/profile');
+  };
+
+  const handleAdminPanel = () => {
+    handleMenuClose();
+    router.push('/admin/dashboard');
+  };
+
+  // Use fallback values to ensure consistent rendering between server and client
+  // Always use the same structure regardless of loading state
+  const address = contactInfo?.address || 'пр. Янки Купалы 22а, цокольный этаж';
+  const phone = contactInfo?.phone || '+375 (29) 708-21-11';
+  const instagram = contactInfo?.instagram || 'granit.grodno';
+  
+  // Ensure working hours always have the same format
+  // Normalize the format to prevent hydration mismatches
+  const workingHoursString = contactInfo?.working_hours || DEFAULT_WORKING_HOURS;
+  const normalizedWorkingHours = workingHoursString.replace(/\s*,\s*/g, ', '); // Normalize comma spacing
+  const workingHoursArray = normalizedWorkingHours.includes(', ') 
+    ? normalizedWorkingHours.split(', ')
+    : [normalizedWorkingHours];
+  
+  // Ensure advantages always have the same structure and length
+  const advantages = Array.isArray(aboutData?.advantages) && aboutData.advantages.length > 0
+    ? aboutData.advantages.slice(0, 3) // Always limit to 3 items
+    : DEFAULT_ADVANTAGES;
 
   return (
     <Box>
       {/* Верхняя часть Header */}
-      <TopHeaderBox>
+      <Box
+        sx={{
+          background: (theme: any) => theme.palette.background.default,
+          borderBottom: (theme: any) => `1px solid ${theme.palette.secondary.main}`,
+          padding: '29px 5%',
+          display: { xs: 'none', md: 'block' },
+        }}
+      >
         <Stack direction="row" justifyContent="space-between" flexWrap="wrap" gap="20px">
             <Stack direction="row" alignItems="center">
               <Link href="/"><LogoGranitPrimary1Icon /></Link>
@@ -88,19 +105,19 @@ const Header = () => {
                 <Stack direction="row" spacing={1} alignItems="center">
                   <GpsIcon />
                   <Typography variant="body2" color="text.primary" fontWeight="500">
-                    {contactInfo?.address || 'пр. Янки Купалы 22а, цокольный этаж'}
+                    {address}
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <TelIcon />
                   <Typography variant="body2" color="text.primary" fontWeight="500">
-                    {contactInfo?.phone || '+375 (29) 708-21-11'}
+                    {phone}
                   </Typography>
                 </Stack>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <InstIcon />
                   <Typography variant="body2" color="text.primary" fontWeight="500">
-                    {contactInfo?.instagram || 'granit.grodno'}
+                    {instagram}
                   </Typography>
                 </Stack>
               </Stack>
@@ -112,24 +129,17 @@ const Header = () => {
               </Box>
               <Stack textAlign="left">
                 <Typography variant="subtitle2" fontWeight="600" fontSize="18px" color="text.primary" paddingBottom="4px">Режим работы</Typography>
-                {contactInfo?.working_hours ? (
-                  contactInfo.working_hours.split(', ').map((hours: string, index: number) => (
-                    <Typography key={index} variant="body2" color="text.secondary">
-                      {hours}
-                    </Typography>
-                  ))
-                ) : (
-                  <>
-                    <Typography variant="body2" color="text.secondary">Пн-Пт: 9:00 - 18:00</Typography>
-                    <Typography variant="body2" color="text.secondary">Сб-Вс: 10:00 - 16:00</Typography>
-                  </>
-                )}
+                {workingHoursArray.map((hours: string, index: number) => (
+                  <Typography key={index} variant="body2" color="text.secondary">
+                    {hours}
+                  </Typography>
+                ))}
               </Stack>
             </Stack>
 
             <Box bgcolor="#9a9da4" borderRadius="21px">
               <Stack spacing={1} alignItems="flex-start" padding="10px 24px">
-                {aboutData.advantages.slice(0, 3).map((advantage, index) => (
+                {advantages.slice(0, 3).map((advantage: string, index: number) => (
                   <Stack key={index} direction="row" spacing={1} alignItems="center">
                     <GreenCheckIcon />
                     <Typography variant="body2" color="#FFFFFF">{advantage}</Typography>
@@ -138,7 +148,7 @@ const Header = () => {
               </Stack>
             </Box>
         </Stack>
-      </TopHeaderBox>
+      </Box>
 
       {/* Разделитель */}
       <Box sx={{
@@ -174,7 +184,11 @@ const Header = () => {
           </Box>
 
           {/* Центральная часть: Меню */}
-          <Stack direction="row" gap={{ md: '15px', lg: '30px' }}>
+          <Stack 
+            direction="row" 
+            gap={{ md: '15px', lg: '30px' }}
+            sx={{ display: { xs: 'none', md: 'flex' } }}
+          >
             <Link href="/catalog" style={{ textDecoration: 'none' }}>
               <HeaderMenuButton variant="text" color="inherit">Каталог</HeaderMenuButton>
             </Link>
@@ -190,12 +204,117 @@ const Header = () => {
           </Stack>
 
           {/* Правая часть: Кнопка и иконки */}
-          <Stack direction='row' spacing='1' alignItems='center'>
-            <ButtonHeader><CatalogButton /></ButtonHeader>
+          <Stack 
+            direction='row' 
+            spacing='1' 
+            alignItems='center'
+            sx={{ gap: { xs: '8px', md: '4px' } }}
+          >
+            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+              <ButtonHeader><CatalogButton /></ButtonHeader>
+            </Box>
+            
+            {/* Корзина */}
+            <IconButton
+              onClick={() => setCartOpen(true)}
+              size="small"
+              sx={{ 
+                ml: 1,
+                display: { xs: 'none', sm: 'flex' }
+              }}
+            >
+              <Badge badgeContent={totalItems} color="primary">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+
+            {/* Авторизация */}
+            {!loading && (
+              <>
+                {authenticated && user ? (
+                  <>
+                    <IconButton
+                      onClick={handleMenuOpen}
+                      size="small"
+                      sx={{ 
+                        ml: 1,
+                        display: { xs: 'none', sm: 'flex' }
+                      }}
+                    >
+                      <Avatar sx={{ width: 32, height: 32, bgcolor: '#333' }}>
+                        <Person sx={{ color: 'white', fontSize: 20 }} />
+                      </Avatar>
+                    </IconButton>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleMenuClose}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                    >
+                      <MenuItem disabled sx={{ opacity: 1, cursor: 'default', '&.Mui-disabled': { opacity: 1 } }}>
+                        <Box>
+                          <Typography variant="body2" fontWeight="600" sx={{ color: '#000000' }}>
+                            {user.first_name} {user.last_name}
+                          </Typography>
+                          <Typography variant="caption" sx={{ color: '#333333' }}>
+                            {user.email}
+                          </Typography>
+                        </Box>
+                      </MenuItem>
+                      <Divider />
+                      <MenuItem onClick={handleProfile}>
+                        <Person sx={{ mr: 1, fontSize: 20 }} />
+                        Мой профиль
+                      </MenuItem>
+                      {user.is_admin && (
+                        <MenuItem onClick={handleAdminPanel}>
+                          <AdminPanelSettings sx={{ mr: 1, fontSize: 20 }} />
+                          Админ-панель
+                        </MenuItem>
+                      )}
+                      <MenuItem onClick={handleLogout}>
+                        <Logout sx={{ mr: 1, fontSize: 20 }} />
+                        Выйти
+                      </MenuItem>
+                    </Menu>
+                  </>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    startIcon={<Login />}
+                    onClick={handleLogin}
+                    sx={{
+                      ml: 1,
+                      display: { xs: 'none', sm: 'flex' },
+                      textTransform: 'none',
+                      borderColor: '#333',
+                      color: '#333',
+                      '&:hover': {
+                        borderColor: '#555',
+                        backgroundColor: 'rgba(51, 51, 51, 0.04)',
+                      },
+                    }}
+                  >
+                    Войти
+                  </Button>
+                )}
+              </>
+            )}
+            
             <BurgerMenu />
           </Stack>
         </Stack>
       </Box>
+
+      {/* Cart Drawer */}
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </Box>
   );
 };

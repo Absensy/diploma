@@ -332,8 +332,10 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$mat
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Typography/Typography.js [app-ssr] (ecmascript) <export default as Typography>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Checkbox$2f$Checkbox$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Checkbox$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Checkbox/Checkbox.js [app-ssr] (ecmascript) <export default as Checkbox>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Alert$2f$Alert$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Alert$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Alert/Alert.js [app-ssr] (ecmascript) <export default as Alert>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Button/Button.js [app-ssr] (ecmascript) <export default as Button>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Search$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/Search.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$ArrowDropDown$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/ArrowDropDown.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Clear$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/Clear.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$Styles$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.Styles.ts [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FilterContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/contexts/FilterContext.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2f$Skeleton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/components/Skeleton/Skeleton.tsx [app-ssr] (ecmascript)");
@@ -347,18 +349,20 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$EmptySt
 ;
 ;
 ;
+;
 const GranitCatalogFilter = ()=>{
-    const { filterData, filters, loading, error, updateFilter, toggleCategory, toggleMaterial } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FilterContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useFilterContext"])();
+    const { filterData, filters, loading, error, updateFilter, toggleCategory, toggleMaterial, resetFilters } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$FilterContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useFilterContext"])();
     if (loading) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$Skeleton$2f$Skeleton$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FilterSkeleton"], {}, void 0, false, {
             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-            lineNumber: 14,
+            lineNumber: 15,
             columnNumber: 16
         }, ("TURBOPACK compile-time value", void 0));
     }
     if (error) {
         return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$Styles$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FilterBox"], {
             width: 320,
+            height: "70%",
             p: "24px",
             borderRadius: "8px",
             border: "0.5px solid #E5E7EB",
@@ -367,20 +371,23 @@ const GranitCatalogFilter = ()=>{
                 children: error
             }, void 0, false, {
                 fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                lineNumber: 20,
+                lineNumber: 21,
                 columnNumber: 17
             }, ("TURBOPACK compile-time value", void 0))
         }, void 0, false, {
             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-            lineNumber: 19,
+            lineNumber: 20,
             columnNumber: 13
         }, ("TURBOPACK compile-time value", void 0));
     }
     if (!filterData) {
         return null;
     }
+    // Проверяем, есть ли активные фильтры
+    const hasActiveFilters = filters.search !== '' || filters.sortBy !== 'price-asc' || filters.selectedCategories.length > 0 || filters.selectedMaterials.length > 0 || filters.priceMin !== null || filters.priceMax !== null;
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$Styles$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["FilterBox"], {
         width: 320,
+        height: "70%",
         p: "24px",
         borderRadius: "8px",
         border: "0.5px solid #E5E7EB",
@@ -399,19 +406,42 @@ const GranitCatalogFilter = ()=>{
                                 fontSize: "small"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                lineNumber: 41,
+                                lineNumber: 51,
                                 columnNumber: 33
                             }, void 0)
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 40,
+                            lineNumber: 50,
                             columnNumber: 29
                         }, void 0)
                     }
                 }, void 0, false, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 33,
+                    lineNumber: 43,
                     columnNumber: 17
+                }, ("TURBOPACK compile-time value", void 0)),
+                hasActiveFilters && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
+                    variant: "outlined",
+                    startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Clear$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                        fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
+                        lineNumber: 61,
+                        columnNumber: 36
+                    }, void 0),
+                    onClick: resetFilters,
+                    fullWidth: true,
+                    sx: {
+                        borderColor: '#d32f2f',
+                        color: '#d32f2f',
+                        '&:hover': {
+                            borderColor: '#b71c1c',
+                            backgroundColor: 'rgba(211, 47, 47, 0.04)'
+                        }
+                    },
+                    children: "Сбросить фильтры"
+                }, void 0, false, {
+                    fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
+                    lineNumber: 59,
+                    columnNumber: 21
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
                     spacing: "16px",
@@ -422,7 +452,7 @@ const GranitCatalogFilter = ()=>{
                             children: "Сортировать по"
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 49,
+                            lineNumber: 79,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControl$2f$FormControl$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControl$3e$__["FormControl"], {
@@ -436,23 +466,23 @@ const GranitCatalogFilter = ()=>{
                                         children: option.label
                                     }, option.value, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 57,
+                                        lineNumber: 87,
                                         columnNumber: 33
                                     }, ("TURBOPACK compile-time value", void 0)))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                lineNumber: 51,
+                                lineNumber: 81,
                                 columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 50,
+                            lineNumber: 80,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 48,
+                    lineNumber: 78,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -464,7 +494,7 @@ const GranitCatalogFilter = ()=>{
                             children: "Категории"
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 67,
+                            lineNumber: 97,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         filterData.categories.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$EmptyState$2f$EmptyState$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -473,7 +503,7 @@ const GranitCatalogFilter = ()=>{
                             height: 60
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 69,
+                            lineNumber: 99,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormGroup$2f$FormGroup$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FormGroup$3e$__["FormGroup"], {
                             children: filterData.categories.map((category)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControlLabel$2f$FormControlLabel$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControlLabel$3e$__["FormControlLabel"], {
@@ -483,30 +513,30 @@ const GranitCatalogFilter = ()=>{
                                         onChange: ()=>toggleCategory(category.id)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 80,
+                                        lineNumber: 110,
                                         columnNumber: 41
                                     }, void 0),
                                     label: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$Styles$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TypographyWrapStyles"], {
                                         children: category.name
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 86,
+                                        lineNumber: 116,
                                         columnNumber: 44
                                     }, void 0)
                                 }, category.id, false, {
                                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                    lineNumber: 77,
+                                    lineNumber: 107,
                                     columnNumber: 33
                                 }, ("TURBOPACK compile-time value", void 0)))
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 75,
+                            lineNumber: 105,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 66,
+                    lineNumber: 96,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -518,7 +548,7 @@ const GranitCatalogFilter = ()=>{
                             children: "Ценовой диапазон"
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 95,
+                            lineNumber: 125,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -533,7 +563,7 @@ const GranitCatalogFilter = ()=>{
                                     onChange: (e)=>updateFilter('priceMin', e.target.value ? Number(e.target.value) : null)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                    lineNumber: 97,
+                                    lineNumber: 127,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$OutlinedInput$2f$OutlinedInput$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__OutlinedInput$3e$__["OutlinedInput"], {
@@ -544,19 +574,19 @@ const GranitCatalogFilter = ()=>{
                                     onChange: (e)=>updateFilter('priceMax', e.target.value ? Number(e.target.value) : null)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                    lineNumber: 104,
+                                    lineNumber: 134,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 96,
+                            lineNumber: 126,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 94,
+                    lineNumber: 124,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -568,7 +598,7 @@ const GranitCatalogFilter = ()=>{
                             children: "Материал"
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 116,
+                            lineNumber: 146,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         filterData.materials.length === 0 ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$EmptyState$2f$EmptyState$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -577,51 +607,51 @@ const GranitCatalogFilter = ()=>{
                             height: 60
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 118,
+                            lineNumber: 148,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormGroup$2f$FormGroup$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FormGroup$3e$__["FormGroup"], {
-                            children: filterData.materials.map((material)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControlLabel$2f$FormControlLabel$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControlLabel$3e$__["FormControlLabel"], {
+                            children: filterData.materials.map((material, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControlLabel$2f$FormControlLabel$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControlLabel$3e$__["FormControlLabel"], {
                                     control: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Checkbox$2f$Checkbox$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Checkbox$3e$__["Checkbox"], {
                                         size: "small",
                                         checked: filters.selectedMaterials.includes(material),
                                         onChange: ()=>toggleMaterial(material)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 129,
+                                        lineNumber: 159,
                                         columnNumber: 41
                                     }, void 0),
                                     label: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$Styles$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["TypographyWrapStyles"], {
                                         children: material
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                        lineNumber: 135,
+                                        lineNumber: 165,
                                         columnNumber: 44
                                     }, void 0)
-                                }, material, false, {
+                                }, `material-${index}-${material}`, false, {
                                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                                    lineNumber: 126,
+                                    lineNumber: 156,
                                     columnNumber: 33
                                 }, ("TURBOPACK compile-time value", void 0)))
                         }, void 0, false, {
                             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                            lineNumber: 124,
+                            lineNumber: 154,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-                    lineNumber: 115,
+                    lineNumber: 145,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0))
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-            lineNumber: 31,
+            lineNumber: 41,
             columnNumber: 13
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/src/components/GranitCatalogFilter/GranitCatalogFilter.tsx",
-        lineNumber: 30,
+        lineNumber: 40,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
@@ -900,9 +930,15 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$ico
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Email$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/Email.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Instagram$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/Instagram.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$LocationOn$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/LocationOn.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$ShoppingCart$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/ShoppingCart.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$ContactContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/contexts/ContactContext.tsx [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useImageBackgroundColor$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/hooks/useImageBackgroundColor.ts [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$CartContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/contexts/CartContext.tsx [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-ssr] (ecmascript)");
+;
+;
+;
 ;
 ;
 ;
@@ -916,6 +952,9 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useImageBack
 ;
 const ProductModal = ({ open, onClose, product })=>{
     const { contactInfo, loading } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$ContactContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useContactContext"])();
+    const { addItem, isInCart } = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$contexts$2f$CartContext$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useCart"])();
+    const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
+    const [imageError, setImageError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const isWhiteBackground = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useImageBackgroundColor$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useImageBackgroundColor"])(product?.image || '');
     // Debug - проверяем загрузку данных
     __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useEffect(()=>{
@@ -969,7 +1008,7 @@ const ProductModal = ({ open, onClose, product })=>{
                         children: product.name
                     }, void 0, false, {
                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                        lineNumber: 78,
+                        lineNumber: 84,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$IconButton$2f$IconButton$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__IconButton$3e$__["IconButton"], {
@@ -977,18 +1016,18 @@ const ProductModal = ({ open, onClose, product })=>{
                         size: "small",
                         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Close$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 82,
+                            lineNumber: 88,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0))
                     }, void 0, false, {
                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                        lineNumber: 81,
+                        lineNumber: 87,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                lineNumber: 72,
+                lineNumber: 78,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$DialogContent$2f$DialogContent$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__DialogContent$3e$__["DialogContent"], {
@@ -1009,7 +1048,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                 justifyContent: 'center'
                             },
                             children: [
-                                isWhiteBackground === false && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                                isWhiteBackground === false && !imageError && product.image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                                     sx: {
                                         position: 'absolute',
                                         top: 0,
@@ -1035,18 +1074,19 @@ const ProductModal = ({ open, onClose, product })=>{
                                             objectFit: 'cover',
                                             filter: 'blur(25px)',
                                             transform: 'scale(1.2)'
-                                        }
+                                        },
+                                        onError: ()=>setImageError(true)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                        lineNumber: 121,
+                                        lineNumber: 127,
                                         columnNumber: 33
                                     }, ("TURBOPACK compile-time value", void 0))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 102,
+                                    lineNumber: 108,
                                     columnNumber: 29
                                 }, ("TURBOPACK compile-time value", void 0)),
-                                /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                                !imageError && product.image ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                                     sx: {
                                         position: 'absolute',
                                         top: 0,
@@ -1071,26 +1111,53 @@ const ProductModal = ({ open, onClose, product })=>{
                                             style: {
                                                 objectFit: 'contain'
                                             },
-                                            priority: true
+                                            priority: true,
+                                            onError: ()=>setImageError(true)
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 148,
-                                            columnNumber: 33
+                                            lineNumber: 156,
+                                            columnNumber: 37
                                         }, ("TURBOPACK compile-time value", void 0))
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                        lineNumber: 147,
-                                        columnNumber: 29
+                                        lineNumber: 155,
+                                        columnNumber: 33
                                     }, ("TURBOPACK compile-time value", void 0))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 134,
-                                    columnNumber: 25
+                                    lineNumber: 142,
+                                    columnNumber: 29
+                                }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                                    sx: {
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        bottom: 0,
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        zIndex: 2,
+                                        backgroundColor: '#f5f5f5'
+                                    },
+                                    children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
+                                        variant: "body2",
+                                        color: "text.secondary",
+                                        children: "Изображение недоступно"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
+                                        lineNumber: 183,
+                                        columnNumber: 33
+                                    }, ("TURBOPACK compile-time value", void 0))
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
+                                    lineNumber: 169,
+                                    columnNumber: 29
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 89,
+                            lineNumber: 95,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1099,55 +1166,100 @@ const ProductModal = ({ open, onClose, product })=>{
                                 spacing: 2,
                                 alignItems: "center",
                                 flexWrap: "wrap",
+                                justifyContent: "space-between",
                                 children: [
-                                    product.discount && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Chip$2f$Chip$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Chip$3e$__["Chip"], {
-                                        label: `-${product.discount}%`,
-                                        color: "error",
-                                        size: "small",
-                                        sx: {
-                                            fontWeight: 600
-                                        }
-                                    }, void 0, false, {
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
+                                        direction: "row",
+                                        spacing: 2,
+                                        alignItems: "center",
+                                        flexWrap: "wrap",
+                                        children: [
+                                            product.discount && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Chip$2f$Chip$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Chip$3e$__["Chip"], {
+                                                label: `-${product.discount}%`,
+                                                color: "error",
+                                                size: "small",
+                                                sx: {
+                                                    fontWeight: 600
+                                                }
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
+                                                lineNumber: 195,
+                                                columnNumber: 37
+                                            }, ("TURBOPACK compile-time value", void 0)),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
+                                                variant: "h4",
+                                                fontWeight: "700",
+                                                color: product.discount ? "error.main" : "text.primary",
+                                                children: product.discounted_price ? formatPrice(product.discounted_price) : formatPrice(product.price)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
+                                                lineNumber: 202,
+                                                columnNumber: 33
+                                            }, ("TURBOPACK compile-time value", void 0)),
+                                            product.discount && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
+                                                variant: "h6",
+                                                sx: {
+                                                    textDecoration: 'line-through',
+                                                    color: 'text.secondary'
+                                                },
+                                                children: formatPrice(product.price)
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
+                                                lineNumber: 210,
+                                                columnNumber: 37
+                                            }, ("TURBOPACK compile-time value", void 0))
+                                        ]
+                                    }, void 0, true, {
                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                        lineNumber: 165,
-                                        columnNumber: 33
-                                    }, ("TURBOPACK compile-time value", void 0)),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
-                                        variant: "h4",
-                                        fontWeight: "700",
-                                        color: product.discount ? "error.main" : "text.primary",
-                                        children: product.discounted_price ? formatPrice(product.discounted_price) : formatPrice(product.price)
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                        lineNumber: 172,
+                                        lineNumber: 193,
                                         columnNumber: 29
                                     }, ("TURBOPACK compile-time value", void 0)),
-                                    product.discount && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
-                                        variant: "h6",
-                                        sx: {
-                                            textDecoration: 'line-through',
-                                            color: 'text.secondary'
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
+                                        variant: "contained",
+                                        startIcon: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$ShoppingCart$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
+                                            fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
+                                            lineNumber: 223,
+                                            columnNumber: 44
+                                        }, void 0),
+                                        disabled: product.stock_quantity === 0,
+                                        onClick: ()=>{
+                                            if (product && product.stock_quantity !== 0) {
+                                                addItem({
+                                                    id: product.id,
+                                                    name: product.name,
+                                                    image: product.image,
+                                                    price: product.price,
+                                                    discounted_price: product.discounted_price
+                                                });
+                                                onClose();
+                                            }
                                         },
-                                        children: formatPrice(product.price)
+                                        sx: {
+                                            backgroundColor: '#333',
+                                            '&:hover': {
+                                                backgroundColor: '#555'
+                                            }
+                                        },
+                                        children: product.stock_quantity === 0 ? 'Нет в наличии' : isInCart(product.id) ? 'В корзине' : 'В корзину'
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                        lineNumber: 180,
-                                        columnNumber: 33
+                                        lineNumber: 221,
+                                        columnNumber: 29
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                lineNumber: 163,
+                                lineNumber: 192,
                                 columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 162,
+                            lineNumber: 191,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Divider$2f$Divider$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Divider$3e$__["Divider"], {}, void 0, false, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 193,
+                            lineNumber: 251,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1160,7 +1272,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: "Описание"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 197,
+                                    lineNumber: 255,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1170,13 +1282,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: product.short_description
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 200,
+                                    lineNumber: 258,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 196,
+                            lineNumber: 254,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1189,7 +1301,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: "Подробное описание"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 207,
+                                    lineNumber: 265,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1199,13 +1311,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: product.full_description
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 210,
+                                    lineNumber: 268,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 206,
+                            lineNumber: 264,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1218,7 +1330,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: "Материалы"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 217,
+                                    lineNumber: 275,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1227,13 +1339,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: product.materials
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 220,
+                                    lineNumber: 278,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 216,
+                            lineNumber: 274,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1246,7 +1358,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: "Сроки изготовления"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 227,
+                                    lineNumber: 285,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1255,18 +1367,18 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: product.production_time
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 230,
+                                    lineNumber: 288,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 226,
+                            lineNumber: 284,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Divider$2f$Divider$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Divider$3e$__["Divider"], {}, void 0, false, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 235,
+                            lineNumber: 293,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Card$2f$Card$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Card$3e$__["Card"], {
@@ -1287,7 +1399,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                             children: "Для заказа или подробностей свяжитесь с нами"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 245,
+                                            lineNumber: 303,
                                             columnNumber: 33
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1299,7 +1411,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                             children: "Загрузка контактной информации..."
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 250,
+                                            lineNumber: 308,
                                             columnNumber: 37
                                         }, ("TURBOPACK compile-time value", void 0)) : contactInfo ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
                                             spacing: 1.5,
@@ -1313,7 +1425,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             fontSize: "small"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 256,
+                                                            lineNumber: 314,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1321,13 +1433,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             children: contactInfo.phone
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 257,
+                                                            lineNumber: 315,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                    lineNumber: 255,
+                                                    lineNumber: 313,
                                                     columnNumber: 41
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -1339,7 +1451,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             fontSize: "small"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 263,
+                                                            lineNumber: 321,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1347,13 +1459,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             children: contactInfo.email
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 264,
+                                                            lineNumber: 322,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                    lineNumber: 262,
+                                                    lineNumber: 320,
                                                     columnNumber: 41
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -1365,7 +1477,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             fontSize: "small"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 270,
+                                                            lineNumber: 328,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1373,13 +1485,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             children: contactInfo.address
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 271,
+                                                            lineNumber: 329,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                    lineNumber: 269,
+                                                    lineNumber: 327,
                                                     columnNumber: 41
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1390,13 +1502,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                                     children: contactInfo.working_hours
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                    lineNumber: 276,
+                                                    lineNumber: 334,
                                                     columnNumber: 41
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 254,
+                                            lineNumber: 312,
                                             columnNumber: 37
                                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
                                             variant: "body2",
@@ -1407,7 +1519,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                             children: "Контактная информация недоступна"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 281,
+                                            lineNumber: 339,
                                             columnNumber: 37
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1434,7 +1546,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 298,
+                                                            lineNumber: 356,
                                                             columnNumber: 56
                                                         }, void 0),
                                                         component: "a",
@@ -1466,7 +1578,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                         children: "Позвонить"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                        lineNumber: 295,
+                                                        lineNumber: 353,
                                                         columnNumber: 41
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
@@ -1478,7 +1590,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 333,
+                                                            lineNumber: 391,
                                                             columnNumber: 56
                                                         }, void 0),
                                                         component: "a",
@@ -1510,7 +1622,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                         children: "Написать"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                        lineNumber: 330,
+                                                        lineNumber: 388,
                                                         columnNumber: 41
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     contactInfo?.instagram && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
@@ -1522,7 +1634,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 369,
+                                                            lineNumber: 427,
                                                             columnNumber: 60
                                                         }, void 0),
                                                         component: "a",
@@ -1549,51 +1661,51 @@ const ProductModal = ({ open, onClose, product })=>{
                                                         children: "Instagram"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                        lineNumber: 366,
+                                                        lineNumber: 424,
                                                         columnNumber: 45
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                lineNumber: 287,
+                                                lineNumber: 345,
                                                 columnNumber: 37
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 286,
+                                            lineNumber: 344,
                                             columnNumber: 33
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 244,
+                                    lineNumber: 302,
                                     columnNumber: 29
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                lineNumber: 243,
+                                lineNumber: 301,
                                 columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 238,
+                            lineNumber: 296,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                    lineNumber: 87,
+                    lineNumber: 93,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0))
             }, void 0, false, {
                 fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                lineNumber: 86,
+                lineNumber: 92,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0))
         ]
     }, void 0, true, {
         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-        lineNumber: 60,
+        lineNumber: 66,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
@@ -1607,16 +1719,20 @@ __turbopack_context__.s([
     ()=>__TURBOPACK__default__export__
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react-jsx-dev-runtime.js [app-ssr] (ecmascript)");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/server/route-modules/app-page/vendored/ssr/react.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Modal$2f$Modal$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Modal$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Modal/Modal.js [app-ssr] (ecmascript) <export default as Modal>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Box/Box.js [app-ssr] (ecmascript) <export default as Box>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$IconButton$2f$IconButton$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__IconButton$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/IconButton/IconButton.js [app-ssr] (ecmascript) <export default as IconButton>");
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__ = __turbopack_context__.i("[project]/node_modules/@mui/material/esm/Typography/Typography.js [app-ssr] (ecmascript) <export default as Typography>");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Close$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/@mui/icons-material/esm/Close.js [app-ssr] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$image$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/image.js [app-ssr] (ecmascript)");
 ;
 ;
 ;
 ;
+;
 const ImageViewerModal = ({ open, onClose, imageSrc, imageAlt, useWhiteBackground = false })=>{
+    const [imageError, setImageError] = __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"].useState(false);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Modal$2f$Modal$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Modal$3e$__["Modal"], {
         open: open,
         onClose: onClose,
@@ -1653,12 +1769,12 @@ const ImageViewerModal = ({ open, onClose, imageSrc, imageAlt, useWhiteBackgroun
                     },
                     children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$icons$2d$material$2f$esm$2f$Close$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                         fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-                        lineNumber: 52,
+                        lineNumber: 53,
                         columnNumber: 21
                     }, ("TURBOPACK compile-time value", void 0))
                 }, void 0, false, {
                     fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-                    lineNumber: 38,
+                    lineNumber: 39,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0)),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1674,7 +1790,7 @@ const ImageViewerModal = ({ open, onClose, imageSrc, imageAlt, useWhiteBackgroun
                         justifyContent: 'center'
                     },
                     children: [
-                        !useWhiteBackground && /* Размытый фон для примеров работ */ /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                        !useWhiteBackground && !imageError && imageSrc && /* Размытый фон для примеров работ */ /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                             sx: {
                                 position: 'absolute',
                                 top: 0,
@@ -1700,18 +1816,19 @@ const ImageViewerModal = ({ open, onClose, imageSrc, imageAlt, useWhiteBackgroun
                                     objectFit: 'cover',
                                     filter: 'blur(30px)',
                                     transform: 'scale(1.2)'
-                                }
+                                },
+                                onError: ()=>setImageError(true)
                             }, void 0, false, {
                                 fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-                                lineNumber: 88,
+                                lineNumber: 89,
                                 columnNumber: 29
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-                            lineNumber: 69,
+                            lineNumber: 70,
                             columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0)),
-                        /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                        !imageError && imageSrc ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                             sx: {
                                 position: 'absolute',
                                 top: 0,
@@ -1736,37 +1853,73 @@ const ImageViewerModal = ({ open, onClose, imageSrc, imageAlt, useWhiteBackgroun
                                     style: {
                                         objectFit: 'contain'
                                     },
-                                    quality: 100
+                                    quality: 100,
+                                    onError: ()=>setImageError(true)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-                                    lineNumber: 115,
-                                    columnNumber: 29
+                                    lineNumber: 118,
+                                    columnNumber: 33
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-                                lineNumber: 114,
-                                columnNumber: 25
+                                lineNumber: 117,
+                                columnNumber: 29
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-                            lineNumber: 101,
-                            columnNumber: 21
+                            lineNumber: 104,
+                            columnNumber: 25
+                        }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                            sx: {
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                zIndex: 2,
+                                backgroundColor: '#f5f5f5'
+                            },
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                                sx: {
+                                    textAlign: 'center',
+                                    color: 'text.secondary'
+                                },
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
+                                    variant: "body1",
+                                    children: "Изображение недоступно"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
+                                    lineNumber: 146,
+                                    columnNumber: 33
+                                }, ("TURBOPACK compile-time value", void 0))
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
+                                lineNumber: 145,
+                                columnNumber: 29
+                            }, ("TURBOPACK compile-time value", void 0))
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
+                            lineNumber: 131,
+                            columnNumber: 25
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-                    lineNumber: 54,
+                    lineNumber: 55,
                     columnNumber: 17
                 }, ("TURBOPACK compile-time value", void 0))
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-            lineNumber: 27,
+            lineNumber: 28,
             columnNumber: 13
         }, ("TURBOPACK compile-time value", void 0))
     }, void 0, false, {
         fileName: "[project]/src/components/ImageViewerModal/ImageViewerModal.tsx",
-        lineNumber: 16,
+        lineNumber: 17,
         columnNumber: 9
     }, ("TURBOPACK compile-time value", void 0));
 };
@@ -1806,6 +1959,7 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
     const [modalOpen, setModalOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [imageViewerOpen, setImageViewerOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [isHovered, setIsHovered] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [imageError, setImageError] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const isWhiteBackground = (0, __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$hooks$2f$useImageBackgroundColor$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useImageBackgroundColor"])(image);
     const handleDetailsClick = ()=>{
         setModalOpen(true);
@@ -1846,7 +2000,7 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                             backgroundColor: isWhiteBackground === false ? 'transparent' : 'white'
                         },
                         children: [
-                            isWhiteBackground === false && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                            isWhiteBackground === false && !imageError && image && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                                 position: "absolute",
                                 top: 0,
                                 left: 0,
@@ -1873,18 +2027,19 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                                         objectFit: 'cover',
                                         filter: 'blur(25px)',
                                         transform: 'scale(1.2)'
-                                    }
+                                    },
+                                    onError: ()=>setImageError(true)
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                    lineNumber: 82,
+                                    lineNumber: 83,
                                     columnNumber: 29
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 63,
+                                lineNumber: 64,
                                 columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0)),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                            !imageError && image ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                                 position: "absolute",
                                 top: 0,
                                 left: 0,
@@ -1907,21 +2062,48 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                                         sizes: "100%",
                                         style: {
                                             objectFit: 'contain'
-                                        }
+                                        },
+                                        onError: ()=>setImageError(true)
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                        lineNumber: 104,
-                                        columnNumber: 29
+                                        lineNumber: 107,
+                                        columnNumber: 33
                                     }, ("TURBOPACK compile-time value", void 0))
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                    lineNumber: 103,
-                                    columnNumber: 25
+                                    lineNumber: 106,
+                                    columnNumber: 29
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 92,
-                                columnNumber: 21
+                                lineNumber: 95,
+                                columnNumber: 25
+                            }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                sx: {
+                                    zIndex: 2,
+                                    backgroundColor: '#f5f5f5'
+                                },
+                                children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
+                                    variant: "body2",
+                                    color: "text.secondary",
+                                    children: "Изображение недоступно"
+                                }, void 0, false, {
+                                    fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
+                                    lineNumber: 129,
+                                    columnNumber: 29
+                                }, ("TURBOPACK compile-time value", void 0))
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
+                                lineNumber: 118,
+                                columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                                 position: "absolute",
@@ -1945,12 +2127,12 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                                     }
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                    lineNumber: 130,
+                                    lineNumber: 151,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 114,
+                                lineNumber: 135,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             discount ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogCard$2f$GranitCatalogCard$2e$Styles$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["DiscountBadge"], {
@@ -1961,27 +2143,27 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 133,
+                                lineNumber: 154,
                                 columnNumber: 33
                             }, ("TURBOPACK compile-time value", void 0)) : null,
                             is_popular && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogCard$2f$GranitCatalogCard$2e$Styles$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PopularBadge"], {
                                 children: "Популярное"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 134,
+                                lineNumber: 155,
                                 columnNumber: 36
                             }, ("TURBOPACK compile-time value", void 0)),
                             is_new && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(DynamicNewBadge, {
                                 children: "Новинка"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 135,
+                                lineNumber: 156,
                                 columnNumber: 32
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                        lineNumber: 46,
+                        lineNumber: 47,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0)),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -2000,7 +2182,7 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                                 children: name
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 138,
+                                lineNumber: 159,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -2010,7 +2192,7 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                                 children: subtext
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 141,
+                                lineNumber: 162,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogCard$2f$GranitCatalogCard$2e$Styles$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["PriceContainer"], {
@@ -2022,7 +2204,7 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                        lineNumber: 145,
+                                        lineNumber: 166,
                                         columnNumber: 38
                                     }, ("TURBOPACK compile-time value", void 0)),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -2035,13 +2217,13 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                        lineNumber: 146,
+                                        lineNumber: 167,
                                         columnNumber: 25
                                     }, ("TURBOPACK compile-time value", void 0))
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 144,
+                                lineNumber: 165,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0)),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogCard$2f$GranitCatalogCard$2e$Styles$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["CardActions"], {
@@ -2049,24 +2231,24 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                                     onClick: handleDetailsClick
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                    lineNumber: 151,
+                                    lineNumber: 172,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                                lineNumber: 150,
+                                lineNumber: 171,
                                 columnNumber: 21
                             }, ("TURBOPACK compile-time value", void 0))
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                        lineNumber: 137,
+                        lineNumber: 158,
                         columnNumber: 17
                     }, ("TURBOPACK compile-time value", void 0))
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                lineNumber: 45,
+                lineNumber: 46,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0)),
             product && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ProductModal$2f$ProductModal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -2075,7 +2257,7 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                 product: product
             }, void 0, false, {
                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                lineNumber: 157,
+                lineNumber: 178,
                 columnNumber: 17
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$ImageViewerModal$2f$ImageViewerModal$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
@@ -2086,7 +2268,7 @@ const GranitCatalogCard = ({ name, price, oldPrice, image, discount, subtext, is
                 useWhiteBackground: isWhiteBackground !== false
             }, void 0, false, {
                 fileName: "[project]/src/components/GranitCatalogCard/GranitCatalogCard.tsx",
-                lineNumber: 164,
+                lineNumber: 185,
                 columnNumber: 13
             }, ("TURBOPACK compile-time value", void 0))
         ]
@@ -2760,7 +2942,7 @@ const MobileFilterDrawer = ()=>{
                                             lineNumber: 306,
                                             columnNumber: 37
                                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormGroup$2f$FormGroup$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FormGroup$3e$__["FormGroup"], {
-                                            children: filterData.materials.map((material)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControlLabel$2f$FormControlLabel$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControlLabel$3e$__["FormControlLabel"], {
+                                            children: filterData.materials.map((material, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$FormControlLabel$2f$FormControlLabel$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__FormControlLabel$3e$__["FormControlLabel"], {
                                                     control: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Checkbox$2f$Checkbox$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Checkbox$3e$__["Checkbox"], {
                                                         checked: filters.selectedMaterials.includes(material),
                                                         onChange: ()=>toggleMaterial(material)
@@ -2778,7 +2960,7 @@ const MobileFilterDrawer = ()=>{
                                                         lineNumber: 323,
                                                         columnNumber: 53
                                                     }, void 0)
-                                                }, material, false, {
+                                                }, `material-${index}-${material}`, false, {
                                                     fileName: "[project]/src/components/MobileFilterDrawer/MobileFilterDrawer.tsx",
                                                     lineNumber: 314,
                                                     columnNumber: 45
@@ -3464,7 +3646,10 @@ const GranitCatalogHeader = ()=>{
                 columnNumber: 16
             }, ("TURBOPACK compile-time value", void 0)),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
-                fontSize: "16px",
+                fontSize: {
+                    xs: "14px",
+                    md: "16px"
+                },
                 color: "#9A9DA4",
                 maxWidth: "550px",
                 children: "Откройте для себя нашу коллекцию почтенных и элегантных мемориальных памятников."
@@ -3522,28 +3707,38 @@ function CatalogContent() {
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                     display: "flex",
                     minHeight: "calc(100vh - 200px)",
+                    flexDirection: {
+                        xs: 'column',
+                        md: 'row'
+                    },
                     children: [
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
+                            sx: {
+                                display: {
+                                    xs: 'none',
+                                    md: 'block'
+                                }
+                            },
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogFilter$2f$GranitCatalogFilter$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                 fileName: "[project]/src/app/catalog/page.tsx",
-                                lineNumber: 21,
+                                lineNumber: 25,
                                 columnNumber: 25
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/catalog/page.tsx",
-                            lineNumber: 20,
+                            lineNumber: 24,
                             columnNumber: 21
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
                             flexGrow: 1,
                             children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$src$2f$components$2f$GranitCatalogCards$2f$GranitCatalogCards$2e$tsx__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {}, void 0, false, {
                                 fileName: "[project]/src/app/catalog/page.tsx",
-                                lineNumber: 24,
+                                lineNumber: 28,
                                 columnNumber: 25
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/app/catalog/page.tsx",
-                            lineNumber: 23,
+                            lineNumber: 27,
                             columnNumber: 21
                         }, this)
                     ]
@@ -3570,17 +3765,17 @@ function Catalog() {
             children: "Loading..."
         }, void 0, false, {
             fileName: "[project]/src/app/catalog/page.tsx",
-            lineNumber: 34,
+            lineNumber: 38,
             columnNumber: 29
         }, void 0),
         children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(CatalogContent, {}, void 0, false, {
             fileName: "[project]/src/app/catalog/page.tsx",
-            lineNumber: 35,
+            lineNumber: 39,
             columnNumber: 13
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/catalog/page.tsx",
-        lineNumber: 34,
+        lineNumber: 38,
         columnNumber: 9
     }, this);
 }

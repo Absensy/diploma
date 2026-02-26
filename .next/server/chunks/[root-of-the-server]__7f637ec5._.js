@@ -66,7 +66,13 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/@prisma/client [external] (@prisma/client, cjs)");
 ;
 const globalForPrisma = globalThis;
-const prisma = globalForPrisma.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]();
+const prisma = globalForPrisma.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]({
+    log: ("TURBOPACK compile-time truthy", 1) ? [
+        'error',
+        'warn'
+    ] : "TURBOPACK unreachable",
+    errorFormat: 'pretty'
+});
 if ("TURBOPACK compile-time truthy", 1) globalForPrisma.prisma = prisma;
 }),
 "[project]/src/app/api/content/our-services/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
@@ -95,20 +101,38 @@ async function GET() {
                 ourServices: [
                     {
                         id: 1,
-                        name: 'Изготовление памятников',
-                        subtext: 'Индивидуальные памятники из гранита и мрамора',
+                        name: 'Памятники и надгробия',
+                        subtext: 'Изготовление памятников, надгробий и мемориальных комплексов из гранита и мрамора',
                         image: '/images/tools.svg'
                     },
                     {
                         id: 2,
-                        name: 'Гравировка',
-                        subtext: 'Нанесение текста и изображений на памятники',
+                        name: 'Венки и цветы',
+                        subtext: 'Красивые венки из искусственных и живых цветов для украшения могил',
                         image: '/images/pen.svg'
                     },
                     {
                         id: 3,
-                        name: 'Установка',
-                        subtext: 'Профессиональная установка памятников на кладбище',
+                        name: 'Светильники и освещение',
+                        subtext: 'Настенные и напольные светильники из гранита с LED подсветкой',
+                        image: '/images/hammer.svg'
+                    },
+                    {
+                        id: 4,
+                        name: 'Ограды и ограждения',
+                        subtext: 'Прочные ограды из гранита для благоустройства могильных участков',
+                        image: '/images/tools.svg'
+                    },
+                    {
+                        id: 5,
+                        name: 'Столы и скамейки',
+                        subtext: 'Мемориальные столы и скамейки из гранита для комфортного поминовения',
+                        image: '/images/pen.svg'
+                    },
+                    {
+                        id: 6,
+                        name: 'Гравировка и установка',
+                        subtext: 'Нанесение текста, изображений и профессиональная установка всех изделий',
                         image: '/images/hammer.svg'
                     }
                 ]

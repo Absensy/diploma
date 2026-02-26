@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Dialog,
     DialogTitle,
@@ -18,10 +18,13 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Image from 'next/image';
 import { Product } from '@/lib/db';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useImageBackgroundColor } from '@/hooks/useImageBackgroundColor';
+import { useCart } from '@/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
 interface ProductModalProps {
     open: boolean;
@@ -31,6 +34,9 @@ interface ProductModalProps {
 
 const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) => {
     const { contactInfo, loading } = useContactContext();
+    const { addItem, isInCart } = useCart();
+    const router = useRouter();
+    const [imageError, setImageError] = useState(false);
     const isWhiteBackground = useImageBackgroundColor(product?.image || '');
 
     // Debug - проверяем загрузку данных
@@ -98,7 +104,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                         justifyContent: 'center'
                     }}>
                         {/* Размытый фон - показывается только если фон НЕ белый */}
-                        {isWhiteBackground === false && (
+                        {isWhiteBackground === false && !imageError && product.image && (
                             <Box
                                 sx={{
                                     position: 'absolute',
@@ -127,66 +133,118 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                         filter: 'blur(25px)',
                                         transform: 'scale(1.2)'
                                     }}
+                                    onError={() => setImageError(true)}
                                 />
                             </Box>
                         )}
                         {/* Основное изображение */}
-                        <Box
-                            sx={{
-                                position: 'absolute',
-                                top: 0,
-                                left: 0,
-                                right: 0,
-                                bottom: 0,
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                zIndex: 2,
-                            }}
-                        >
-                            <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
-                                <Image
-                                    src={product.image}
-                                    alt={product.name}
-                                    fill
-                                    style={{
-                                        objectFit: 'contain',
-                                    }}
-                                    priority
-                                />
+                        {!imageError && product.image ? (
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    zIndex: 2,
+                                }}
+                            >
+                                <Box sx={{ position: 'relative', width: '100%', height: '100%' }}>
+                                    <Image
+                                        src={product.image}
+                                        alt={product.name}
+                                        fill
+                                        style={{
+                                            objectFit: 'contain',
+                                        }}
+                                        priority
+                                        onError={() => setImageError(true)}
+                                    />
+                                </Box>
                             </Box>
-                        </Box>
+                        ) : (
+                            <Box
+                                sx={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    right: 0,
+                                    bottom: 0,
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    zIndex: 2,
+                                    backgroundColor: '#f5f5f5'
+                                }}
+                            >
+                                <Typography variant="body2" color="text.secondary">
+                                    Изображение недоступно
+                                </Typography>
+                            </Box>
+                        )}
                     </Box>
 
                     {/* Цена и скидка */}
                     <Box>
-                        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
-                            {product.discount && (
-                                <Chip
-                                    label={`-${product.discount}%`}
-                                    color="error"
-                                    size="small"
-                                    sx={{ fontWeight: 600 }}
-                                />
-                            )}
-                            <Typography
-                                variant="h4"
-                                fontWeight="700"
-                                color={product.discount ? "error.main" : "text.primary"}
-                            >
-                                {product.discounted_price ? formatPrice(product.discounted_price) : formatPrice(product.price)}
-                            </Typography>
-                            {product.discount && (
+                        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" justifyContent="space-between">
+                            <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
+                                {product.discount && (
+                                    <Chip
+                                        label={`-${product.discount}%`}
+                                        color="error"
+                                        size="small"
+                                        sx={{ fontWeight: 600 }}
+                                    />
+                                )}
                                 <Typography
-                                    variant="h6"
-                                    sx={{
-                                        textDecoration: 'line-through',
-                                        color: 'text.secondary'
-                                    }}
+                                    variant="h4"
+                                    fontWeight="700"
+                                    color={product.discount ? "error.main" : "text.primary"}
                                 >
-                                    {formatPrice(product.price)}
+                                    {product.discounted_price ? formatPrice(product.discounted_price) : formatPrice(product.price)}
                                 </Typography>
-                            )}
+                                {product.discount && (
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            textDecoration: 'line-through',
+                                            color: 'text.secondary'
+                                        }}
+                                    >
+                                        {formatPrice(product.price)}
+                                    </Typography>
+                                )}
+                            </Stack>
+                            <Button
+                                variant="contained"
+                                startIcon={<ShoppingCartIcon />}
+                                disabled={product.stock_quantity === 0}
+                                onClick={() => {
+                                    if (product && product.stock_quantity !== 0) {
+                                        addItem({
+                                            id: product.id,
+                                            name: product.name,
+                                            image: product.image,
+                                            price: product.price,
+                                            discounted_price: product.discounted_price,
+                                        });
+                                        onClose();
+                                    }
+                                }}
+                                sx={{
+                                    backgroundColor: '#333',
+                                    '&:hover': { backgroundColor: '#555' },
+                                }}
+                            >
+                                {product.stock_quantity === 0
+                                    ? 'Нет в наличии'
+                                    : isInCart(product.id)
+                                      ? 'В корзине'
+                                      : 'В корзину'}
+                            </Button>
                         </Stack>
                     </Box>
 

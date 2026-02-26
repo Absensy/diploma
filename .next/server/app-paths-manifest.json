@@ -1,10 +1,17 @@
 {
-  "/api/categories/route": "app/api/categories/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/api/auth/user-verify/route": "app/api/auth/user-verify/route.js",
   "/api/contact/route": "app/api/contact/route.js",
   "/api/content/about-company/route": "app/api/content/about-company/route.js",
   "/api/content/footer/route": "app/api/content/footer/route.js",
-  "/api/content/our-services/route": "app/api/content/our-services/route.js",
-  "/api/examples-work/route": "app/api/examples-work/route.js",
+  "/api/filters/route": "app/api/filters/route.js",
+  "/api/orders/route": "app/api/orders/route.js",
+  "/api/products/route": "app/api/products/route.js",
+  "/api/user/orders/route": "app/api/user/orders/route.js",
+  "/api/user/profile/route": "app/api/user/profile/route.js",
+  "/catalog/page": "app/catalog/page.js",
+  "/checkout/page": "app/checkout/page.js",
   "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/page": "app/page.js"
+  "/order/success/page": "app/order/success/page.js",
+  "/profile/page": "app/profile/page.js"
 }

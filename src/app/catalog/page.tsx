@@ -16,8 +16,12 @@ function CatalogContent() {
         <FilterProvider initialCategoryId={categoryId}>
             <Box>
                 <GranitCatalogHeader />
-                <Box display="flex" minHeight="calc(100vh - 200px)">
-                    <Box>
+                <Box 
+                    display="flex" 
+                    minHeight="calc(100vh - 200px)"
+                    flexDirection={{ xs: 'column', md: 'row' }}
+                >
+                    <Box sx={{ display: { xs: 'none', md: 'block' } }}>
                         <GranitCatalogFilter />
                     </Box>
                     <Box flexGrow={1}>

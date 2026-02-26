@@ -66,7 +66,13 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/@prisma/client [external] (@prisma/client, cjs)");
 ;
 const globalForPrisma = globalThis;
-const prisma = globalForPrisma.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]();
+const prisma = globalForPrisma.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]({
+    log: ("TURBOPACK compile-time truthy", 1) ? [
+        'error',
+        'warn'
+    ] : "TURBOPACK unreachable",
+    errorFormat: 'pretty'
+});
 if ("TURBOPACK compile-time truthy", 1) globalForPrisma.prisma = prisma;
 }),
 "[project]/src/app/api/admin/products/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
@@ -110,7 +116,12 @@ async function GET(request) {
         const products = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].product.findMany({
             where,
             include: {
-                category: true
+                category: {
+                    select: {
+                        id: true,
+                        name: true
+                    }
+                }
             },
             orderBy: {
                 created_at: 'desc'
@@ -120,7 +131,11 @@ async function GET(request) {
                 ...product,
                 is_new: Boolean(product.is_new),
                 is_popular: Boolean(product.is_popular),
-                is_active: Boolean(product.is_active)
+                is_active: Boolean(product.is_active),
+                price: Number(product.price),
+                discounted_price: product.discounted_price ? Number(product.discounted_price) : null,
+                weight: product.weight ? Number(product.weight) : null,
+                stock_quantity: product.stock_quantity ?? null
             }));
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(normalizedProducts);
     } catch (error) {
@@ -135,10 +150,13 @@ async function GET(request) {
 async function POST(request) {
     try {
         const body = await request.json();
-        const { name, short_description, full_description, materials, production_time, price, discount, discounted_price, image, category_id, is_new, is_popular, is_active } = body;
+        const { name, slug, short_description, full_description, materials, production_time, price, discount, discounted_price, image, category_id, meta_title, meta_description, meta_keywords, weight, dimensions, stock_quantity, sku, is_new, is_popular, is_active } = body;
+        // Generate slug from name if not provided
+        const productSlug = slug || name.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
         const product = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].product.create({
             data: {
                 name,
+                slug: productSlug,
                 short_description,
                 full_description,
                 materials,
@@ -148,9 +166,19 @@ async function POST(request) {
                 discounted_price: discounted_price ? parseFloat(discounted_price) : null,
                 image,
                 category_id: category_id ? parseInt(category_id) : null,
+                meta_title: meta_title || null,
+                meta_description: meta_description || null,
+                meta_keywords: meta_keywords || null,
+                weight: weight ? parseFloat(weight) : null,
+                dimensions: dimensions || null,
+                stock_quantity: stock_quantity ? parseInt(stock_quantity) : null,
+                sku: sku || null,
                 is_new: is_new || false,
                 is_popular: is_popular || false,
                 is_active: is_active !== undefined ? is_active : true
+            },
+            include: {
+                category: true
             }
         });
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json(product, {
@@ -158,8 +186,17 @@ async function POST(request) {
         });
     } catch (error) {
         console.error('Error creating product:', error);
+        // Handle unique constraint violations
+        if (error.code === 'P2002') {
+            return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
+                error: 'Product with this slug or SKU already exists'
+            }, {
+                status: 409
+            });
+        }
         return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
-            error: 'Failed to create product'
+            error: 'Failed to create product',
+            details: error.message
         }, {
             status: 500
         });

@@ -8,11 +8,15 @@ export async function GET() {
       totalProducts,
       totalCategories,
       totalExamplesWork,
+      totalOrders,
+      totalUsers,
       recentProducts,
     ] = await Promise.all([
       prisma.product.count(),
       prisma.category.count(),
       prisma.examplesOurWork.count(),
+      prisma.order.count().catch(() => 0),
+      prisma.user.count().catch(() => 0),
       prisma.product.findMany({
         take: 5,
         orderBy: { created_at: 'desc' },
@@ -24,6 +28,8 @@ export async function GET() {
       totalProducts,
       totalCategories,
       totalExamplesWork,
+      totalOrders,
+      totalUsers,
       recentProducts,
     };
 

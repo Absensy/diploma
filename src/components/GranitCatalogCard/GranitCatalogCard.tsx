@@ -13,6 +13,7 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
     const [modalOpen, setModalOpen] = useState(false);
     const [imageViewerOpen, setImageViewerOpen] = useState(false);
     const [isHovered, setIsHovered] = useState(false);
+    const [imageError, setImageError] = useState(false);
     const isWhiteBackground = useImageBackgroundColor(image);
 
     const handleDetailsClick = () => {
@@ -59,7 +60,7 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
                     }}
                 >
                     {/* Размытый фон - показывается только если фон НЕ белый */}
-                    {isWhiteBackground === false && (
+                    {isWhiteBackground === false && !imageError && image && (
                         <Box
                             position="absolute"
                             top={0}
@@ -85,31 +86,51 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
                                 fill
                                 sizes="100%"
                                 style={{ objectFit: 'cover', filter: 'blur(25px)', transform: 'scale(1.2)' }}
+                                onError={() => setImageError(true)}
                             />
                         </Box>
                     )}
                     {/* Основное изображение */}
-                    <Box
-                        position="absolute"
-                        top={0}
-                        left={0}
-                        right={0}
-                        bottom={0}
-                        display="flex"
-                        alignItems="center"
-                        justifyContent="center"
-                        sx={{ zIndex: 2 }}
-                    >
-                        <Box position="relative" width="100%" height="100%">
-                            <Image
-                                src={image}
-                                alt={name}
-                                fill
-                                sizes="100%"
-                                style={{ objectFit: 'contain' }}
-                            />
+                    {!imageError && image ? (
+                        <Box
+                            position="absolute"
+                            top={0}
+                            left={0}
+                            right={0}
+                            bottom={0}
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            sx={{ zIndex: 2 }}
+                        >
+                            <Box position="relative" width="100%" height="100%">
+                                <Image
+                                    src={image}
+                                    alt={name}
+                                    fill
+                                    sizes="100%"
+                                    style={{ objectFit: 'contain' }}
+                                    onError={() => setImageError(true)}
+                                />
+                            </Box>
                         </Box>
-                    </Box>
+                    ) : (
+                        <Box
+                            position="absolute"
+                            top={0}
+                            left={0}
+                            right={0}
+                            bottom={0}
+                            display="flex"
+                            alignItems="center"
+                            justifyContent="center"
+                            sx={{ zIndex: 2, backgroundColor: '#f5f5f5' }}
+                        >
+                            <Typography variant="body2" color="text.secondary">
+                                Изображение недоступно
+                            </Typography>
+                        </Box>
+                    )}
                     {/* Оверлей с лупой при наведении */}
                     <Box
                         position="absolute"

@@ -3,10 +3,11 @@ import { prisma } from '@/lib/prisma'
 
 export async function GET() {
   try {
-    // Получаем все материалы из активных продуктов
+    // Получаем все материалы из активных продуктов в наличии (stock > 0)
     const products = await prisma.product.findMany({
       where: {
-        is_active: true
+        is_active: true,
+        stock_quantity: { gt: 0 },
       },
       select: {
         materials: true
@@ -15,19 +16,19 @@ export async function GET() {
 
     // Извлекаем и обрабатываем материалы
     const allMaterials = products
-      .map(p => p.materials)
+      .map((p: any) => p.materials)
       .filter(Boolean)
-      .flatMap(materialString => 
-        materialString.split(',').map(m => m.trim())
+      .flatMap((materialString: string) => 
+        materialString.split(',').map((m: string) => m.trim())
       )
       .filter(Boolean)
-
-    // Создаем Set для дедупликации и приводим к правильному формату
-    const uniqueMaterials = Array.from(new Set(allMaterials))
-      .map(material => {
+      .map((material: string) => {
         // Приводим к правильному формату: первая буква заглавная, остальные строчные
         return material.charAt(0).toUpperCase() + material.slice(1).toLowerCase()
       })
+
+    // Создаем Set для дедупликации после нормализации
+    const uniqueMaterials = Array.from(new Set(allMaterials) as Set<string>)
       .sort()
 
     // Получаем все активные категории
@@ -44,10 +45,11 @@ export async function GET() {
       }
     })
 
-    // Получаем ценовые диапазоны из активных товаров
+    // Получаем ценовые диапазоны из активных товаров в наличии
     const priceRanges = await prisma.product.aggregate({
       where: {
-        is_active: true
+        is_active: true,
+        stock_quantity: { gt: 0 },
       },
       _min: {
         price: true

@@ -66,7 +66,13 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/@prisma/client [external] (@prisma/client, cjs)");
 ;
 const globalForPrisma = globalThis;
-const prisma = globalForPrisma.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]();
+const prisma = globalForPrisma.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]({
+    log: ("TURBOPACK compile-time truthy", 1) ? [
+        'error',
+        'warn'
+    ] : "TURBOPACK unreachable",
+    errorFormat: 'pretty'
+});
 if ("TURBOPACK compile-time truthy", 1) globalForPrisma.prisma = prisma;
 }),
 "[project]/src/app/api/filters/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
@@ -82,22 +88,25 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__
 ;
 async function GET() {
     try {
-        // Получаем все материалы из активных продуктов
+        // Получаем все материалы из активных продуктов в наличии (stock > 0)
         const products = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].product.findMany({
             where: {
-                is_active: true
+                is_active: true,
+                stock_quantity: {
+                    gt: 0
+                }
             },
             select: {
                 materials: true
             }
         });
         // Извлекаем и обрабатываем материалы
-        const allMaterials = products.map((p)=>p.materials).filter(Boolean).flatMap((materialString)=>materialString.split(',').map((m)=>m.trim())).filter(Boolean);
-        // Создаем Set для дедупликации и приводим к правильному формату
-        const uniqueMaterials = Array.from(new Set(allMaterials)).map((material)=>{
+        const allMaterials = products.map((p)=>p.materials).filter(Boolean).flatMap((materialString)=>materialString.split(',').map((m)=>m.trim())).filter(Boolean).map((material)=>{
             // Приводим к правильному формату: первая буква заглавная, остальные строчные
             return material.charAt(0).toUpperCase() + material.slice(1).toLowerCase();
-        }).sort();
+        });
+        // Создаем Set для дедупликации после нормализации
+        const uniqueMaterials = Array.from(new Set(allMaterials)).sort();
         // Получаем все активные категории
         const categories = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].category.findMany({
             where: {
@@ -111,10 +120,13 @@ async function GET() {
                 name: 'asc'
             }
         });
-        // Получаем ценовые диапазоны из активных товаров
+        // Получаем ценовые диапазоны из активных товаров в наличии
         const priceRanges = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].product.aggregate({
             where: {
-                is_active: true
+                is_active: true,
+                stock_quantity: {
+                    gt: 0
+                }
             },
             _min: {
                 price: true

@@ -3,8 +3,8 @@ import {Button, Box, Typography} from '@mui/material';
 
 
 export const TopHeaderBox = styled(Box)(({ theme }) => ({
-  background: 'theme.palette.background.default',
-  borderBottom: '1px solid ${theme.palette.secondary.main}',
+  background: theme.palette.background.default,
+  borderBottom: `1px solid ${theme.palette.secondary.main}`,
   padding: '29px 5%',
   [theme.breakpoints.down(1024)]: {
     display: 'none',

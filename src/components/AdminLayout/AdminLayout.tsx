@@ -1,15 +1,28 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import { Box } from '@mui/material';
 import { useRouter } from 'next/navigation';
 import AdminSidebar from '../AdminSidebar/AdminSidebar';
 
+/**
+ * AdminLayout Component
+ * 
+ * Provides the main layout structure for admin pages.
+ * Uses sx prop for styling (no styled components) to ensure
+ * consistent SSR/client rendering and prevent hydration mismatches.
+ * 
+ * The layout includes:
+ * - Responsive sidebar navigation
+ * - Main content area with proper spacing
+ * - Mobile-friendly drawer toggle
+ */
 interface AdminLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
+const AdminLayout: React.FC<AdminLayoutProps> = ({ children }: AdminLayoutProps) => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const router = useRouter();
 

@@ -1,14 +1,15 @@
 "use client"
-import { FormControl, FormControlLabel, FormGroup, InputAdornment, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, Checkbox, Alert } from "@mui/material";
+import { FormControl, FormControlLabel, FormGroup, InputAdornment, MenuItem, OutlinedInput, Select, Stack, TextField, Typography, Checkbox, Alert, Button } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ClearIcon from "@mui/icons-material/Clear";
 import { TypographyWrapStyles, FilterBox } from "./GranitCatalogFilter.Styles";
 import { useFilterContext } from "@/contexts/FilterContext";
 import { FilterSkeleton } from "../Skeleton/Skeleton";
 import EmptyState from "../EmptyState/EmptyState";
 
 const GranitCatalogFilter = () => {
-    const { filterData, filters, loading, error, updateFilter, toggleCategory, toggleMaterial } = useFilterContext();
+    const { filterData, filters, loading, error, updateFilter, toggleCategory, toggleMaterial, resetFilters } = useFilterContext();
 
     if (loading) {
         return <FilterSkeleton />;
@@ -25,6 +26,15 @@ const GranitCatalogFilter = () => {
     if (!filterData) {
         return null;
     }
+
+    // Проверяем, есть ли активные фильтры
+    const hasActiveFilters = 
+        filters.search !== '' ||
+        filters.sortBy !== 'price-asc' ||
+        filters.selectedCategories.length > 0 ||
+        filters.selectedMaterials.length > 0 ||
+        filters.priceMin !== null ||
+        filters.priceMax !== null;
 
     return (
         <FilterBox width={320} height="70%" p="24px" borderRadius="8px" border="0.5px solid #E5E7EB">
@@ -43,6 +53,26 @@ const GranitCatalogFilter = () => {
                         ),
                     }}
                 />
+
+                {/* Кнопка сброса фильтров */}
+                {hasActiveFilters && (
+                    <Button
+                        variant="outlined"
+                        startIcon={<ClearIcon />}
+                        onClick={resetFilters}
+                        fullWidth
+                        sx={{
+                            borderColor: '#d32f2f',
+                            color: '#d32f2f',
+                            '&:hover': {
+                                borderColor: '#b71c1c',
+                                backgroundColor: 'rgba(211, 47, 47, 0.04)',
+                            },
+                        }}
+                    >
+                        Сбросить фильтры
+                    </Button>
+                )}
 
                 {/* Сортировка по */}
                 <Stack spacing="16px">
@@ -122,9 +152,9 @@ const GranitCatalogFilter = () => {
                         />
                     ) : (
                         <FormGroup>
-                            {filterData.materials.map((material: string) => (
+                            {filterData.materials.map((material: string, index: number) => (
                                 <FormControlLabel
-                                    key={material}
+                                    key={`material-${index}-${material}`}
                                     control={
                                         <Checkbox
                                             size="small"

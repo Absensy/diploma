@@ -25,6 +25,10 @@ import {
   Phone,
   NewReleases,
   ContentCopy,
+  ShoppingCart,
+  People,
+  TrendingUp,
+  AttachMoney,
 } from '@mui/icons-material';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import { useAdminDashboard } from '@/hooks/useAdminDashboard';
@@ -205,7 +209,13 @@ const RecentProductCard = ({ product }: { product: RecentProduct }) => (
           alt={product.name}
           variant="rounded"
           sx={{ width: { xs: 40, md: 48 }, height: { xs: 40, md: 48 } }}
-        />
+          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
+            const target = e.target as HTMLImageElement;
+            target.style.display = 'none';
+          }}
+        >
+          {product.name?.charAt(0) || '?'}
+        </Avatar>
         <Box flex={1} minWidth={0}>
           <Typography
             variant="subtitle1"
@@ -267,7 +277,7 @@ const RecentProductCard = ({ product }: { product: RecentProduct }) => (
 
 export default function AdminDashboard() {
   const router = useRouter();
-  const { stats, loading, error } = useAdminDashboard();
+  const { stats, systemStatus, loading, error } = useAdminDashboard();
 
   const handleQuickAction = (action: string) => {
     switch (action) {
@@ -344,18 +354,18 @@ export default function AdminDashboard() {
               subtitle="Активных категорий"
             />
             <StatCard
-              title="Примеры работ"
-              value={stats.totalExamplesWork}
-              icon={<Article />}
-              color="#ff9800"
-              subtitle="В портфолио"
+              title="Заказы"
+              value={stats.totalOrders || 0}
+              icon={<ShoppingCart />}
+              color="#9c27b0"
+              subtitle="Всего заказов"
             />
             <StatCard
-              title="Недавние товары"
-              value={stats.recentProducts.length}
-              icon={<NewReleases />}
-              color="#9c27b0"
-              subtitle="Последние добавленные"
+              title="Пользователи"
+              value={stats.totalUsers || 0}
+              icon={<People />}
+              color="#ff9800"
+              subtitle="Зарегистрировано"
             />
           </Box>
         )}
@@ -376,7 +386,7 @@ export default function AdminDashboard() {
               </Typography>
               <Box
                 display="grid"
-                gridTemplateColumns={{ xs: '1fr', sm: 'repeat(2, 1fr)' }}
+                gridTemplateColumns={{ xs: '1fr', sm: 'repeat(2, 1fr)', lg: 'repeat(3, 1fr)' }}
                 gap={{ xs: 1.5, sm: 2 }}
               >
                 <QuickActionCard
@@ -406,6 +416,20 @@ export default function AdminDashboard() {
                   icon={<Phone />}
                   color="#9c27b0"
                   onClick={() => handleQuickAction('update-contacts')}
+                />
+                <QuickActionCard
+                  title="Управление заказами"
+                  description="Просмотр и обработка заказов"
+                  icon={<ShoppingCart />}
+                  color="#e91e63"
+                  onClick={() => router.push('/admin/orders')}
+                />
+                <QuickActionCard
+                  title="Управление пользователями"
+                  description="Просмотр и редактирование пользователей"
+                  icon={<People />}
+                  color="#00bcd4"
+                  onClick={() => router.push('/admin/users')}
                 />
               </Box>
             </Paper>
@@ -479,29 +503,62 @@ export default function AdminDashboard() {
               <Stack spacing={2}>
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                   <Box display="flex" alignItems="center" gap={1}>
-                    <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'success.main' }} />
+                    <Box 
+                      sx={{ 
+                        width: 8, 
+                        height: 8, 
+                        borderRadius: '50%', 
+                        bgcolor: systemStatus?.database.status === 'online' ? 'success.main' : 'error.main' 
+                      }} 
+                    />
                     <Typography variant="body2">База данных</Typography>
                   </Box>
-                  <Typography variant="body2" color="success.main" fontWeight="bold">
-                    Онлайн
+                  <Typography 
+                    variant="body2" 
+                    color={systemStatus?.database.status === 'online' ? 'success.main' : 'error.main'} 
+                    fontWeight="bold"
+                  >
+                    {systemStatus?.database.message || 'Проверка...'}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                   <Box display="flex" alignItems="center" gap={1}>
-                    <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'success.main' }} />
+                    <Box 
+                      sx={{ 
+                        width: 8, 
+                        height: 8, 
+                        borderRadius: '50%', 
+                        bgcolor: systemStatus?.api.status === 'online' ? 'success.main' : 'error.main' 
+                      }} 
+                    />
                     <Typography variant="body2">API</Typography>
                   </Box>
-                  <Typography variant="body2" color="success.main" fontWeight="bold">
-                    Работает
+                  <Typography 
+                    variant="body2" 
+                    color={systemStatus?.api.status === 'online' ? 'success.main' : 'error.main'} 
+                    fontWeight="bold"
+                  >
+                    {systemStatus?.api.message || 'Проверка...'}
                   </Typography>
                 </Box>
                 <Box display="flex" alignItems="center" justifyContent="space-between">
                   <Box display="flex" alignItems="center" gap={1}>
-                    <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: 'success.main' }} />
+                    <Box 
+                      sx={{ 
+                        width: 8, 
+                        height: 8, 
+                        borderRadius: '50%', 
+                        bgcolor: systemStatus?.cloudinary.status === 'online' ? 'success.main' : 'error.main' 
+                      }} 
+                    />
                     <Typography variant="body2">Cloudinary</Typography>
                   </Box>
-                  <Typography variant="body2" color="success.main" fontWeight="bold">
-                    Подключен
+                  <Typography 
+                    variant="body2" 
+                    color={systemStatus?.cloudinary.status === 'online' ? 'success.main' : 'error.main'} 
+                    fontWeight="bold"
+                  >
+                    {systemStatus?.cloudinary.message || 'Проверка...'}
                   </Typography>
                 </Box>
               </Stack>

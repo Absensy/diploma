@@ -66,7 +66,13 @@ __turbopack_context__.s([
 var __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__ = __turbopack_context__.i("[externals]/@prisma/client [external] (@prisma/client, cjs)");
 ;
 const globalForPrisma = globalThis;
-const prisma = globalForPrisma.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]();
+const prisma = globalForPrisma.prisma ?? new __TURBOPACK__imported__module__$5b$externals$5d2f40$prisma$2f$client__$5b$external$5d$__$2840$prisma$2f$client$2c$__cjs$29$__["PrismaClient"]({
+    log: ("TURBOPACK compile-time truthy", 1) ? [
+        'error',
+        'warn'
+    ] : "TURBOPACK unreachable",
+    errorFormat: 'pretty'
+});
 if ("TURBOPACK compile-time truthy", 1) globalForPrisma.prisma = prisma;
 }),
 "[project]/src/app/api/content/about-company/route.ts [app-route] (ecmascript)", ((__turbopack_context__) => {
@@ -93,7 +99,7 @@ async function GET() {
             // Возвращаем дефолтные значения если контент не найден
             return __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$server$2e$js__$5b$app$2d$route$5d$__$28$ecmascript$29$__["NextResponse"].json({
                 title: 'О нашей компании',
-                description: 'Более 15 лет мы создаем памятники, которые хранят память о ваших близких...',
+                description: 'Более 15 лет мы создаем памятники, надгробия, венки, светильники, ограды, столы и скамейки из гранита и мрамора. Наша компания предлагает полный комплекс услуг по благоустройству могильных участков - от изготовления памятников до установки и гравировки. Мы используем только качественные материалы и индивидуальный подход к каждому заказу.',
                 image: '/images/ded.png',
                 advantages: [
                     'Качество материалов',
@@ -102,12 +108,12 @@ async function GET() {
                 ],
                 statistics: [
                     {
-                        value: '10+',
+                        value: '15+',
                         label: 'лет опыта'
                     },
                     {
                         value: '2000+',
-                        label: 'памятников'
+                        label: 'изделий'
                     },
                     {
                         value: '100%',

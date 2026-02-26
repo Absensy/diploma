@@ -4,26 +4,29 @@ import Snowfall from "react-snowfall";
 
 export default function SnowWrapper() { 
     const [isSnowSeason, setIsSnowySeason] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
 
     useEffect(() => {
-    const CheckDate = () => {
-        const now = new Date();
-        const month = now.getMonth();
-        const day = now.getDate();
+        setIsMounted(true);
+        const CheckDate = () => {
+            const now = new Date();
+            const month = now.getMonth();
+            const day = now.getDate();
 
-        //Проверка на поздний декабрь
-        const isLateDecember = month === 11 && day >= 14;
-        const isEarlyJanuary = month === 0;
-        const isEarlyFebruary = month === 1 && day <= 14;
+            //Проверка на поздний декабрь
+            const isLateDecember = month === 11 && day >= 14;
+            const isEarlyJanuary = month === 0;
+            const isEarlyFebruary = month === 1 && day <= 14;
 
-        if (isLateDecember || isEarlyJanuary || isEarlyFebruary) {
-            setIsSnowySeason(true);
-        }
-    };
-    CheckDate();
+            if (isLateDecember || isEarlyJanuary || isEarlyFebruary) {
+                setIsSnowySeason(true);
+            }
+        };
+        CheckDate();
     }, []);
 
-    if (!isSnowSeason) return null;
+    // Не рендерим на сервере, только после монтирования на клиенте
+    if (!isMounted || !isSnowSeason) return null;
 
     return (
         <Snowfall

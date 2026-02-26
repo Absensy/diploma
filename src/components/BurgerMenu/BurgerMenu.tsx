@@ -14,7 +14,11 @@ import Link from 'next/link';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useAboutCompanyContent } from '@/hooks/useContent';
-import { usePathname } from 'next/navigation';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
+import { usePathname, useRouter } from 'next/navigation';
+import { Login, Logout, AccountCircle, Person, AdminPanelSettings, ShoppingCart } from '@mui/icons-material';
+import CartDrawer from '../Cart/CartDrawer';
 
 const BurgerButton = styled(Button)(({ theme }) => ({
     display: 'none',
@@ -59,9 +63,34 @@ const FeaturesBox = styled(Box)(() => ({
 
 const BurgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const [cartOpen, setCartOpen] = useState(false);
     const { contactInfo, loading } = useContactContext();
     const { data: aboutData } = useAboutCompanyContent();
+    const { user, authenticated, logout, loading: authLoading } = useAuth();
+    const { totalItems } = useCart();
     const pathname = usePathname();
+    const router = useRouter();
+
+    const handleLogout = async () => {
+        setIsOpen(false);
+        await logout();
+        router.push('/');
+    };
+
+    const handleLogin = () => {
+        setIsOpen(false);
+        router.push('/auth');
+    };
+
+    const handleProfile = () => {
+        setIsOpen(false);
+        router.push('/profile');
+    };
+
+    const handleAdminPanel = () => {
+        setIsOpen(false);
+        router.push('/admin/dashboard');
+    };
 
     // Автоматически закрывать меню при изменении маршрута
     useEffect(() => {
@@ -187,6 +216,92 @@ const BurgerMenu = () => {
 
                         <Divider sx={{ margin: '20px 0', borderColor: '#E5E7EB' }} />
 
+                        {/* Авторизация */}
+                        {!authLoading && (
+                            <Box marginBottom="24px">
+                                {authenticated && user ? (
+                                    <>
+                                        <Box sx={{ mb: 2, p: 2, bgcolor: 'grey.50', borderRadius: 2 }}>
+                                            <Stack direction="row" spacing={1} alignItems="center" mb={1}>
+                                                <AccountCircle sx={{ color: 'text.secondary' }} />
+                                                <Box>
+                                                    <Typography variant="body2" fontWeight="600">
+                                                        {user.first_name} {user.last_name}
+                                                    </Typography>
+                                                    <Typography variant="caption" color="text.secondary">
+                                                        {user.email}
+                                                    </Typography>
+                                                </Box>
+                                            </Stack>
+                                        </Box>
+                                        <MobileMenuButton 
+                                            fullWidth 
+                                            onClick={handleProfile}
+                                            startIcon={<Person />}
+                                            sx={{ mb: 1 }}
+                                        >
+                                            Мой профиль
+                                        </MobileMenuButton>
+                                        {user.is_admin && (
+                                            <MobileMenuButton 
+                                                fullWidth 
+                                                onClick={handleAdminPanel}
+                                                startIcon={<AdminPanelSettings />}
+                                                sx={{ mb: 1 }}
+                                            >
+                                                Админ-панель
+                                            </MobileMenuButton>
+                                        )}
+                                        <MobileMenuButton 
+                                            fullWidth 
+                                            onClick={handleLogout}
+                                            startIcon={<Logout />}
+                                        >
+                                            Выйти
+                                        </MobileMenuButton>
+                                    </>
+                                ) : (
+                                    <MobileMenuButton 
+                                        fullWidth 
+                                        onClick={handleLogin}
+                                        startIcon={<Login />}
+                                        sx={{
+                                            bgcolor: '#333',
+                                            color: 'white',
+                                            '&:hover': {
+                                                bgcolor: '#555',
+                                            },
+                                        }}
+                                    >
+                                        Войти
+                                    </MobileMenuButton>
+                                )}
+                            </Box>
+                        )}
+
+                        <Divider sx={{ margin: '20px 0', borderColor: '#E5E7EB' }} />
+
+                        {/* Корзина */}
+                        <Box marginBottom="24px">
+                            <MobileMenuButton 
+                                fullWidth 
+                                onClick={() => {
+                                    setIsOpen(false);
+                                    setCartOpen(true);
+                                }}
+                                startIcon={<ShoppingCart />}
+                                sx={{
+                                    bgcolor: '#333',
+                                    color: 'white',
+                                    '&:hover': {
+                                        bgcolor: '#555',
+                                    },
+                                }}
+                            >
+                                Корзина {totalItems > 0 && `(${totalItems})`}
+                            </MobileMenuButton>
+                        </Box>
+
                         {/* Кнопка каталога */}
                         <Box marginBottom="24px">
                             <CatalogButton />
@@ -211,6 +326,9 @@ const BurgerMenu = () => {
                     </Box>
                 </Box>
             </Drawer>
+
+            {/* Cart Drawer */}
+            <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
         </>
     );
 };
