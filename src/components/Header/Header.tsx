@@ -1,7 +1,9 @@
 'use client';
 
 import * as React from 'react';
-import { Box, Container, Typography, Stack } from '@mui/material';
+import { Box, Typography, Stack, Button, Menu, MenuItem, Avatar, Divider, IconButton, Badge } from '@mui/material';
+import { Logout, Login, Person, AdminPanelSettings, ShoppingCart } from '@mui/icons-material';
+import { useRouter } from 'next/navigation';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import { ButtonHeader, HeaderMenuButton } from './Header.Styles';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
@@ -14,7 +16,10 @@ import ClocksIcon from '@/icons/Clocks';
 import Link from 'next/link';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useAboutCompanyContent } from '@/hooks/useContent';
+import { useAuth } from '@/contexts/AuthContext';
+import { useCart } from '@/contexts/CartContext';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
+import CartDrawer from '../Cart/CartDrawer';
 
 // Default values to ensure consistent rendering between server and client
 const DEFAULT_ADVANTAGES = [
@@ -28,6 +33,44 @@ const DEFAULT_WORKING_HOURS = 'Пн-Пт: 9:00 - 18:00, Сб-Вс: 10:00 - 16:00
 const Header = () => {
   const { contactInfo } = useContactContext();
   const { data: aboutData } = useAboutCompanyContent();
+  const { user, authenticated, logout, loading } = useAuth();
+  const { totalItems } = useCart();
+  const router = useRouter();
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [cartOpen, setCartOpen] = React.useState(false);
+  const open = Boolean(anchorEl);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = async () => {
+    handleMenuClose();
+    await logout();
+    router.push('/');
+  };
+
+  const handleLogin = () => {
+    router.push('/auth');
+  };
+
+  const handleProfile = () => {
+    handleMenuClose();
+    router.push('/profile');
+  };
+
+  const handleAdminPanel = () => {
+    handleMenuClose();
+    router.push('/admin/dashboard');
+  };
+
+  const getInitials = (firstName: string, lastName: string) => {
+    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
+  };
 
   // Use fallback values to ensure consistent rendering between server and client
   // Always use the same structure regardless of loading state
@@ -174,10 +217,108 @@ const Header = () => {
             <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
               <ButtonHeader><CatalogButton /></ButtonHeader>
             </Box>
+            
+            {/* Корзина */}
+            <IconButton
+              onClick={() => setCartOpen(true)}
+              size="small"
+              sx={{ 
+                ml: 1,
+                display: { xs: 'none', sm: 'flex' }
+              }}
+            >
+              <Badge badgeContent={totalItems} color="primary">
+                <ShoppingCart />
+              </Badge>
+            </IconButton>
+
+            {/* Авторизация */}
+            {!loading && (
+              <>
+                {authenticated && user ? (
+                  <>
+                    <IconButton
+                      onClick={handleMenuOpen}
+                      size="small"
+                      sx={{ 
+                        ml: 1,
+                        display: { xs: 'none', sm: 'flex' }
+                      }}
+                    >
+                      <Avatar sx={{ width: 32, height: 32, bgcolor: '#333' }}>
+                        {getInitials(user.first_name, user.last_name)}
+                      </Avatar>
+                    </IconButton>
+                    <Menu
+                      anchorEl={anchorEl}
+                      open={open}
+                      onClose={handleMenuClose}
+                      anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                      }}
+                      transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                      }}
+                    >
+                      <MenuItem disabled sx={{ opacity: 1, cursor: 'default', '&.Mui-disabled': { opacity: 1 } }}>
+                        <Box>
+                          <Typography variant="body2" fontWeight="600" sx={{ color: '#000000' }}>
+                            {user.first_name} {user.last_name}
+                          </Typography>
+                          <Typography variant="caption" sx={{ color: '#333333' }}>
+                            {user.email}
+                          </Typography>
+                        </Box>
+                      </MenuItem>
+                      <Divider />
+                      <MenuItem onClick={handleProfile}>
+                        <Person sx={{ mr: 1, fontSize: 20 }} />
+                        Мой профиль
+                      </MenuItem>
+                      {user.is_admin && (
+                        <MenuItem onClick={handleAdminPanel}>
+                          <AdminPanelSettings sx={{ mr: 1, fontSize: 20 }} />
+                          Админ-панель
+                        </MenuItem>
+                      )}
+                      <MenuItem onClick={handleLogout}>
+                        <Logout sx={{ mr: 1, fontSize: 20 }} />
+                        Выйти
+                      </MenuItem>
+                    </Menu>
+                  </>
+                ) : (
+                  <Button
+                    variant="outlined"
+                    startIcon={<Login />}
+                    onClick={handleLogin}
+                    sx={{
+                      ml: 1,
+                      display: { xs: 'none', sm: 'flex' },
+                      textTransform: 'none',
+                      borderColor: '#333',
+                      color: '#333',
+                      '&:hover': {
+                        borderColor: '#555',
+                        backgroundColor: 'rgba(51, 51, 51, 0.04)',
+                      },
+                    }}
+                  >
+                    Войти
+                  </Button>
+                )}
+              </>
+            )}
+            
             <BurgerMenu />
           </Stack>
         </Stack>
       </Box>
+
+      {/* Cart Drawer */}
+      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </Box>
   );
 };

@@ -8,6 +8,8 @@ import theme from '@/theme/theme';
 import createEmotionCache from '@/lib/emotion-cache';
 import { ContactProvider } from '@/contexts/ContactContext';
 import { AlertProvider } from '@/components/GlobalAlert/GlobalAlert';
+import { AuthProvider } from '@/contexts/AuthContext';
+import { CartProvider } from '@/contexts/CartContext';
 import SnowWrapper from '@/components/SnowWrapper/SnowWrapper';
 
 type ProvidersProps = {
@@ -38,10 +40,14 @@ export default function Providers({ children }: ProvidersProps) {
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <AlertProvider>
-          <ContactProvider>
-            <SnowWrapper />
-            {children}
-          </ContactProvider>
+          <AuthProvider>
+            <CartProvider>
+              <ContactProvider>
+                <SnowWrapper />
+                {children}
+              </ContactProvider>
+            </CartProvider>
+          </AuthProvider>
         </AlertProvider>
       </ThemeProvider>
     </CacheProvider>

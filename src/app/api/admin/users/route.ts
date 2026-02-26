@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { hashPassword } from '@/lib/password';
 
 // GET - Get all users
 export async function GET(request: NextRequest) {
@@ -34,6 +35,7 @@ export async function GET(request: NextRequest) {
     const normalizedUsers = users.map((user: any) => ({
       ...user,
       ordersCount: user._count.orders,
+      is_admin: user.is_admin || false,
       // Don't return password
       password: undefined,
     }));
@@ -52,7 +54,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { first_name, last_name, email, password, phone } = body;
+    const { first_name, last_name, email, password, phone, is_admin } = body;
 
     if (!first_name || !last_name || !email || !password) {
       return NextResponse.json(
@@ -61,24 +63,27 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // In production, hash the password before storing
-    // For now, storing as plain text (NOT RECOMMENDED FOR PRODUCTION)
+    // Hash password before storing
+    const hashedPassword = hashPassword(password);
+    
     const user = await prisma.user.create({
       data: {
         first_name: first_name.trim(),
         last_name: last_name.trim(),
         email: email.trim().toLowerCase(),
-        password: password, // Should be hashed in production
+        password: hashedPassword,
         phone: phone?.trim() || null,
-      },
+        is_admin: is_admin || false,
+      } as any,
       select: {
         id: true,
         first_name: true,
         last_name: true,
         email: true,
         phone: true,
+        is_admin: true,
         created_at: true,
-      },
+      } as any,
     });
 
     return NextResponse.json(user, { status: 201 });

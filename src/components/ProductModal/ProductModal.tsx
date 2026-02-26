@@ -18,10 +18,13 @@ import PhoneIcon from '@mui/icons-material/Phone';
 import EmailIcon from '@mui/icons-material/Email';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import Image from 'next/image';
 import { Product } from '@/lib/db';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useImageBackgroundColor } from '@/hooks/useImageBackgroundColor';
+import { useCart } from '@/contexts/CartContext';
+import { useRouter } from 'next/navigation';
 
 interface ProductModalProps {
     open: boolean;
@@ -31,6 +34,8 @@ interface ProductModalProps {
 
 const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) => {
     const { contactInfo, loading } = useContactContext();
+    const { addItem, isInCart } = useCart();
+    const router = useRouter();
     const [imageError, setImageError] = useState(false);
     const isWhiteBackground = useImageBackgroundColor(product?.image || '');
 
@@ -184,33 +189,57 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
 
                     {/* Цена и скидка */}
                     <Box>
-                        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
-                            {product.discount && (
-                                <Chip
-                                    label={`-${product.discount}%`}
-                                    color="error"
-                                    size="small"
-                                    sx={{ fontWeight: 600 }}
-                                />
-                            )}
-                            <Typography
-                                variant="h4"
-                                fontWeight="700"
-                                color={product.discount ? "error.main" : "text.primary"}
-                            >
-                                {product.discounted_price ? formatPrice(product.discounted_price) : formatPrice(product.price)}
-                            </Typography>
-                            {product.discount && (
+                        <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" justifyContent="space-between">
+                            <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap">
+                                {product.discount && (
+                                    <Chip
+                                        label={`-${product.discount}%`}
+                                        color="error"
+                                        size="small"
+                                        sx={{ fontWeight: 600 }}
+                                    />
+                                )}
                                 <Typography
-                                    variant="h6"
-                                    sx={{
-                                        textDecoration: 'line-through',
-                                        color: 'text.secondary'
-                                    }}
+                                    variant="h4"
+                                    fontWeight="700"
+                                    color={product.discount ? "error.main" : "text.primary"}
                                 >
-                                    {formatPrice(product.price)}
+                                    {product.discounted_price ? formatPrice(product.discounted_price) : formatPrice(product.price)}
                                 </Typography>
-                            )}
+                                {product.discount && (
+                                    <Typography
+                                        variant="h6"
+                                        sx={{
+                                            textDecoration: 'line-through',
+                                            color: 'text.secondary'
+                                        }}
+                                    >
+                                        {formatPrice(product.price)}
+                                    </Typography>
+                                )}
+                            </Stack>
+                            <Button
+                                variant="contained"
+                                startIcon={<ShoppingCartIcon />}
+                                onClick={() => {
+                                    if (product) {
+                                        addItem({
+                                            id: product.id,
+                                            name: product.name,
+                                            image: product.image,
+                                            price: product.price,
+                                            discounted_price: product.discounted_price,
+                                        });
+                                        onClose();
+                                    }
+                                }}
+                                sx={{
+                                    backgroundColor: '#333',
+                                    '&:hover': { backgroundColor: '#555' },
+                                }}
+                            >
+                                {isInCart(product.id) ? 'В корзине' : 'В корзину'}
+                            </Button>
                         </Stack>
                     </Box>
 

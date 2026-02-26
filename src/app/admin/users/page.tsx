@@ -17,6 +17,8 @@ import {
   Paper,
   Stack,
   Chip,
+  FormControlLabel,
+  Checkbox,
 } from '@mui/material';
 import {
   Add,
@@ -35,6 +37,7 @@ interface User {
   last_name: string;
   email: string;
   phone: string | null;
+  is_admin?: boolean;
   created_at: string;
   ordersCount: number;
 }
@@ -45,6 +48,7 @@ interface UserFormData {
   email: string;
   phone: string;
   password: string;
+  is_admin: boolean;
 }
 
 export default function AdminUsers() {
@@ -81,6 +85,7 @@ export default function AdminUsers() {
     email: '',
     phone: '',
     password: '',
+    is_admin: false,
   });
 
   // Fetch users
@@ -108,7 +113,7 @@ export default function AdminUsers() {
   }, [fetchUsers]);
 
   // Handle form input changes
-  const handleInputChange = (field: keyof UserFormData, value: string) => {
+  const handleInputChange = (field: keyof UserFormData, value: string | boolean) => {
     setFormData((prev: UserFormData) => ({ ...prev, [field]: value }));
   };
 
@@ -121,6 +126,7 @@ export default function AdminUsers() {
       email: '',
       phone: '',
       password: '',
+      is_admin: false,
     });
     setOpenDialog(true);
   };
@@ -134,6 +140,7 @@ export default function AdminUsers() {
       email: user.email,
       phone: user.phone || '',
       password: '', // Don't show password when editing
+      is_admin: user.is_admin || false,
     });
     setOpenDialog(true);
   };
@@ -164,6 +171,7 @@ export default function AdminUsers() {
         last_name: formData.last_name.trim(),
         email: formData.email.trim(),
         phone: formData.phone.trim() || null,
+        is_admin: formData.is_admin,
       };
 
       // Only include password if it's provided (for new users or when updating)
@@ -259,6 +267,19 @@ export default function AdminUsers() {
       headerName: 'Телефон',
       width: 150,
       valueGetter: (value: string | null) => value || 'Н/Д',
+    },
+    {
+      field: 'is_admin',
+      headerName: 'Админ',
+      width: 100,
+      type: 'boolean',
+      renderCell: (params: GridRenderCellParams<User>) => (
+        <Chip
+          label={params.value ? 'Да' : 'Нет'}
+          size="small"
+          color={params.value ? 'error' : 'default'}
+        />
+      ),
     },
     {
       field: 'ordersCount',
@@ -454,6 +475,15 @@ export default function AdminUsers() {
                 fullWidth
                 required={!editingUser}
                 helperText={editingUser ? 'Оставьте пустым, чтобы оставить текущий пароль' : 'Обязательно для новых пользователей'}
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={formData.is_admin}
+                    onChange={(e) => handleInputChange('is_admin', e.target.checked)}
+                  />
+                }
+                label="Администратор"
               />
             </Stack>
           </DialogContent>

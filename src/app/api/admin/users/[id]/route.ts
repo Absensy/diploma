@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { hashPassword } from '@/lib/password';
 
 // GET - Get user by ID
 export async function GET(
@@ -60,26 +61,28 @@ export async function PUT(
   try {
     const { id } = await params;
     const body = await request.json();
-    const { first_name, last_name, email, password, phone } = body;
+    const { first_name, last_name, email, password, phone, is_admin } = body;
 
     const updateData: any = {};
     if (first_name !== undefined) updateData.first_name = first_name.trim();
     if (last_name !== undefined) updateData.last_name = last_name.trim();
     if (email !== undefined) updateData.email = email.trim().toLowerCase();
-    if (password !== undefined) updateData.password = password; // Should be hashed in production
+    if (password !== undefined) updateData.password = hashPassword(password);
     if (phone !== undefined) updateData.phone = phone?.trim() || null;
+    if (is_admin !== undefined) updateData.is_admin = is_admin;
 
     const user = await prisma.user.update({
       where: { id: parseInt(id) },
-      data: updateData,
+      data: updateData as any,
       select: {
         id: true,
         first_name: true,
         last_name: true,
         email: true,
         phone: true,
+        is_admin: true,
         created_at: true,
-      },
+      } as any,
     });
 
     return NextResponse.json(user);
