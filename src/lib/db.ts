@@ -35,6 +35,7 @@ export interface Product {
   is_active: boolean;
   created_at: string;
   updated_at: string;
+  stock_quantity?: number | null;
 }
 
 export interface ContactInfo {

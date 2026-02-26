@@ -1,5 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
+import {
+  updateOrderStatus,
+  OrderNotFoundError,
+  OrderCannotBeCancelledError,
+} from '@/lib/services/order.service';
 
 // GET - Get order by ID
 export async function GET(
@@ -56,23 +62,39 @@ export async function GET(
   }
 }
 
-// PUT - Update order
+// PUT - Update order (status changes go through updateOrderStatus; CANCELLED returns stock)
 export async function PUT(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
     const { id } = await params;
+    const orderId = parseInt(id);
     const body = await request.json();
     const { status, payment_method, user_id } = body;
 
-    const updateData: any = {};
-    if (status !== undefined) updateData.status = status;
+    if (
+      status !== undefined &&
+      ['CONFIRMED', 'PAID', 'CANCELLED'].includes(status)
+    ) {
+      const order = await updateOrderStatus(orderId, status);
+      revalidatePath('/admin/orders');
+      if (status === 'CANCELLED') {
+        revalidatePath('/catalog');
+        revalidatePath('/api/products');
+      }
+      return NextResponse.json({
+        ...order,
+        total_amount: order?.total_amount ? Number(order.total_amount) : null,
+      });
+    }
+
+    const updateData: Record<string, unknown> = {};
     if (payment_method !== undefined) updateData.payment_method = payment_method;
     if (user_id !== undefined) updateData.user_id = user_id ? parseInt(user_id) : null;
 
     const order = await prisma.order.update({
-      where: { id: parseInt(id) },
+      where: { id: orderId },
       data: updateData,
       include: {
         user: true,
@@ -88,18 +110,25 @@ export async function PUT(
       ...order,
       total_amount: order.total_amount ? Number(order.total_amount) : null,
     });
-  } catch (error: any) {
-    console.error('Error updating order:', error);
-    
-    if (error.code === 'P2025') {
+  } catch (error) {
+    if (error instanceof OrderNotFoundError) {
       return NextResponse.json(
-        { error: 'Order not found' },
+        { error: error.message },
         { status: 404 }
       );
     }
-    
+    if (error instanceof OrderCannotBeCancelledError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 400 }
+      );
+    }
+    console.error('Error updating order:', error);
     return NextResponse.json(
-      { error: 'Failed to update order', details: error.message },
+      {
+        error: 'Failed to update order',
+        details: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 }
     );
   }
@@ -112,24 +141,26 @@ export async function DELETE(
 ) {
   try {
     const { id } = await params;
-    
+
     await prisma.order.delete({
       where: { id: parseInt(id) },
     });
 
     return NextResponse.json({ message: 'Order deleted successfully' });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error deleting order:', error);
-    
-    if (error.code === 'P2025') {
+    const prismaError = error as { code?: string };
+    if (prismaError.code === 'P2025') {
       return NextResponse.json(
         { error: 'Order not found' },
         { status: 404 }
       );
     }
-    
     return NextResponse.json(
-      { error: 'Failed to delete order', details: error.message },
+      {
+        error: 'Failed to delete order',
+        details: error instanceof Error ? error.message : String(error),
+      },
       { status: 500 }
     );
   }

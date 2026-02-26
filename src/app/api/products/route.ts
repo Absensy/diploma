@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -9,7 +11,8 @@ export async function GET(request: NextRequest) {
     const products = await prisma.product.findMany({
       where: {
         is_active: true,
-        ...(categoryId ? { category_id: parseInt(categoryId) } : {})
+        stock_quantity: { gt: 0 },
+        ...(categoryId ? { category_id: parseInt(categoryId) } : {}),
       },
       include: {
         category: {

@@ -88,10 +88,13 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__
 ;
 async function GET() {
     try {
-        // Получаем все материалы из активных продуктов
+        // Получаем все материалы из активных продуктов в наличии (stock > 0)
         const products = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].product.findMany({
             where: {
-                is_active: true
+                is_active: true,
+                stock_quantity: {
+                    gt: 0
+                }
             },
             select: {
                 materials: true
@@ -117,10 +120,13 @@ async function GET() {
                 name: 'asc'
             }
         });
-        // Получаем ценовые диапазоны из активных товаров
+        // Получаем ценовые диапазоны из активных товаров в наличии
         const priceRanges = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["prisma"].product.aggregate({
             where: {
-                is_active: true
+                is_active: true,
+                stock_quantity: {
+                    gt: 0
+                }
             },
             _min: {
                 price: true

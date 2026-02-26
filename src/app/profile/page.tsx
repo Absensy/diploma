@@ -348,7 +348,7 @@ export default function ProfilePage() {
               <Stack spacing={3}>
                 <Box display="flex" alignItems="center" gap={2}>
                   <Avatar sx={{ width: 64, height: 64, bgcolor: '#333', fontSize: '1.5rem' }}>
-                    {profile.first_name.charAt(0)}{profile.last_name.charAt(0)}
+                    <Person sx={{ color: 'white', fontSize: 36 }} />
                   </Avatar>
                   <Box>
                     <Typography variant="h5" fontWeight="600">

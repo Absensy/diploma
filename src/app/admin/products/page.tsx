@@ -170,7 +170,7 @@ export default function AdminProducts() {
       { header: 'Цена', key: 'price', width: 15, formatter: (val) => `${val} BYN` },
       { header: 'Скидка', key: 'discount', width: 12, formatter: (val) => val ? `${val}%` : '-' },
       { header: 'Цена со скидкой', key: 'discounted_price', width: 18, formatter: (val) => val ? `${val} BYN` : '-' },
-      { header: 'Остаток', key: 'stock_quantity', width: 12, formatter: (val) => val ?? 'Н/Д' },
+      { header: 'Остаток', key: 'stock_quantity', width: 12, formatter: (val) => (val == null || val === 0 ? 'Нет в наличии' : val) },
       { header: 'Статус', key: 'is_active', width: 12, formatter: (val) => val ? 'Активен' : 'Неактивен' },
       { header: 'Новинка', key: 'is_new', width: 10, formatter: (val) => val ? 'Да' : 'Нет' },
       { header: 'Популярное', key: 'is_popular', width: 12, formatter: (val) => val ? 'Да' : 'Нет' },
@@ -189,7 +189,7 @@ export default function AdminProducts() {
       { header: 'Цена', key: 'price', formatter: (val) => `${val} BYN` },
       { header: 'Скидка', key: 'discount', formatter: (val) => val ? `${val}%` : '-' },
       { header: 'Цена со скидкой', key: 'discounted_price', formatter: (val) => val ? `${val} BYN` : '-' },
-      { header: 'Остаток', key: 'stock_quantity', formatter: (val) => val ?? 'Н/Д' },
+      { header: 'Остаток', key: 'stock_quantity', formatter: (val) => (val == null || val === 0 ? 'Нет в наличии' : val) },
       { header: 'Статус', key: 'is_active', formatter: (val) => val ? 'Активен' : 'Неактивен' },
       { header: 'Новинка', key: 'is_new', formatter: (val) => val ? 'Да' : 'Нет' },
       { header: 'Популярное', key: 'is_popular', formatter: (val) => val ? 'Да' : 'Нет' },
@@ -519,13 +519,12 @@ export default function AdminProducts() {
       headerName: 'Остаток',
       width: 100,
       type: 'number',
-      renderCell: (params: GridRenderCellParams<Product>) => (
-        <Chip
-          label={params.value ?? 'Н/Д'}
-          size="small"
-          color={params.value && params.value > 0 ? 'success' : 'default'}
-        />
-      ),
+      renderCell: (params: GridRenderCellParams<Product>) => {
+        const val = params.value as number | null | undefined;
+        const label = val == null || val === 0 ? 'Нет в наличии' : String(val);
+        const color = val != null && val > 0 ? 'success' : 'default';
+        return <Chip label={label} size="small" color={color} />;
+      },
     },
     {
       field: 'is_active',

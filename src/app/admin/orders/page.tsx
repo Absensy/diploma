@@ -42,7 +42,7 @@ interface Order {
   id: number;
   user_id: number | null;
   order_date: string;
-  status: 'PENDING' | 'PAID' | 'SHIPPED' | 'COMPLETED' | 'OFFLINE';
+  status: 'PENDING_CONFIRMATION' | 'CONFIRMED' | 'PAID' | 'CANCELLED';
   total_amount: number | null;
   payment_method: 'ONLINE' | 'OFFLINE';
   user: {
@@ -61,11 +61,10 @@ interface OrderFormData {
 }
 
 const orderStatuses = [
-  { value: 'PENDING', label: 'Ожидает' },
+  { value: 'PENDING_CONFIRMATION', label: 'Ожидает подтверждения' },
+  { value: 'CONFIRMED', label: 'Подтверждён' },
   { value: 'PAID', label: 'Оплачен' },
-  { value: 'SHIPPED', label: 'Отправлен' },
-  { value: 'COMPLETED', label: 'Завершен' },
-  { value: 'OFFLINE', label: 'Офлайн' },
+  { value: 'CANCELLED', label: 'Отменён' },
 ];
 const paymentMethods = [
   { value: 'ONLINE', label: 'Онлайн' },
@@ -115,17 +114,28 @@ export default function AdminOrders() {
   };
 
   const statusLabels: Record<string, string> = {
-    PENDING: 'Ожидает',
+    PENDING_CONFIRMATION: 'Ожидает подтверждения',
+    CONFIRMED: 'Подтверждён',
     PAID: 'Оплачен',
-    SHIPPED: 'Отправлен',
-    COMPLETED: 'Завершен',
-    OFFLINE: 'Офлайн',
+    CANCELLED: 'Отменён',
+  };
+
+  // Допустимые переходы статуса (для выпадающего списка в редактировании)
+  const allowedTransitions: Record<string, string[]> = {
+    PENDING_CONFIRMATION: ['CONFIRMED', 'CANCELLED'],
+    CONFIRMED: ['PAID', 'CANCELLED'],
+    PAID: [],
+    CANCELLED: [],
   };
 
   const methodLabels: Record<string, string> = {
     ONLINE: 'Онлайн',
     OFFLINE: 'Офлайн',
   };
+
+  const statusOptionsForOrder = editingOrder
+    ? [editingOrder.status, ...(allowedTransitions[editingOrder.status] || [])]
+    : orderStatuses.map((s) => s.value);
 
   const handleExportExcel = () => {
     const exportColumns: ExportColumn[] = [
@@ -159,8 +169,8 @@ export default function AdminOrders() {
 
   const [formData, setFormData] = useState<OrderFormData>({
     user_id: '',
-    status: 'PENDING',
-    payment_method: 'ONLINE',
+    status: 'PENDING_CONFIRMATION',
+    payment_method: 'OFFLINE',
   });
 
   // Fetch orders
@@ -352,22 +362,20 @@ export default function AdminOrders() {
       width: 120,
       renderCell: (params: GridRenderCellParams<Order>) => {
         const statusLabels: Record<string, string> = {
-          PENDING: 'Ожидает',
+          PENDING_CONFIRMATION: 'Ожидает подтверждения',
+          CONFIRMED: 'Подтверждён',
           PAID: 'Оплачен',
-          SHIPPED: 'Отправлен',
-          COMPLETED: 'Завершен',
-          OFFLINE: 'Офлайн',
+          CANCELLED: 'Отменён',
         };
         const colors: Record<string, 'default' | 'primary' | 'success' | 'warning' | 'error'> = {
-          PENDING: 'warning',
-          PAID: 'primary',
-          SHIPPED: 'primary',
-          COMPLETED: 'success',
-          OFFLINE: 'default',
+          PENDING_CONFIRMATION: 'warning',
+          CONFIRMED: 'primary',
+          PAID: 'success',
+          CANCELLED: 'error',
         };
         return (
           <Chip
-            label={statusLabels[params.value as string] || params.value as string}
+            label={statusLabels[params.value as string] || (params.value as string)}
             size="small"
             color={colors[params.value as string] || 'default'}
           />
@@ -557,11 +565,14 @@ export default function AdminOrders() {
                   label="Статус"
                   onChange={(e) => handleInputChange('status', e.target.value as string)}
                 >
-                  {orderStatuses.map((status) => (
-                    <MenuItem key={status.value} value={status.value}>
-                      {status.label}
-                    </MenuItem>
-                  ))}
+                  {statusOptionsForOrder.map((value) => {
+                    const option = orderStatuses.find((s) => s.value === value);
+                    return (
+                      <MenuItem key={value} value={value}>
+                        {option?.label ?? value}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
               <FormControl fullWidth>

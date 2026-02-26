@@ -45,7 +45,7 @@ model Product {
   meta_title        String?
   sku               String?            @unique
   slug              String?            @unique
-  stock_quantity    Int?               @default(0)
+  stock_quantity    Int                @default(0)
   weight            Decimal?           @db.Decimal(10, 2)
   order_items       OrderItem[]
   attributes        ProductAttribute[]
@@ -60,6 +60,7 @@ model Product {
   @@index([slug])
   @@index([category_id])
   @@index([is_active, is_new, is_popular])
+  @@index([is_active, stock_quantity])
   @@index([price])
   @@index([name])
   @@map("products")
@@ -120,9 +121,11 @@ model Order {
   id             Int           @id @default(autoincrement())
   user_id        Int?
   order_date     DateTime      @default(now()) @map("order_date")
-  status         OrderStatus   @default(PENDING)
+  status         OrderStatus   @default(PENDING_CONFIRMATION)
+  confirmed_at   DateTime?     @map("confirmed_at")
+  paid_at        DateTime?     @map("paid_at")
   total_amount   Decimal?      @map("total_amount") @db.Decimal(10, 2)
-  payment_method PaymentMethod @default(ONLINE) @map("payment_method")
+  payment_method PaymentMethod @default(OFFLINE) @map("payment_method")
   order_items    OrderItem[]
   user           User?         @relation(fields: [user_id], references: [id])
 
@@ -248,11 +251,10 @@ model ProductTag {
 }
 
 enum OrderStatus {
-  PENDING
+  PENDING_CONFIRMATION
+  CONFIRMED
   PAID
-  SHIPPED
-  COMPLETED
-  OFFLINE
+  CANCELLED
 
   @@map("order_status")
 }

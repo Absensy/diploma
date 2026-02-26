@@ -14,9 +14,6 @@ import {
   CircularProgress,
   FormControl,
   FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
 } from '@mui/material';
 import { ArrowBack, ShoppingCart } from '@mui/icons-material';
 import { useCart } from '@/contexts/CartContext';
@@ -40,7 +37,7 @@ export default function CheckoutPage() {
     last_name: user?.last_name || '',
     email: user?.email || '',
     phone: user?.phone || '',
-    payment_method: 'ONLINE' as 'ONLINE' | 'OFFLINE',
+    payment_method: 'OFFLINE' as 'ONLINE' | 'OFFLINE',
   });
 
   const handleInputChange = (field: string, value: string) => {
@@ -78,12 +75,15 @@ export default function CheckoutPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.error || 'Ошибка при создании заказа');
+        const message = data.error || 'Ошибка при создании заказа';
+        const details = data.details ? ` (${data.details})` : '';
+        throw new Error(message + details);
       }
 
       setOrderId(data.order.id);
       setSuccess(true);
       clearCart();
+      router.push(`/order/success?orderId=${data.order.id}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Произошла ошибка');
     } finally {
@@ -152,47 +152,6 @@ export default function CheckoutPage() {
     );
   }
 
-  if (success && orderId) {
-    return (
-      <Container maxWidth="md" sx={{ py: 4 }}>
-        <Paper sx={{ p: 4, textAlign: 'center' }}>
-          <Typography variant="h4" gutterBottom color="success.main">
-            Заказ успешно оформлен!
-          </Typography>
-          <Typography variant="h6" sx={{ mt: 2, mb: 1 }}>
-            Номер заказа: #{orderId}
-          </Typography>
-          <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-            Мы свяжемся с вами в ближайшее время для подтверждения заказа
-          </Typography>
-          <Stack direction="row" spacing={2} justifyContent="center">
-            <Button
-              component={Link}
-              href="/catalog"
-              variant="outlined"
-              startIcon={<ShoppingCart />}
-            >
-              Продолжить покупки
-            </Button>
-            {user && (
-              <Button
-                component={Link}
-                href="/profile"
-                variant="contained"
-                sx={{
-                  backgroundColor: '#333',
-                  '&:hover': { backgroundColor: '#555' },
-                }}
-              >
-                Мои заказы
-              </Button>
-            )}
-          </Stack>
-        </Paper>
-      </Container>
-    );
-  }
-
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h4" fontWeight="bold" gutterBottom>
@@ -213,6 +172,10 @@ export default function CheckoutPage() {
               Контактная информация
             </Typography>
             <Divider sx={{ mb: 3 }} />
+
+            <Alert severity="info" sx={{ mb: 3 }}>
+              После оформления заказа с вами свяжется менеджер для уточнения деталей и способа оплаты.
+            </Alert>
 
             <form onSubmit={handleSubmit}>
               <Stack spacing={3}>
@@ -251,23 +214,11 @@ export default function CheckoutPage() {
                   fullWidth
                 />
 
-                <FormControl component="fieldset">
-                  <FormLabel component="legend">Способ оплаты</FormLabel>
-                  <RadioGroup
-                    value={formData.payment_method}
-                    onChange={(e) => handleInputChange('payment_method', e.target.value)}
-                  >
-                    <FormControlLabel
-                      value="ONLINE"
-                      control={<Radio />}
-                      label="Онлайн оплата"
-                    />
-                    <FormControlLabel
-                      value="OFFLINE"
-                      control={<Radio />}
-                      label="Оплата при получении"
-                    />
-                  </RadioGroup>
+                <FormControl component="fieldset" sx={{ mt: 1 }}>
+                  <FormLabel component="legend">Оплата</FormLabel>
+                  <Typography variant="body1" color="text.secondary">
+                    Способ оплаты уточнит менеджер при связи.
+                  </Typography>
                 </FormControl>
 
                 <Button

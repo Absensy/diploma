@@ -221,8 +221,9 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                             <Button
                                 variant="contained"
                                 startIcon={<ShoppingCartIcon />}
+                                disabled={product.stock_quantity === 0}
                                 onClick={() => {
-                                    if (product) {
+                                    if (product && product.stock_quantity !== 0) {
                                         addItem({
                                             id: product.id,
                                             name: product.name,
@@ -238,7 +239,11 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                     '&:hover': { backgroundColor: '#555' },
                                 }}
                             >
-                                {isInCart(product.id) ? 'В корзине' : 'В корзину'}
+                                {product.stock_quantity === 0
+                                    ? 'Нет в наличии'
+                                    : isInCart(product.id)
+                                      ? 'В корзине'
+                                      : 'В корзину'}
                             </Button>
                         </Stack>
                     </Box>

@@ -68,10 +68,6 @@ const Header = () => {
     router.push('/admin/dashboard');
   };
 
-  const getInitials = (firstName: string, lastName: string) => {
-    return `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase();
-  };
-
   // Use fallback values to ensure consistent rendering between server and client
   // Always use the same structure regardless of loading state
   const address = contactInfo?.address || 'пр. Янки Купалы 22а, цокольный этаж';
@@ -246,7 +242,7 @@ const Header = () => {
                       }}
                     >
                       <Avatar sx={{ width: 32, height: 32, bgcolor: '#333' }}>
-                        {getInitials(user.first_name, user.last_name)}
+                        <Person sx={{ color: 'white', fontSize: 20 }} />
                       </Avatar>
                     </IconButton>
                     <Menu

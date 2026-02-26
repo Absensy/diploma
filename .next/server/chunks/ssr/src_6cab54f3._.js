@@ -1221,8 +1221,9 @@ const ProductModal = ({ open, onClose, product })=>{
                                             lineNumber: 223,
                                             columnNumber: 44
                                         }, void 0),
+                                        disabled: product.stock_quantity === 0,
                                         onClick: ()=>{
-                                            if (product) {
+                                            if (product && product.stock_quantity !== 0) {
                                                 addItem({
                                                     id: product.id,
                                                     name: product.name,
@@ -1239,7 +1240,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                 backgroundColor: '#555'
                                             }
                                         },
-                                        children: isInCart(product.id) ? 'В корзине' : 'В корзину'
+                                        children: product.stock_quantity === 0 ? 'Нет в наличии' : isInCart(product.id) ? 'В корзине' : 'В корзину'
                                     }, void 0, false, {
                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
                                         lineNumber: 221,
@@ -1258,7 +1259,7 @@ const ProductModal = ({ open, onClose, product })=>{
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Divider$2f$Divider$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Divider$3e$__["Divider"], {}, void 0, false, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 246,
+                            lineNumber: 251,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1271,7 +1272,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: "Описание"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 250,
+                                    lineNumber: 255,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1281,13 +1282,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: product.short_description
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 253,
+                                    lineNumber: 258,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 249,
+                            lineNumber: 254,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1300,7 +1301,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: "Подробное описание"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 260,
+                                    lineNumber: 265,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1310,13 +1311,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: product.full_description
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 263,
+                                    lineNumber: 268,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 259,
+                            lineNumber: 264,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1329,7 +1330,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: "Материалы"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 270,
+                                    lineNumber: 275,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1338,13 +1339,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: product.materials
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 273,
+                                    lineNumber: 278,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 269,
+                            lineNumber: 274,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1357,7 +1358,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: "Сроки изготовления"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 280,
+                                    lineNumber: 285,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0)),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1366,18 +1367,18 @@ const ProductModal = ({ open, onClose, product })=>{
                                     children: product.production_time
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 283,
+                                    lineNumber: 288,
                                     columnNumber: 25
                                 }, ("TURBOPACK compile-time value", void 0))
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 279,
+                            lineNumber: 284,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Divider$2f$Divider$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Divider$3e$__["Divider"], {}, void 0, false, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 288,
+                            lineNumber: 293,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0)),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Card$2f$Card$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Card$3e$__["Card"], {
@@ -1398,7 +1399,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                             children: "Для заказа или подробностей свяжитесь с нами"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 298,
+                                            lineNumber: 303,
                                             columnNumber: 33
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         loading ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1410,7 +1411,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                             children: "Загрузка контактной информации..."
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 303,
+                                            lineNumber: 308,
                                             columnNumber: 37
                                         }, ("TURBOPACK compile-time value", void 0)) : contactInfo ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
                                             spacing: 1.5,
@@ -1424,7 +1425,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             fontSize: "small"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 309,
+                                                            lineNumber: 314,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1432,13 +1433,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             children: contactInfo.phone
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 310,
+                                                            lineNumber: 315,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                    lineNumber: 308,
+                                                    lineNumber: 313,
                                                     columnNumber: 41
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -1450,7 +1451,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             fontSize: "small"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 316,
+                                                            lineNumber: 321,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1458,13 +1459,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             children: contactInfo.email
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 317,
+                                                            lineNumber: 322,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                    lineNumber: 315,
+                                                    lineNumber: 320,
                                                     columnNumber: 41
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Stack$2f$Stack$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Stack$3e$__["Stack"], {
@@ -1476,7 +1477,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             fontSize: "small"
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 323,
+                                                            lineNumber: 328,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0)),
                                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1484,13 +1485,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             children: contactInfo.address
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 324,
+                                                            lineNumber: 329,
                                                             columnNumber: 45
                                                         }, ("TURBOPACK compile-time value", void 0))
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                    lineNumber: 322,
+                                                    lineNumber: 327,
                                                     columnNumber: 41
                                                 }, ("TURBOPACK compile-time value", void 0)),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
@@ -1501,13 +1502,13 @@ const ProductModal = ({ open, onClose, product })=>{
                                                     children: contactInfo.working_hours
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                    lineNumber: 329,
+                                                    lineNumber: 334,
                                                     columnNumber: 41
                                                 }, ("TURBOPACK compile-time value", void 0))
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 307,
+                                            lineNumber: 312,
                                             columnNumber: 37
                                         }, ("TURBOPACK compile-time value", void 0)) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Typography$2f$Typography$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Typography$3e$__["Typography"], {
                                             variant: "body2",
@@ -1518,7 +1519,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                             children: "Контактная информация недоступна"
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 334,
+                                            lineNumber: 339,
                                             columnNumber: 37
                                         }, ("TURBOPACK compile-time value", void 0)),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Box$2f$Box$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Box$3e$__["Box"], {
@@ -1545,7 +1546,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 351,
+                                                            lineNumber: 356,
                                                             columnNumber: 56
                                                         }, void 0),
                                                         component: "a",
@@ -1577,7 +1578,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                         children: "Позвонить"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                        lineNumber: 348,
+                                                        lineNumber: 353,
                                                         columnNumber: 41
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
@@ -1589,7 +1590,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 386,
+                                                            lineNumber: 391,
                                                             columnNumber: 56
                                                         }, void 0),
                                                         component: "a",
@@ -1621,7 +1622,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                         children: "Написать"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                        lineNumber: 383,
+                                                        lineNumber: 388,
                                                         columnNumber: 41
                                                     }, ("TURBOPACK compile-time value", void 0)),
                                                     contactInfo?.instagram && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f40$mui$2f$material$2f$esm$2f$Button$2f$Button$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__$3c$export__default__as__Button$3e$__["Button"], {
@@ -1633,7 +1634,7 @@ const ProductModal = ({ open, onClose, product })=>{
                                                             }
                                                         }, void 0, false, {
                                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                            lineNumber: 422,
+                                                            lineNumber: 427,
                                                             columnNumber: 60
                                                         }, void 0),
                                                         component: "a",
@@ -1660,34 +1661,34 @@ const ProductModal = ({ open, onClose, product })=>{
                                                         children: "Instagram"
                                                     }, void 0, false, {
                                                         fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                        lineNumber: 419,
+                                                        lineNumber: 424,
                                                         columnNumber: 45
                                                     }, ("TURBOPACK compile-time value", void 0))
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                                lineNumber: 340,
+                                                lineNumber: 345,
                                                 columnNumber: 37
                                             }, ("TURBOPACK compile-time value", void 0))
                                         }, void 0, false, {
                                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                            lineNumber: 339,
+                                            lineNumber: 344,
                                             columnNumber: 33
                                         }, ("TURBOPACK compile-time value", void 0))
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                    lineNumber: 297,
+                                    lineNumber: 302,
                                     columnNumber: 29
                                 }, ("TURBOPACK compile-time value", void 0))
                             }, void 0, false, {
                                 fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                                lineNumber: 296,
+                                lineNumber: 301,
                                 columnNumber: 25
                             }, ("TURBOPACK compile-time value", void 0))
                         }, void 0, false, {
                             fileName: "[project]/src/components/ProductModal/ProductModal.tsx",
-                            lineNumber: 291,
+                            lineNumber: 296,
                             columnNumber: 21
                         }, ("TURBOPACK compile-time value", void 0))
                     ]
