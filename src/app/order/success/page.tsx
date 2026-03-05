@@ -14,9 +14,7 @@ function OrderSuccessContent() {
   return (
     <Container maxWidth="sm" sx={{ py: 6 }}>
       <Paper sx={{ p: 4, textAlign: 'center' }}>
-        <Typography variant="h4" gutterBottom color="success.main" fontWeight="bold">
-          Спасибо за заказ!
-        </Typography>
+        <Typography variant="h4" gutterBottom color="success.main" fontWeight="bold">Спасибо за заказ!</Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mt: 2, mb: 1 }}>
           С вами свяжется менеджер для уточнения деталей и способа оплаты.
         </Typography>
