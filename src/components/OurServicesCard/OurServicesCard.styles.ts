@@ -13,10 +13,8 @@ export const ServicesCard = styled(Grid)(({ theme }) => ({
     backgroundColor: theme.palette.background.paper,
     width: '100%',
     minHeight: '280px',
-    maxWidth: '395px',
-    borderRadius: "16px", 
+    borderRadius: "16px",
     textAlign: 'center',
-    justifyContent: 'space-around',
     transition: 'all 0.2s ease-in-out',
     boxShadow: '0 4px 12px 0 rgba(0, 0, 0, 0.05)',
     display: 'flex',
@@ -28,6 +26,5 @@ export const ServicesCard = styled(Grid)(({ theme }) => ({
     },
     [theme.breakpoints.down('sm')]: {
         minHeight: '250px',
-        maxWidth: '100%',
     },
 }));

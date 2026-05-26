@@ -47,30 +47,22 @@ const GranitOurServices = () => {
                 <Typography fontSize={{ xs: "24px", md: "36px" }} fontWeight="700" textAlign="center" margin={{ xs: "0px 0px 40px 0px", md: "0px 0px 60px 0px" }}>Наши услуги</Typography>
             </Box>
             <Box
-                display="flex"
-                justifyContent="center"
-                width="100%"
+                display="grid"
+                gridTemplateColumns={{
+                    xs: "1fr",
+                    sm: "repeat(2, 1fr)",
+                    md: "repeat(3, 1fr)"
+                }}
+                gap={{ xs: "16px", sm: "20px", md: "24px" }}
             >
-                <Box
-                    display="grid"
-                    gridTemplateColumns={{
-                        xs: "1fr",
-                        sm: "repeat(2, 1fr)",
-                        md: "repeat(3, 1fr)"
-                    }}
-                    gap={{ xs: "16px", sm: "20px", md: "24px" }}
-                    width="100%"
-                    maxWidth={{ md: "1200px" }}
-                >
-                    {data.ourServices.map((service) => (
-                        <OurServicesCard
-                            key={service.id}
-                            image={service.image}
-                            name={service.name}
-                            subtext={service.subtext}
-                        />
-                    ))}
-                </Box>
+                {data.ourServices.map((service) => (
+                    <OurServicesCard
+                        key={service.id}
+                        image={service.image}
+                        name={service.name}
+                        subtext={service.subtext}
+                    />
+                ))}
             </Box>
         </Box>
     )
