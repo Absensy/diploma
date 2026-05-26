@@ -26,6 +26,9 @@ interface CartContextType {
   updateQuantity: (productId: number, quantity: number) => void;
   clearCart: () => void;
   isInCart: (productId: number) => boolean;
+  isCartOpen: boolean;
+  openCart: () => void;
+  closeCart: () => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
@@ -34,6 +37,10 @@ const CART_STORAGE_KEY = 'granit_cart';
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+
+  const openCart = useCallback(() => setIsCartOpen(true), []);
+  const closeCart = useCallback(() => setIsCartOpen(false), []);
 
   // Загрузка корзины из localStorage при монтировании
   useEffect(() => {
@@ -136,6 +143,9 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         updateQuantity,
         clearCart,
         isInCart,
+        isCartOpen,
+        openCart,
+        closeCart,
       }}
     >
       {children}

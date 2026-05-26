@@ -1,23 +1,30 @@
 import { PrismaClient } from '@prisma/client';
 import { faker } from '@faker-js/faker';
 
-// Local image paths for products and examples
+// Local image paths — only files that actually exist in public/uploads/product/
 const productImages = [
-  '/images/singleMonument.jpg',
-  '/images/doubleMonument.jpg',
-  '/images/memorialMonument.jpg',
-  '/images/graniteSlab.jpg',
-  '/images/gravestone.jpg',
-  '/images/GrneyMonument.jpg',
+  '/uploads/product/product_1766404232698.jpg',
+  '/uploads/product/product_1766404246370.jpg',
+  '/uploads/product/product_1766404269490.jpg',
+  '/uploads/product/product_1766404277125.jpg',
+  '/uploads/product/product_1766404292137.jpg',
+  '/uploads/product/product_1766404304661.jpg',
+  '/uploads/product/product_1766404307445.jpg',
+  '/uploads/product/product_1766404320170.jpg',
+  '/uploads/product/product_1766404331582.jpg',
+  '/uploads/product/product_1766404340007.jpg',
+  '/uploads/product/product_1766404353469.jpg',
+  '/uploads/product/product_1766404362939.jpg',
+  '/uploads/product/product_1766404380024.jpg',
 ];
 
 const exampleImages = [
-  '/images/memorialMonument.jpg',
-  '/images/singleMonument.jpg',
   '/images/doubleMonument.jpg',
-  '/images/graniteSlab.jpg',
-  '/images/gravestone.jpg',
+  '/images/doubleMonuments.jpg',
+  '/images/memorialMonument.jpg',
   '/images/GrneyMonument.jpg',
+  '/uploads/product/product_1766404232698.jpg',
+  '/uploads/product/product_1766404292137.jpg',
 ];
 
 const prisma = new PrismaClient();
@@ -81,7 +88,7 @@ async function main() {
       create: {
         name: 'Памятники одинарные',
         price_from: 1200.00,
-        photo: '/images/singleMonument.jpg',
+        photo: '/uploads/category/category_1766404396936.jpg',
         discount: 10,
         discounted_price: 1080.00,
       },
@@ -112,7 +119,7 @@ async function main() {
       create: {
         name: 'Гранитные плиты',
         price_from: 700.00,
-        photo: '/images/graniteSlab.jpg',
+        photo: '/uploads/category/category_1766404400663.jpg',
         discount: 5,
         discounted_price: 665.00,
       },
@@ -123,7 +130,7 @@ async function main() {
       create: {
         name: 'Надгробные плиты',
         price_from: 1000.00,
-        photo: '/images/gravestone.jpg',
+        photo: '/uploads/category/category_1766404414959.jpg',
       },
     }),
     prisma.category.upsert({
@@ -132,7 +139,7 @@ async function main() {
       create: {
         name: 'Венки',
         price_from: 50.00,
-        photo: '/images/venki.jpg',
+        photo: '/uploads/category/category_1766404423318.jpg',
         is_active: true,
       },
     }),
@@ -142,7 +149,7 @@ async function main() {
       create: {
         name: 'Светильники',
         price_from: 100.00,
-        photo: '/images/svetilniki.jpg',
+        photo: '/images/GrneyMonument.jpg',
         is_active: true,
       },
     }),
@@ -152,7 +159,7 @@ async function main() {
       create: {
         name: 'Ограды',
         price_from: 200.00,
-        photo: '/images/ogrady.jpg',
+        photo: '/images/doubleMonuments.jpg',
         is_active: true,
       },
     }),
@@ -162,7 +169,7 @@ async function main() {
       create: {
         name: 'Столы',
         price_from: 300.00,
-        photo: '/images/stoly.jpg',
+        photo: '/images/memorialMonument.jpg',
         is_active: true,
       },
     }),
@@ -172,7 +179,7 @@ async function main() {
       create: {
         name: 'Скамейки',
         price_from: 250.00,
-        photo: '/images/skameyki.jpg',
+        photo: '/images/GrneyMonument.jpg',
         is_active: true,
       },
     }),

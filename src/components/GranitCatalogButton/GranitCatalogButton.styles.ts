@@ -9,7 +9,6 @@ export const CatalogButtonStyles = styled(Button)(() => ({
            textTransform: 'none' as const,
            padding: '10px 20px',
            boxShadow: 'none',
-           maxWidth: '207px',
            maxHeight: '44px',
            '&:hover': {
              backgroundColor: '#5E5D5D',

@@ -1,23 +1,52 @@
+'use client';
+
 import * as React from 'react';
+import { Badge, Box } from '@mui/material';
 import { CatalogButtonStyles } from './GranitCatalogButton.styles';
 import ShoppingCartIcon from '@/icons/ShoppingCart';
-import Typography from '@mui/material/Typography';
-import Link from 'next/link';
+import { useCart } from '@/contexts/CartContext';
 
 interface CatalogButtonProps {
   categoryId?: number;
 }
 
-const CatalogButton: React.FC<CatalogButtonProps> = ({ categoryId }) => {
-  const href = categoryId ? `/catalog?categories=${categoryId}` : '/catalog';
+const CatalogButton: React.FC<CatalogButtonProps> = () => {
+  const { openCart, totalItems } = useCart();
 
   return (
-    <Link href={href} style={{ textDecoration: 'none' }}>
-      <CatalogButtonStyles variant="contained">
-        <Typography variant="body2" fontSize='16px' fontWeight='400' paddingRight='10px '>Открыть каталог</Typography>
-        <ShoppingCartIcon />
-      </CatalogButtonStyles>
-    </Link>
+    <CatalogButtonStyles variant="contained" onClick={openCart}>
+      <Box
+        component="span"
+        sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          gap: '10px',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <Box component="span" sx={{ fontSize: '16px', fontWeight: 400 }}>
+          Открыть корзину
+        </Box>
+        <Badge
+          badgeContent={totalItems > 0 ? totalItems : undefined}
+          sx={{
+            '& .MuiBadge-badge': {
+              backgroundColor: '#e53935',
+              color: '#fff',
+              fontSize: '10px',
+              minWidth: '16px',
+              height: '16px',
+              padding: '0 4px',
+              top: -4,
+              right: -4,
+            },
+          }}
+        >
+          <ShoppingCartIcon />
+        </Badge>
+      </Box>
+    </CatalogButtonStyles>
   );
 };
 

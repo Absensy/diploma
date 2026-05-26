@@ -1,11 +1,10 @@
 import { Box, Typography } from "@mui/material";
-import { CatalogCardProps, CategoryCard, DiscountBadge, PriceContainer, OldPrice, CardActions, PopularBadge, StatusBadge } from "./GranitCatalogCard.Styles"
+import { CatalogCardProps, CategoryCard, DiscountBadge, PriceContainer, OldPrice, CardActions, PopularBadge, NewBadge } from "./GranitCatalogCard.Styles"
 import DetailsButton from "../GranitDetailsButton/GranitDetailsButton"
 import Image from "next/image";
 import ProductModal from "../ProductModal/ProductModal";
 import ImageViewerModal from "../ImageViewerModal/ImageViewerModal";
 import { useState } from "react";
-import { styled } from "@mui/material/styles";
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
 import { useImageBackgroundColor } from "@/hooks/useImageBackgroundColor";
 
@@ -33,13 +32,6 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
         setImageViewerOpen(false);
     };
 
-    // Динамический стиль для NewBadge в зависимости от наличия PopularBadge
-    const DynamicNewBadge = styled(StatusBadge)(() => ({
-        backgroundColor: '#2196f3',
-        top: is_popular ? 40 : 8, // Если есть PopularBadge, то ниже, иначе вверху
-        left: 8,
-        zIndex: 10,
-    }));
 
     return (
         <>
@@ -153,7 +145,9 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
                     {/* Бейджи */}
                     {discount ? <DiscountBadge>-{discount}%</DiscountBadge> : null}
                     {is_popular && <PopularBadge>Популярное</PopularBadge>}
-                    {is_new && <DynamicNewBadge>Новинка</DynamicNewBadge>}
+                    {is_new && (
+                        <NewBadge sx={{ top: is_popular ? 40 : 8 }}>Новинка</NewBadge>
+                    )}
                 </Box>
                 <Box padding="20px" display="flex" flexDirection="column" flex={1} justifyContent="space-between">
                     <Typography variant="h3" fontSize="20px" fontWeight="700" color="text.primary" marginBottom="8px">

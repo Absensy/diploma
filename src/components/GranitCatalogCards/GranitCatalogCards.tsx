@@ -1,5 +1,5 @@
 "use client"
-import { Box, Typography, Alert } from "@mui/material";
+import { Box, Typography, Alert, Button } from "@mui/material";
 import { GranitCatalogCard } from "../GranitCatalogCard/GranitCatalogCard";
 import { PaginationStyles, Ctatalogbox, StackStyle, TypographyStyle, ShowMoreContainer } from "./GranitCatalogCard.Styles";
 import MobileFilterDrawer from "../MobileFilterDrawer/MobileFilterDrawer";
@@ -9,6 +9,8 @@ import { useFilterContext } from "@/contexts/FilterContext";
 import { usePagination } from "@/hooks/usePagination";
 import { ProductCardSkeleton, Skeleton } from "../Skeleton/Skeleton";
 import EmptyState from "../EmptyState/EmptyState";
+
+const CATALOG_SCROLL_ID = 'catalog-top';
 
 const GranitCatalogCards = () => {
     const { filters } = useFilterContext();
@@ -20,10 +22,12 @@ const GranitCatalogCards = () => {
         itemsPerPage,
         hasMoreItems,
         remainingItems,
+        isExpanded,
         handlePageChange,
         handleShowMore,
-        isMobile
-    } = usePagination(totalCount);
+        handleCollapse,
+        isMobile,
+    } = usePagination(totalCount, { scrollTargetId: CATALOG_SCROLL_ID });
 
     if (loading) {
         return (
@@ -72,7 +76,7 @@ const GranitCatalogCards = () => {
     };
 
     return (
-        <Ctatalogbox>
+        <Ctatalogbox id={CATALOG_SCROLL_ID}>
             <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="32px">
                 <Typography fontSize="16px" color="#9A9DA4">
                     Показано {isMobile ? Math.min(visibleItems, totalCount) : currentProducts.length} из {totalCount} {getResultText(totalCount)}
@@ -119,13 +123,37 @@ const GranitCatalogCards = () => {
                         </StackStyle>
                     )}
 
-                    {/* Кнопка "Показать ещё" для мобилки */}
-                    {isMobile && hasMoreItems && (
+                    {/* Кнопка "Показать ещё" / "Свернуть" для мобилки */}
+                    {isMobile && (hasMoreItems || isExpanded) && (
                         <ShowMoreContainer>
-                            <GranitShowMoreButton onClick={handleShowMore}>
-                                Показать ещё ({remainingItems})
-                            </GranitShowMoreButton>
-                            <TypographyStyle>Показано {visibleItems} из {totalCount} товаров</TypographyStyle>
+                            {hasMoreItems && (
+                                <GranitShowMoreButton onClick={handleShowMore}>
+                                    Показать ещё ({remainingItems})
+                                </GranitShowMoreButton>
+                            )}
+                            {isExpanded && (
+                                <Button
+                                    onClick={handleCollapse}
+                                    variant="outlined"
+                                    sx={{
+                                        display: { xs: 'flex', sm: 'none' },
+                                        mt: hasMoreItems ? 1.5 : 0,
+                                        borderRadius: '12px',
+                                        textTransform: 'none',
+                                        fontSize: '16px',
+                                        padding: '14px 24px',
+                                        borderColor: '#2c2c2c',
+                                        color: '#2c2c2c',
+                                        '&:hover': {
+                                            borderColor: '#5E5D5D',
+                                            backgroundColor: 'rgba(44, 44, 44, 0.05)',
+                                        },
+                                    }}
+                                >
+                                    Свернуть
+                                </Button>
+                            )}
+                            <TypographyStyle>Показано {Math.min(visibleItems, totalCount)} из {totalCount} товаров</TypographyStyle>
                         </ShowMoreContainer>
                     )}
                 </>

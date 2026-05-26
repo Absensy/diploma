@@ -7,12 +7,18 @@ import theme from '@/theme/theme';
 import { ContactProvider } from '@/contexts/ContactContext';
 import { AlertProvider } from '@/components/GlobalAlert/GlobalAlert';
 import { AuthProvider } from '@/contexts/AuthContext';
-import { CartProvider } from '@/contexts/CartContext';
+import { CartProvider, useCart } from '@/contexts/CartContext';
+import CartDrawer from '@/components/Cart/CartDrawer';
 import SnowWrapper from '@/components/SnowWrapper/SnowWrapper';
 
 type ProvidersProps = {
   children: ReactNode;
 };
+
+function CartDrawerPortal() {
+  const { isCartOpen, closeCart } = useCart();
+  return <CartDrawer open={isCartOpen} onClose={closeCart} />;
+}
 
 export default function Providers({ children }: ProvidersProps) {
   return (
@@ -22,6 +28,7 @@ export default function Providers({ children }: ProvidersProps) {
         <AlertProvider>
           <AuthProvider>
             <CartProvider>
+              <CartDrawerPortal />
               <ContactProvider>
                 <SnowWrapper />
                 {children}

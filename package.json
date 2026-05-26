@@ -16,6 +16,7 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.2",
     "@mui/material": "^7.3.2",
+    "@mui/material-nextjs": "^9.0.1",
     "@mui/x-data-grid": "^8.27.1",
     "@next/third-parties": "^16.0.1",
     "@pbe/react-yandex-maps": "1.2.5",
@@ -42,6 +43,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.5.3",
+    "playwright": "^1.60.0",
     "tsx": "^4.20.6",
     "typescript": "^5"
   },

@@ -18,7 +18,6 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useCart } from '@/contexts/CartContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { Login, Logout, AccountCircle, Person, AdminPanelSettings, ShoppingCart } from '@mui/icons-material';
-import CartDrawer from '../Cart/CartDrawer';
 
 const BurgerButton = styled(Button)(({ theme }) => ({
     display: 'none',
@@ -63,11 +62,10 @@ const FeaturesBox = styled(Box)(() => ({
 
 const BurgerMenu = () => {
     const [isOpen, setIsOpen] = useState(false);
-    const [cartOpen, setCartOpen] = useState(false);
     const { contactInfo, loading } = useContactContext();
     const { data: aboutData } = useAboutCompanyContent();
     const { user, authenticated, logout, loading: authLoading } = useAuth();
-    const { totalItems } = useCart();
+    const { totalItems, openCart } = useCart();
     const pathname = usePathname();
     const router = useRouter();
 
@@ -283,11 +281,11 @@ const BurgerMenu = () => {
 
                         {/* Корзина */}
                         <Box marginBottom="24px">
-                            <MobileMenuButton 
-                                fullWidth 
+                            <MobileMenuButton
+                                fullWidth
                                 onClick={() => {
                                     setIsOpen(false);
-                                    setCartOpen(true);
+                                    openCart();
                                 }}
                                 startIcon={<ShoppingCart />}
                                 sx={{
@@ -327,8 +325,6 @@ const BurgerMenu = () => {
                 </Box>
             </Drawer>
 
-            {/* Cart Drawer */}
-            <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
         </>
     );
 };

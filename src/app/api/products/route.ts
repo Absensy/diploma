@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
     const products = await prisma.product.findMany({
       where: {
         is_active: true,
-        stock_quantity: { gt: 0 },
         ...(categoryId ? { category_id: parseInt(categoryId) } : {}),
       },
       include: {

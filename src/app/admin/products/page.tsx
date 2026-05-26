@@ -39,6 +39,7 @@ import {
   VisibilityOff,
   Search,
   FileDownload,
+  ImageSearch,
 } from '@mui/icons-material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
@@ -131,6 +132,7 @@ export default function AdminProducts() {
     message: '',
     severity: 'success',
   });
+  const [fixingImages, setFixingImages] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isEditingDiscountedPrice, setIsEditingDiscountedPrice] = useState(false);
@@ -198,6 +200,30 @@ export default function AdminProducts() {
     ];
     await exportToPDF(filteredProducts, exportColumns, `товары_${new Date().toISOString().split('T')[0]}`, 'Отчет по товарам');
     handleExportClose();
+  };
+
+  const handleFixImages = async () => {
+    if (!confirm('Заменить все нелокальные изображения товаров на локальные из папки uploads?')) return;
+    try {
+      setFixingImages(true);
+      const response = await fetch('/api/admin/fix-product-images', { method: 'POST' });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error);
+      setSnackbar({
+        open: true,
+        message: `Исправлено ${data.updated} из ${data.total} товаров`,
+        severity: 'success',
+      });
+      fetchProducts();
+    } catch (err) {
+      setSnackbar({
+        open: true,
+        message: err instanceof Error ? err.message : 'Ошибка исправления изображений',
+        severity: 'error',
+      });
+    } finally {
+      setFixingImages(false);
+    }
   };
 
   const [formData, setFormData] = useState<ProductFormData>({
@@ -649,6 +675,17 @@ export default function AdminProducts() {
             </Button>
             <Button
               variant="outlined"
+              startIcon={fixingImages ? <CircularProgress size={16} /> : <ImageSearch />}
+              onClick={handleFixImages}
+              disabled={fixingImages}
+              size="small"
+              color="warning"
+              title="Заменить все нелокальные изображения на локальные"
+            >
+              Исправить фото
+            </Button>
+            <Button
+              variant="outlined"
               startIcon={<FileDownload />}
               onClick={handleExportClick}
               size="small"
@@ -758,7 +795,7 @@ export default function AdminProducts() {
                 rows={4}
               />
               <TextField
-                label="Materials"
+                label="Материалы"
                 value={formData.materials}
                 onChange={(e) => handleInputChange('materials', e.target.value)}
                 fullWidth

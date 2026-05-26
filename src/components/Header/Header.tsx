@@ -1,8 +1,8 @@
 'use client';
 
 import * as React from 'react';
-import { Box, Typography, Stack, Button, Menu, MenuItem, Avatar, Divider, IconButton, Badge } from '@mui/material';
-import { Logout, Login, Person, AdminPanelSettings, ShoppingCart } from '@mui/icons-material';
+import { Box, Typography, Stack, Button, Menu, MenuItem, Avatar, Divider, IconButton } from '@mui/material';
+import { Logout, Login, Person, AdminPanelSettings } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
 import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import { ButtonHeader, HeaderMenuButton } from './Header.Styles';
@@ -17,9 +17,7 @@ import Link from 'next/link';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useAboutCompanyContent } from '@/hooks/useContent';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCart } from '@/contexts/CartContext';
 import BurgerMenu from '../BurgerMenu/BurgerMenu';
-import CartDrawer from '../Cart/CartDrawer';
 
 // Default values to ensure consistent rendering between server and client
 const DEFAULT_ADVANTAGES = [
@@ -34,10 +32,8 @@ const Header = () => {
   const { contactInfo } = useContactContext();
   const { data: aboutData } = useAboutCompanyContent();
   const { user, authenticated, logout, loading } = useAuth();
-  const { totalItems } = useCart();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [cartOpen, setCartOpen] = React.useState(false);
   const open = Boolean(anchorEl);
 
   const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -214,20 +210,6 @@ const Header = () => {
               <ButtonHeader><CatalogButton /></ButtonHeader>
             </Box>
             
-            {/* Корзина */}
-            <IconButton
-              onClick={() => setCartOpen(true)}
-              size="small"
-              sx={{ 
-                ml: 1,
-                display: { xs: 'none', sm: 'flex' }
-              }}
-            >
-              <Badge badgeContent={totalItems} color="primary">
-                <ShoppingCart />
-              </Badge>
-            </IconButton>
-
             {/* Авторизация */}
             {!loading && (
               <>
@@ -313,8 +295,6 @@ const Header = () => {
         </Stack>
       </Box>
 
-      {/* Cart Drawer */}
-      <CartDrawer open={cartOpen} onClose={() => setCartOpen(false)} />
     </Box>
   );
 };
