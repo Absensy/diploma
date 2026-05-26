@@ -205,13 +205,13 @@ const RecentProductCard = ({ product }: { product: RecentProduct }) => (
     <CardContent sx={{ p: { xs: 1.5, md: 2 } }}>
       <Box display="flex" alignItems="center" gap={2}>
         <Avatar
-          src="/images/placeholder.jpg"
-          alt={product.name}
           variant="rounded"
-          sx={{ width: { xs: 40, md: 48 }, height: { xs: 40, md: 48 } }}
-          onError={(e: React.SyntheticEvent<HTMLImageElement, Event>) => {
-            const target = e.target as HTMLImageElement;
-            target.style.display = 'none';
+          sx={{
+            width: { xs: 40, md: 48 },
+            height: { xs: 40, md: 48 },
+            bgcolor: '#2c2c2c',
+            fontSize: { xs: '1rem', md: '1.2rem' },
+            fontWeight: 700,
           }}
         >
           {product.name?.charAt(0) || '?'}

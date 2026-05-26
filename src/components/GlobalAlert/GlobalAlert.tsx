@@ -1,112 +1,81 @@
 'use client';
 
 import React, { createContext, useContext, useState, useCallback } from 'react';
-import { Alert, Snackbar, AlertColor } from '@mui/material';
+import { type AlertColor } from '@mui/material';
+import { ToastStack } from './GlobalAlert.styles';
+import Toast from './Toast';
 
-interface AlertMessage {
+export interface AlertItem {
   id: string;
   message: string;
+  title?: string;
   severity: AlertColor;
-  duration?: number;
+  duration: number;
+  action?: { label: string; onClick: () => void };
 }
 
 interface AlertContextType {
-  showAlert: (message: string, severity?: AlertColor, duration?: number) => void;
-  showSuccess: (message: string, duration?: number) => void;
-  showError: (message: string, duration?: number) => void;
-  showWarning: (message: string, duration?: number) => void;
-  showInfo: (message: string, duration?: number) => void;
+  showAlert: (message: string, severity?: AlertColor, duration?: number, title?: string) => void;
+  showSuccess: (message: string, duration?: number, title?: string) => void;
+  showError: (message: string, duration?: number, title?: string) => void;
+  showWarning: (message: string, duration?: number, title?: string) => void;
+  showInfo: (message: string, duration?: number, title?: string) => void;
 }
 
 const AlertContext = createContext<AlertContextType | undefined>(undefined);
 
 export const useAlert = () => {
-  const context = useContext(AlertContext);
-  if (!context) {
-    throw new Error('useAlert must be used within an AlertProvider');
-  }
-  return context;
+  const ctx = useContext(AlertContext);
+  if (!ctx) throw new Error('useAlert must be used within an AlertProvider');
+  return ctx;
 };
 
-interface AlertProviderProps {
-  children: React.ReactNode;
-}
+export const AlertProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [alerts, setAlerts] = useState<AlertItem[]>([]);
 
-export const AlertProvider: React.FC<AlertProviderProps> = ({ children }) => {
-  const [alerts, setAlerts] = useState<AlertMessage[]>([]);
-
-  const showAlert = useCallback((message: string, severity: AlertColor = 'info', duration: number = 4000) => {
-    // Use crypto.randomUUID if available, otherwise fallback to timestamp + random
-    const id = typeof crypto !== 'undefined' && crypto.randomUUID 
-      ? crypto.randomUUID() 
-      : `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
-    const newAlert: AlertMessage = {
-      id,
-      message,
-      severity,
-      duration,
-    };
-
-    setAlerts(prev => [...prev, newAlert]);
-
-    setTimeout(() => {
-      setAlerts(prev => prev.filter(alert => alert.id !== id));
-    }, duration);
+  const removeAlert = useCallback((id: string) => {
+    setAlerts(prev => prev.filter(a => a.id !== id));
   }, []);
 
-  const showSuccess = useCallback((message: string, duration?: number) => {
-    showAlert(message, 'success', duration);
-  }, [showAlert]);
+  const addAlert = useCallback((
+    message: string,
+    severity: AlertColor = 'info',
+    duration = 4500,
+    title?: string,
+  ) => {
+    const id =
+      typeof crypto !== 'undefined' && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 
-  const showError = useCallback((message: string, duration?: number) => {
-    showAlert(message, 'error', duration);
-  }, [showAlert]);
+    setAlerts(prev => [...prev, { id, message, title, severity, duration }]);
+    setTimeout(() => removeAlert(id), duration);
+  }, [removeAlert]);
 
-  const showWarning = useCallback((message: string, duration?: number) => {
-    showAlert(message, 'warning', duration);
-  }, [showAlert]);
-
-  const showInfo = useCallback((message: string, duration?: number) => {
-    showAlert(message, 'info', duration);
-  }, [showAlert]);
-
-  const handleClose = (alertId: string) => {
-    setAlerts(prev => prev.filter(alert => alert.id !== alertId));
-  };
-
-  const value: AlertContextType = {
-    showAlert,
-    showSuccess,
-    showError,
-    showWarning,
-    showInfo,
-  };
+  const noop = useCallback((_id: string) => {}, []);
 
   return (
-    <AlertContext.Provider value={value}>
+    <AlertContext.Provider
+      value={{
+        showAlert: addAlert,
+        showSuccess: (msg, dur, title) => addAlert(msg, 'success', dur, title),
+        showError:   (msg, dur, title) => addAlert(msg, 'error',   dur, title),
+        showWarning: (msg, dur, title) => addAlert(msg, 'warning', dur, title),
+        showInfo:    (msg, dur, title) => addAlert(msg, 'info',    dur, title),
+      }}
+    >
       {children}
-      {alerts.map((alert, index) => (
-        <Snackbar
-          key={alert.id}
-          open={true}
-          anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          sx={{
-            top: `${80 + index * 70}px !important`, // Stack multiple alerts
-          }}
-        >
-          <Alert
-            severity={alert.severity}
-            onClose={() => handleClose(alert.id)}
-            sx={{
-              width: '100%',
-              minWidth: 300,
-              boxShadow: 3,
-            }}
-          >
-            {alert.message}
-          </Alert>
-        </Snackbar>
-      ))}
+      <ToastStack>
+        {alerts.map(item => (
+          <Toast
+            key={item.id}
+            item={item}
+            onClose={removeAlert}
+            onPause={noop}
+            onResume={noop}
+          />
+        ))}
+      </ToastStack>
     </AlertContext.Provider>
   );
 };
