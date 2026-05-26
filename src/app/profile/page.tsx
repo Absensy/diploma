@@ -489,7 +489,10 @@ export default function ProfilePage() {
                       sx={{
                         cursor: 'pointer',
                         transition: 'transform 0.2s, box-shadow 0.2s',
-                        borderTop: meta ? `3px solid ${meta.hex}` : undefined,
+                        borderTop: meta ? `4px solid ${meta.hex}` : undefined,
+                        height: '100%',
+                        display: 'flex',
+                        flexDirection: 'column',
                         '&:hover': {
                           transform: 'translateY(-4px)',
                           boxShadow: 4,
@@ -497,51 +500,104 @@ export default function ProfilePage() {
                       }}
                       onClick={() => handleOrderClick(order)}
                     >
-                      <CardContent>
-                        <Stack spacing={2}>
+                      <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
+                        <Stack spacing={2} sx={{ flex: 1 }}>
                           <Box display="flex" justifyContent="space-between" alignItems="center">
                             <Typography variant="h6" fontWeight="600">
                               Заказ #{order.id}
                             </Typography>
-                            {meta && (
-                              <Chip
-                                icon={StatusIcon ? <StatusIcon sx={{ fontSize: '1rem !important', color: `${meta.hex} !important` }} /> : undefined}
-                                label={meta.label}
-                                size="small"
-                                sx={{
-                                  fontWeight: 600,
-                                  backgroundColor: `${meta.hex}15`,
-                                  color: meta.hex,
-                                  border: `1px solid ${meta.hex}40`,
-                                }}
-                              />
-                            )}
+                            <Typography variant="caption" color="text.disabled">
+                              {formatDate(order.order_date)}
+                            </Typography>
                           </Box>
+
                           <Divider />
 
-                          <Box sx={{ py: 0.5 }}>
-                            <OrderStatusStepper
-                              status={order.status}
-                              timestamps={order}
-                              orientation="horizontal"
-                              compact
+                          {/* Текущий статус — один кружок */}
+                          {order.status === 'CANCELLED' ? (
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, py: 1 }}>
+                              <Box
+                                sx={{
+                                  width: 52,
+                                  height: 52,
+                                  borderRadius: '50%',
+                                  flexShrink: 0,
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  background: 'linear-gradient(135deg, #d32f2f 0%, #b71c1c 100%)',
+                                  color: '#fff',
+                                  boxShadow: '0 4px 14px 0 rgba(211,47,47,0.35)',
+                                }}
+                              >
+                                {StatusIcon && <StatusIcon sx={{ fontSize: 26 }} />}
+                              </Box>
+                              <Box>
+                                <Typography variant="body2" fontWeight={700} color="error.main">
+                                  Заказ отменён
+                                </Typography>
+                                <Typography variant="caption" color="text.secondary">
+                                  {meta?.description}
+                                </Typography>
+                              </Box>
+                            </Box>
+                          ) : (
+                            <Box
+                              sx={{
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                                py: 1.5,
+                                gap: 1,
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  width: 64,
+                                  height: 64,
+                                  borderRadius: '50%',
+                                  display: 'flex',
+                                  alignItems: 'center',
+                                  justifyContent: 'center',
+                                  background: meta ? `linear-gradient(135deg, ${meta.hex} 0%, ${meta.hex}cc 100%)` : '#e0e0e0',
+                                  color: '#fff',
+                                  boxShadow: meta ? `0 6px 18px 0 ${meta.hex}44` : 'none',
+                                  outline: meta ? `3px solid ${meta.hex}33` : 'none',
+                                  outlineOffset: 3,
+                                }}
+                              >
+                                {StatusIcon && <StatusIcon sx={{ fontSize: 32 }} />}
+                              </Box>
+                              <Typography variant="body2" fontWeight={700} sx={{ color: meta?.hex }}>
+                                {meta?.label}
+                              </Typography>
+                              <Typography variant="caption" color="text.secondary" textAlign="center" sx={{ px: 1, lineHeight: 1.4 }}>
+                                {meta?.description}
+                              </Typography>
+                            </Box>
+                          )}
+
+                          <Divider />
+
+                          <Box display="flex" justifyContent="space-between" alignItems="center">
+                            <Typography variant="body2" color="text.secondary">
+                              Товаров: {order.order_items.length}
+                            </Typography>
+                            <Chip
+                              label={paymentMethodLabels[order.payment_method]}
+                              size="small"
+                              variant="outlined"
                             />
                           </Box>
 
-                          <Typography variant="body2" color="text.secondary">
-                            Дата: {formatDate(order.order_date)}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            Товаров: {order.order_items.length}
-                          </Typography>
-                          <Typography variant="h6" fontWeight="600">
-                            {order.total_amount ? `${order.total_amount.toFixed(2)} BYN` : 'Н/Д'}
-                          </Typography>
-                          <Chip
-                            label={paymentMethodLabels[order.payment_method]}
-                            size="small"
-                            variant="outlined"
-                          />
+                          <Box display="flex" justifyContent="space-between" alignItems="center">
+                            <Typography variant="h6" fontWeight="700">
+                              {order.total_amount ? `${order.total_amount.toFixed(2)} BYN` : 'Н/Д'}
+                            </Typography>
+                            <Typography variant="caption" color="text.disabled" sx={{ fontSize: '0.65rem' }}>
+                              Нажмите для деталей
+                            </Typography>
+                          </Box>
                         </Stack>
                       </CardContent>
                     </Card>
