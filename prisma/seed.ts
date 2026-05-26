@@ -510,12 +510,13 @@ async function main() {
 
   // 7. Create Orders (15 orders)
   console.log('🛒 Creating orders...');
-  const orderStatuses: Array<'PENDING' | 'PAID' | 'SHIPPED' | 'COMPLETED' | 'OFFLINE'> = [
-    'PENDING',
+  const orderStatuses: Array<'NEW' | 'PAID' | 'IN_PRODUCTION' | 'IN_DELIVERY' | 'COMPLETED' | 'CANCELLED'> = [
+    'NEW',
     'PAID',
-    'SHIPPED',
+    'IN_PRODUCTION',
+    'IN_DELIVERY',
     'COMPLETED',
-    'OFFLINE',
+    'CANCELLED',
   ];
   const paymentMethods: Array<'ONLINE' | 'OFFLINE'> = ['ONLINE', 'OFFLINE'];
 

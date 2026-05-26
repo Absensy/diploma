@@ -35,15 +35,28 @@ import {
   Phone,
   Email,
   CalendarToday,
+  Receipt as ReceiptIcon,
 } from '@mui/icons-material';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import OrderStatusStepper from '@/components/OrderStatusStepper';
+import {
+  ORDER_STATUS_META,
+  type OrderStatus,
+} from '@/lib/orderStatus';
+import { generateReceiptPDF, type ReceiptCompany } from '@/lib/receiptGenerator';
 
 interface Order {
   id: number;
   order_date: string;
-  status: 'PENDING' | 'PAID' | 'SHIPPED' | 'COMPLETED' | 'OFFLINE';
+  status: OrderStatus;
+  confirmed_at?: string | null;
+  paid_at?: string | null;
+  in_production_at?: string | null;
+  in_delivery_at?: string | null;
+  completed_at?: string | null;
+  cancelled_at?: string | null;
   total_amount: number | null;
   payment_method: 'ONLINE' | 'OFFLINE';
   order_items: Array<{
@@ -68,22 +81,6 @@ interface UserProfile {
   phone: string | null;
   created_at: string;
 }
-
-const statusLabels: Record<string, string> = {
-  PENDING: 'Ожидает',
-  PAID: 'Оплачен',
-  SHIPPED: 'Отправлен',
-  COMPLETED: 'Завершен',
-  OFFLINE: 'Офлайн',
-};
-
-const statusColors: Record<string, 'default' | 'primary' | 'secondary' | 'error' | 'info' | 'success' | 'warning'> = {
-  PENDING: 'warning',
-  PAID: 'info',
-  SHIPPED: 'primary',
-  COMPLETED: 'success',
-  OFFLINE: 'default',
-};
 
 const paymentMethodLabels: Record<string, string> = {
   ONLINE: 'Онлайн',
@@ -112,7 +109,7 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function ProfilePage() {
-  const { user: authUser, authenticated, loading: authLoading, refreshUser } = useAuth();
+  const { authenticated, loading: authLoading, refreshUser } = useAuth();
   const router = useRouter();
   const [tabValue, setTabValue] = useState(0);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -129,6 +126,8 @@ export default function ProfilePage() {
   });
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orderDialogOpen, setOrderDialogOpen] = useState(false);
+  const [companyInfo, setCompanyInfo] = useState<ReceiptCompany | null>(null);
+  const [downloadingReceipt, setDownloadingReceipt] = useState(false);
 
   const [formData, setFormData] = useState({
     first_name: '',
@@ -138,14 +137,12 @@ export default function ProfilePage() {
     confirmPassword: '',
   });
 
-  // Редирект если не авторизован
   useEffect(() => {
     if (!authLoading && !authenticated) {
       router.push('/auth');
     }
   }, [authLoading, authenticated, router]);
 
-  // Загрузка профиля
   const fetchProfile = useCallback(async () => {
     try {
       setLoading(true);
@@ -176,7 +173,6 @@ export default function ProfilePage() {
     }
   }, [router]);
 
-  // Загрузка заказов
   const fetchOrders = useCallback(async () => {
     try {
       setOrdersLoading(true);
@@ -212,9 +208,7 @@ export default function ProfilePage() {
     }
   };
 
-  const handleEdit = () => {
-    setEditing(true);
-  };
+  const handleEdit = () => setEditing(true);
 
   const handleCancel = () => {
     setEditing(false);
@@ -234,12 +228,10 @@ export default function ProfilePage() {
       setSnackbar({ open: true, message: 'Имя и фамилия обязательны', severity: 'error' });
       return;
     }
-
     if (formData.password && formData.password.length < 6) {
       setSnackbar({ open: true, message: 'Пароль должен содержать минимум 6 символов', severity: 'error' });
       return;
     }
-
     if (formData.password && formData.password !== formData.confirmPassword) {
       setSnackbar({ open: true, message: 'Пароли не совпадают', severity: 'error' });
       return;
@@ -249,7 +241,7 @@ export default function ProfilePage() {
       setSaving(true);
       setError(null);
 
-      const updateData: any = {
+      const updateData: Record<string, unknown> = {
         first_name: formData.first_name.trim(),
         last_name: formData.last_name.trim(),
         phone: formData.phone.trim() || null,
@@ -261,9 +253,7 @@ export default function ProfilePage() {
 
       const response = await fetch('/api/user/profile', {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updateData),
       });
 
@@ -275,13 +265,9 @@ export default function ProfilePage() {
       const updatedProfile = await response.json();
       setProfile(updatedProfile);
       setEditing(false);
-      setFormData({
-        ...formData,
-        password: '',
-        confirmPassword: '',
-      });
+      setFormData({ ...formData, password: '', confirmPassword: '' });
       await refreshUser();
-      setSnackbar({ open: true, message: 'Профиль успешно обновлен', severity: 'success' });
+      setSnackbar({ open: true, message: 'Профиль успешно обновлён', severity: 'success' });
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Ошибка обновления профиля';
       setError(message);
@@ -294,6 +280,55 @@ export default function ProfilePage() {
   const handleOrderClick = (order: Order) => {
     setSelectedOrder(order);
     setOrderDialogOpen(true);
+  };
+
+  const ensureCompanyInfo = async (): Promise<ReceiptCompany> => {
+    if (companyInfo) return companyInfo;
+    const res = await fetch('/api/contact');
+    if (!res.ok) throw new Error('Не удалось получить реквизиты компании');
+    const data = await res.json();
+    const info: ReceiptCompany = {
+      address: data.address,
+      phone: data.phone,
+      email: data.email,
+      working_hours: data.working_hours,
+      instagram: data.instagram ?? null,
+    };
+    setCompanyInfo(info);
+    return info;
+  };
+
+  const handleDownloadReceipt = async () => {
+    if (!selectedOrder || !profile) return;
+    try {
+      setDownloadingReceipt(true);
+      const company = await ensureCompanyInfo();
+      await generateReceiptPDF({
+        order: {
+          ...selectedOrder,
+          user: {
+            first_name: profile.first_name,
+            last_name: profile.last_name,
+            email: profile.email,
+            phone: profile.phone,
+          },
+          order_items: selectedOrder.order_items.map((item) => ({
+            id: item.id,
+            quantity: item.quantity,
+            price_at_purchase: item.price_at_purchase,
+            product: item.product ? { id: item.product.id, name: item.product.name } : null,
+          })),
+        },
+        company,
+        download: true,
+      });
+      setSnackbar({ open: true, message: 'Чек скачан', severity: 'success' });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Не удалось сгенерировать чек';
+      setSnackbar({ open: true, message, severity: 'error' });
+    } finally {
+      setDownloadingReceipt(false);
+    }
   };
 
   const formatDate = (dateString: string) => {
@@ -341,7 +376,6 @@ export default function ProfilePage() {
           <Tab icon={<ShoppingBag />} iconPosition="start" label="Мои заказы" />
         </Tabs>
 
-        {/* Вкладка личных данных */}
         <TabPanel value={tabValue} index={0}>
           <Box sx={{ maxWidth: 600 }}>
             {!editing ? (
@@ -366,49 +400,35 @@ export default function ProfilePage() {
                   <Box display="flex" alignItems="center" gap={2}>
                     <Person sx={{ color: 'text.secondary' }} />
                     <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        Имя
-                      </Typography>
+                      <Typography variant="caption" color="text.secondary">Имя</Typography>
                       <Typography variant="body1">{profile.first_name}</Typography>
                     </Box>
                   </Box>
-
                   <Box display="flex" alignItems="center" gap={2}>
                     <Person sx={{ color: 'text.secondary' }} />
                     <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        Фамилия
-                      </Typography>
+                      <Typography variant="caption" color="text.secondary">Фамилия</Typography>
                       <Typography variant="body1">{profile.last_name}</Typography>
                     </Box>
                   </Box>
-
                   <Box display="flex" alignItems="center" gap={2}>
                     <Email sx={{ color: 'text.secondary' }} />
                     <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        Email
-                      </Typography>
+                      <Typography variant="caption" color="text.secondary">Email</Typography>
                       <Typography variant="body1">{profile.email}</Typography>
                     </Box>
                   </Box>
-
                   <Box display="flex" alignItems="center" gap={2}>
                     <Phone sx={{ color: 'text.secondary' }} />
                     <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        Телефон
-                      </Typography>
+                      <Typography variant="caption" color="text.secondary">Телефон</Typography>
                       <Typography variant="body1">{profile.phone || 'Не указан'}</Typography>
                     </Box>
                   </Box>
-
                   <Box display="flex" alignItems="center" gap={2}>
                     <CalendarToday sx={{ color: 'text.secondary' }} />
                     <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        Дата регистрации
-                      </Typography>
+                      <Typography variant="caption" color="text.secondary">Дата регистрации</Typography>
                       <Typography variant="body1">{formatDate(profile.created_at)}</Typography>
                     </Box>
                   </Box>
@@ -418,72 +438,23 @@ export default function ProfilePage() {
                   variant="contained"
                   startIcon={<Edit />}
                   onClick={handleEdit}
-                  sx={{
-                    mt: 2,
-                    backgroundColor: '#333',
-                    '&:hover': { backgroundColor: '#555' },
-                  }}
+                  sx={{ mt: 2, backgroundColor: '#333', '&:hover': { backgroundColor: '#555' } }}
                 >
                   Редактировать
                 </Button>
               </Stack>
             ) : (
               <Stack spacing={3}>
-                <TextField
-                  label="Имя"
-                  value={formData.first_name}
-                  onChange={(e) => setFormData({ ...formData, first_name: e.target.value })}
-                  fullWidth
-                  required
-                />
-                <TextField
-                  label="Фамилия"
-                  value={formData.last_name}
-                  onChange={(e) => setFormData({ ...formData, last_name: e.target.value })}
-                  fullWidth
-                  required
-                />
-                <TextField
-                  label="Телефон"
-                  value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  fullWidth
-                />
-                <TextField
-                  label="Новый пароль (оставьте пустым, если не хотите менять)"
-                  type="password"
-                  value={formData.password}
-                  onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                  fullWidth
-                />
+                <TextField label="Имя" value={formData.first_name} onChange={(e) => setFormData({ ...formData, first_name: e.target.value })} fullWidth required />
+                <TextField label="Фамилия" value={formData.last_name} onChange={(e) => setFormData({ ...formData, last_name: e.target.value })} fullWidth required />
+                <TextField label="Телефон" value={formData.phone} onChange={(e) => setFormData({ ...formData, phone: e.target.value })} fullWidth />
+                <TextField label="Новый пароль (оставьте пустым, если не хотите менять)" type="password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })} fullWidth />
                 {formData.password && (
-                  <TextField
-                    label="Подтвердите новый пароль"
-                    type="password"
-                    value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                    fullWidth
-                  />
+                  <TextField label="Подтвердите новый пароль" type="password" value={formData.confirmPassword} onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })} fullWidth />
                 )}
                 <Stack direction="row" spacing={2} mt={2}>
-                  <Button
-                    variant="outlined"
-                    startIcon={<Cancel />}
-                    onClick={handleCancel}
-                    disabled={saving}
-                  >
-                    Отмена
-                  </Button>
-                  <Button
-                    variant="contained"
-                    startIcon={<Save />}
-                    onClick={handleSave}
-                    disabled={saving}
-                    sx={{
-                      backgroundColor: '#333',
-                      '&:hover': { backgroundColor: '#555' },
-                    }}
-                  >
+                  <Button variant="outlined" startIcon={<Cancel />} onClick={handleCancel} disabled={saving}>Отмена</Button>
+                  <Button variant="contained" startIcon={<Save />} onClick={handleSave} disabled={saving} sx={{ backgroundColor: '#333', '&:hover': { backgroundColor: '#555' } }}>
                     {saving ? 'Сохранение...' : 'Сохранить'}
                   </Button>
                 </Stack>
@@ -492,7 +463,6 @@ export default function ProfilePage() {
           </Box>
         </TabPanel>
 
-        {/* Вкладка заказов */}
         <TabPanel value={tabValue} index={1}>
           {ordersLoading ? (
             <Box display="flex" justifyContent="center" p={4}>
@@ -504,77 +474,86 @@ export default function ProfilePage() {
               <Typography variant="h6" color="text.secondary" gutterBottom>
                 У вас пока нет заказов
               </Typography>
-              <Button
-                variant="contained"
-                href="/catalog"
-                sx={{
-                  mt: 2,
-                  backgroundColor: '#333',
-                  '&:hover': { backgroundColor: '#555' },
-                }}
-              >
+              <Button variant="contained" href="/catalog" sx={{ mt: 2, backgroundColor: '#333', '&:hover': { backgroundColor: '#555' } }}>
                 Перейти в каталог
               </Button>
             </Box>
           ) : (
             <Grid container spacing={2}>
-              {orders.map((order) => (
-                <Grid item xs={12} sm={6} md={4} key={order.id}>
-                  <Card
-                    sx={{
-                      cursor: 'pointer',
-                      transition: 'transform 0.2s, box-shadow 0.2s',
-                      '&:hover': {
-                        transform: 'translateY(-4px)',
-                        boxShadow: 4,
-                      },
-                    }}
-                    onClick={() => handleOrderClick(order)}
-                  >
-                    <CardContent>
-                      <Stack spacing={2}>
-                        <Box display="flex" justifyContent="space-between" alignItems="center">
+              {orders.map((order) => {
+                const meta = ORDER_STATUS_META[order.status];
+                const StatusIcon = meta?.icon;
+                return (
+                  <Grid size={{ xs: 12, sm: 6, md: 4 }} key={order.id}>
+                    <Card
+                      sx={{
+                        cursor: 'pointer',
+                        transition: 'transform 0.2s, box-shadow 0.2s',
+                        borderTop: meta ? `3px solid ${meta.hex}` : undefined,
+                        '&:hover': {
+                          transform: 'translateY(-4px)',
+                          boxShadow: 4,
+                        },
+                      }}
+                      onClick={() => handleOrderClick(order)}
+                    >
+                      <CardContent>
+                        <Stack spacing={2}>
+                          <Box display="flex" justifyContent="space-between" alignItems="center">
+                            <Typography variant="h6" fontWeight="600">
+                              Заказ #{order.id}
+                            </Typography>
+                            {meta && (
+                              <Chip
+                                icon={StatusIcon ? <StatusIcon sx={{ fontSize: '1rem !important', color: `${meta.hex} !important` }} /> : undefined}
+                                label={meta.label}
+                                size="small"
+                                sx={{
+                                  fontWeight: 600,
+                                  backgroundColor: `${meta.hex}15`,
+                                  color: meta.hex,
+                                  border: `1px solid ${meta.hex}40`,
+                                }}
+                              />
+                            )}
+                          </Box>
+                          <Divider />
+
+                          <Box sx={{ py: 0.5 }}>
+                            <OrderStatusStepper
+                              status={order.status}
+                              timestamps={order}
+                              orientation="horizontal"
+                              compact
+                            />
+                          </Box>
+
+                          <Typography variant="body2" color="text.secondary">
+                            Дата: {formatDate(order.order_date)}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            Товаров: {order.order_items.length}
+                          </Typography>
                           <Typography variant="h6" fontWeight="600">
-                            Заказ #{order.id}
+                            {order.total_amount ? `${order.total_amount.toFixed(2)} BYN` : 'Н/Д'}
                           </Typography>
                           <Chip
-                            label={statusLabels[order.status]}
-                            color={statusColors[order.status]}
+                            label={paymentMethodLabels[order.payment_method]}
                             size="small"
+                            variant="outlined"
                           />
-                        </Box>
-                        <Divider />
-                        <Typography variant="body2" color="text.secondary">
-                          Дата: {formatDate(order.order_date)}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Товаров: {order.order_items.length}
-                        </Typography>
-                        <Typography variant="h6" fontWeight="600">
-                          {order.total_amount ? `${order.total_amount.toFixed(2)} BYN` : 'Н/Д'}
-                        </Typography>
-                        <Chip
-                          label={paymentMethodLabels[order.payment_method]}
-                          size="small"
-                          variant="outlined"
-                        />
-                      </Stack>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
+                        </Stack>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                );
+              })}
             </Grid>
           )}
         </TabPanel>
       </Paper>
 
-      {/* Диалог деталей заказа */}
-      <Dialog
-        open={orderDialogOpen}
-        onClose={() => setOrderDialogOpen(false)}
-        maxWidth="md"
-        fullWidth
-      >
+      <Dialog open={orderDialogOpen} onClose={() => setOrderDialogOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>
           <Box display="flex" justifyContent="space-between" alignItems="center">
             <Typography variant="h6">Заказ #{selectedOrder?.id}</Typography>
@@ -587,63 +566,55 @@ export default function ProfilePage() {
           {selectedOrder && (
             <Stack spacing={3}>
               <Box>
-                <Typography variant="caption" color="text.secondary">
-                  Дата заказа
+                <Typography variant="subtitle2" sx={{ mb: 2, color: 'text.secondary', fontWeight: 600 }}>
+                  Статус заказа
                 </Typography>
+                <OrderStatusStepper
+                  status={selectedOrder.status}
+                  timestamps={selectedOrder}
+                  orientation="horizontal"
+                />
+                {ORDER_STATUS_META[selectedOrder.status]?.description && selectedOrder.status !== 'CANCELLED' && (
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      mt: 2,
+                      px: 2,
+                      py: 1.5,
+                      borderRadius: 1,
+                      bgcolor: `${ORDER_STATUS_META[selectedOrder.status].hex}10`,
+                      color: ORDER_STATUS_META[selectedOrder.status].hex,
+                      borderLeft: `3px solid ${ORDER_STATUS_META[selectedOrder.status].hex}`,
+                    }}
+                  >
+                    {ORDER_STATUS_META[selectedOrder.status].description}
+                  </Typography>
+                )}
+              </Box>
+
+              <Divider />
+
+              <Box>
+                <Typography variant="caption" color="text.secondary">Дата заказа</Typography>
                 <Typography variant="body1">{formatDate(selectedOrder.order_date)}</Typography>
               </Box>
               <Box>
-                <Typography variant="caption" color="text.secondary">
-                  Статус
-                </Typography>
-                <Box mt={1}>
-                  <Chip
-                    label={statusLabels[selectedOrder.status]}
-                    color={statusColors[selectedOrder.status]}
-                  />
-                </Box>
-              </Box>
-              <Box>
-                <Typography variant="caption" color="text.secondary">
-                  Способ оплаты
-                </Typography>
+                <Typography variant="caption" color="text.secondary">Способ оплаты</Typography>
                 <Typography variant="body1">{paymentMethodLabels[selectedOrder.payment_method]}</Typography>
               </Box>
               <Divider />
               <Box>
-                <Typography variant="h6" gutterBottom>
-                  Товары в заказе
-                </Typography>
+                <Typography variant="h6" gutterBottom>Товары в заказе</Typography>
                 <Stack spacing={2} mt={2}>
                   {selectedOrder.order_items.map((item) => (
                     <Box key={item.id} display="flex" gap={2}>
-                      <Box
-                        sx={{
-                          width: 80,
-                          height: 80,
-                          position: 'relative',
-                          borderRadius: 1,
-                          overflow: 'hidden',
-                          flexShrink: 0,
-                        }}
-                      >
-                        <Image
-                          src={item.product.image}
-                          alt={item.product.name}
-                          fill
-                          style={{ objectFit: 'cover' }}
-                        />
+                      <Box sx={{ width: 80, height: 80, position: 'relative', borderRadius: 1, overflow: 'hidden', flexShrink: 0 }}>
+                        <Image src={item.product.image} alt={item.product.name} fill style={{ objectFit: 'cover' }} />
                       </Box>
                       <Box flex={1}>
-                        <Typography variant="body1" fontWeight="600">
-                          {item.product.name}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Количество: {item.quantity}
-                        </Typography>
-                        <Typography variant="body2" color="text.secondary">
-                          Цена: {item.price_at_purchase.toFixed(2)} BYN
-                        </Typography>
+                        <Typography variant="body1" fontWeight="600">{item.product.name}</Typography>
+                        <Typography variant="body2" color="text.secondary">Количество: {item.quantity}</Typography>
+                        <Typography variant="body2" color="text.secondary">Цена: {item.price_at_purchase.toFixed(2)} BYN</Typography>
                         <Typography variant="body1" fontWeight="600" mt={1}>
                           Итого: {(item.price_at_purchase * item.quantity).toFixed(2)} BYN
                         </Typography>
@@ -662,8 +633,27 @@ export default function ProfilePage() {
             </Stack>
           )}
         </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOrderDialogOpen(false)}>Закрыть</Button>
+        <DialogActions sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: 1, p: { xs: 2, md: 2 } }}>
+          <Button
+            onClick={handleDownloadReceipt}
+            variant="contained"
+            startIcon={downloadingReceipt ? <CircularProgress size={18} color="inherit" /> : <ReceiptIcon />}
+            disabled={downloadingReceipt || !selectedOrder}
+            sx={{
+              backgroundColor: '#333',
+              '&:hover': { backgroundColor: '#555' },
+              width: { xs: '100%', sm: 'auto' },
+              order: { xs: 0, sm: 1 },
+            }}
+          >
+            {downloadingReceipt ? 'Генерация...' : 'Скачать чек (PDF)'}
+          </Button>
+          <Button
+            onClick={() => setOrderDialogOpen(false)}
+            sx={{ width: { xs: '100%', sm: 'auto' }, order: { xs: 1, sm: 0 } }}
+          >
+            Закрыть
+          </Button>
         </DialogActions>
       </Dialog>
 

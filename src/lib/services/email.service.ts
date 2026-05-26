@@ -71,6 +71,9 @@ export async function sendOrderNotification(order: FullOrderType) {
       };
     });
 
+    const appUrl = NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+    const receiptUrl = `${appUrl}/profile?order=${order.id}`;
+
     const templateParams = {
       order_id: order.id.toString(),
       email: order.user.email, // Здесь ошибки больше не будет благодаря проверке выше
@@ -81,6 +84,10 @@ export async function sendOrderNotification(order: FullOrderType) {
         // Передаем итоговую сумму
         total: formatBYN(order.total_amount),
       },
+      // Ссылка на скачивание PDF-чека (требует входа в личный кабинет).
+      // Чтобы отобразить в письме, добавьте в шаблон EmailJS строку:
+      //   <a href="{{receipt_url}}">Скачать чек</a>
+      receipt_url: receiptUrl,
     };
 
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {

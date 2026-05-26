@@ -41,7 +41,19 @@ export async function GET(request: NextRequest) {
     // Получаем заказы пользователя
     const orders = await prisma.order.findMany({
       where: { user_id: userId },
-      include: {
+      select: {
+        id: true,
+        user_id: true,
+        order_date: true,
+        status: true,
+        confirmed_at: true,
+        paid_at: true,
+        in_production_at: true,
+        in_delivery_at: true,
+        completed_at: true,
+        cancelled_at: true,
+        total_amount: true,
+        payment_method: true,
         order_items: {
           include: {
             product: {

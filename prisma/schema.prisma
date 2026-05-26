@@ -118,16 +118,20 @@ model User {
 }
 
 model Order {
-  id             Int           @id @default(autoincrement())
-  user_id        Int?
-  order_date     DateTime      @default(now()) @map("order_date")
-  status         OrderStatus   @default(PENDING_CONFIRMATION)
-  confirmed_at   DateTime?     @map("confirmed_at")
-  paid_at        DateTime?     @map("paid_at")
-  total_amount   Decimal?      @map("total_amount") @db.Decimal(10, 2)
-  payment_method PaymentMethod @default(OFFLINE) @map("payment_method")
-  order_items    OrderItem[]
-  user           User?         @relation(fields: [user_id], references: [id])
+  id                Int           @id @default(autoincrement())
+  user_id           Int?
+  order_date        DateTime      @default(now()) @map("order_date")
+  status            OrderStatus   @default(NEW)
+  confirmed_at      DateTime?     @map("confirmed_at")
+  paid_at           DateTime?     @map("paid_at")
+  in_production_at  DateTime?     @map("in_production_at")
+  in_delivery_at    DateTime?     @map("in_delivery_at")
+  completed_at      DateTime?     @map("completed_at")
+  cancelled_at      DateTime?     @map("cancelled_at")
+  total_amount      Decimal?      @map("total_amount") @db.Decimal(10, 2)
+  payment_method    PaymentMethod @default(OFFLINE) @map("payment_method")
+  order_items       OrderItem[]
+  user              User?         @relation(fields: [user_id], references: [id])
 
   @@map("orders")
 }
@@ -251,9 +255,11 @@ model ProductTag {
 }
 
 enum OrderStatus {
-  PENDING_CONFIRMATION
-  CONFIRMED
+  NEW
   PAID
+  IN_PRODUCTION
+  IN_DELIVERY
+  COMPLETED
   CANCELLED
 
   @@map("order_status")

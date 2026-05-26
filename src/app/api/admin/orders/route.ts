@@ -27,6 +27,7 @@ export async function GET(request: NextRequest) {
             first_name: true,
             last_name: true,
             email: true,
+            phone: true,
           },
         },
         order_items: {
@@ -111,7 +112,7 @@ export async function POST(request: NextRequest) {
     const order = await prisma.order.create({
       data: {
         user_id: user_id ? parseInt(user_id) : null,
-        status: status || 'PENDING',
+        status: status || 'NEW',
         payment_method: payment_method || 'ONLINE',
         total_amount: totalAmount,
         order_items: {

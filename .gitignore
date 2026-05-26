@@ -15,14 +15,17 @@
 /coverage
 
 # next.js
-/.next/
-/out/
+.next/
+out/
 
 # production
 /build
+dist/
 
 # misc
 .DS_Store
+Thumbs.db
+Desktop.ini
 *.pem
 
 # debug
@@ -42,4 +45,25 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# prisma generated client
 /src/generated/prisma
+
+# turbo
+.turbo/
+
+# IDE / AI assistants (local only)
+.idea/
+.vscode/
+.cursor/
+.claude/
+
+# personal notes & diploma docs (not needed to run the app)
+TUSK.md
+TUSK2.md
+Text.txt
+documentacion.txt
+documentacion_v2.txt
+
+# dev sandbox routes (not part of production app)
+/src/app/lab21/
+/src/app/lab22/

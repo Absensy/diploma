@@ -1,8 +1,11 @@
 import { prisma } from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
 import { sendOrderNotification } from './email.service';
+import {
+  ALLOWED_TRANSITIONS,
+  type OrderStatus,
+} from '@/lib/orderStatus';
 
-// --- КРИТИЧЕСКИ ВАЖНЫЕ ЭКСПОРТЫ ДЛЯ API ROUTE ---
+// --- ОШИБКИ ---
 
 export class ProductNotFoundOrInactiveError extends Error {
   constructor(public productId: number, message: string) {
@@ -34,6 +37,13 @@ export class OrderCannotBeCancelledError extends Error {
   constructor(public orderId: number, public status: string) {
     super(`Заказ #${orderId} нельзя отменить: текущий статус ${status}`);
     this.name = 'OrderCannotBeCancelledError';
+  }
+}
+
+export class InvalidStatusTransitionError extends Error {
+  constructor(public orderId: number, public from: string, public to: string) {
+    super(`Недопустимый переход статуса заказа #${orderId}: ${from} → ${to}`);
+    this.name = 'InvalidStatusTransitionError';
   }
 }
 
@@ -114,7 +124,7 @@ export async function createOrderWithInventory(input: CreateOrderInput) {
     return await tx.order.create({
       data: {
         user_id: userId,
-        status: 'PENDING_CONFIRMATION',
+        status: 'NEW',
         payment_method: paymentMethod,
         total_amount: Math.round(totalAmount * 100) / 100,
         order_items: {
@@ -136,6 +146,56 @@ export async function createOrderWithInventory(input: CreateOrderInput) {
   return orderResult;
 }
 
+// Поле даты, которое нужно проставить при переходе в данный статус
+const STATUS_TIMESTAMP_FIELD: Partial<Record<OrderStatus, string>> = {
+  PAID: 'paid_at',
+  IN_PRODUCTION: 'in_production_at',
+  IN_DELIVERY: 'in_delivery_at',
+  COMPLETED: 'completed_at',
+  CANCELLED: 'cancelled_at',
+};
+
+export async function updateOrderStatus(orderId: number, status: OrderStatus) {
+  const order = await prisma.order.findUnique({
+    where: { id: orderId },
+    include: { order_items: true },
+  });
+
+  if (!order) throw new OrderNotFoundError(orderId);
+
+  if (order.status === status) {
+    return prisma.order.findUnique({
+      where: { id: orderId },
+      include: { user: true, order_items: { include: { product: true } } },
+    });
+  }
+
+  if (!ALLOWED_TRANSITIONS[order.status as OrderStatus]?.includes(status)) {
+    if (status === 'CANCELLED') {
+      throw new OrderCannotBeCancelledError(orderId, order.status);
+    }
+    throw new InvalidStatusTransitionError(orderId, order.status, status);
+  }
+
+  if (status === 'CANCELLED') {
+    return cancelOrder(orderId);
+  }
+
+  const timestampField = STATUS_TIMESTAMP_FIELD[status];
+  const data: Record<string, unknown> = { status };
+  if (timestampField) data[timestampField] = new Date();
+
+  await prisma.order.update({
+    where: { id: orderId },
+    data,
+  });
+
+  return prisma.order.findUnique({
+    where: { id: orderId },
+    include: { user: true, order_items: { include: { product: true } } },
+  });
+}
+
 export async function cancelOrder(orderId: number) {
   const order = await prisma.order.findUnique({
     where: { id: orderId },
@@ -145,6 +205,10 @@ export async function cancelOrder(orderId: number) {
   if (!order) throw new OrderNotFoundError(orderId);
   if (order.status === 'CANCELLED') return order;
 
+  if (!ALLOWED_TRANSITIONS[order.status as OrderStatus]?.includes('CANCELLED')) {
+    throw new OrderCannotBeCancelledError(orderId, order.status);
+  }
+
   await prisma.$transaction(async (tx) => {
     for (const item of order.order_items) {
       if (!item.product_id) continue;
@@ -153,7 +217,10 @@ export async function cancelOrder(orderId: number) {
         data: { stock_quantity: { increment: item.quantity } },
       });
     }
-    await tx.order.update({ where: { id: orderId }, data: { status: 'CANCELLED' } });
+    await tx.order.update({
+      where: { id: orderId },
+      data: { status: 'CANCELLED', cancelled_at: new Date() },
+    });
   });
 
   return prisma.order.findUnique({

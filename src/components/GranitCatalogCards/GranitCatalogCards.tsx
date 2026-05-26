@@ -17,6 +17,7 @@ const GranitCatalogCards = () => {
         currentPage,
         totalPages,
         visibleItems,
+        itemsPerPage,
         hasMoreItems,
         remainingItems,
         handlePageChange,
@@ -48,20 +49,10 @@ const GranitCatalogCards = () => {
         );
     }
 
-    // Получаем товары для текущей страницы
-    const getCurrentPageProducts = () => {
-        if (isMobile) {
-            // На мобилке показываем товары до visibleItems
-            return products.slice(0, visibleItems);
-        } else {
-            // На десктопе показываем товары для текущей страницы
-            const startIndex = (currentPage - 1) * 12;
-            const endIndex = startIndex + 12;
-            return products.slice(startIndex, endIndex);
-        }
-    };
-
-    const currentProducts = getCurrentPageProducts();
+    // Товары для текущей страницы: мобилка использует "Показать ещё", десктоп — постраничную навигацию
+    const currentProducts = isMobile
+        ? products.slice(0, visibleItems)
+        : products.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
 
     // Функция для склонения слова "результат"
     const getResultText = (count: number) => {

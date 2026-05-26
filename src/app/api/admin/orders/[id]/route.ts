@@ -5,7 +5,9 @@ import {
   updateOrderStatus,
   OrderNotFoundError,
   OrderCannotBeCancelledError,
+  InvalidStatusTransitionError,
 } from '@/lib/services/order.service';
+import { ORDER_STATUS_LIST, type OrderStatus } from '@/lib/orderStatus';
 
 // GET - Get order by ID
 export async function GET(
@@ -73,11 +75,8 @@ export async function PUT(
     const body = await request.json();
     const { status, payment_method, user_id } = body;
 
-    if (
-      status !== undefined &&
-      ['CONFIRMED', 'PAID', 'CANCELLED'].includes(status)
-    ) {
-      const order = await updateOrderStatus(orderId, status);
+    if (status !== undefined && ORDER_STATUS_LIST.includes(status as OrderStatus)) {
+      const order = await updateOrderStatus(orderId, status as OrderStatus);
       revalidatePath('/admin/orders');
       if (status === 'CANCELLED') {
         revalidatePath('/catalog');
@@ -118,6 +117,12 @@ export async function PUT(
       );
     }
     if (error instanceof OrderCannotBeCancelledError) {
+      return NextResponse.json(
+        { error: error.message },
+        { status: 400 }
+      );
+    }
+    if (error instanceof InvalidStatusTransitionError) {
       return NextResponse.json(
         { error: error.message },
         { status: 400 }

@@ -201,12 +201,6 @@ const Header = () => {
             <Link href="/#examples" style={{ textDecoration: 'none' }}>
               <HeaderMenuButton variant="text" color="inherit">Примеры работ</HeaderMenuButton>
             </Link>
-            <Link href="/lab21" style={{ textDecoration: 'none' }}>
-              <HeaderMenuButton variant="text" color="inherit">ЛР21</HeaderMenuButton>
-            </Link>
-            <Link href="/lab22" style={{ textDecoration: 'none' }}>
-              <HeaderMenuButton variant="text" color="inherit">ЛР22</HeaderMenuButton>
-            </Link>
           </Stack>
 
           {/* Правая часть: Кнопка и иконки */}
