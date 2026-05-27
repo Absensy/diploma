@@ -12,7 +12,6 @@ import {
   DialogActions,
   TextField,
   Alert,
-  Snackbar,
   CircularProgress,
   Paper,
   Stack,
@@ -28,6 +27,7 @@ import {
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import { ruRU } from '@/lib/dataGridLocale';
+import { useAlert } from '@/components/GlobalAlert/GlobalAlert';
 
 interface Tag {
   id: number;
@@ -48,11 +48,7 @@ export default function AdminTags() {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
-    open: false,
-    message: '',
-    severity: 'success',
-  });
+  const { showSuccess, showError } = useAlert();
   const [openDialog, setOpenDialog] = useState(false);
   const [editingTag, setEditingTag] = useState<Tag | null>(null);
   const [searchText, setSearchText] = useState('');
@@ -92,7 +88,7 @@ export default function AdminTags() {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch tags';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setLoading(false);
     }
@@ -140,12 +136,12 @@ export default function AdminTags() {
   // Handle save (create or update)
   const handleSave = async () => {
     if (!formData.name.trim()) {
-      setSnackbar({ open: true, message: 'Название тега обязательно', severity: 'error' });
+      showError('Название тега обязательно');
       return;
     }
 
     if (!formData.slug.trim()) {
-      setSnackbar({ open: true, message: 'Slug тега обязателен', severity: 'error' });
+      showError('Slug тега обязателен');
       return;
     }
 
@@ -171,17 +167,13 @@ export default function AdminTags() {
         throw new Error(errorData.error || 'Failed to save tag');
       }
 
-      setSnackbar({
-        open: true,
-        message: editingTag ? 'Тег успешно обновлен' : 'Тег успешно создан',
-        severity: 'success',
-      });
+      showSuccess(editingTag ? 'Тег успешно обновлен' : 'Тег успешно создан');
       setOpenDialog(false);
       fetchTags();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to save tag';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setSaving(false);
     }
@@ -206,12 +198,12 @@ export default function AdminTags() {
         throw new Error(errorData.error || 'Failed to delete tag');
       }
 
-      setSnackbar({ open: true, message: 'Тег успешно удален', severity: 'success' });
+      showSuccess('Тег успешно удален');
       fetchTags();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete tag';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setDeleting(null);
     }
@@ -449,21 +441,6 @@ export default function AdminTags() {
           </DialogActions>
         </Dialog>
 
-        {/* Snackbar */}
-        <Snackbar
-          open={snackbar.open}
-          autoHideDuration={6000}
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        >
-          <Alert
-            onClose={() => setSnackbar({ ...snackbar, open: false })}
-            severity={snackbar.severity}
-            sx={{ width: '100%' }}
-          >
-            {snackbar.message}
-          </Alert>
-        </Snackbar>
       </Container>
     </AdminLayout>
   );

@@ -95,7 +95,7 @@ export const NewPrice = styled(Box)(() => ({
 
 export const CardActions = styled(Box)(() => ({
     display: 'flex',
-    justifyContent: 'start',
+    justifyContent: 'space-between',
     alignItems: 'center',
     marginTop: '16px',
 }));

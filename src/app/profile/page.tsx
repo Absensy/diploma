@@ -10,7 +10,6 @@ import {
   Stack,
   TextField,
   Alert,
-  Snackbar,
   CircularProgress,
   Tabs,
   Tab,
@@ -26,6 +25,7 @@ import {
   IconButton,
   Avatar,
 } from '@mui/material';
+import { useAlert } from '@/components/GlobalAlert/GlobalAlert';
 import {
   Edit,
   Save,
@@ -110,6 +110,7 @@ function TabPanel(props: TabPanelProps) {
 
 export default function ProfilePage() {
   const { authenticated, loading: authLoading, refreshUser } = useAuth();
+  const { showSuccess, showError } = useAlert();
   const router = useRouter();
   const [tabValue, setTabValue] = useState(0);
   const [profile, setProfile] = useState<UserProfile | null>(null);
@@ -119,11 +120,6 @@ export default function ProfilePage() {
   const [saving, setSaving] = useState(false);
   const [editing, setEditing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
-    open: false,
-    message: '',
-    severity: 'success',
-  });
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orderDialogOpen, setOrderDialogOpen] = useState(false);
   const [companyInfo, setCompanyInfo] = useState<ReceiptCompany | null>(null);
@@ -167,7 +163,7 @@ export default function ProfilePage() {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Ошибка загрузки профиля';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setLoading(false);
     }
@@ -188,7 +184,7 @@ export default function ProfilePage() {
       setOrders(data);
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Ошибка загрузки заказов';
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setOrdersLoading(false);
     }
@@ -225,15 +221,15 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     if (!formData.first_name.trim() || !formData.last_name.trim()) {
-      setSnackbar({ open: true, message: 'Имя и фамилия обязательны', severity: 'error' });
+      showError('Имя и фамилия обязательны');
       return;
     }
     if (formData.password && formData.password.length < 6) {
-      setSnackbar({ open: true, message: 'Пароль должен содержать минимум 6 символов', severity: 'error' });
+      showError('Пароль должен содержать минимум 6 символов');
       return;
     }
     if (formData.password && formData.password !== formData.confirmPassword) {
-      setSnackbar({ open: true, message: 'Пароли не совпадают', severity: 'error' });
+      showError('Пароли не совпадают');
       return;
     }
 
@@ -267,11 +263,11 @@ export default function ProfilePage() {
       setEditing(false);
       setFormData({ ...formData, password: '', confirmPassword: '' });
       await refreshUser();
-      setSnackbar({ open: true, message: 'Профиль успешно обновлён', severity: 'success' });
+      showSuccess('Профиль успешно обновлён');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Ошибка обновления профиля';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setSaving(false);
     }
@@ -322,10 +318,10 @@ export default function ProfilePage() {
         company,
         download: true,
       });
-      setSnackbar({ open: true, message: 'Чек скачан', severity: 'success' });
+      showSuccess('Чек скачан');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Не удалось сгенерировать чек';
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setDownloadingReceipt(false);
     }
@@ -713,20 +709,6 @@ export default function ProfilePage() {
         </DialogActions>
       </Dialog>
 
-      <Snackbar
-        open={snackbar.open}
-        autoHideDuration={6000}
-        onClose={() => setSnackbar({ ...snackbar, open: false })}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-      >
-        <Alert
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          severity={snackbar.severity}
-          sx={{ width: '100%' }}
-        >
-          {snackbar.message}
-        </Alert>
-      </Snackbar>
     </Container>
   );
 }

@@ -12,7 +12,6 @@ import {
   DialogActions,
   TextField,
   Alert,
-  Snackbar,
   CircularProgress,
   Paper,
   Stack,
@@ -30,6 +29,7 @@ import {
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import { ruRU } from '@/lib/dataGridLocale';
+import { useAlert } from '@/components/GlobalAlert/GlobalAlert';
 
 interface User {
   id: number;
@@ -57,11 +57,7 @@ export default function AdminUsers() {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
-    open: false,
-    message: '',
-    severity: 'success',
-  });
+  const { showSuccess, showError } = useAlert();
   const [openDialog, setOpenDialog] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
   const [searchText, setSearchText] = useState('');
@@ -102,7 +98,7 @@ export default function AdminUsers() {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch users';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setLoading(false);
     }
@@ -148,12 +144,12 @@ export default function AdminUsers() {
   // Handle save (create or update)
   const handleSave = async () => {
     if (!formData.first_name.trim() || !formData.last_name.trim() || !formData.email.trim()) {
-      setSnackbar({ open: true, message: 'Имя, фамилия и email обязательны', severity: 'error' });
+      showError('Имя, фамилия и email обязательны');
       return;
     }
 
     if (!editingUser && !formData.password.trim()) {
-      setSnackbar({ open: true, message: 'Пароль обязателен для новых пользователей', severity: 'error' });
+      showError('Пароль обязателен для новых пользователей');
       return;
     }
 
@@ -192,17 +188,13 @@ export default function AdminUsers() {
         throw new Error(errorData.error || 'Failed to save user');
       }
 
-      setSnackbar({
-        open: true,
-        message: editingUser ? 'Пользователь успешно обновлен' : 'Пользователь успешно создан',
-        severity: 'success',
-      });
+      showSuccess(editingUser ? 'Пользователь успешно обновлен' : 'Пользователь успешно создан');
       setOpenDialog(false);
       fetchUsers();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to save user';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setSaving(false);
     }
@@ -227,12 +219,12 @@ export default function AdminUsers() {
         throw new Error(errorData.error || 'Failed to delete user');
       }
 
-      setSnackbar({ open: true, message: 'Пользователь успешно удален', severity: 'success' });
+      showSuccess('Пользователь успешно удален');
       fetchUsers();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete user';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setDeleting(null);
     }
@@ -509,21 +501,6 @@ export default function AdminUsers() {
           </DialogActions>
         </Dialog>
 
-        {/* Snackbar */}
-        <Snackbar
-          open={snackbar.open}
-          autoHideDuration={6000}
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        >
-          <Alert
-            onClose={() => setSnackbar({ ...snackbar, open: false })}
-            severity={snackbar.severity}
-            sx={{ width: '100%' }}
-          >
-            {snackbar.message}
-          </Alert>
-        </Snackbar>
       </Container>
     </AdminLayout>
   );

@@ -20,7 +20,6 @@ import {
   Switch,
   FormControlLabel,
   Alert,
-  Snackbar,
   CircularProgress,
   Paper,
   Toolbar,
@@ -47,6 +46,7 @@ import ImageUpload from '@/components/ImageUpload/ImageUpload';
 import { useAdminCategories } from '@/hooks/useAdminCategories';
 import { ruRU } from '@/lib/dataGridLocale';
 import { exportToExcel, exportToPDF, ExportColumn } from '@/lib/exportUtils';
+import { useAlert } from '@/components/GlobalAlert/GlobalAlert';
 
 // Компонент для отображения изображения товара с обработкой ошибок
 const ProductImageAvatar: React.FC<{ src: string; alt: string }> = ({ src, alt }) => {
@@ -127,11 +127,7 @@ export default function AdminProducts() {
   const [saving, setSaving] = useState(false);
   const [deleting, setDeleting] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
-    open: false,
-    message: '',
-    severity: 'success',
-  });
+  const { showSuccess, showError } = useAlert();
   const [fixingImages, setFixingImages] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -209,18 +205,10 @@ export default function AdminProducts() {
       const response = await fetch('/api/admin/fix-product-images', { method: 'POST' });
       const data = await response.json();
       if (!response.ok) throw new Error(data.error);
-      setSnackbar({
-        open: true,
-        message: `Исправлено ${data.updated} из ${data.total} товаров`,
-        severity: 'success',
-      });
+      showSuccess(`Исправлено ${data.updated} из ${data.total} товаров`);
       fetchProducts();
     } catch (err) {
-      setSnackbar({
-        open: true,
-        message: err instanceof Error ? err.message : 'Ошибка исправления изображений',
-        severity: 'error',
-      });
+      showError(err instanceof Error ? err.message : 'Ошибка исправления изображений');
     } finally {
       setFixingImages(false);
     }
@@ -264,7 +252,7 @@ export default function AdminProducts() {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch products';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setLoading(false);
     }
@@ -369,11 +357,11 @@ export default function AdminProducts() {
   const handleSave = async () => {
     // Validation
     if (!formData.name.trim()) {
-      setSnackbar({ open: true, message: 'Название товара обязательно', severity: 'error' });
+      showError('Название товара обязательно');
       return;
     }
     if (!formData.price || parseFloat(formData.price) < 0) {
-      setSnackbar({ open: true, message: 'Требуется корректная цена', severity: 'error' });
+      showError('Требуется корректная цена');
       return;
     }
 
@@ -406,17 +394,13 @@ export default function AdminProducts() {
         throw new Error(errorData.error || 'Failed to save product');
       }
 
-      setSnackbar({
-        open: true,
-        message: editingProduct ? 'Товар успешно обновлен' : 'Товар успешно создан',
-        severity: 'success',
-      });
+      showSuccess(editingProduct ? 'Товар успешно обновлен' : 'Товар успешно создан');
       setOpenDialog(false);
       fetchProducts();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to save product';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setSaving(false);
     }
@@ -440,12 +424,12 @@ export default function AdminProducts() {
         throw new Error('Failed to delete product');
       }
 
-      setSnackbar({ open: true, message: 'Товар успешно удален', severity: 'success' });
+      showSuccess('Товар успешно удален');
       fetchProducts();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete product';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setDeleting(null);
     }
@@ -468,15 +452,11 @@ export default function AdminProducts() {
         throw new Error('Failed to update product');
       }
 
-      setSnackbar({
-        open: true,
-        message: product.is_active ? 'Товар деактивирован' : 'Товар активирован',
-        severity: 'success',
-      });
+      showSuccess(product.is_active ? 'Товар деактивирован' : 'Товар активирован');
       fetchProducts();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update product';
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     }
   };
 
@@ -989,21 +969,6 @@ export default function AdminProducts() {
           </MenuItem>
         </Menu>
 
-        {/* Snackbar */}
-        <Snackbar
-          open={snackbar.open}
-          autoHideDuration={6000}
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        >
-          <Alert
-            onClose={() => setSnackbar({ ...snackbar, open: false })}
-            severity={snackbar.severity}
-            sx={{ width: '100%' }}
-          >
-            {snackbar.message}
-          </Alert>
-        </Snackbar>
       </Container>
     </AdminLayout>
   );

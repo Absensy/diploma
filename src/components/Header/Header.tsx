@@ -1,11 +1,11 @@
 'use client';
 
 import * as React from 'react';
-import { Box, Typography, Stack, Button, Menu, MenuItem, Avatar, Divider, IconButton } from '@mui/material';
-import { Logout, Login, Person, AdminPanelSettings } from '@mui/icons-material';
+import { Box, Typography, Stack, Button, Menu, MenuItem, Avatar, Divider, IconButton, Badge } from '@mui/material';
+import { Logout, Login, Person, AdminPanelSettings, ShoppingCart } from '@mui/icons-material';
 import { useRouter } from 'next/navigation';
-import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
-import { ButtonHeader, HeaderMenuButton } from './Header.Styles';
+import { HeaderMenuButton } from './Header.Styles';
+import { useCart } from '@/contexts/CartContext';
 import LogoGranitPrimary2Icon from '@/icons/LogoGranitPrimary2';
 import GpsIcon from '@/icons/GPS';
 import TelIcon from '@/icons/Tel';
@@ -32,6 +32,7 @@ const Header = () => {
   const { contactInfo } = useContactContext();
   const { data: aboutData } = useAboutCompanyContent();
   const { user, authenticated, logout, loading } = useAuth();
+  const { totalItems, openCart } = useCart();
   const router = useRouter();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -206,9 +207,33 @@ const Header = () => {
             alignItems='center'
             sx={{ gap: { xs: '8px', md: '4px' } }}
           >
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-              <ButtonHeader><CatalogButton /></ButtonHeader>
-            </Box>
+            <IconButton
+              onClick={openCart}
+              sx={(theme) => ({
+                color: '#333',
+                display: 'flex',
+                [theme.breakpoints.down(1024)]: {
+                  display: 'none',
+                },
+                '&:hover': { backgroundColor: 'rgba(51,51,51,0.06)' },
+              })}
+            >
+              <Badge
+                badgeContent={totalItems > 0 ? totalItems : undefined}
+                sx={{
+                  '& .MuiBadge-badge': {
+                    backgroundColor: '#e53935',
+                    color: '#fff',
+                    fontSize: '10px',
+                    minWidth: '16px',
+                    height: '16px',
+                    padding: '0 4px',
+                  },
+                }}
+              >
+                <ShoppingCart sx={{ fontSize: 26 }} />
+              </Badge>
+            </IconButton>
             
             {/* Авторизация */}
             {!loading && (

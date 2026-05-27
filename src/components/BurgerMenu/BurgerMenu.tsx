@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Box, Typography, Stack, Button, Drawer, Divider } from '@mui/material';
+import { Box, Typography, Stack, Button, Drawer, Divider, Badge } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import MenuIcon from '@/icons/MenuIcon';
 import CloseIcon from '@mui/icons-material/Close';
@@ -11,13 +11,12 @@ import InstIcon from '@/icons/Inst';
 import ClocksIcon from '@/icons/Clocks';
 import GreenCheckIcon from '@/icons/GreenCheck';
 import Link from 'next/link';
-import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
 import { useContactContext } from '@/contexts/ContactContext';
 import { useAboutCompanyContent } from '@/hooks/useContent';
 import { useAuth } from '@/contexts/AuthContext';
-import { useCart } from '@/contexts/CartContext';
 import { usePathname, useRouter } from 'next/navigation';
 import { Login, Logout, AccountCircle, Person, AdminPanelSettings, ShoppingCart } from '@mui/icons-material';
+import { useCart } from '@/contexts/CartContext';
 
 const BurgerButton = styled(Button)(({ theme }) => ({
     display: 'none',
@@ -69,6 +68,11 @@ const BurgerMenu = () => {
     const pathname = usePathname();
     const router = useRouter();
 
+    const handleOpenCart = () => {
+        setIsOpen(false);
+        openCart();
+    };
+
     const handleLogout = async () => {
         setIsOpen(false);
         await logout();
@@ -112,6 +116,35 @@ const BurgerMenu = () => {
         { label: 'Услуги', href: '/#services' },
         { label: 'Примеры работ', href: '/#examples' },
     ];
+
+    const cartStartIcon = (
+        <Badge
+            badgeContent={totalItems > 0 ? totalItems : undefined}
+            sx={{
+                '& .MuiBadge-badge': {
+                    backgroundColor: '#e53935',
+                    color: '#fff',
+                    fontSize: '10px',
+                    minWidth: '16px',
+                    height: '16px',
+                    padding: '0 4px',
+                },
+            }}
+        >
+            <ShoppingCart sx={{ fontSize: 22 }} />
+        </Badge>
+    );
+
+    const cartMenuButton = (
+        <MobileMenuButton
+            fullWidth
+            onClick={handleOpenCart}
+            startIcon={cartStartIcon}
+            sx={{ mb: 1 }}
+        >
+            Корзина{totalItems > 0 ? ` (${totalItems})` : ''}
+        </MobileMenuButton>
+    );
 
     return (
         <>
@@ -214,7 +247,7 @@ const BurgerMenu = () => {
 
                         <Divider sx={{ margin: '20px 0', borderColor: '#E5E7EB' }} />
 
-                        {/* Авторизация */}
+                        {/* Корзина и авторизация */}
                         {!authLoading && (
                             <Box marginBottom="24px">
                                 {authenticated && user ? (
@@ -232,6 +265,7 @@ const BurgerMenu = () => {
                                                 </Box>
                                             </Stack>
                                         </Box>
+                                        {cartMenuButton}
                                         <MobileMenuButton 
                                             fullWidth 
                                             onClick={handleProfile}
@@ -259,6 +293,8 @@ const BurgerMenu = () => {
                                         </MobileMenuButton>
                                     </>
                                 ) : (
+                                    <>
+                                        {cartMenuButton}
                                     <MobileMenuButton 
                                         fullWidth 
                                         onClick={handleLogin}
@@ -273,37 +309,11 @@ const BurgerMenu = () => {
                                     >
                                         Войти
                                     </MobileMenuButton>
+                                    </>
                                 )}
                             </Box>
                         )}
 
-                        <Divider sx={{ margin: '20px 0', borderColor: '#E5E7EB' }} />
-
-                        {/* Корзина */}
-                        <Box marginBottom="24px">
-                            <MobileMenuButton
-                                fullWidth
-                                onClick={() => {
-                                    setIsOpen(false);
-                                    openCart();
-                                }}
-                                startIcon={<ShoppingCart />}
-                                sx={{
-                                    bgcolor: '#333',
-                                    color: 'white',
-                                    '&:hover': {
-                                        bgcolor: '#555',
-                                    },
-                                }}
-                            >
-                                Корзина {totalItems > 0 && `(${totalItems})`}
-                            </MobileMenuButton>
-                        </Box>
-
-                        {/* Кнопка каталога */}
-                        <Box marginBottom="24px">
-                            <CatalogButton />
-                        </Box>
 
                         {/* Преимущества */}
                         <FeaturesBox>

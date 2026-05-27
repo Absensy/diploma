@@ -16,7 +16,6 @@ import {
   Select,
   MenuItem,
   Alert,
-  Snackbar,
   CircularProgress,
   Paper,
   Stack,
@@ -52,6 +51,7 @@ import {
   type OrderStatus,
 } from '@/lib/orderStatus';
 import { generateReceiptPDF, type ReceiptCompany } from '@/lib/receiptGenerator';
+import { useAlert } from '@/components/GlobalAlert/GlobalAlert';
 
 interface AdminOrderItem {
   id: number;
@@ -106,11 +106,7 @@ export default function AdminOrders() {
   const [advancing, setAdvancing] = useState(false);
   const [deleting, setDeleting] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: 'success' | 'error' }>({
-    open: false,
-    message: '',
-    severity: 'success',
-  });
+  const { showSuccess, showError } = useAlert();
   const [openDialog, setOpenDialog] = useState(false);
   const [editingOrder, setEditingOrder] = useState<Order | null>(null);
   const [searchText, setSearchText] = useState('');
@@ -202,7 +198,7 @@ export default function AdminOrders() {
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to fetch orders';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setLoading(false);
     }
@@ -257,13 +253,13 @@ export default function AdminOrders() {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to update order');
       }
-      setSnackbar({ open: true, message: 'Заказ успешно обновлён', severity: 'success' });
+      showSuccess('Заказ успешно обновлён');
       setOpenDialog(false);
       fetchOrders();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to update order';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setSaving(false);
     }
@@ -285,11 +281,11 @@ export default function AdminOrders() {
       const updated = await response.json();
       setEditingOrder((prev) => prev ? { ...prev, ...updated } : prev);
       setFormData((prev) => ({ ...prev, status: target }));
-      setSnackbar({ open: true, message: `Статус изменён на «${getStatusLabel(target)}»`, severity: 'success' });
+      showSuccess(`Статус изменён на «${getStatusLabel(target)}»`);
       fetchOrders();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to advance';
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setAdvancing(false);
     }
@@ -314,7 +310,7 @@ export default function AdminOrders() {
   const handleDownloadReceipt = async () => {
     if (!editingOrder) return;
     if (!editingOrder.order_items || editingOrder.order_items.length === 0) {
-      setSnackbar({ open: true, message: 'У заказа нет товаров для формирования чека', severity: 'error' });
+      showError('У заказа нет товаров для формирования чека');
       return;
     }
     try {
@@ -350,10 +346,10 @@ export default function AdminOrders() {
         company,
         download: true,
       });
-      setSnackbar({ open: true, message: 'Чек скачан', severity: 'success' });
+      showSuccess('Чек скачан');
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Не удалось сгенерировать чек';
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setDownloadingReceipt(false);
     }
@@ -369,12 +365,12 @@ export default function AdminOrders() {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to delete order');
       }
-      setSnackbar({ open: true, message: 'Заказ успешно удалён', severity: 'success' });
+      showSuccess('Заказ успешно удалён');
       fetchOrders();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Failed to delete order';
       setError(message);
-      setSnackbar({ open: true, message, severity: 'error' });
+      showError(message);
     } finally {
       setDeleting(null);
     }
@@ -785,20 +781,6 @@ export default function AdminOrders() {
           </MenuItem>
         </Menu>
 
-        <Snackbar
-          open={snackbar.open}
-          autoHideDuration={6000}
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        >
-          <Alert
-            onClose={() => setSnackbar({ ...snackbar, open: false })}
-            severity={snackbar.severity}
-            sx={{ width: '100%' }}
-          >
-            {snackbar.message}
-          </Alert>
-        </Snackbar>
       </Container>
     </AdminLayout>
   );

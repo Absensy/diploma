@@ -1,4 +1,6 @@
-import { Box, Typography } from "@mui/material";
+'use client';
+
+import { Box, Typography, IconButton, Tooltip } from "@mui/material";
 import { CatalogCardProps, CategoryCard, DiscountBadge, PriceContainer, OldPrice, CardActions, PopularBadge, NewBadge } from "./GranitCatalogCard.Styles"
 import DetailsButton from "../GranitDetailsButton/GranitDetailsButton"
 import Image from "next/image";
@@ -6,7 +8,10 @@ import ProductModal from "../ProductModal/ProductModal";
 import ImageViewerModal from "../ImageViewerModal/ImageViewerModal";
 import { useState } from "react";
 import ZoomInIcon from '@mui/icons-material/ZoomIn';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import { useImageBackgroundColor } from "@/hooks/useImageBackgroundColor";
+import { useCart } from "@/contexts/CartContext";
 
 export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, oldPrice, image, discount, subtext, is_new, is_popular, product }) => {
     const [modalOpen, setModalOpen] = useState(false);
@@ -14,6 +19,9 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
     const [isHovered, setIsHovered] = useState(false);
     const [imageError, setImageError] = useState(false);
     const isWhiteBackground = useImageBackgroundColor(image);
+    const { addItem, removeItem, isInCart } = useCart();
+
+    const inCart = product ? isInCart(product.id) : false;
 
     const handleDetailsClick = () => {
         setModalOpen(true);
@@ -32,6 +40,21 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
         setImageViewerOpen(false);
     };
 
+    const handleAddToCart = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        if (!product) return;
+        if (inCart) {
+            removeItem(product.id);
+        } else {
+            addItem({
+                id: product.id,
+                name: product.name,
+                image: product.image,
+                price: product.price,
+                discounted_price: product.discounted_price,
+            });
+        }
+    };
 
     return (
         <>
@@ -164,6 +187,30 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
                     </PriceContainer>
                     <CardActions>
                         <DetailsButton onClick={handleDetailsClick} />
+                        {product && (
+                            <Tooltip title={inCart ? 'Убрать из корзины' : 'В корзину'}>
+                                <IconButton
+                                    onClick={handleAddToCart}
+                                    sx={{
+                                        color: inCart ? '#e53935' : '#333',
+                                        border: '1px solid',
+                                        borderColor: inCart ? '#e53935' : 'rgba(0,0,0,0.2)',
+                                        borderRadius: '8px',
+                                        padding: '8px',
+                                        transition: 'all 0.2s',
+                                        '&:hover': {
+                                            backgroundColor: inCart ? 'rgba(229,57,53,0.08)' : 'rgba(0,0,0,0.06)',
+                                            borderColor: inCart ? '#e53935' : '#333',
+                                        },
+                                    }}
+                                >
+                                    {inCart
+                                        ? <FavoriteIcon fontSize="small" />
+                                        : <FavoriteBorderIcon fontSize="small" />
+                                    }
+                                </IconButton>
+                            </Tooltip>
+                        )}
                     </CardActions>
                 </Box>
             </CategoryCard>

@@ -1,9 +1,10 @@
 import React from 'react';
 import { CategoryCard, DiscountBadge } from './MonumentCategoriesCard.styles';
 import { MonumentCategoryCardProps } from './MonumentCategoriesCard.styles';
-import CatalogButton from '../GranitCatalogButton/GranitCatalogButton';
+import CatalogButtonStyles from '../GranitCatalogButton/GranitCatalogButton.styles';
 import { Box, Typography } from '@mui/material';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export const MonumentCategoryCard: React.FC<MonumentCategoryCardProps> = ({ name, price, image, discount, categoryId }) => {
 
@@ -68,7 +69,11 @@ export const MonumentCategoryCard: React.FC<MonumentCategoryCardProps> = ({ name
                     от {price} BYN
                 </Typography>
                 <Box marginTop="auto">
-                    <CatalogButton categoryId={categoryId} />
+                    <Link href={categoryId ? `/catalog?category_id=${categoryId}` : '/catalog'} style={{ textDecoration: 'none' }}>
+                        <CatalogButtonStyles variant="contained">
+                            Открыть каталог
+                        </CatalogButtonStyles>
+                    </Link>
                 </Box>
             </Box>
         </CategoryCard>
