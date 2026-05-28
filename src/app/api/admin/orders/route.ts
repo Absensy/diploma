@@ -39,8 +39,22 @@ export async function GET(request: NextRequest) {
                 image: true,
               },
             },
+            personalization: true,
           },
         },
+        additional_services: {
+          include: {
+            service: {
+              select: {
+                id: true,
+                name: true,
+                category: true,
+                unit: true,
+              },
+            },
+          },
+        },
+        delivery: true,
         _count: {
           select: {
             order_items: true,
@@ -56,6 +70,15 @@ export async function GET(request: NextRequest) {
       ...order,
       itemsCount: order._count.order_items,
       total_amount: order.total_amount ? Number(order.total_amount) : null,
+      order_items: order.order_items.map((item: any) => ({
+        ...item,
+        price_at_purchase: Number(item.price_at_purchase),
+      })),
+      additional_services: (order.additional_services ?? []).map((row: any) => ({
+        ...row,
+        quantity: Number(row.quantity),
+        price_at_purchase: Number(row.price_at_purchase),
+      })),
     }));
 
     return NextResponse.json(normalizedOrders);

@@ -1,28 +1,32 @@
 'use client';
 
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Container, Paper, Typography, Button, Stack } from '@mui/material';
 import { ShoppingCart, List } from '@mui/icons-material';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
 
 function OrderSuccessContent() {
   const searchParams = useSearchParams();
-  const orderId = searchParams.get('orderId');
+  const orderNumber = searchParams.get('orderNumber') ?? searchParams.get('orderId');
 
   return (
     <Container maxWidth="sm" sx={{ py: 6 }}>
       <Paper sx={{ p: 4, textAlign: 'center' }}>
-        <Typography variant="h4" gutterBottom color="success.main" fontWeight="bold">Спасибо за заказ!</Typography>
+        <Typography variant="h4" gutterBottom color="success.main" fontWeight="bold">
+          Спасибо за заказ!
+        </Typography>
         <Typography variant="body1" color="text.secondary" sx={{ mt: 2, mb: 1 }}>
           С вами свяжется менеджер для уточнения деталей и способа оплаты.
         </Typography>
-        {orderId && (
+        {orderNumber && (
           <Typography variant="body1" color="text.secondary" sx={{ mb: 3 }}>
-            Номер заказа: <strong>#{orderId}</strong>
+            Номер заказа: <strong>{orderNumber}</strong>
           </Typography>
         )}
+        <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mb: 3 }}>
+          Сохраните номер — по нему мы найдём ваш заказ при обращении.
+        </Typography>
         <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap" useFlexGap>
           <Button
             component={Link}

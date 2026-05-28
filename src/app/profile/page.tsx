@@ -46,9 +46,15 @@ import {
   type OrderStatus,
 } from '@/lib/orderStatus';
 import { generateReceiptPDF, type ReceiptCompany } from '@/lib/receiptGenerator';
+import OrderDetailsSections, {
+  type OrderDetailsService,
+  type OrderDetailsDelivery,
+  type OrderPersonalization,
+} from '@/components/OrderDetailsSections/OrderDetailsSections';
 
 interface Order {
   id: number;
+  order_number: string | null;
   order_date: string;
   status: OrderStatus;
   confirmed_at?: string | null;
@@ -59,6 +65,7 @@ interface Order {
   cancelled_at?: string | null;
   total_amount: number | null;
   payment_method: 'ONLINE' | 'OFFLINE';
+  customer_comment?: string | null;
   order_items: Array<{
     id: number;
     quantity: number;
@@ -70,7 +77,10 @@ interface Order {
       price: number;
       discounted_price: number | null;
     };
+    personalization?: OrderPersonalization | null;
   }>;
+  additional_services?: OrderDetailsService[];
+  delivery?: OrderDetailsDelivery | null;
 }
 
 interface UserProfile {
@@ -498,11 +508,20 @@ export default function ProfilePage() {
                     >
                       <CardContent sx={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
                         <Stack spacing={2} sx={{ flex: 1 }}>
-                          <Box display="flex" justifyContent="space-between" alignItems="center">
-                            <Typography variant="h6" fontWeight="600">
-                              Заказ #{order.id}
+                          <Box display="flex" justifyContent="space-between" alignItems="center" gap={1}>
+                            <Typography
+                              variant="subtitle1"
+                              fontWeight="700"
+                              sx={{
+                                fontFamily: order.order_number ? 'monospace' : 'inherit',
+                                overflow: 'hidden',
+                                textOverflow: 'ellipsis',
+                                whiteSpace: 'nowrap',
+                              }}
+                            >
+                              {order.order_number ?? `Заказ #${order.id}`}
                             </Typography>
-                            <Typography variant="caption" color="text.disabled">
+                            <Typography variant="caption" color="text.disabled" sx={{ whiteSpace: 'nowrap' }}>
                               {formatDate(order.order_date)}
                             </Typography>
                           </Box>
@@ -607,8 +626,13 @@ export default function ProfilePage() {
 
       <Dialog open={orderDialogOpen} onClose={() => setOrderDialogOpen(false)} maxWidth="md" fullWidth>
         <DialogTitle>
-          <Box display="flex" justifyContent="space-between" alignItems="center">
-            <Typography variant="h6">Заказ #{selectedOrder?.id}</Typography>
+          <Box display="flex" justifyContent="space-between" alignItems="center" gap={1}>
+            <Typography
+              variant="h6"
+              sx={{ fontFamily: selectedOrder?.order_number ? 'monospace' : 'inherit' }}
+            >
+              {selectedOrder?.order_number ?? `Заказ #${selectedOrder?.id}`}
+            </Typography>
             <IconButton onClick={() => setOrderDialogOpen(false)} size="small">
               <Cancel />
             </IconButton>
@@ -675,6 +699,21 @@ export default function ProfilePage() {
                   ))}
                 </Stack>
               </Box>
+              <OrderDetailsSections
+                order={{
+                  customer_comment: selectedOrder.customer_comment,
+                  order_items: selectedOrder.order_items.map((item) => ({
+                    id: item.id,
+                    quantity: item.quantity,
+                    product: item.product,
+                    personalization: item.personalization ?? null,
+                  })),
+                  additional_services: selectedOrder.additional_services,
+                  delivery: selectedOrder.delivery ?? null,
+                }}
+                hideGuestContact
+              />
+
               <Divider />
               <Box display="flex" justifyContent="space-between" alignItems="center">
                 <Typography variant="h6">Общая сумма:</Typography>

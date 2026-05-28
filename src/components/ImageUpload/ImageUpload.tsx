@@ -25,7 +25,7 @@ interface ImageUploadProps {
     acceptedFormats?: string[];
     label?: string;
     helperText?: string;
-    uploadType?: 'product' | 'category' | 'example' | 'content';
+    uploadType?: 'product' | 'category' | 'example' | 'content' | 'portrait';
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({

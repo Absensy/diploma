@@ -230,6 +230,7 @@ const ProductModal: React.FC<ProductModalProps> = ({ open, onClose, product }) =
                                             image: product.image,
                                             price: product.price,
                                             discounted_price: product.discounted_price,
+                                            requires_personalization: product.requires_personalization,
                                         });
                                         onClose();
                                     }

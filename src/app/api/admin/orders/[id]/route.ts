@@ -39,8 +39,22 @@ export async function GET(
                 discounted_price: true,
               },
             },
+            personalization: true,
           },
         },
+        additional_services: {
+          include: {
+            service: {
+              select: {
+                id: true,
+                name: true,
+                category: true,
+                unit: true,
+              },
+            },
+          },
+        },
+        delivery: true,
       },
     });
 
@@ -54,6 +68,25 @@ export async function GET(
     return NextResponse.json({
       ...order,
       total_amount: order.total_amount ? Number(order.total_amount) : null,
+      order_items: order.order_items.map((item) => ({
+        ...item,
+        price_at_purchase: Number(item.price_at_purchase),
+        product: item.product
+          ? {
+              ...item.product,
+              price: Number(item.product.price),
+              discounted_price:
+                item.product.discounted_price !== null
+                  ? Number(item.product.discounted_price)
+                  : null,
+            }
+          : null,
+      })),
+      additional_services: order.additional_services.map((row) => ({
+        ...row,
+        quantity: Number(row.quantity),
+        price_at_purchase: Number(row.price_at_purchase),
+      })),
     });
   } catch (error) {
     console.error('Error fetching order:', error);

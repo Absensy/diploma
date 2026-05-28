@@ -44,6 +44,7 @@ export async function GET(request: NextRequest) {
       select: {
         id: true,
         user_id: true,
+        order_number: true,
         order_date: true,
         status: true,
         confirmed_at: true,
@@ -54,6 +55,7 @@ export async function GET(request: NextRequest) {
         cancelled_at: true,
         total_amount: true,
         payment_method: true,
+        customer_comment: true,
         order_items: {
           include: {
             product: {
@@ -65,8 +67,22 @@ export async function GET(request: NextRequest) {
                 discounted_price: true,
               },
             },
+            personalization: true,
           },
         },
+        additional_services: {
+          include: {
+            service: {
+              select: {
+                id: true,
+                name: true,
+                category: true,
+                unit: true,
+              },
+            },
+          },
+        },
+        delivery: true,
       },
       orderBy: {
         order_date: 'desc',
@@ -84,6 +100,11 @@ export async function GET(request: NextRequest) {
           price: Number(item.product.price),
           discounted_price: item.product.discounted_price ? Number(item.product.discounted_price) : null,
         },
+      })),
+      additional_services: (order.additional_services ?? []).map((row: any) => ({
+        ...row,
+        quantity: Number(row.quantity),
+        price_at_purchase: Number(row.price_at_purchase),
       })),
     }));
 

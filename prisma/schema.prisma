@@ -23,39 +23,40 @@ model Category {
 }
 
 model Product {
-  id                Int                @id @default(autoincrement())
-  name              String
-  short_description String
-  full_description  String
-  materials         String
-  production_time   String
-  price             Decimal            @db.Decimal(10, 2)
-  discount          Int?
-  discounted_price  Decimal?           @db.Decimal(10, 2)
-  image             String
-  category_id       Int?
-  created_at        DateTime           @default(now())
-  updated_at        DateTime           @updatedAt
-  is_new            Boolean            @default(false)
-  is_popular        Boolean            @default(false)
-  is_active         Boolean            @default(true)
-  dimensions        String?
-  meta_description  String?
-  meta_keywords     String?
-  meta_title        String?
-  sku               String?            @unique
-  slug              String?            @unique
-  stock_quantity    Int                @default(0)
-  weight            Decimal?           @db.Decimal(10, 2)
-  order_items       OrderItem[]
-  attributes        ProductAttribute[]
-  images            ProductImage[]
-  product_materials ProductMaterial[]
-  tags              ProductTag[]
-  variants          ProductVariant[]
-  category          Category?          @relation(fields: [category_id], references: [id])
-  related_products  RelatedProduct[]   @relation("ProductRelated")
-  related_to        RelatedProduct[]   @relation("ProductRelatedTo")
+  id                       Int                @id @default(autoincrement())
+  name                     String
+  short_description        String
+  full_description         String
+  materials                String
+  production_time          String
+  price                    Decimal            @db.Decimal(10, 2)
+  discount                 Int?
+  discounted_price         Decimal?           @db.Decimal(10, 2)
+  image                    String
+  category_id              Int?
+  created_at               DateTime           @default(now())
+  updated_at               DateTime           @updatedAt
+  is_new                   Boolean            @default(false)
+  is_popular               Boolean            @default(false)
+  is_active                Boolean            @default(true)
+  dimensions               String?
+  meta_description         String?
+  meta_keywords            String?
+  meta_title               String?
+  sku                      String?            @unique
+  slug                     String?            @unique
+  stock_quantity           Int                @default(0)
+  weight                   Decimal?           @db.Decimal(10, 2)
+  requires_personalization Boolean            @default(true) @map("requires_personalization")
+  order_items              OrderItem[]
+  attributes               ProductAttribute[]
+  images                   ProductImage[]
+  product_materials        ProductMaterial[]
+  tags                     ProductTag[]
+  variants                 ProductVariant[]
+  category                 Category?          @relation(fields: [category_id], references: [id])
+  related_products         RelatedProduct[]   @relation("ProductRelated")
+  related_to               RelatedProduct[]   @relation("ProductRelatedTo")
 
   @@index([slug])
   @@index([category_id])
@@ -118,33 +119,47 @@ model User {
 }
 
 model Order {
-  id                Int           @id @default(autoincrement())
-  user_id           Int?
-  order_date        DateTime      @default(now()) @map("order_date")
-  status            OrderStatus   @default(NEW)
-  confirmed_at      DateTime?     @map("confirmed_at")
-  paid_at           DateTime?     @map("paid_at")
-  in_production_at  DateTime?     @map("in_production_at")
-  in_delivery_at    DateTime?     @map("in_delivery_at")
-  completed_at      DateTime?     @map("completed_at")
-  cancelled_at      DateTime?     @map("cancelled_at")
-  total_amount      Decimal?      @map("total_amount") @db.Decimal(10, 2)
-  payment_method    PaymentMethod @default(OFFLINE) @map("payment_method")
-  order_items       OrderItem[]
-  user              User?         @relation(fields: [user_id], references: [id])
+  id                  Int                      @id @default(autoincrement())
+  user_id             Int?
+  order_number        String?                  @unique @map("order_number")
+  order_date          DateTime                 @default(now()) @map("order_date")
+  status              OrderStatus              @default(NEW)
+  confirmed_at        DateTime?                @map("confirmed_at")
+  paid_at             DateTime?                @map("paid_at")
+  in_production_at    DateTime?                @map("in_production_at")
+  in_delivery_at      DateTime?                @map("in_delivery_at")
+  completed_at        DateTime?                @map("completed_at")
+  cancelled_at        DateTime?                @map("cancelled_at")
+  total_amount        Decimal?                 @map("total_amount") @db.Decimal(10, 2)
+  payment_method      PaymentMethod            @default(OFFLINE) @map("payment_method")
+  contact_first_name  String?                  @map("contact_first_name")
+  contact_last_name   String?                  @map("contact_last_name")
+  contact_patronymic  String?                  @map("contact_patronymic")
+  contact_phone       String?                  @map("contact_phone")
+  contact_email       String?                  @map("contact_email")
+  preferred_contact   ContactMethod?           @map("preferred_contact")
+  customer_comment    String?                  @map("customer_comment")
+  order_items         OrderItem[]
+  user                User?                    @relation(fields: [user_id], references: [id])
+  delivery            OrderDelivery?
+  additional_services OrderAdditionalService[]
 
+  @@index([status])
+  @@index([order_date])
   @@map("orders")
 }
 
 model OrderItem {
-  id                Int      @id @default(autoincrement())
-  order_id          Int?     @map("order_id")
-  product_id        Int?     @map("product_id")
+  id                Int                       @id @default(autoincrement())
+  order_id          Int?                      @map("order_id")
+  product_id        Int?                      @map("product_id")
   quantity          Int
-  price_at_purchase Decimal  @map("price_at_purchase") @db.Decimal(10, 2)
-  order             Order?   @relation(fields: [order_id], references: [id])
-  product           Product? @relation(fields: [product_id], references: [id])
+  price_at_purchase Decimal                   @map("price_at_purchase") @db.Decimal(10, 2)
+  order             Order?                    @relation(fields: [order_id], references: [id])
+  product           Product?                  @relation(fields: [product_id], references: [id])
+  personalization   OrderItemPersonalization?
 
+  @@index([order_id])
   @@map("order_items")
 }
 
@@ -270,4 +285,109 @@ enum PaymentMethod {
   OFFLINE
 
   @@map("payment_method")
+}
+
+model OrderItemPersonalization {
+  id             Int                   @id @default(autoincrement())
+  order_item_id  Int                   @unique @map("order_item_id")
+  first_name     String                @map("first_name")
+  last_name      String                @map("last_name")
+  patronymic     String?
+  birth_date     DateTime?             @map("birth_date") @db.Date
+  death_date     DateTime?             @map("death_date") @db.Date
+  portrait_photo String?               @map("portrait_photo")
+  epitaph        String?
+  symbol         PersonalizationSymbol @default(NONE)
+  notes          String?
+  created_at     DateTime              @default(now()) @map("created_at")
+  updated_at     DateTime              @updatedAt @map("updated_at")
+  order_item     OrderItem             @relation(fields: [order_item_id], references: [id], onDelete: Cascade)
+
+  @@map("order_item_personalizations")
+}
+
+model AdditionalService {
+  id             Int                      @id @default(autoincrement())
+  name           String
+  description    String?
+  price          Decimal                  @db.Decimal(10, 2)
+  unit           ServiceUnit              @default(PER_ITEM)
+  category       ServiceCategory
+  is_active      Boolean                  @default(true)
+  display_order  Int                      @default(0) @map("display_order")
+  created_at     DateTime                 @default(now()) @map("created_at")
+  updated_at     DateTime                 @updatedAt @map("updated_at")
+  order_services OrderAdditionalService[]
+
+  @@index([is_active, category])
+  @@map("additional_services")
+}
+
+model OrderAdditionalService {
+  id                Int               @id @default(autoincrement())
+  order_id          Int               @map("order_id")
+  service_id        Int               @map("service_id")
+  quantity          Decimal           @default(1) @db.Decimal(10, 2)
+  price_at_purchase Decimal           @map("price_at_purchase") @db.Decimal(10, 2)
+  order             Order             @relation(fields: [order_id], references: [id], onDelete: Cascade)
+  service           AdditionalService @relation(fields: [service_id], references: [id])
+
+  @@index([order_id])
+  @@map("order_additional_services")
+}
+
+model OrderDelivery {
+  id               Int       @id @default(autoincrement())
+  order_id         Int       @unique @map("order_id")
+  cemetery_name    String?   @map("cemetery_name")
+  cemetery_address String    @map("cemetery_address")
+  city             String?
+  region           String?
+  contact_phone    String    @map("contact_phone")
+  preferred_date   DateTime? @map("preferred_date") @db.Date
+  comment          String?
+  order            Order     @relation(fields: [order_id], references: [id], onDelete: Cascade)
+
+  @@map("order_deliveries")
+}
+
+enum PersonalizationSymbol {
+  NONE
+  ORTHODOX_CROSS
+  CATHOLIC_CROSS
+  CRESCENT
+  STAR_OF_DAVID
+  OTHER
+
+  @@map("personalization_symbol")
+}
+
+enum ServiceUnit {
+  PER_ITEM
+  PER_ORDER
+  PER_SQM
+  PER_METER
+
+  @@map("service_unit")
+}
+
+enum ServiceCategory {
+  DELIVERY
+  INSTALLATION
+  LANDSCAPING
+  DEMOLITION
+  ENGRAVING
+  OTHER
+
+  @@map("service_category")
+}
+
+enum ContactMethod {
+  PHONE
+  EMAIL
+  WHATSAPP
+  TELEGRAM
+  VIBER
+
+  @@map("contact_method")
 }

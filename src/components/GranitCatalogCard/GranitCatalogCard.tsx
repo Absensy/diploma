@@ -19,7 +19,7 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
     const [isHovered, setIsHovered] = useState(false);
     const [imageError, setImageError] = useState(false);
     const isWhiteBackground = useImageBackgroundColor(image);
-    const { addItem, removeItem, isInCart } = useCart();
+    const { addItem, removeAllByProductId, isInCart } = useCart();
 
     const inCart = product ? isInCart(product.id) : false;
 
@@ -44,7 +44,7 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
         e.stopPropagation();
         if (!product) return;
         if (inCart) {
-            removeItem(product.id);
+            removeAllByProductId(product.id);
         } else {
             addItem({
                 id: product.id,
@@ -52,6 +52,7 @@ export const GranitCatalogCard: React.FC<CatalogCardProps> = ({ name, price, old
                 image: product.image,
                 price: product.price,
                 discounted_price: product.discounted_price,
+                requires_personalization: product.requires_personalization,
             });
         }
     };

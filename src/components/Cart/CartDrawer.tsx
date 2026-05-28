@@ -20,7 +20,6 @@ import {
   ShoppingCart,
 } from '@mui/icons-material';
 import { useCart } from '@/contexts/CartContext';
-import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
@@ -31,18 +30,11 @@ interface CartDrawerProps {
 
 const CartDrawer: React.FC<CartDrawerProps> = ({ open, onClose }) => {
   const { items, totalPrice, totalItems, updateQuantity, removeItem, clearCart } = useCart();
-  const { authenticated } = useAuth();
   const router = useRouter();
 
   const handleCheckout = () => {
     onClose();
-    if (authenticated) {
-      router.push('/checkout');
-    } else {
-      // Сохраняем URL для возврата после авторизации
-      sessionStorage.setItem('returnUrl', '/checkout');
-      router.push('/auth');
-    }
+    router.push('/checkout');
   };
 
   return (
@@ -102,7 +94,7 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ open, onClose }) => {
                 const total = price * item.quantity;
 
                 return (
-                  <Paper key={item.product_id} elevation={1} sx={{ p: 2 }}>
+                  <Paper key={item.cart_item_id} elevation={1} sx={{ p: 2 }}>
                     <Box sx={{ display: 'flex', gap: 2 }}>
                       {/* Image */}
                       <Box
@@ -173,38 +165,46 @@ const CartDrawer: React.FC<CartDrawerProps> = ({ open, onClose }) => {
 
                         {/* Quantity Controls */}
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                          <IconButton
-                            size="small"
-                            onClick={() => updateQuantity(item.product_id, item.quantity - 1)}
-                            sx={{ border: '1px solid', borderColor: 'divider' }}
-                          >
-                            <Remove fontSize="small" />
-                          </IconButton>
-                          <TextField
-                            value={item.quantity}
-                            onChange={(e) => {
-                              const val = parseInt(e.target.value) || 1;
-                              updateQuantity(item.product_id, val);
-                            }}
-                            size="small"
-                            type="number"
-                            inputProps={{
-                              min: 1,
-                              style: { textAlign: 'center', width: 50 },
-                            }}
-                            sx={{ width: 70 }}
-                          />
-                          <IconButton
-                            size="small"
-                            onClick={() => updateQuantity(item.product_id, item.quantity + 1)}
-                            sx={{ border: '1px solid', borderColor: 'divider' }}
-                          >
-                            <Add fontSize="small" />
-                          </IconButton>
+                          {item.requires_personalization ? (
+                            <Typography variant="caption" color="text.secondary">
+                              Индивидуальный заказ
+                            </Typography>
+                          ) : (
+                            <>
+                              <IconButton
+                                size="small"
+                                onClick={() => updateQuantity(item.cart_item_id, item.quantity - 1)}
+                                sx={{ border: '1px solid', borderColor: 'divider' }}
+                              >
+                                <Remove fontSize="small" />
+                              </IconButton>
+                              <TextField
+                                value={item.quantity}
+                                onChange={(e) => {
+                                  const val = parseInt(e.target.value) || 1;
+                                  updateQuantity(item.cart_item_id, val);
+                                }}
+                                size="small"
+                                type="number"
+                                inputProps={{
+                                  min: 1,
+                                  style: { textAlign: 'center', width: 50 },
+                                }}
+                                sx={{ width: 70 }}
+                              />
+                              <IconButton
+                                size="small"
+                                onClick={() => updateQuantity(item.cart_item_id, item.quantity + 1)}
+                                sx={{ border: '1px solid', borderColor: 'divider' }}
+                              >
+                                <Add fontSize="small" />
+                              </IconButton>
+                            </>
+                          )}
                           <IconButton
                             size="small"
                             color="error"
-                            onClick={() => removeItem(item.product_id)}
+                            onClick={() => removeItem(item.cart_item_id)}
                             sx={{ ml: 'auto' }}
                           >
                             <Delete fontSize="small" />

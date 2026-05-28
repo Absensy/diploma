@@ -52,6 +52,12 @@ import {
 } from '@/lib/orderStatus';
 import { generateReceiptPDF, type ReceiptCompany } from '@/lib/receiptGenerator';
 import { useAlert } from '@/components/GlobalAlert/GlobalAlert';
+import OrderDetailsSections, {
+  type OrderDetailsService,
+  type OrderDetailsDelivery,
+  type OrderPersonalization,
+} from '@/components/OrderDetailsSections/OrderDetailsSections';
+import type { ContactMethod } from '@/lib/orderLabels';
 
 interface AdminOrderItem {
   id: number;
@@ -62,11 +68,13 @@ interface AdminOrderItem {
     name: string;
     image: string;
   } | null;
+  personalization?: OrderPersonalization | null;
 }
 
 interface Order extends OrderTimestamps {
   id: number;
   user_id: number | null;
+  order_number: string | null;
   order_date: string;
   status: OrderStatus;
   total_amount: number | null;
@@ -78,8 +86,17 @@ interface Order extends OrderTimestamps {
     email: string;
     phone?: string | null;
   } | null;
+  contact_first_name: string | null;
+  contact_last_name: string | null;
+  contact_patronymic: string | null;
+  contact_phone: string | null;
+  contact_email: string | null;
+  preferred_contact: ContactMethod | null;
+  customer_comment: string | null;
   itemsCount: number;
   order_items?: AdminOrderItem[];
+  additional_services?: OrderDetailsService[];
+  delivery?: OrderDetailsDelivery | null;
 }
 
 interface OrderFormData {
@@ -120,16 +137,35 @@ export default function AdminOrders() {
       if (statusFilter !== 'ALL' && order.status !== statusFilter) return false;
       if (!searchText.trim()) return true;
       const q = searchText.toLowerCase();
-      return (
-        order.id.toString().includes(q) ||
-        order.user?.first_name.toLowerCase().includes(q) ||
-        order.user?.last_name.toLowerCase().includes(q) ||
-        order.user?.email.toLowerCase().includes(q) ||
-        getStatusLabel(order.status).toLowerCase().includes(q) ||
-        order.total_amount?.toString().includes(q)
-      );
+      const haystack = [
+        order.id.toString(),
+        order.order_number,
+        order.user?.first_name,
+        order.user?.last_name,
+        order.user?.email,
+        order.contact_first_name,
+        order.contact_last_name,
+        order.contact_phone,
+        order.contact_email,
+        order.delivery?.cemetery_address,
+        getStatusLabel(order.status),
+        order.total_amount?.toString(),
+      ]
+        .filter(Boolean)
+        .map((s) => String(s).toLowerCase());
+      return haystack.some((s) => s.includes(q));
     });
   }, [orders, searchText, statusFilter]);
+
+  const getCustomerName = useCallback((order: Order): string => {
+    if (order.user) return `${order.user.first_name} ${order.user.last_name}`;
+    const guest = [order.contact_last_name, order.contact_first_name].filter(Boolean).join(' ');
+    return guest || 'Гость';
+  }, []);
+
+  const getCustomerEmail = useCallback((order: Order): string | null => {
+    return order.user?.email ?? order.contact_email ?? null;
+  }, []);
 
   const statusCounts = useMemo(() => {
     const counts: Partial<Record<OrderStatus, number>> = {};
@@ -153,14 +189,16 @@ export default function AdminOrders() {
 
   const handleExportExcel = () => {
     const exportColumns: ExportColumn[] = [
-      { header: 'ID', key: 'id', width: 10 },
-      { header: 'Клиент', key: 'user', width: 25, formatter: (_val, row) => row.user ? `${row.user.first_name} ${row.user.last_name}` : 'Гость' },
-      { header: 'Email', key: 'user', width: 25, formatter: (_val, row) => row.user?.email || '-' },
+      { header: 'Номер', key: 'order_number', width: 18, formatter: (_val, row) => row.order_number ?? `#${row.id}` },
+      { header: 'Клиент', key: 'user', width: 25, formatter: (_val, row) => getCustomerName(row) },
+      { header: 'Контакт', key: 'contact', width: 25, formatter: (_val, row) => getCustomerEmail(row) ?? row.contact_phone ?? '-' },
+      { header: 'Тип', key: 'user_id', width: 10, formatter: (_val, row) => (row.user ? 'Клиент' : 'Гость') },
       { header: 'Дата заказа', key: 'order_date', width: 20, formatter: (val) => new Date(val).toLocaleString('ru-RU') },
       { header: 'Статус', key: 'status', width: 18, formatter: (val) => getStatusLabel(val) },
       { header: 'Сумма', key: 'total_amount', width: 15, formatter: (val) => val ? `${val} BYN` : 'Н/Д' },
       { header: 'Способ оплаты', key: 'payment_method', width: 15, formatter: (val) => methodLabels[val] || val },
-      { header: 'Товаров', key: 'itemsCount', width: 12 },
+      { header: 'Товаров', key: 'itemsCount', width: 10 },
+      { header: 'Услуг', key: 'additional_services', width: 10, formatter: (_val, row) => row.additional_services?.length ?? 0 },
     ];
     exportToExcel(filteredOrders, exportColumns, `заказы_${new Date().toISOString().split('T')[0]}`);
     handleExportClose();
@@ -168,13 +206,13 @@ export default function AdminOrders() {
 
   const handleExportPDF = async () => {
     const exportColumns: ExportColumn[] = [
-      { header: 'ID', key: 'id' },
-      { header: 'Клиент', key: 'user', formatter: (_val, row) => row.user ? `${row.user.first_name} ${row.user.last_name}` : 'Гость' },
-      { header: 'Email', key: 'user', formatter: (_val, row) => row.user?.email || '-' },
+      { header: 'Номер', key: 'order_number', formatter: (_val, row) => row.order_number ?? `#${row.id}` },
+      { header: 'Клиент', key: 'user', formatter: (_val, row) => getCustomerName(row) },
+      { header: 'Контакт', key: 'contact', formatter: (_val, row) => getCustomerEmail(row) ?? row.contact_phone ?? '-' },
       { header: 'Дата заказа', key: 'order_date', formatter: (val) => new Date(val).toLocaleString('ru-RU') },
       { header: 'Статус', key: 'status', formatter: (val) => getStatusLabel(val) },
       { header: 'Сумма', key: 'total_amount', formatter: (val) => val ? `${val} BYN` : 'Н/Д' },
-      { header: 'Способ оплаты', key: 'payment_method', formatter: (val) => methodLabels[val] || val },
+      { header: 'Оплата', key: 'payment_method', formatter: (val) => methodLabels[val] || val },
       { header: 'Товаров', key: 'itemsCount' },
     ];
     await exportToPDF(filteredOrders, exportColumns, `заказы_${new Date().toISOString().split('T')[0]}`, 'Отчет по заказам');
@@ -378,49 +416,88 @@ export default function AdminOrders() {
 
   const columns: GridColDef[] = [
     {
-      field: 'id',
-      headerName: 'ID',
-      width: 70,
-      type: 'number',
+      field: 'order_number',
+      headerName: 'Номер',
+      width: 160,
+      valueGetter: (_value: unknown, row: Order) => row.order_number ?? `#${row.id}`,
+      renderCell: (params: GridRenderCellParams<Order>) => (
+        <Box sx={{ py: 0.5, minWidth: 0 }}>
+          <Typography
+            variant="body2"
+            fontWeight="600"
+            sx={{
+              fontSize: { xs: '0.75rem', md: '0.85rem' },
+              fontFamily: 'monospace',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            {params.row.order_number ?? `#${params.row.id}`}
+          </Typography>
+          <Typography
+            variant="caption"
+            color="text.disabled"
+            sx={{ fontSize: '0.65rem', display: 'block' }}
+          >
+            internal #{params.row.id}
+          </Typography>
+        </Box>
+      ),
     },
     {
       field: 'user',
       headerName: 'Клиент',
       width: 200,
       flex: 1,
-      valueGetter: (_value: unknown, row: Order) =>
-        row.user ? `${row.user.first_name} ${row.user.last_name}` : 'Гость',
-      renderCell: (params: GridRenderCellParams<Order>) => (
-        <Box sx={{ py: 0.5, minWidth: 0 }}>
-          <Typography
-            variant="body2"
-            fontWeight="medium"
-            sx={{
-              fontSize: { xs: '0.75rem', md: '0.875rem' },
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              whiteSpace: 'nowrap',
-            }}
-          >
-            {params.value}
-          </Typography>
-          {params.row.user && (
-            <Typography
-              variant="caption"
-              color="text.secondary"
-              sx={{
-                fontSize: { xs: '0.7rem', md: '0.75rem' },
-                display: 'block',
-                overflow: 'hidden',
-                textOverflow: 'ellipsis',
-                whiteSpace: 'nowrap',
-              }}
-            >
-              {params.row.user.email}
-            </Typography>
-          )}
-        </Box>
-      ),
+      valueGetter: (_value: unknown, row: Order) => getCustomerName(row),
+      renderCell: (params: GridRenderCellParams<Order>) => {
+        const order = params.row;
+        const name = getCustomerName(order);
+        const email = getCustomerEmail(order);
+        const isGuest = !order.user;
+        return (
+          <Box sx={{ py: 0.5, minWidth: 0 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.5 }}>
+              <Typography
+                variant="body2"
+                fontWeight="medium"
+                sx={{
+                  fontSize: { xs: '0.75rem', md: '0.875rem' },
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {name}
+              </Typography>
+              {isGuest && (
+                <Chip
+                  label="гость"
+                  size="small"
+                  variant="outlined"
+                  sx={{ height: 16, fontSize: '0.6rem', '& .MuiChip-label': { px: 0.6 } }}
+                />
+              )}
+            </Box>
+            {(email || order.contact_phone) && (
+              <Typography
+                variant="caption"
+                color="text.secondary"
+                sx={{
+                  fontSize: { xs: '0.7rem', md: '0.75rem' },
+                  display: 'block',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                }}
+              >
+                {email ?? order.contact_phone}
+              </Typography>
+            )}
+          </Box>
+        );
+      },
     },
     {
       field: 'order_date',
@@ -615,16 +692,24 @@ export default function AdminOrders() {
           fullWidth
         >
           <DialogTitle>
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="h6" component="span">
-                Заказ #{editingOrder?.id}
+            <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap" useFlexGap>
+              <Typography variant="h6" component="span" sx={{ fontFamily: 'monospace' }}>
+                {editingOrder?.order_number ?? `Заказ #${editingOrder?.id}`}
               </Typography>
+              {editingOrder?.order_number && (
+                <Typography variant="caption" color="text.disabled">
+                  internal #{editingOrder.id}
+                </Typography>
+              )}
               {editingOrder && (
                 <Chip
                   label={getStatusLabel(editingOrder.status)}
                   size="small"
                   color={getStatusColor(editingOrder.status)}
                 />
+              )}
+              {editingOrder && !editingOrder.user && (
+                <Chip label="Гостевой заказ" size="small" variant="outlined" />
               )}
             </Stack>
           </DialogTitle>
@@ -742,6 +827,28 @@ export default function AdminOrders() {
                     ))}
                   </Select>
                 </FormControl>
+
+                <Divider />
+
+                <OrderDetailsSections
+                  order={{
+                    contact_first_name: editingOrder.contact_first_name,
+                    contact_last_name: editingOrder.contact_last_name,
+                    contact_patronymic: editingOrder.contact_patronymic,
+                    contact_phone: editingOrder.contact_phone,
+                    contact_email: editingOrder.contact_email,
+                    preferred_contact: editingOrder.preferred_contact,
+                    customer_comment: editingOrder.customer_comment,
+                    order_items: (editingOrder.order_items ?? []).map((item) => ({
+                      id: item.id,
+                      quantity: item.quantity,
+                      product: item.product,
+                      personalization: item.personalization ?? null,
+                    })),
+                    additional_services: editingOrder.additional_services,
+                    delivery: editingOrder.delivery ?? null,
+                  }}
+                />
               </Stack>
             )}
           </DialogContent>
