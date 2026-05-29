@@ -106,7 +106,7 @@ export async function POST(request: NextRequest) {
         meta_keywords: meta_keywords || null,
         weight: weight ? parseFloat(weight) : null,
         dimensions: dimensions || null,
-        stock_quantity: stock_quantity ? parseInt(stock_quantity) : null,
+        stock_quantity: stock_quantity ? parseInt(stock_quantity) : 0,
         sku: sku || null,
         is_new: is_new || false,
         is_popular: is_popular || false,
