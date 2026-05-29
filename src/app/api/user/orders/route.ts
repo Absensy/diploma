@@ -56,6 +56,17 @@ export async function GET(request: NextRequest) {
         total_amount: true,
         payment_method: true,
         customer_comment: true,
+        contact_first_name: true,
+        contact_last_name: true,
+        contact_patronymic: true,
+        contact_phone: true,
+        contact_email: true,
+        contact_address: true,
+        passport_series: true,
+        passport_number: true,
+        passport_issued_by: true,
+        passport_issued_at: true,
+        personal_number: true,
         order_items: {
           include: {
             product: {

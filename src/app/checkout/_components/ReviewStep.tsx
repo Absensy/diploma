@@ -205,6 +205,32 @@ export default function ReviewStep({ items, services, state }: ReviewStepProps) 
           )}
         </Stack>
       </Section>
+
+      {/* Данные для договора */}
+      <Section title="Данные для договора">
+        <Stack spacing={0.5}>
+          <FieldRow label="Адрес проживания" value={state.contact.address || '—'} />
+          <FieldRow
+            label="Паспорт"
+            value={
+              state.contact.passport_series || state.contact.passport_number
+                ? `${state.contact.passport_series} ${state.contact.passport_number}`.trim()
+                : '—'
+            }
+          />
+          <FieldRow
+            label="Кем выдан"
+            value={
+              [state.contact.passport_issued_by, formatDate(state.contact.passport_issued_at)]
+                .filter((v) => v && v !== '—')
+                .join(', ') || '—'
+            }
+          />
+          {state.contact.personal_number && (
+            <FieldRow label="Личный номер" value={state.contact.personal_number} />
+          )}
+        </Stack>
+      </Section>
     </Stack>
   );
 }

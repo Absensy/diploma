@@ -1,12 +1,21 @@
 import { useState, useEffect } from 'react';
 
-interface ContactInfo {
+export interface ContactInfo {
   id: number;
   address: string;
   phone: string;
   email: string;
   instagram?: string;
   working_hours: string;
+  company_name?: string | null;
+  legal_form?: string | null;
+  director_name?: string | null;
+  director_basis?: string | null;
+  unp?: string | null;
+  legal_address?: string | null;
+  bank_name?: string | null;
+  bank_account?: string | null;
+  bik?: string | null;
   created_at: string;
   updated_at: string;
 }

@@ -1,6 +1,40 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+const CONTACT_INFO_DEFAULTS = {
+  address: 'пр. Янки Купалы 22а, цокольный этаж',
+  phone: '+375 (29) 708-21-11',
+  email: 'info@granit-grodno.by',
+  instagram: 'granit.grodno',
+  working_hours: 'Пн-Пт: 9:00 - 18:00, Сб-Вс: 10:00 - 16:00',
+  company_name: 'ООО «Гранит памяти»',
+  legal_form: 'ООО',
+  director_name: '',
+  director_basis: 'Устава',
+  unp: '',
+  legal_address: '',
+  bank_name: '',
+  bank_account: '',
+  bik: '',
+};
+
+const UPDATABLE_FIELDS = [
+  'address',
+  'phone',
+  'email',
+  'instagram',
+  'working_hours',
+  'company_name',
+  'legal_form',
+  'director_name',
+  'director_basis',
+  'unp',
+  'legal_address',
+  'bank_name',
+  'bank_account',
+  'bik',
+] as const;
+
 // GET - получить контактную информацию
 export async function GET() {
   try {
@@ -8,16 +42,9 @@ export async function GET() {
       orderBy: { created_at: 'desc' }
     });
 
-    // Если нет контактной информации, создаем базовую
     if (!contactInfo) {
       contactInfo = await prisma.contactInfo.create({
-        data: {
-          address: 'пр. Янки Купалы 22а, цокольный этаж',
-          phone: '+375 (29) 708-21-11',
-          email: 'info@granit-grodno.by',
-          instagram: 'granit.grodno',
-          working_hours: 'Пн-Пт: 9:00 - 18:00, Сб-Вс: 10:00 - 16:00',
-        },
+        data: CONTACT_INFO_DEFAULTS,
       });
     }
 
@@ -35,34 +62,23 @@ export async function GET() {
 export async function PUT(request: NextRequest) {
   try {
     const body = await request.json();
-    const { address, phone, email, instagram, working_hours } = body;
+    const data: Record<string, unknown> = {};
+    for (const field of UPDATABLE_FIELDS) {
+      if (field in body) data[field] = body[field];
+    }
 
     let contactInfo = await prisma.contactInfo.findFirst({
       orderBy: { created_at: 'desc' }
     });
 
     if (contactInfo) {
-      // Обновляем существующую запись
       contactInfo = await prisma.contactInfo.update({
         where: { id: contactInfo.id },
-        data: {
-          address,
-          phone,
-          email,
-          instagram,
-          working_hours,
-        },
+        data,
       });
     } else {
-      // Создаем новую запись
       contactInfo = await prisma.contactInfo.create({
-        data: {
-          address,
-          phone,
-          email,
-          instagram,
-          working_hours,
-        },
+        data: { ...CONTACT_INFO_DEFAULTS, ...data } as never,
       });
     }
 

@@ -34,7 +34,7 @@ import {
   FileDownload,
   ArrowForward,
   Cancel as CancelIcon,
-  Receipt as ReceiptIcon,
+  Description as DescriptionIcon,
 } from '@mui/icons-material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
@@ -50,7 +50,7 @@ import {
   getStatusColor,
   type OrderStatus,
 } from '@/lib/orderStatus';
-import { generateReceiptPDF, type ReceiptCompany } from '@/lib/receiptGenerator';
+import { generateContractPDF, type ContractCompany } from '@/lib/contractGenerator';
 import { useAlert } from '@/components/GlobalAlert/GlobalAlert';
 import OrderDetailsSections, {
   type OrderDetailsService,
@@ -91,6 +91,12 @@ interface Order extends OrderTimestamps {
   contact_patronymic: string | null;
   contact_phone: string | null;
   contact_email: string | null;
+  contact_address?: string | null;
+  passport_series?: string | null;
+  passport_number?: string | null;
+  passport_issued_by?: string | null;
+  passport_issued_at?: string | null;
+  personal_number?: string | null;
   preferred_contact: ContactMethod | null;
   customer_comment: string | null;
   itemsCount: number;
@@ -129,8 +135,8 @@ export default function AdminOrders() {
   const [searchText, setSearchText] = useState('');
   const [statusFilter, setStatusFilter] = useState<'ALL' | OrderStatus>('ALL');
   const [exportMenuAnchor, setExportMenuAnchor] = useState<null | HTMLElement>(null);
-  const [companyInfo, setCompanyInfo] = useState<ReceiptCompany | null>(null);
-  const [downloadingReceipt, setDownloadingReceipt] = useState(false);
+  const [companyInfo, setCompanyInfo] = useState<ContractCompany | null>(null);
+  const [downloadingContract, setDownloadingContract] = useState(false);
 
   const filteredOrders = useMemo(() => {
     return orders.filter((order) => {
@@ -329,67 +335,100 @@ export default function AdminOrders() {
     }
   };
 
-  const ensureCompanyInfo = async (): Promise<ReceiptCompany> => {
+  const ensureCompanyInfo = async (): Promise<ContractCompany> => {
     if (companyInfo) return companyInfo;
     const res = await fetch('/api/contact');
     if (!res.ok) throw new Error('Не удалось получить реквизиты компании');
     const data = await res.json();
-    const info: ReceiptCompany = {
+    const info: ContractCompany = {
       address: data.address,
       phone: data.phone,
       email: data.email,
       working_hours: data.working_hours,
       instagram: data.instagram ?? null,
+      company_name: data.company_name ?? null,
+      legal_form: data.legal_form ?? null,
+      director_name: data.director_name ?? null,
+      director_basis: data.director_basis ?? null,
+      unp: data.unp ?? null,
+      legal_address: data.legal_address ?? null,
+      bank_name: data.bank_name ?? null,
+      bank_account: data.bank_account ?? null,
+      bik: data.bik ?? null,
     };
     setCompanyInfo(info);
     return info;
   };
 
-  const handleDownloadReceipt = async () => {
+  const handleDownloadContract = async () => {
     if (!editingOrder) return;
     if (!editingOrder.order_items || editingOrder.order_items.length === 0) {
-      showError('У заказа нет товаров для формирования чека');
+      showError('У заказа нет позиций для формирования договора');
       return;
     }
     try {
-      setDownloadingReceipt(true);
+      setDownloadingContract(true);
       const company = await ensureCompanyInfo();
-      await generateReceiptPDF({
+      await generateContractPDF({
         order: {
           id: editingOrder.id,
+          order_number: editingOrder.order_number,
           order_date: editingOrder.order_date,
-          status: editingOrder.status,
           total_amount: editingOrder.total_amount,
           payment_method: editingOrder.payment_method,
-          paid_at: editingOrder.paid_at ?? null,
-          in_production_at: editingOrder.in_production_at ?? null,
-          in_delivery_at: editingOrder.in_delivery_at ?? null,
-          completed_at: editingOrder.completed_at ?? null,
-          cancelled_at: editingOrder.cancelled_at ?? null,
-          user: editingOrder.user
-            ? {
-                first_name: editingOrder.user.first_name,
-                last_name: editingOrder.user.last_name,
-                email: editingOrder.user.email,
-                phone: editingOrder.user.phone ?? null,
-              }
-            : null,
+          customer: {
+            first_name: editingOrder.contact_first_name ?? editingOrder.user?.first_name ?? null,
+            last_name: editingOrder.contact_last_name ?? editingOrder.user?.last_name ?? null,
+            patronymic: editingOrder.contact_patronymic ?? null,
+            phone: editingOrder.contact_phone ?? editingOrder.user?.phone ?? null,
+            email: editingOrder.contact_email ?? editingOrder.user?.email ?? null,
+            address: editingOrder.contact_address ?? null,
+            passport_series: editingOrder.passport_series ?? null,
+            passport_number: editingOrder.passport_number ?? null,
+            passport_issued_by: editingOrder.passport_issued_by ?? null,
+            passport_issued_at: editingOrder.passport_issued_at ?? null,
+            personal_number: editingOrder.personal_number ?? null,
+          },
           order_items: editingOrder.order_items.map((item) => ({
             id: item.id,
             quantity: item.quantity,
             price_at_purchase: Number(item.price_at_purchase),
             product: item.product ? { id: item.product.id, name: item.product.name } : null,
+            personalization: item.personalization
+              ? {
+                  last_name: item.personalization.last_name,
+                  first_name: item.personalization.first_name,
+                  patronymic: item.personalization.patronymic,
+                  birth_date: item.personalization.birth_date,
+                  death_date: item.personalization.death_date,
+                }
+              : null,
           })),
+          additional_services: (editingOrder.additional_services ?? []).map((row) => ({
+            id: row.id,
+            quantity: Number(row.quantity),
+            price_at_purchase: Number(row.price_at_purchase),
+            service: row.service ? { id: row.service.id, name: row.service.name } : null,
+          })),
+          delivery: editingOrder.delivery
+            ? {
+                cemetery_name: editingOrder.delivery.cemetery_name,
+                cemetery_address: editingOrder.delivery.cemetery_address,
+                city: editingOrder.delivery.city,
+                region: editingOrder.delivery.region,
+                preferred_date: editingOrder.delivery.preferred_date,
+              }
+            : null,
         },
         company,
         download: true,
       });
-      showSuccess('Чек скачан');
+      showSuccess('Договор скачан');
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Не удалось сгенерировать чек';
+      const message = err instanceof Error ? err.message : 'Не удалось сгенерировать договор';
       showError(message);
     } finally {
-      setDownloadingReceipt(false);
+      setDownloadingContract(false);
     }
   };
 
@@ -854,13 +893,13 @@ export default function AdminOrders() {
           </DialogContent>
           <DialogActions sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: 2, p: { xs: 2, md: 3 } }}>
             <Button
-              onClick={handleDownloadReceipt}
+              onClick={handleDownloadContract}
               variant="outlined"
-              startIcon={downloadingReceipt ? <CircularProgress size={18} /> : <ReceiptIcon />}
-              disabled={downloadingReceipt || saving || !editingOrder}
+              startIcon={downloadingContract ? <CircularProgress size={18} /> : <DescriptionIcon />}
+              disabled={downloadingContract || saving || !editingOrder}
               sx={{ width: { xs: '100%', sm: 'auto' }, mr: { sm: 'auto' } }}
             >
-              {downloadingReceipt ? 'Генерация...' : 'Скачать чек'}
+              {downloadingContract ? 'Генерация...' : 'Скачать договор'}
             </Button>
             <Button onClick={() => setOpenDialog(false)} disabled={saving} sx={{ width: { xs: '100%', sm: 'auto' } }}>
               Закрыть

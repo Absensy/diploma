@@ -110,6 +110,12 @@ export interface OrderContactInput {
   patronymic?: string | null;
   phone: string;
   email?: string | null;
+  address?: string | null;
+  passport_series?: string | null;
+  passport_number?: string | null;
+  passport_issued_by?: string | null;
+  passport_issued_at?: string | null;
+  personal_number?: string | null;
   preferred_contact?: 'PHONE' | 'EMAIL' | 'WHATSAPP' | 'TELEGRAM' | 'VIBER' | null;
   comment?: string | null;
 }
@@ -280,6 +286,12 @@ export async function createOrderWithInventory(input: CreateOrderInput) {
         contact_patronymic: contact?.patronymic ?? null,
         contact_phone: contact?.phone ?? null,
         contact_email: contact?.email ?? null,
+        contact_address: contact?.address ?? null,
+        passport_series: contact?.passport_series ?? null,
+        passport_number: contact?.passport_number ?? null,
+        passport_issued_by: contact?.passport_issued_by ?? null,
+        passport_issued_at: toDateOrNull(contact?.passport_issued_at),
+        personal_number: contact?.personal_number ?? null,
         preferred_contact: contact?.preferred_contact ?? null,
         customer_comment: contact?.comment ?? null,
         order_items: {

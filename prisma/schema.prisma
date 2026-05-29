@@ -68,14 +68,23 @@ model Product {
 }
 
 model ContactInfo {
-  id            Int      @id @default(autoincrement())
-  address       String
-  phone         String
-  email         String
-  instagram     String?
-  working_hours String
-  created_at    DateTime @default(now())
-  updated_at    DateTime @updatedAt
+  id              Int      @id @default(autoincrement())
+  address         String
+  phone           String
+  email           String
+  instagram       String?
+  working_hours   String
+  company_name    String?  @map("company_name")
+  legal_form      String?  @map("legal_form")
+  director_name   String?  @map("director_name")
+  director_basis  String?  @map("director_basis")
+  unp             String?
+  legal_address   String?  @map("legal_address")
+  bank_name       String?  @map("bank_name")
+  bank_account    String?  @map("bank_account")
+  bik             String?
+  created_at      DateTime @default(now())
+  updated_at      DateTime @updatedAt
 
   @@map("contact_info")
 }
@@ -137,6 +146,12 @@ model Order {
   contact_patronymic  String?                  @map("contact_patronymic")
   contact_phone       String?                  @map("contact_phone")
   contact_email       String?                  @map("contact_email")
+  contact_address     String?                  @map("contact_address")
+  passport_series     String?                  @map("passport_series")
+  passport_number     String?                  @map("passport_number")
+  passport_issued_by  String?                  @map("passport_issued_by")
+  passport_issued_at  DateTime?                @map("passport_issued_at") @db.Date
+  personal_number     String?                  @map("personal_number")
   preferred_contact   ContactMethod?           @map("preferred_contact")
   customer_comment    String?                  @map("customer_comment")
   order_items         OrderItem[]

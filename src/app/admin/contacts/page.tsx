@@ -21,6 +21,8 @@ import {
   Instagram,
   Schedule,
   Email,
+  Description as DescriptionIcon,
+  AccountBalance,
 } from '@mui/icons-material';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
 import { useAdminContacts } from '@/hooks/useAdminContacts';
@@ -36,6 +38,15 @@ export default function AdminContacts() {
     instagram: '',
     email: '',
     working_hours: '',
+    company_name: '',
+    legal_form: 'ООО',
+    director_name: '',
+    director_basis: 'Устава',
+    unp: '',
+    legal_address: '',
+    bank_name: '',
+    bank_account: '',
+    bik: '',
   });
   const [workingHours, setWorkingHours] = useState({
     weekdays: '',
@@ -51,6 +62,15 @@ export default function AdminContacts() {
         instagram: contactInfo.instagram || '',
         email: contactInfo.email,
         working_hours: contactInfo.working_hours,
+        company_name: contactInfo.company_name || '',
+        legal_form: contactInfo.legal_form || 'ООО',
+        director_name: contactInfo.director_name || '',
+        director_basis: contactInfo.director_basis || 'Устава',
+        unp: contactInfo.unp || '',
+        legal_address: contactInfo.legal_address || '',
+        bank_name: contactInfo.bank_name || '',
+        bank_account: contactInfo.bank_account || '',
+        bik: contactInfo.bik || '',
       });
 
       // Парсим режим работы для раздельного редактирования
@@ -274,6 +294,135 @@ export default function AdminContacts() {
               </Paper>
             </Grid>
 
+
+            {/* Юридические реквизиты для договора */}
+            <Grid size={{ xs: 12 }}>
+              <Paper sx={{ p: { xs: 2, md: 3 } }}>
+                <Typography
+                  variant="h6"
+                  gutterBottom
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                    fontSize: { xs: '1.1rem', md: '1.25rem' }
+                  }}
+                >
+                  <DescriptionIcon color="primary" />
+                  Реквизиты для договора
+                </Typography>
+                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                  Используются при формировании договора изготовления и установки памятника.
+                </Typography>
+                <Divider sx={{ mb: 3 }} />
+
+                <Grid container spacing={2}>
+                  <Grid size={{ xs: 12, md: 8 }}>
+                    <TextField
+                      fullWidth
+                      label="Полное наименование организации"
+                      value={contactData.company_name}
+                      onChange={(e) => handleInputChange('company_name', e.target.value)}
+                      placeholder="ООО «Гранит памяти»"
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 4 }}>
+                    <TextField
+                      fullWidth
+                      label="Юр. форма"
+                      value={contactData.legal_form}
+                      onChange={(e) => handleInputChange('legal_form', e.target.value)}
+                      placeholder="ООО"
+                      variant="outlined"
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      fullWidth
+                      label="Руководитель (ФИО)"
+                      value={contactData.director_name}
+                      onChange={(e) => handleInputChange('director_name', e.target.value)}
+                      placeholder="Иванов Иван Иванович"
+                      variant="outlined"
+                      helperText="Лицо, подписывающее договор от имени Исполнителя"
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      fullWidth
+                      label="Действует на основании"
+                      value={contactData.director_basis}
+                      onChange={(e) => handleInputChange('director_basis', e.target.value)}
+                      placeholder="Устава"
+                      variant="outlined"
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      fullWidth
+                      label="УНП"
+                      value={contactData.unp}
+                      onChange={(e) => handleInputChange('unp', e.target.value.replace(/\D/g, ''))}
+                      placeholder="500123456"
+                      inputProps={{ maxLength: 9 }}
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      fullWidth
+                      label="Юридический адрес"
+                      value={contactData.legal_address}
+                      onChange={(e) => handleInputChange('legal_address', e.target.value)}
+                      placeholder="230015, г. Гродно, пр. Янки Купалы, 22а"
+                      variant="outlined"
+                    />
+                  </Grid>
+
+                  <Grid size={{ xs: 12 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mt: 1, mb: 1 }}>
+                      <AccountBalance fontSize="small" color="action" />
+                      <Typography variant="subtitle2">Банковские реквизиты</Typography>
+                    </Box>
+                  </Grid>
+
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      fullWidth
+                      label="Наименование банка"
+                      value={contactData.bank_name}
+                      onChange={(e) => handleInputChange('bank_name', e.target.value)}
+                      placeholder="ОАО «Белинвестбанк», ЦБУ № 421 г. Гродно"
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      fullWidth
+                      label="Расчётный счёт (IBAN)"
+                      value={contactData.bank_account}
+                      onChange={(e) => handleInputChange('bank_account', e.target.value.toUpperCase())}
+                      placeholder="BY00 ABCD 1234 5678 9012 3456 7890"
+                      variant="outlined"
+                    />
+                  </Grid>
+                  <Grid size={{ xs: 12, md: 6 }}>
+                    <TextField
+                      fullWidth
+                      label="БИК (BIC)"
+                      value={contactData.bik}
+                      onChange={(e) => handleInputChange('bik', e.target.value.toUpperCase())}
+                      placeholder="BLBBBY2X"
+                      inputProps={{ maxLength: 11 }}
+                      variant="outlined"
+                    />
+                  </Grid>
+                </Grid>
+              </Paper>
+            </Grid>
 
             {/* Предварительный просмотр */}
             <Grid size={{ xs: 12, md: 6 }}>

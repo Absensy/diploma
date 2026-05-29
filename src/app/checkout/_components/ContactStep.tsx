@@ -4,12 +4,14 @@ import React from 'react';
 import {
   Alert,
   Box,
+  Divider,
   FormControl,
   InputLabel,
   MenuItem,
   Select,
   Stack,
   TextField,
+  Typography,
 } from '@mui/material';
 import { CONTACT_METHOD_LABELS, type ContactData, type ContactMethod } from '../_types';
 
@@ -26,7 +28,8 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
   return (
     <Stack spacing={3}>
       <Alert severity="info" variant="outlined">
-        По этим данным с вами свяжется менеджер. Регистрация не нужна — мы оформим заказ как гостевой.
+        Эти данные используются для оформления договора изготовления и установки памятника. По ним с
+        вами свяжется менеджер. Регистрация не нужна — мы оформим заказ как гостевой.
       </Alert>
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' }, gap: 2 }}>
@@ -71,6 +74,76 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
           helperText="На него отправим подтверждение заказа"
         />
       </Box>
+
+      <Divider textAlign="left">
+        <Typography variant="overline" color="text.secondary">
+          Данные для договора
+        </Typography>
+      </Divider>
+
+      <TextField
+        label="Адрес проживания"
+        value={data.address}
+        onChange={(e) => setField('address', e.target.value)}
+        required
+        fullWidth
+        helperText="Город, улица, дом, квартира — для указания в договоре"
+      />
+
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' }, gap: 2 }}>
+        <TextField
+          label="Серия паспорта"
+          value={data.passport_series}
+          onChange={(e) => setField('passport_series', e.target.value.toUpperCase())}
+          required
+          fullWidth
+          inputProps={{ maxLength: 4 }}
+          placeholder="KH"
+        />
+        <TextField
+          label="Номер паспорта"
+          value={data.passport_number}
+          onChange={(e) => setField('passport_number', e.target.value.replace(/\D/g, ''))}
+          required
+          fullWidth
+          inputProps={{ maxLength: 9 }}
+          placeholder="1234567"
+        />
+        <TextField
+          label="Личный (идентификационный) номер"
+          value={data.personal_number}
+          onChange={(e) => setField('personal_number', e.target.value.toUpperCase())}
+          fullWidth
+          inputProps={{ maxLength: 14 }}
+          placeholder="4140888K012PB1"
+        />
+      </Box>
+
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '2fr 1fr' }, gap: 2 }}>
+        <TextField
+          label="Кем выдан"
+          value={data.passport_issued_by}
+          onChange={(e) => setField('passport_issued_by', e.target.value)}
+          required
+          fullWidth
+          placeholder="Например: Ленинским РОВД г. Гродно"
+        />
+        <TextField
+          label="Дата выдачи"
+          type="date"
+          value={data.passport_issued_at}
+          onChange={(e) => setField('passport_issued_at', e.target.value)}
+          required
+          fullWidth
+          InputLabelProps={{ shrink: true }}
+        />
+      </Box>
+
+      <Divider textAlign="left">
+        <Typography variant="overline" color="text.secondary">
+          Связь с менеджером
+        </Typography>
+      </Divider>
 
       <FormControl fullWidth>
         <InputLabel id="preferred-contact-label">Предпочитаемый способ связи</InputLabel>

@@ -35,7 +35,7 @@ import {
   Phone,
   Email,
   CalendarToday,
-  Receipt as ReceiptIcon,
+  Description as DescriptionIcon,
 } from '@mui/icons-material';
 import { useAuth } from '@/contexts/AuthContext';
 import { useRouter } from 'next/navigation';
@@ -45,7 +45,7 @@ import {
   ORDER_STATUS_META,
   type OrderStatus,
 } from '@/lib/orderStatus';
-import { generateReceiptPDF, type ReceiptCompany } from '@/lib/receiptGenerator';
+import { generateContractPDF, type ContractCompany } from '@/lib/contractGenerator';
 import OrderDetailsSections, {
   type OrderDetailsService,
   type OrderDetailsDelivery,
@@ -66,6 +66,17 @@ interface Order {
   total_amount: number | null;
   payment_method: 'ONLINE' | 'OFFLINE';
   customer_comment?: string | null;
+  contact_first_name?: string | null;
+  contact_last_name?: string | null;
+  contact_patronymic?: string | null;
+  contact_phone?: string | null;
+  contact_email?: string | null;
+  contact_address?: string | null;
+  passport_series?: string | null;
+  passport_number?: string | null;
+  passport_issued_by?: string | null;
+  passport_issued_at?: string | null;
+  personal_number?: string | null;
   order_items: Array<{
     id: number;
     quantity: number;
@@ -132,8 +143,8 @@ export default function ProfilePage() {
   const [error, setError] = useState<string | null>(null);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [orderDialogOpen, setOrderDialogOpen] = useState(false);
-  const [companyInfo, setCompanyInfo] = useState<ReceiptCompany | null>(null);
-  const [downloadingReceipt, setDownloadingReceipt] = useState(false);
+  const [companyInfo, setCompanyInfo] = useState<ContractCompany | null>(null);
+  const [downloadingContract, setDownloadingContract] = useState(false);
 
   const [formData, setFormData] = useState({
     first_name: '',
@@ -288,52 +299,96 @@ export default function ProfilePage() {
     setOrderDialogOpen(true);
   };
 
-  const ensureCompanyInfo = async (): Promise<ReceiptCompany> => {
+  const ensureCompanyInfo = async (): Promise<ContractCompany> => {
     if (companyInfo) return companyInfo;
     const res = await fetch('/api/contact');
     if (!res.ok) throw new Error('Не удалось получить реквизиты компании');
     const data = await res.json();
-    const info: ReceiptCompany = {
+    const info: ContractCompany = {
       address: data.address,
       phone: data.phone,
       email: data.email,
       working_hours: data.working_hours,
       instagram: data.instagram ?? null,
+      company_name: data.company_name ?? null,
+      legal_form: data.legal_form ?? null,
+      director_name: data.director_name ?? null,
+      director_basis: data.director_basis ?? null,
+      unp: data.unp ?? null,
+      legal_address: data.legal_address ?? null,
+      bank_name: data.bank_name ?? null,
+      bank_account: data.bank_account ?? null,
+      bik: data.bik ?? null,
     };
     setCompanyInfo(info);
     return info;
   };
 
-  const handleDownloadReceipt = async () => {
+  const handleDownloadContract = async () => {
     if (!selectedOrder || !profile) return;
     try {
-      setDownloadingReceipt(true);
+      setDownloadingContract(true);
       const company = await ensureCompanyInfo();
-      await generateReceiptPDF({
+      await generateContractPDF({
         order: {
-          ...selectedOrder,
-          user: {
-            first_name: profile.first_name,
-            last_name: profile.last_name,
-            email: profile.email,
-            phone: profile.phone,
+          id: selectedOrder.id,
+          order_number: selectedOrder.order_number,
+          order_date: selectedOrder.order_date,
+          total_amount: selectedOrder.total_amount,
+          payment_method: selectedOrder.payment_method,
+          customer: {
+            first_name: selectedOrder.contact_first_name ?? profile.first_name,
+            last_name: selectedOrder.contact_last_name ?? profile.last_name,
+            patronymic: selectedOrder.contact_patronymic ?? null,
+            phone: selectedOrder.contact_phone ?? profile.phone,
+            email: selectedOrder.contact_email ?? profile.email,
+            address: selectedOrder.contact_address ?? null,
+            passport_series: selectedOrder.passport_series ?? null,
+            passport_number: selectedOrder.passport_number ?? null,
+            passport_issued_by: selectedOrder.passport_issued_by ?? null,
+            passport_issued_at: selectedOrder.passport_issued_at ?? null,
+            personal_number: selectedOrder.personal_number ?? null,
           },
           order_items: selectedOrder.order_items.map((item) => ({
             id: item.id,
             quantity: item.quantity,
             price_at_purchase: item.price_at_purchase,
             product: item.product ? { id: item.product.id, name: item.product.name } : null,
+            personalization: item.personalization
+              ? {
+                  last_name: item.personalization.last_name,
+                  first_name: item.personalization.first_name,
+                  patronymic: item.personalization.patronymic,
+                  birth_date: item.personalization.birth_date,
+                  death_date: item.personalization.death_date,
+                }
+              : null,
           })),
+          additional_services: (selectedOrder.additional_services ?? []).map((row) => ({
+            id: row.id,
+            quantity: Number(row.quantity),
+            price_at_purchase: Number(row.price_at_purchase),
+            service: row.service ? { id: row.service.id, name: row.service.name } : null,
+          })),
+          delivery: selectedOrder.delivery
+            ? {
+                cemetery_name: selectedOrder.delivery.cemetery_name,
+                cemetery_address: selectedOrder.delivery.cemetery_address,
+                city: selectedOrder.delivery.city,
+                region: selectedOrder.delivery.region,
+                preferred_date: selectedOrder.delivery.preferred_date,
+              }
+            : null,
         },
         company,
         download: true,
       });
-      showSuccess('Чек скачан');
+      showSuccess('Договор скачан');
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'Не удалось сгенерировать чек';
+      const message = err instanceof Error ? err.message : 'Не удалось сгенерировать договор';
       showError(message);
     } finally {
-      setDownloadingReceipt(false);
+      setDownloadingContract(false);
     }
   };
 
@@ -726,10 +781,10 @@ export default function ProfilePage() {
         </DialogContent>
         <DialogActions sx={{ flexDirection: { xs: 'column', sm: 'row' }, gap: 1, p: { xs: 2, md: 2 } }}>
           <Button
-            onClick={handleDownloadReceipt}
+            onClick={handleDownloadContract}
             variant="contained"
-            startIcon={downloadingReceipt ? <CircularProgress size={18} color="inherit" /> : <ReceiptIcon />}
-            disabled={downloadingReceipt || !selectedOrder}
+            startIcon={downloadingContract ? <CircularProgress size={18} color="inherit" /> : <DescriptionIcon />}
+            disabled={downloadingContract || !selectedOrder}
             sx={{
               backgroundColor: '#333',
               '&:hover': { backgroundColor: '#555' },
@@ -737,7 +792,7 @@ export default function ProfilePage() {
               order: { xs: 0, sm: 1 },
             }}
           >
-            {downloadingReceipt ? 'Генерация...' : 'Скачать чек (PDF)'}
+            {downloadingContract ? 'Генерация...' : 'Скачать договор (PDF)'}
           </Button>
           <Button
             onClick={() => setOrderDialogOpen(false)}

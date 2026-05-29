@@ -153,6 +153,12 @@ function parseContact(raw: unknown): OrderContactInput | null {
     patronymic: asString(c.patronymic),
     phone,
     email: asString(c.email),
+    address: asString(c.address),
+    passport_series: asString(c.passport_series),
+    passport_number: asString(c.passport_number),
+    passport_issued_by: asString(c.passport_issued_by),
+    passport_issued_at: asString(c.passport_issued_at),
+    personal_number: asString(c.personal_number),
     preferred_contact: preferred,
     comment: asString(c.comment),
   };

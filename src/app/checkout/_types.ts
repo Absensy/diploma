@@ -50,6 +50,12 @@ export interface ContactData {
   patronymic: string;
   phone: string;
   email: string;
+  address: string;
+  passport_series: string;
+  passport_number: string;
+  passport_issued_by: string;
+  passport_issued_at: string;
+  personal_number: string;
   preferred_contact: ContactMethod | '';
   comment: string;
 }
@@ -99,6 +105,12 @@ export const emptyContact = (): ContactData => ({
   patronymic: '',
   phone: '',
   email: '',
+  address: '',
+  passport_series: '',
+  passport_number: '',
+  passport_issued_by: '',
+  passport_issued_at: '',
+  personal_number: '',
   preferred_contact: '',
   comment: '',
 });

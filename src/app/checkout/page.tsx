@@ -146,7 +146,16 @@ export default function CheckoutPage() {
       }
       case 'contact': {
         const c = checkoutState.contact;
-        return Boolean(c.first_name.trim() && c.last_name.trim() && c.phone.trim());
+        return Boolean(
+          c.first_name.trim() &&
+            c.last_name.trim() &&
+            c.phone.trim() &&
+            c.address.trim() &&
+            c.passport_series.trim() &&
+            c.passport_number.trim() &&
+            c.passport_issued_by.trim() &&
+            c.passport_issued_at.trim()
+        );
       }
       case 'review':
         return true;
@@ -189,6 +198,12 @@ export default function CheckoutPage() {
           patronymic: checkoutState.contact.patronymic || null,
           phone: checkoutState.contact.phone,
           email: checkoutState.contact.email || null,
+          address: checkoutState.contact.address || null,
+          passport_series: checkoutState.contact.passport_series || null,
+          passport_number: checkoutState.contact.passport_number || null,
+          passport_issued_by: checkoutState.contact.passport_issued_by || null,
+          passport_issued_at: checkoutState.contact.passport_issued_at || null,
+          personal_number: checkoutState.contact.personal_number || null,
           preferred_contact: checkoutState.contact.preferred_contact || null,
           comment: checkoutState.contact.comment || null,
         },
