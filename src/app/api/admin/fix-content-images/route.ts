@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
+import { prisma, toInputJson } from '@/lib/prisma';
 import {
   DEFAULT_OUR_SERVICES,
   isLocalContentImage,
@@ -30,8 +30,8 @@ export async function POST() {
         if (hasChanges) {
           await prisma.content.upsert({
             where: { section: 'our_services' },
-            update: { data: normalized, updated_at: new Date() },
-            create: { section: 'our_services', data: normalized },
+            update: { data: toInputJson(normalized), updated_at: new Date() },
+            create: { section: 'our_services', data: toInputJson(normalized) },
           });
           fixed++;
         }
@@ -53,8 +53,14 @@ export async function POST() {
     if (!hasOurServices) {
       await prisma.content.upsert({
         where: { section: 'our_services' },
-        update: { data: { ourServices: DEFAULT_OUR_SERVICES }, updated_at: new Date() },
-        create: { section: 'our_services', data: { ourServices: DEFAULT_OUR_SERVICES } },
+        update: {
+          data: toInputJson({ ourServices: DEFAULT_OUR_SERVICES }),
+          updated_at: new Date(),
+        },
+        create: {
+          section: 'our_services',
+          data: toInputJson({ ourServices: DEFAULT_OUR_SERVICES }),
+        },
       });
       fixed++;
     }
