@@ -79,6 +79,27 @@ async function main() {
   });
   console.log('✅ Contact info created\n');
 
+  // Контент «Наши услуги» — локальные SVG-иконки
+  console.log('🛠️  Creating our services content...');
+  await prisma.content.upsert({
+    where: { section: 'our_services' },
+    update: {},
+    create: {
+      section: 'our_services',
+      data: {
+        ourServices: [
+          { id: 1, name: 'Памятники и надгробия', subtext: 'Изготовление памятников, надгробий и мемориальных комплексов из гранита и мрамора', image: '/images/tools.svg' },
+          { id: 2, name: 'Венки и цветы', subtext: 'Красивые венки из искусственных и живых цветов для украшения могил', image: '/images/greenCheck.svg' },
+          { id: 3, name: 'Светильники и освещение', subtext: 'Настенные и напольные светильники из гранита с LED подсветкой', image: '/images/clocks.svg' },
+          { id: 4, name: 'Ограды и ограждения', subtext: 'Прочные ограды из гранита для благоустройства могильных участков', image: '/images/hammer.svg' },
+          { id: 5, name: 'Столы и скамейки', subtext: 'Мемориальные столы и скамейки из гранита для комфортного поминовения', image: '/images/pen.svg' },
+          { id: 6, name: 'Гравировка и установка', subtext: 'Нанесение текста, изображений и профессиональная установка всех изделий', image: '/images/ShowMore.svg' },
+        ],
+      },
+    },
+  });
+  console.log('✅ Our services content created\n');
+
   // 2. Create Categories
   console.log('📁 Creating categories...');
   const categories = await Promise.all([
