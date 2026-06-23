@@ -21,7 +21,9 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
+import { useAlert } from '@/components/GlobalAlert/GlobalAlert';
 import { useCheckoutState } from './_state/useCheckoutState';
+import { getContactErrors } from './_validation';
 import {
   AdditionalServiceDTO,
   emptyContact,
@@ -43,6 +45,7 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { items, totalPrice, isHydrated: cartHydrated, clearCart } = useCart();
   const { user } = useAuth();
+  const { showSuccess } = useAlert();
 
   const activeCartItemIds = useMemo(() => items.map((i) => i.cart_item_id), [items]);
   const checkout = useCheckoutState(activeCartItemIds);
@@ -144,19 +147,8 @@ export default function CheckoutPage() {
         const d = checkoutState.delivery;
         return Boolean(d.cemetery_address.trim() && d.contact_phone.trim());
       }
-      case 'contact': {
-        const c = checkoutState.contact;
-        return Boolean(
-          c.first_name.trim() &&
-            c.last_name.trim() &&
-            c.phone.trim() &&
-            c.address.trim() &&
-            c.passport_series.trim() &&
-            c.passport_number.trim() &&
-            c.passport_issued_by.trim() &&
-            c.passport_issued_at.trim()
-        );
-      }
+      case 'contact':
+        return Object.keys(getContactErrors(checkoutState.contact)).length === 0;
       case 'review':
         return true;
       default:
@@ -223,6 +215,11 @@ export default function CheckoutPage() {
 
       clearCart();
       resetCheckout();
+      showSuccess(
+        `Номер заказа: ${data.order.order_number}. С вами свяжется менеджер.`,
+        6000,
+        'Спасибо за заказ!',
+      );
       router.push(`/order/success?orderNumber=${data.order.order_number}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Произошла ошибка');

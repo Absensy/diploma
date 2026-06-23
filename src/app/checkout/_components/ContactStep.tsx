@@ -14,6 +14,7 @@ import {
   Typography,
 } from '@mui/material';
 import { CONTACT_METHOD_LABELS, type ContactData, type ContactMethod } from '../_types';
+import { getContactErrors } from '../_validation';
 
 interface ContactStepProps {
   data: ContactData;
@@ -21,9 +22,19 @@ interface ContactStepProps {
 }
 
 export default function ContactStep({ data, onChange }: ContactStepProps) {
+  const [touched, setTouched] = React.useState<Partial<Record<keyof ContactData, boolean>>>({});
+
   const setField = <K extends keyof ContactData>(field: K, value: ContactData[K]) => {
     onChange((prev) => ({ ...prev, [field]: value }));
   };
+
+  const markTouched = (field: keyof ContactData) =>
+    setTouched((prev) => ({ ...prev, [field]: true }));
+
+  const errors = getContactErrors(data);
+  // Сообщение показываем только после того, как пользователь побывал в поле,
+  // чтобы форма не «краснела» сразу при открытии шага.
+  const errOf = (field: keyof ContactData) => (touched[field] ? errors[field] : undefined);
 
   return (
     <Stack spacing={3}>
@@ -37,6 +48,9 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
           label="Фамилия"
           value={data.last_name}
           onChange={(e) => setField('last_name', e.target.value)}
+          onBlur={() => markTouched('last_name')}
+          error={Boolean(errOf('last_name'))}
+          helperText={errOf('last_name')}
           required
           fullWidth
         />
@@ -44,6 +58,9 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
           label="Имя"
           value={data.first_name}
           onChange={(e) => setField('first_name', e.target.value)}
+          onBlur={() => markTouched('first_name')}
+          error={Boolean(errOf('first_name'))}
+          helperText={errOf('first_name')}
           required
           fullWidth
         />
@@ -61,17 +78,21 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
           type="tel"
           value={data.phone}
           onChange={(e) => setField('phone', e.target.value)}
+          onBlur={() => markTouched('phone')}
+          error={Boolean(errOf('phone'))}
           required
           fullWidth
-          helperText="Основной номер для связи"
+          helperText={errOf('phone') ?? 'Основной номер для связи'}
         />
         <TextField
           label="Email"
           type="email"
           value={data.email}
           onChange={(e) => setField('email', e.target.value)}
+          onBlur={() => markTouched('email')}
+          error={Boolean(errOf('email'))}
           fullWidth
-          helperText="На него отправим подтверждение заказа"
+          helperText={errOf('email') ?? 'На него отправим подтверждение заказа'}
         />
       </Box>
 
@@ -85,9 +106,11 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
         label="Адрес проживания"
         value={data.address}
         onChange={(e) => setField('address', e.target.value)}
+        onBlur={() => markTouched('address')}
+        error={Boolean(errOf('address'))}
         required
         fullWidth
-        helperText="Город, улица, дом, квартира — для указания в договоре"
+        helperText={errOf('address') ?? 'Город, улица, дом, квартира — для указания в договоре'}
       />
 
       <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 1fr 1fr' }, gap: 2 }}>
@@ -95,6 +118,9 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
           label="Серия паспорта"
           value={data.passport_series}
           onChange={(e) => setField('passport_series', e.target.value.toUpperCase())}
+          onBlur={() => markTouched('passport_series')}
+          error={Boolean(errOf('passport_series'))}
+          helperText={errOf('passport_series')}
           required
           fullWidth
           inputProps={{ maxLength: 4 }}
@@ -104,6 +130,9 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
           label="Номер паспорта"
           value={data.passport_number}
           onChange={(e) => setField('passport_number', e.target.value.replace(/\D/g, ''))}
+          onBlur={() => markTouched('passport_number')}
+          error={Boolean(errOf('passport_number'))}
+          helperText={errOf('passport_number')}
           required
           fullWidth
           inputProps={{ maxLength: 9 }}
@@ -113,6 +142,9 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
           label="Личный (идентификационный) номер"
           value={data.personal_number}
           onChange={(e) => setField('personal_number', e.target.value.toUpperCase())}
+          onBlur={() => markTouched('personal_number')}
+          error={Boolean(errOf('personal_number'))}
+          helperText={errOf('personal_number')}
           fullWidth
           inputProps={{ maxLength: 14 }}
           placeholder="4140888K012PB1"
@@ -124,6 +156,9 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
           label="Кем выдан"
           value={data.passport_issued_by}
           onChange={(e) => setField('passport_issued_by', e.target.value)}
+          onBlur={() => markTouched('passport_issued_by')}
+          error={Boolean(errOf('passport_issued_by'))}
+          helperText={errOf('passport_issued_by')}
           required
           fullWidth
           placeholder="Например: Ленинским РОВД г. Гродно"
@@ -133,6 +168,9 @@ export default function ContactStep({ data, onChange }: ContactStepProps) {
           type="date"
           value={data.passport_issued_at}
           onChange={(e) => setField('passport_issued_at', e.target.value)}
+          onBlur={() => markTouched('passport_issued_at')}
+          error={Boolean(errOf('passport_issued_at'))}
+          helperText={errOf('passport_issued_at')}
           required
           fullWidth
           InputLabelProps={{ shrink: true }}

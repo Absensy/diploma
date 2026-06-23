@@ -43,10 +43,13 @@ function TabPanel(props: TabPanelProps) {
   );
 }
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export default function AuthPage() {
   const [tabValue, setTabValue] = useState(0);
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
   const [loading, setLoading] = useState(false);
   
   // Login form
@@ -69,6 +72,7 @@ export default function AuthPage() {
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabValue(newValue);
     setError('');
+    setFieldErrors({});
     setLoginEmail('');
     setLoginPassword('');
     setRegisterData({
@@ -81,11 +85,22 @@ export default function AuthPage() {
     });
   };
 
+  // Сбрасываем ошибку конкретного поля, как только пользователь его правит
+  const clearFieldError = (field: string) =>
+    setFieldErrors((prev) => {
+      if (!prev[field]) return prev;
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
+
   const handleLogin = async () => {
-    if (!loginEmail || !loginPassword) {
-      setError('Заполните все поля');
-      return;
-    }
+    const errs: Record<string, string> = {};
+    if (!loginEmail.trim()) errs.loginEmail = 'Введите email';
+    else if (!EMAIL_RE.test(loginEmail.trim())) errs.loginEmail = 'Некорректный email';
+    if (!loginPassword) errs.loginPassword = 'Введите пароль';
+    setFieldErrors(errs);
+    if (Object.keys(errs).length > 0) return;
 
     try {
       setLoading(true);
@@ -129,20 +144,18 @@ export default function AuthPage() {
   };
 
   const handleRegister = async () => {
-    if (!registerData.first_name || !registerData.last_name || !registerData.email || !registerData.password) {
-      setError('Заполните все обязательные поля');
-      return;
-    }
-
-    if (registerData.password !== registerData.confirmPassword) {
-      setError('Пароли не совпадают');
-      return;
-    }
-
-    if (registerData.password.length < 6) {
-      setError('Пароль должен содержать минимум 6 символов');
-      return;
-    }
+    const errs: Record<string, string> = {};
+    if (!registerData.first_name.trim()) errs.first_name = 'Введите имя';
+    if (!registerData.last_name.trim()) errs.last_name = 'Введите фамилию';
+    if (!registerData.email.trim()) errs.email = 'Введите email';
+    else if (!EMAIL_RE.test(registerData.email.trim())) errs.email = 'Некорректный email';
+    if (!registerData.password) errs.password = 'Введите пароль';
+    else if (registerData.password.length < 6) errs.password = 'Минимум 6 символов';
+    if (!registerData.confirmPassword) errs.confirmPassword = 'Повторите пароль';
+    else if (registerData.password !== registerData.confirmPassword)
+      errs.confirmPassword = 'Пароли не совпадают';
+    setFieldErrors(errs);
+    if (Object.keys(errs).length > 0) return;
 
     try {
       setLoading(true);
@@ -231,7 +244,12 @@ export default function AuthPage() {
                 label="Email"
                 type="email"
                 value={loginEmail}
-                onChange={(e) => setLoginEmail(e.target.value)}
+                onChange={(e) => {
+                  setLoginEmail(e.target.value);
+                  clearFieldError('loginEmail');
+                }}
+                error={Boolean(fieldErrors.loginEmail)}
+                helperText={fieldErrors.loginEmail}
                 fullWidth
                 required
                 onKeyPress={(e) => handleKeyPress(e, handleLogin)}
@@ -240,7 +258,12 @@ export default function AuthPage() {
                 label="Пароль"
                 type={showPassword ? 'text' : 'password'}
                 value={loginPassword}
-                onChange={(e) => setLoginPassword(e.target.value)}
+                onChange={(e) => {
+                  setLoginPassword(e.target.value);
+                  clearFieldError('loginPassword');
+                }}
+                error={Boolean(fieldErrors.loginPassword)}
+                helperText={fieldErrors.loginPassword}
                 fullWidth
                 required
                 onKeyPress={(e) => handleKeyPress(e, handleLogin)}
@@ -280,18 +303,24 @@ export default function AuthPage() {
               <TextField
                 label="Имя"
                 value={registerData.first_name}
-                onChange={(e) =>
-                  setRegisterData({ ...registerData, first_name: e.target.value })
-                }
+                onChange={(e) => {
+                  setRegisterData({ ...registerData, first_name: e.target.value });
+                  clearFieldError('first_name');
+                }}
+                error={Boolean(fieldErrors.first_name)}
+                helperText={fieldErrors.first_name}
                 fullWidth
                 required
               />
               <TextField
                 label="Фамилия"
                 value={registerData.last_name}
-                onChange={(e) =>
-                  setRegisterData({ ...registerData, last_name: e.target.value })
-                }
+                onChange={(e) => {
+                  setRegisterData({ ...registerData, last_name: e.target.value });
+                  clearFieldError('last_name');
+                }}
+                error={Boolean(fieldErrors.last_name)}
+                helperText={fieldErrors.last_name}
                 fullWidth
                 required
               />
@@ -299,9 +328,12 @@ export default function AuthPage() {
                 label="Email"
                 type="email"
                 value={registerData.email}
-                onChange={(e) =>
-                  setRegisterData({ ...registerData, email: e.target.value })
-                }
+                onChange={(e) => {
+                  setRegisterData({ ...registerData, email: e.target.value });
+                  clearFieldError('email');
+                }}
+                error={Boolean(fieldErrors.email)}
+                helperText={fieldErrors.email}
                 fullWidth
                 required
               />
@@ -318,9 +350,12 @@ export default function AuthPage() {
                 label="Пароль"
                 type={showPassword ? 'text' : 'password'}
                 value={registerData.password}
-                onChange={(e) =>
-                  setRegisterData({ ...registerData, password: e.target.value })
-                }
+                onChange={(e) => {
+                  setRegisterData({ ...registerData, password: e.target.value });
+                  clearFieldError('password');
+                }}
+                error={Boolean(fieldErrors.password)}
+                helperText={fieldErrors.password}
                 fullWidth
                 required
                 InputProps={{
@@ -340,9 +375,12 @@ export default function AuthPage() {
                 label="Подтвердите пароль"
                 type={showPassword ? 'text' : 'password'}
                 value={registerData.confirmPassword}
-                onChange={(e) =>
-                  setRegisterData({ ...registerData, confirmPassword: e.target.value })
-                }
+                onChange={(e) => {
+                  setRegisterData({ ...registerData, confirmPassword: e.target.value });
+                  clearFieldError('confirmPassword');
+                }}
+                error={Boolean(fieldErrors.confirmPassword)}
+                helperText={fieldErrors.confirmPassword}
                 fullWidth
                 required
               />

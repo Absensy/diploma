@@ -60,6 +60,7 @@ next-env.d.ts
 .claude/
 
 # personal notes & diploma docs (not needed to run the app)
+docs/
 TUSK.md
 TUSK2.md
 Text.txt

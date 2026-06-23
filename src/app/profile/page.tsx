@@ -104,8 +104,8 @@ interface UserProfile {
 }
 
 const paymentMethodLabels: Record<string, string> = {
-  ONLINE: 'Онлайн',
-  OFFLINE: 'Офлайн',
+  ONLINE: 'Картой',
+  OFFLINE: 'Наличкой',
 };
 
 interface TabPanelProps {

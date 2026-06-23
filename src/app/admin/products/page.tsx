@@ -38,7 +38,6 @@ import {
   VisibilityOff,
   Search,
   FileDownload,
-  ImageSearch,
 } from '@mui/icons-material';
 import { DataGrid, GridColDef, GridActionsCellItem, GridRowParams, GridRenderCellParams } from '@mui/x-data-grid';
 import AdminLayout from '@/components/AdminLayout/AdminLayout';
@@ -128,7 +127,6 @@ export default function AdminProducts() {
   const [deleting, setDeleting] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
   const { showSuccess, showError } = useAlert();
-  const [fixingImages, setFixingImages] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [isEditingDiscountedPrice, setIsEditingDiscountedPrice] = useState(false);
@@ -196,22 +194,6 @@ export default function AdminProducts() {
     ];
     await exportToPDF(filteredProducts, exportColumns, `товары_${new Date().toISOString().split('T')[0]}`, 'Отчет по товарам');
     handleExportClose();
-  };
-
-  const handleFixImages = async () => {
-    if (!confirm('Заменить все нелокальные изображения товаров на локальные из папки uploads?')) return;
-    try {
-      setFixingImages(true);
-      const response = await fetch('/api/admin/fix-product-images', { method: 'POST' });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error);
-      showSuccess(`Исправлено ${data.updated} из ${data.total} товаров`);
-      fetchProducts();
-    } catch (err) {
-      showError(err instanceof Error ? err.message : 'Ошибка исправления изображений');
-    } finally {
-      setFixingImages(false);
-    }
   };
 
   const [formData, setFormData] = useState<ProductFormData>({
@@ -652,17 +634,6 @@ export default function AdminProducts() {
               size="small"
             >
               Обновить
-            </Button>
-            <Button
-              variant="outlined"
-              startIcon={fixingImages ? <CircularProgress size={16} /> : <ImageSearch />}
-              onClick={handleFixImages}
-              disabled={fixingImages}
-              size="small"
-              color="warning"
-              title="Заменить все нелокальные изображения на локальные"
-            >
-              Исправить фото
             </Button>
             <Button
               variant="outlined"

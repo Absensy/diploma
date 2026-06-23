@@ -112,13 +112,13 @@ interface OrderFormData {
 }
 
 const paymentMethods = [
-  { value: 'ONLINE', label: 'Онлайн' },
-  { value: 'OFFLINE', label: 'Офлайн' },
+  { value: 'ONLINE', label: 'Картой' },
+  { value: 'OFFLINE', label: 'Наличкой' },
 ];
 
 const methodLabels: Record<string, string> = {
-  ONLINE: 'Онлайн',
-  OFFLINE: 'Офлайн',
+  ONLINE: 'Картой',
+  OFFLINE: 'Наличкой',
 };
 
 export default function AdminOrders() {
