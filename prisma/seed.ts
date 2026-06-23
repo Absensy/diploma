@@ -27,6 +27,17 @@ const exampleImages = [
   '/uploads/product/product_1766404292137.jpg',
 ];
 
+const categoryImagePools: Record<string, string[]> = {
+  'Светильники': ['/images/lamp.png'],
+  'Ограды': ['/images/fence.png'],
+  'Столы': ['/images/table.png'],
+  'Скамейки': ['/images/bench.png'],
+};
+
+function imagesForCategory(categoryName: string): string[] {
+  return categoryImagePools[categoryName] ?? productImages;
+}
+
 const prisma = new PrismaClient();
 
 // Helper function to generate slug from name
@@ -170,7 +181,7 @@ async function main() {
       create: {
         name: 'Светильники',
         price_from: 100.00,
-        photo: '/images/GrneyMonument.jpg',
+        photo: '/images/lamp.png',
         is_active: true,
       },
     }),
@@ -180,7 +191,7 @@ async function main() {
       create: {
         name: 'Ограды',
         price_from: 200.00,
-        photo: '/images/doubleMonuments.jpg',
+        photo: '/images/fence.png',
         is_active: true,
       },
     }),
@@ -190,7 +201,7 @@ async function main() {
       create: {
         name: 'Столы',
         price_from: 300.00,
-        photo: '/images/memorialMonument.jpg',
+        photo: '/images/table.png',
         is_active: true,
       },
     }),
@@ -200,7 +211,7 @@ async function main() {
       create: {
         name: 'Скамейки',
         price_from: 250.00,
-        photo: '/images/GrneyMonument.jpg',
+        photo: '/images/bench.png',
         is_active: true,
       },
     }),
@@ -336,42 +347,62 @@ async function main() {
 
   // 6. Create Products (25 products)
   console.log('📦 Creating products...');
-  const productNames = [
-    'Памятник "Классик"',
-    'Памятник "Семейный"',
-    'Мемориал "Вечность"',
-    'Плита "Простота"',
-    'Надгробие "Традиция"',
-    'Памятник "Элегант"',
-    'Памятник "Дуэт"',
-    'Мемориал "Память"',
-    'Плита "Минимал"',
-    'Надгробие "Вера"',
-    'Памятник "Премиум"',
-    'Памятник "Гармония"',
-    'Мемориал "Величие"',
-    'Памятник "Свет"',
-    'Памятник "Память"',
-    'Плита "Элегия"',
-    'Надгробие "Надежда"',
-    'Памятник "Достоинство"',
-    'Мемориал "Честь"',
-    'Памятник "Благородство"',
-    'Плита "Скромность"',
-    'Надгробие "Мудрость"',
-    'Памятник "Великолепие"',
-    'Мемориал "Героизм"',
-    'Памятник "Бессмертие"',
+  const productCatalog: { category: string; names: string[] }[] = [
+    {
+      category: 'Памятники одинарные',
+      names: ['Памятник "Классик"', 'Памятник "Элегант"', 'Памятник "Свет"', 'Памятник "Достоинство"'],
+    },
+    {
+      category: 'Памятники двойные',
+      names: ['Памятник "Семейный"', 'Памятник "Дуэт"', 'Памятник "Гармония"', 'Памятник "Союз"'],
+    },
+    {
+      category: 'Мемориальные комплексы',
+      names: ['Мемориал "Вечность"', 'Мемориал "Память"', 'Мемориал "Величие"', 'Мемориал "Честь"'],
+    },
+    {
+      category: 'Гранитные плиты',
+      names: ['Плита "Простота"', 'Плита "Минимал"', 'Плита "Элегия"', 'Плита "Скромность"'],
+    },
+    {
+      category: 'Надгробные плиты',
+      names: ['Надгробие "Традиция"', 'Надгробие "Вера"', 'Надгробие "Надежда"', 'Надгробие "Мудрость"'],
+    },
+    {
+      category: 'Венки',
+      names: ['Венок "Скорбь"', 'Венок "Память"', 'Венок "Лилия"', 'Венок "Роза"'],
+    },
+    {
+      category: 'Светильники',
+      names: ['Светильник "Лампада"', 'Светильник "Огонёк"', 'Светильник "Вечный свет"', 'Светильник "Свеча"'],
+    },
+    {
+      category: 'Ограды',
+      names: ['Ограда "Классика"', 'Ограда "Ажур"', 'Ограда "Гранит"', 'Ограда "Строгая"'],
+    },
+    {
+      category: 'Столы',
+      names: ['Стол "Поминальный"', 'Стол "Гранитный"', 'Стол "Семейный"', 'Стол "Классик"'],
+    },
+    {
+      category: 'Скамейки',
+      names: ['Скамейка "Покой"', 'Скамейка "Гранитная"', 'Скамейка "Уют"', 'Скамейка "Классик"'],
+    },
   ];
+
+  const categoryByName = new Map(categories.map((c: any) => [c.name, c]));
+  const productPlan = productCatalog.flatMap(({ category: catName, names }) => {
+    const cat = categoryByName.get(catName);
+    return cat ? names.map((name) => ({ name, category: cat })) : [];
+  });
 
   // Create products sequentially to ensure unique slugs and SKUs
   const products: any[] = [];
   const usedSlugs = new Set<string>();
   const usedSKUs = new Set<string>();
-  
-  for (let index = 0; index < productNames.length; index++) {
-    const name = productNames[index];
-    const category = categories[index % categories.length];
+
+  for (let index = 0; index < productPlan.length; index++) {
+    const { name, category } = productPlan[index];
     
     // Generate unique slug
     let slug = generateSlug(name);
@@ -448,7 +479,7 @@ async function main() {
           price: basePrice,
           discount,
           discounted_price: discountedPrice,
-          image: faker.helpers.arrayElement(productImages),
+          image: faker.helpers.arrayElement(imagesForCategory(category.name)),
           category_id: category.id,
           meta_title: `${name} - Гранитная память`,
           meta_description: metaDesc,
@@ -485,7 +516,7 @@ async function main() {
           prisma.productImage.create({
             data: {
               product_id: product.id,
-              url: faker.helpers.arrayElement(productImages),
+              url: faker.helpers.arrayElement(imagesForCategory(category.name)),
               alt: `${name} - изображение ${imgIndex + 1}`,
               order: imgIndex,
               is_primary: imgIndex === 0,
