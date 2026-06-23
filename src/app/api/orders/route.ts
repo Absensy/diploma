@@ -43,6 +43,14 @@ type RawPersonalization = Record<string, unknown>;
 const ALLOWED_SYMBOLS = ['NONE', 'ORTHODOX_CROSS', 'CATHOLIC_CROSS', 'CRESCENT', 'STAR_OF_DAVID', 'OTHER'] as const;
 const ALLOWED_CONTACT_METHODS = ['PHONE', 'EMAIL', 'WHATSAPP', 'TELEGRAM', 'VIBER'] as const;
 
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const PHONE_RE = /^\+?[\d\s()-]{7,}$/;
+const SERIES_RE = /^[A-ZА-Я]{2}$/;
+const NUMBER_RE = /^\d{7}$/;
+const PERSONAL_RE = /^[A-Z0-9]{14}$/;
+const NAME_RE = /^[A-Za-zА-Яа-яЁёІіЎў'.\- ]+$/;
+const ISO_DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
+
 function asString(v: unknown): string | null {
   return typeof v === 'string' && v.trim().length > 0 ? v.trim() : null;
 }
@@ -50,6 +58,20 @@ function asString(v: unknown): string | null {
 function asNumber(v: unknown): number | null {
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
+}
+
+function requireMatch(value: string, re: RegExp, message: string): string {
+  if (!re.test(value)) throw new ValidationError(message);
+  return value;
+}
+
+function optionalMatch(value: string | null, re: RegExp, message: string): string | null {
+  if (value && !re.test(value)) throw new ValidationError(message);
+  return value;
+}
+
+function todayISO(): string {
+  return new Date().toISOString().slice(0, 10);
 }
 
 function parsePersonalization(raw: unknown): OrderItemInput['personalization'] | null {
@@ -60,16 +82,32 @@ function parsePersonalization(raw: unknown): OrderItemInput['personalization'] |
   if (!first || !last) {
     throw new ValidationError('Имя и фамилия в опроснике обязательны');
   }
+  requireMatch(first, NAME_RE, 'Имя в опроснике содержит недопустимые символы');
+  requireMatch(last, NAME_RE, 'Фамилия в опроснике содержит недопустимые символы');
+  const patronymic = optionalMatch(
+    asString(p.patronymic),
+    NAME_RE,
+    'Отчество в опроснике содержит недопустимые символы',
+  );
   const symbol = typeof p.symbol === 'string' && (ALLOWED_SYMBOLS as readonly string[]).includes(p.symbol)
     ? (p.symbol as (typeof ALLOWED_SYMBOLS)[number])
     : 'NONE';
 
+  const today = todayISO();
+  const birthDate = optionalMatch(asString(p.birth_date), ISO_DATE_RE, 'Некорректная дата рождения');
+  const deathDate = optionalMatch(asString(p.death_date), ISO_DATE_RE, 'Некорректная дата смерти');
+  if (birthDate && birthDate > today) throw new ValidationError('Дата рождения не может быть в будущем');
+  if (deathDate && deathDate > today) throw new ValidationError('Дата смерти не может быть в будущем');
+  if (birthDate && deathDate && birthDate > deathDate) {
+    throw new ValidationError('Дата смерти раньше даты рождения');
+  }
+
   return {
     first_name: first,
     last_name: last,
-    patronymic: asString(p.patronymic),
-    birth_date: asString(p.birth_date),
-    death_date: asString(p.death_date),
+    patronymic,
+    birth_date: birthDate,
+    death_date: deathDate,
     portrait_photo: asString(p.portrait_photo),
     epitaph: asString(p.epitaph),
     symbol,
@@ -122,6 +160,16 @@ function parseDelivery(raw: unknown): OrderDeliveryInput | null {
   const phone = asString(d.contact_phone);
   if (!address) throw new ValidationError('Адрес кладбища обязателен');
   if (!phone) throw new ValidationError('Контактный телефон для доставки обязателен');
+  requireMatch(phone, PHONE_RE, 'Некорректный номер телефона для доставки');
+
+  const preferredDate = optionalMatch(
+    asString(d.preferred_date),
+    ISO_DATE_RE,
+    'Некорректная дата установки',
+  );
+  if (preferredDate && preferredDate < todayISO()) {
+    throw new ValidationError('Дата установки не может быть в прошлом');
+  }
 
   return {
     cemetery_name: asString(d.cemetery_name),
@@ -129,7 +177,7 @@ function parseDelivery(raw: unknown): OrderDeliveryInput | null {
     city: asString(d.city),
     region: asString(d.region),
     contact_phone: phone,
-    preferred_date: asString(d.preferred_date),
+    preferred_date: preferredDate,
     comment: asString(d.comment),
   };
 }
@@ -142,23 +190,31 @@ function parseContact(raw: unknown): OrderContactInput | null {
   const phone = asString(c.phone);
   if (!first || !last) throw new ValidationError('Имя и фамилия клиента обязательны');
   if (!phone) throw new ValidationError('Контактный телефон обязателен');
+  requireMatch(first, NAME_RE, 'Имя клиента содержит недопустимые символы');
+  requireMatch(last, NAME_RE, 'Фамилия клиента содержит недопустимые символы');
+  requireMatch(phone, PHONE_RE, 'Некорректный номер телефона');
 
   const preferred = typeof c.preferred_contact === 'string' && (ALLOWED_CONTACT_METHODS as readonly string[]).includes(c.preferred_contact)
     ? (c.preferred_contact as (typeof ALLOWED_CONTACT_METHODS)[number])
     : null;
 
+  const issuedAt = optionalMatch(asString(c.passport_issued_at), ISO_DATE_RE, 'Некорректная дата выдачи паспорта');
+  if (issuedAt && issuedAt > todayISO()) {
+    throw new ValidationError('Дата выдачи паспорта не может быть в будущем');
+  }
+
   return {
     first_name: first,
     last_name: last,
-    patronymic: asString(c.patronymic),
+    patronymic: optionalMatch(asString(c.patronymic), NAME_RE, 'Отчество клиента содержит недопустимые символы'),
     phone,
-    email: asString(c.email),
+    email: optionalMatch(asString(c.email), EMAIL_RE, 'Некорректный адрес электронной почты'),
     address: asString(c.address),
-    passport_series: asString(c.passport_series),
-    passport_number: asString(c.passport_number),
+    passport_series: optionalMatch(asString(c.passport_series), SERIES_RE, 'Серия паспорта — две буквы'),
+    passport_number: optionalMatch(asString(c.passport_number), NUMBER_RE, 'Номер паспорта — 7 цифр'),
     passport_issued_by: asString(c.passport_issued_by),
-    passport_issued_at: asString(c.passport_issued_at),
-    personal_number: asString(c.personal_number),
+    passport_issued_at: issuedAt,
+    personal_number: optionalMatch(asString(c.personal_number), PERSONAL_RE, 'Личный номер — 14 символов'),
     preferred_contact: preferred,
     comment: asString(c.comment),
   };

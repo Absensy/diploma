@@ -22,6 +22,7 @@ import {
   PersonalizationSymbol,
   SYMBOL_LABELS,
 } from '../_types';
+import { getPersonalizationErrors } from '../_validation';
 
 interface PersonalizationStepProps {
   items: CartItem[];
@@ -74,11 +75,21 @@ interface PersonalizationCardProps {
 }
 
 function PersonalizationCard({ index, item, data, onChange }: PersonalizationCardProps) {
-  const isValid = Boolean(data.first_name.trim() && data.last_name.trim());
+  const [touched, setTouched] = React.useState<Partial<Record<keyof PersonalizationData, boolean>>>(
+    {},
+  );
+
+  const errors = getPersonalizationErrors(data);
+  const isValid = Object.keys(errors).length === 0;
 
   const setField = <K extends keyof PersonalizationData>(field: K, value: PersonalizationData[K]) => {
     onChange((prev) => ({ ...prev, [field]: value }));
   };
+
+  const markTouched = (field: keyof PersonalizationData) =>
+    setTouched((prev) => ({ ...prev, [field]: true }));
+
+  const errOf = (field: keyof PersonalizationData) => (touched[field] ? errors[field] : undefined);
 
   return (
     <Paper variant="outlined" sx={{ p: 3 }}>
@@ -107,7 +118,7 @@ function PersonalizationCard({ index, item, data, onChange }: PersonalizationCar
           </Typography>
           <Chip
             size="small"
-            label={isValid ? 'Минимальные данные заполнены' : 'Требуется заполнить ФИО'}
+            label={isValid ? 'Данные заполнены' : 'Проверьте обязательные поля'}
             color={isValid ? 'success' : 'warning'}
             variant="outlined"
           />
@@ -120,6 +131,9 @@ function PersonalizationCard({ index, item, data, onChange }: PersonalizationCar
             label="Фамилия"
             value={data.last_name}
             onChange={(e) => setField('last_name', e.target.value)}
+            onBlur={() => markTouched('last_name')}
+            error={Boolean(errOf('last_name'))}
+            helperText={errOf('last_name')}
             required
             fullWidth
           />
@@ -127,6 +141,9 @@ function PersonalizationCard({ index, item, data, onChange }: PersonalizationCar
             label="Имя"
             value={data.first_name}
             onChange={(e) => setField('first_name', e.target.value)}
+            onBlur={() => markTouched('first_name')}
+            error={Boolean(errOf('first_name'))}
+            helperText={errOf('first_name')}
             required
             fullWidth
           />
@@ -134,6 +151,9 @@ function PersonalizationCard({ index, item, data, onChange }: PersonalizationCar
             label="Отчество"
             value={data.patronymic}
             onChange={(e) => setField('patronymic', e.target.value)}
+            onBlur={() => markTouched('patronymic')}
+            error={Boolean(errOf('patronymic'))}
+            helperText={errOf('patronymic')}
             fullWidth
           />
         </Box>
@@ -144,6 +164,9 @@ function PersonalizationCard({ index, item, data, onChange }: PersonalizationCar
             type="date"
             value={data.birth_date}
             onChange={(e) => setField('birth_date', e.target.value)}
+            onBlur={() => markTouched('birth_date')}
+            error={Boolean(errOf('birth_date'))}
+            helperText={errOf('birth_date')}
             InputLabelProps={{ shrink: true }}
             fullWidth
           />
@@ -152,6 +175,9 @@ function PersonalizationCard({ index, item, data, onChange }: PersonalizationCar
             type="date"
             value={data.death_date}
             onChange={(e) => setField('death_date', e.target.value)}
+            onBlur={() => markTouched('death_date')}
+            error={Boolean(errOf('death_date'))}
+            helperText={errOf('death_date')}
             InputLabelProps={{ shrink: true }}
             fullWidth
           />
@@ -179,11 +205,13 @@ function PersonalizationCard({ index, item, data, onChange }: PersonalizationCar
           label="Эпитафия"
           value={data.epitaph}
           onChange={(e) => setField('epitaph', e.target.value)}
+          onBlur={() => markTouched('epitaph')}
+          error={Boolean(errOf('epitaph'))}
           fullWidth
           multiline
           minRows={2}
           maxRows={4}
-          helperText="Текст, который будет выгравирован под датами"
+          helperText={errOf('epitaph') ?? 'Текст, который будет выгравирован под датами'}
         />
 
         <Box>
@@ -204,11 +232,13 @@ function PersonalizationCard({ index, item, data, onChange }: PersonalizationCar
           label="Примечания"
           value={data.notes}
           onChange={(e) => setField('notes', e.target.value)}
+          onBlur={() => markTouched('notes')}
+          error={Boolean(errOf('notes'))}
           fullWidth
           multiline
           minRows={2}
           maxRows={4}
-          helperText="Любые дополнительные пожелания по этому памятнику"
+          helperText={errOf('notes') ?? 'Любые дополнительные пожелания по этому памятнику'}
         />
       </Stack>
     </Paper>

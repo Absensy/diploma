@@ -23,7 +23,11 @@ import { useCart } from '@/contexts/CartContext';
 import { useAuth } from '@/contexts/AuthContext';
 import { useAlert } from '@/components/GlobalAlert/GlobalAlert';
 import { useCheckoutState } from './_state/useCheckoutState';
-import { getContactErrors } from './_validation';
+import {
+  getContactErrors,
+  getDeliveryErrors,
+  getPersonalizationErrors,
+} from './_validation';
 import {
   AdditionalServiceDTO,
   emptyContact,
@@ -138,15 +142,13 @@ export default function CheckoutPage() {
           .filter((i) => i.requires_personalization)
           .every((i) => {
             const p = checkoutState.personalizations[i.cart_item_id];
-            return Boolean(p && p.first_name.trim() && p.last_name.trim());
+            return Boolean(p) && Object.keys(getPersonalizationErrors(p)).length === 0;
           });
       }
       case 'services':
         return true;
-      case 'delivery': {
-        const d = checkoutState.delivery;
-        return Boolean(d.cemetery_address.trim() && d.contact_phone.trim());
-      }
+      case 'delivery':
+        return Object.keys(getDeliveryErrors(checkoutState.delivery)).length === 0;
       case 'contact':
         return Object.keys(getContactErrors(checkoutState.contact)).length === 0;
       case 'review':
